@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Text Colors -->
+    <SolidColorBrush x:Key="LightText">#CCCCCC</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkText">#606060</SolidColorBrush>
+    <SolidColorBrush x:Key="DisabledText">#404040</SolidColorBrush>
+    
+    <!-- Button Colors -->
+    <SolidColorBrush x:Key="BackgroundButtonColor">#373737</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundMouseOverButtonColor">#505050</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundPressedButtonColor">#707070</SolidColorBrush>
+
+    <!-- Menu Control Style-->
+    <SolidColorBrush x:Key="MenuItemPopupBackgroundColor">#303030</SolidColorBrush>
+    <Color x:Key="MenuItemPopupBorderColor">#606060</Color>
+    <SolidColorBrush x:Key="MenuItemMouseOverColor">#505050</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemPressedBackgroundColor">#303030</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuItemBackgroundColor">#303030</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuItemMouseOverColor">#505050</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuCheckMarkTrueBackgroundColor">#606060</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuCheckMarkColor">#808080</SolidColorBrush>
+
+    <!-- Other -->
+    <SolidColorBrush x:Key="SeparatorColor">#707070</SolidColorBrush>
+
+</ResourceDictionary>

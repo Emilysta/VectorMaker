@@ -1,0 +1,16 @@
+﻿<Application x:Class="VectorMaker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ControlsResources/Colors.xaml" />
+                <ResourceDictionary Source="/ControlsResources/Buttons.xaml"/>
+                <ResourceDictionary Source="/ControlsResources/MenuItem.xaml"/>
+                <!--<ResourceDictionary Source="/Languages/EN.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    
+</Application>

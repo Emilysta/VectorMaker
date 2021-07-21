@@ -1,0 +1,140 @@
+﻿<Window x:Class="VectorMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
+        xmlns:languages ="clr-namespace:VectorMaker.Languages" 
+        mc:Ignorable="d"
+        Title="MainWindow" Height="810" Width="1440" >
+    <Grid Background="#FF1A1A1D">
+        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
+            <!-- Top Dock-->
+            <Grid DockPanel.Dock="Top" Height="30" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Menu Background="#FF1A1A1D" Grid.Column="0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource LightText}">
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <DockPanel HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+                    <MenuItem Header="VectorMaker" IsEnabled="False" />
+                    <MenuItem Header="File">
+                        <Popup x:Name="NewPopup">
+                            <MenuItem Header="Tekst"/>
+                        </Popup>
+                    </MenuItem>
+                    <MenuItem Header="Edit" IsEnabled="False"/>
+                    <MenuItem Header="Object" />
+                    <MenuItem Header="Layer" />
+                    <MenuItem Header="Filter" />
+                    <MenuItem Header="Select" />
+                    <MenuItem Header="View" />
+                    <MenuItem Header="Window" />
+                    <MenuItem Header="Help" />
+                    <MenuItem Header="" />
+                </Menu>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <controls:ButtonWithIcon x:Name="MinimizeApplicationButton" Grid.Column="1" ToolTip="Minimize" ButtonContent="-"/>
+                    <controls:ButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="Restore"/>
+                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="Close"/>
+
+                </Grid>
+                <!--<ToolBar HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="800" Background="#FF1A1A1A">
+                    <Button Content="File" Foreground="#FFBAC3C3" />
+                </ToolBar>-->
+            </Grid>
+            <Grid DockPanel.Dock="Top" x:Name="PaintSettingsDockPanel" Height="30" Background="Transparent">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" Content="{x:Static languages:EN.NoSelectedObjectLabel}" HorizontalContentAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{DynamicResource SeparatorColor}"/>
+                </StackPanel>
+                <Label x:Name="StrokeLabel" Grid.Column="1" Content="{x:Static languages:EN.StrokeLabel}" Foreground="{DynamicResource LightText}"/>
+            </Grid>
+            <!-- Left Dock-->
+            <Grid DockPanel.Dock="Left" Width="20">
+                <Menu Background="#FF1A1A1D">
+                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="3" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="4" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="3" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="3" Foreground="#FFC3C3C3"/>
+                </Menu>
+            </Grid>
+            <!-- Bottom Dock-->
+            <Grid DockPanel.Dock="Bottom" Height="25">
+
+                <Menu Background="#FF1A1A1D" FontSize="11">
+                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
+                </Menu>
+            </Grid>
+            <!-- Center Dock-->
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Resources>
+                        <DataTemplate x:Key="CustomHeaderTemplate">
+                            <DockPanel LastChildFill="True">
+                                <Button Content="X" DockPanel.Dock="Right"
+                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}"
+                            CommandParameter="{Binding ID}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Label FontWeight="Bold" Content="X" />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Label Content="{Binding ID}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </Grid.Resources>
+                    <TabControl BorderBrush="{x:Null}" x:Name="TabControl1" 
+                    Margin="2"
+                    ItemsSource="{Binding Employees}"
+                    ItemTemplate="{StaticResource CustomHeaderTemplate}" Background="#FF2F2F37">
+                        <TabItem Header="TabItem" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFD5D5D5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
