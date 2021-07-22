@@ -4,7 +4,8 @@
     <SolidColorBrush x:Key="LightText">#CCCCCC</SolidColorBrush>
     <SolidColorBrush x:Key="DarkText">#606060</SolidColorBrush>
     <SolidColorBrush x:Key="DisabledText">#404040</SolidColorBrush>
-    
+    <SolidColorBrush x:Key="SelectedText">#C1125B</SolidColorBrush>
+
     <!-- Button Colors -->
     <SolidColorBrush x:Key="BackgroundButtonColor">#373737</SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundMouseOverButtonColor">#505050</SolidColorBrush>
@@ -20,7 +21,27 @@
     <SolidColorBrush x:Key="SubMenuCheckMarkTrueBackgroundColor">#606060</SolidColorBrush>
     <SolidColorBrush x:Key="SubMenuCheckMarkColor">#808080</SolidColorBrush>
 
+    <!-- Text Box Style -->
+    <SolidColorBrush x:Key="TextBoxBackgroundColor">#262626</SolidColorBrush>
+    <Color x:Key="TextBoxBackgroundOnMouseOverColor">#404040</Color>
+    <SolidColorBrush x:Key="TextBoxBorderColor" >#606060</SolidColorBrush>
+    <Color x:Key="TextBoxBorderOnMouseOverColor">#F4F4F4</Color>
+    <Color x:Key="TextBoxBorderFocusedColor">#C1125B</Color>
+    <Color x:Key="DisabledTextBoxBackgroundColor">#202020</Color>
+    <Color x:Key="DisabledTextBoxBorderColor">#303030</Color>
+    
     <!-- Other -->
     <SolidColorBrush x:Key="SeparatorColor">#707070</SolidColorBrush>
+    
+    <!-- TabItem -->
+    <SolidColorBrush x:Key="TabControlBorderColor">#FFC1125B</SolidColorBrush>
+    <SolidColorBrush x:Key="TabControlBackgroundColor">#262626</SolidColorBrush>
+    <SolidColorBrush x:Key="TabItemBackgroundSelectedColor">#FFC1125B</SolidColorBrush>
+    <SolidColorBrush x:Key="TabItemForegroundOnMouseOverColor">#FFC1125B</SolidColorBrush>
 
+    <DrawingBrush x:Key="" TileMode="Tile" Viewport="0,0,32,32" ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="LightGray"/>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
 </ResourceDictionary>

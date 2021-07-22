@@ -33,7 +33,7 @@ namespace VectorMaker.ControlsResources
 
         private static DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ButtonWithIcon), new PropertyMetadata(""));
 
-        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconMaterialDesignKind), typeof(ButtonWithIcon), new PropertyMetadata(PackIconMaterialDesignKind.None));
+        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
 
         static ButtonWithIcon()
         {
@@ -122,25 +122,25 @@ namespace VectorMaker.ControlsResources
             set { SetValue(m_content, value); }
         }
 
-        public PackIconMaterialDesignKind IconKind
+        public PackIconBootstrapIconsKind IconKind
         {
-            get { return (PackIconMaterialDesignKind)GetValue(m_iconKind); }
+            get { return (PackIconBootstrapIconsKind)GetValue(m_iconKind); }
             set { SetValue(m_iconKind, value); }
         }
 
         private void SetColumnsVisualPart(string buttonContent, string iconKind)
         {
-            if (iconKind != PackIconMaterialDesignKind.None.ToString()
+            if (iconKind != PackIconBootstrapIconsKind.None.ToString()
                 && buttonContent == "")
             {
                 IconColumnSpan = 2;
             }
-            else if (iconKind == PackIconMaterialDesignKind.None.ToString()
+            else if (iconKind == PackIconBootstrapIconsKind.None.ToString()
                 && buttonContent != "")
             {
                 ContentColumnSpan = 2;
             }
-            else if (iconKind != PackIconMaterialDesignKind.None.ToString()
+            else if (iconKind != PackIconBootstrapIconsKind.None.ToString()
                  && buttonContent != "")
             {
                 ContentColumn = 1;

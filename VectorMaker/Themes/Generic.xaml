@@ -19,7 +19,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <icons:PackIconMaterialDesign 
+                            <icons:PackIconBootstrapIcons
                                Height="{Binding IconHeight, RelativeSource={RelativeSource AncestorType=controls:ButtonWithIcon}}"
                                Width="{Binding IconWidth, RelativeSource={RelativeSource AncestorType=controls:ButtonWithIcon}}"
                                Grid.Row="{Binding IconRow, RelativeSource={RelativeSource AncestorType=controls:ButtonWithIcon}}"

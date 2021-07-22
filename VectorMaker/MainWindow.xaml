@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
         xmlns:languages ="clr-namespace:VectorMaker.Languages" 
+        xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
-    <Grid Background="#FF1A1A1D">
+    <Grid Background="#FF2D2D30">
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
             <!-- Top Dock-->
-            <Grid DockPanel.Dock="Top" Height="30" Background="Transparent">
+            <Grid DockPanel.Dock="Top" Height="30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Menu Background="#FF1A1A1D" Grid.Column="0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource LightText}">
+                <Menu  Background="Transparent" Grid.Column="0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource LightText}">
                     <Menu.ItemsPanel>
                         <ItemsPanelTemplate>
                             <DockPanel HorizontalAlignment="Stretch"/>
@@ -45,19 +46,40 @@
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
                     <controls:ButtonWithIcon x:Name="MinimizeApplicationButton" Grid.Column="1" ToolTip="Minimize" ButtonContent="-"/>
-                    <controls:ButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="Restore"/>
-                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="Close"/>
+                    <controls:ButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="NodePlus"/>
+                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="X"/>
 
                 </Grid>
                 <!--<ToolBar HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="800" Background="#FF1A1A1A">
                     <Button Content="File" Foreground="#FFBAC3C3" />
                 </ToolBar>-->
             </Grid>
+            <Grid DockPanel.Dock="Top" x:Name="FileSettingsDockPanel" Height="30" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=FileSettingsDockPanel,Path=ActualHeight}"/>
+                    <ColumnDefinition Width="66*"/>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="409*"/>
+                </Grid.ColumnDefinitions>
+                <controls:ButtonWithIcon Grid.Column="0" IconKind="FileEarmarkPlus" Margin="3,3,3,3" ButtonCornerRadius="2"/>
+                <controls:ButtonWithIcon Grid.Column="1" IconKind="FileArrowDown" Margin="3,3,3,3" ButtonCornerRadius="2"/>
+            </Grid>
             <Grid DockPanel.Dock="Top" x:Name="PaintSettingsDockPanel" Height="30" Background="Transparent">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="35"/>
                     <ColumnDefinition Width="35"/>
                     <ColumnDefinition Width="35"/>
@@ -72,15 +94,20 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" Content="{x:Static languages:EN.NoSelectedObjectLabel}" HorizontalContentAlignment="Center"/>
+                <Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
+                       Content="{x:Static languages:EN.NoSelectedObjectLabel}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{DynamicResource SeparatorColor}"/>
                 </StackPanel>
-                <Label x:Name="StrokeLabel" Grid.Column="1" Content="{x:Static languages:EN.StrokeLabel}" Foreground="{DynamicResource LightText}"/>
+                <Label x:Name="StrokeLabel" Grid.Column="1" Content="{x:Static languages:EN.StrokeLabel}" 
+                       Foreground="{DynamicResource LightText}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox x:Name="StrokeTextBox" Grid.Column="2" Margin="3"/>
+                <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>
             </Grid>
+
             <!-- Left Dock-->
-            <Grid DockPanel.Dock="Left" Width="20">
-                <Menu Background="#FF1A1A1D">
+            <Grid DockPanel.Dock="Left" Width="23">
+                <Menu Background="#FF2D2D30">
                     <MenuItem Header="1" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
@@ -122,17 +149,17 @@
                             </DockPanel>
                         </DataTemplate>
                     </Grid.Resources>
-                    <TabControl BorderBrush="{x:Null}" x:Name="TabControl1" 
-                    Margin="2"
-                    ItemsSource="{Binding Employees}"
-                    ItemTemplate="{StaticResource CustomHeaderTemplate}" Background="#FF2F2F37">
-                        <TabItem Header="TabItem" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFD5D5D5">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                </Grid.ColumnDefinitions>
-                            </Grid>
-                        </TabItem>
-                    </TabControl>
+
+                    <mahControls:MetroTabControl x:Name="TabControl1" mahControls:HeaderedControlHelper.HeaderFontSize="12"
+                    Margin="2" Background="#FF1A1A1A" BorderThickness="0,2,0,0" BorderBrush="{StaticResource TabControlBorderColor}" 
+                                                 SelectionChanged="TabControl1_SelectionChanged">
+
+                        <mahControls:MetroTabItem Header="TabItem" CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8" 
+                                                  Background="Transparent" Foreground="AntiqueWhite"/>
+                        <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
+                                                  Background="Transparent"/>
+                    </mahControls:MetroTabControl>
+
                 </Grid>
             </Grid>
         </DockPanel>
