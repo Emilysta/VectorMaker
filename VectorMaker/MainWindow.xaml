@@ -108,7 +108,7 @@
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
                 <Menu Background="#FF2D2D30">
-                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
+                    <MenuItem Header="1" Foreground="#FFC3C3C3" Click="DrawRectangleButton_Click" />
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="4" Foreground="#FFC3C3C3"/>
@@ -155,9 +155,28 @@
                                                  SelectionChanged="TabControl1_SelectionChanged">
 
                         <mahControls:MetroTabItem Header="TabItem" CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8" 
-                                                  Background="Transparent" Foreground="AntiqueWhite"/>
+                                                  Background="Transparent" Foreground="AntiqueWhite">
+                            <Grid>
+                                <Border x:Name ="MainCanvasBorder" Height="300" Width="300" Background="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="1" BorderBrush="Gray" CornerRadius="1">
+                                    <Border.Effect>
+                                        <DropShadowEffect/>
+                                    </Border.Effect>
+                                </Border>
+                                <Canvas x:Name="MainCanvas" Background="Transparent" MouseLeave="MainCanvas_MouseLeave" MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown" MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
+
+                            </Grid>
+
+                        </mahControls:MetroTabItem>
                         <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
-                                                  Background="Transparent"/>
+                                                  Background="Transparent">
+                            <Canvas Width="300" Height="50">
+                                <Path Fill="Red">
+                                    <Path.Data>
+                                        <RectangleGeometry Rect="50,50,50,20"/>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                        </mahControls:MetroTabItem>
                     </mahControls:MetroTabControl>
 
                 </Grid>
