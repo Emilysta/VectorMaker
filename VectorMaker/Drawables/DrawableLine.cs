@@ -1,5 +1,4 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace VectorMaker.Drawables
@@ -8,15 +7,14 @@ namespace VectorMaker.Drawables
     {
         private LineGeometry m_lineGeometry;
 
-        public DrawableLine(PathSettings pathSettings) : base(pathSettings)
-        {
-        }
-
         protected override Geometry m_geometryToDraw => m_lineGeometry;
+        
+        public DrawableLine(PathSettings pathSettings) : base(pathSettings) {}
 
         public override void AddPointToList(Point point)
         {
             m_lineGeometry.EndPoint = point;
+            m_endPoint = point;
         }
 
         protected override void CreateGeometry()

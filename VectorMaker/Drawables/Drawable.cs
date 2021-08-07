@@ -16,6 +16,15 @@ namespace VectorMaker.Drawables
         QuadraticBezierSegment
     }
 
+    public enum DrawableTypes
+    { 
+        None,
+        Rectangle,
+        Geometry,
+        Ellipse,
+        Path
+    }
+
     public abstract class Drawable
     {
         protected abstract Geometry m_geometryToDraw { get; }
@@ -31,6 +40,7 @@ namespace VectorMaker.Drawables
             m_pathSettings = pathSettings;
             m_pathSettings.OnValuesChange += OnSettingsChange;
         }
+
         public abstract void AddPointToList(System.Windows.Point point);
 
         public Path SetStartPoint(System.Windows.Point startPoint)

@@ -6,9 +6,11 @@
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
         xmlns:languages ="clr-namespace:VectorMaker.Languages" 
         xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
     <Grid Background="#FF2D2D30">
+        <!--xmlns:icons = "http://metro.mahapps.com/winfx/xaml/iconpacks"-->
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
             <!-- Top Dock-->
             <Grid DockPanel.Dock="Top" Height="30">
@@ -108,7 +110,7 @@
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
                 <Menu Background="#FF2D2D30">
-                    <MenuItem Header="1" Foreground="#FFC3C3C3" Click="DrawRectangleButton_Click" />
+                    <MenuItem Foreground="#FFC3C3C3" Click="DrawRectangleButton_Click" Icon="{iconPacks:FontAwesome SadTearRegular}"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="4" Foreground="#FFC3C3C3"/>

@@ -22,6 +22,7 @@ namespace VectorMaker
         private List<Path> m_listOfPaths;
         private bool m_wasFirstDown = false;
         private Drawable m_drawableObject;
+        private DrawableTypes m_drawableType;
         private PathSettings m_pathSettings;
 
         public MainWindow()
@@ -49,7 +50,12 @@ namespace VectorMaker
 
         private void DrawRectangleButton_Click(object sender, RoutedEventArgs e)
         {
+            m_drawableType = DrawableTypes.Rectangle;
+        }
 
+        private void DrawEllipseButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_drawableType = DrawableTypes.Ellipse;
         }
 
         private void MainCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
