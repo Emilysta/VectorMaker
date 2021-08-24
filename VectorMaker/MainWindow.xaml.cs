@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
 using System.Windows.Shapes;
 using VectorMaker.Drawables;
 
@@ -18,52 +16,81 @@ namespace VectorMaker
         private Border m_mainCanvasBorder;
         private Canvas m_mainCanvas;
         private Point m_positionInCanvas;
-        private SolidColorBrush m_selectedTabItemBackground;
         private List<Path> m_listOfPaths;
         private bool m_wasFirstDown = false;
         private Drawable m_drawableObject;
         private DrawableTypes m_drawableType;
         private PathSettings m_pathSettings;
+        private bool m_ignoreDrawingGeometries = true;
 
-        public MainWindow()
+        public static MainWindow Instance { get; private set; }
+        public Drawable DrawableObject {
+            get
+            {
+                return m_drawableObject;
+            }
+            set
+            {
+                m_drawableObject = value;
+            }
+        }
+        public DrawableTypes DrawableTypes {
+            get
+            {
+               return m_drawableType;
+            }
+            set => m_drawableType = value;
+        }
+
+        static MainWindow()
         {
+            Instance = new MainWindow();
+        }
 
+        private MainWindow()
+        {
             InitializeComponent();
             m_mainCanvas = MainCanvas;
             m_mainCanvasBorder = MainCanvasBorder;
             m_positionInCanvas = new Point(0, 0);
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
-
-            m_selectedTabItemBackground = (SolidColorBrush)Application.Current.FindResource("TabItemBackgroundSelectedColor");
         }
 
-        private void TabControl1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void TabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             foreach (var item in e.AddedItems)
-                (item as TabItem).Background = m_selectedTabItemBackground;
-            //(item as TabItem).Background = new SolidColorBrush(Color.FromArgb(128,128,128,128));
+                (item as TabItem).Background = ColorsReference.selectedTabItemBackground;
             foreach (var item in e.RemovedItems)
-                (item as TabItem).Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 8));
+                (item as TabItem).Background = ColorsReference.notSelectedTabItemBackground;
         }
 
         private void DrawRectangleButton_Click(object sender, RoutedEventArgs e)
         {
+            m_ignoreDrawingGeometries = false;
             m_drawableType = DrawableTypes.Rectangle;
         }
 
         private void DrawEllipseButton_Click(object sender, RoutedEventArgs e)
         {
+            m_ignoreDrawingGeometries = false;
             m_drawableType = DrawableTypes.Ellipse;
+        }
+        
+        private void DrawLine_Click(object sender, RoutedEventArgs e)
+        {
+            m_ignoreDrawingGeometries = false;
+            m_drawableType = DrawableTypes.Line;
         }
 
         private void MainCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             m_positionInCanvas.X = e.GetPosition(m_mainCanvas).X;
             m_positionInCanvas.Y = e.GetPosition(m_mainCanvas).Y;
-            if (m_wasFirstDown)
+            if (m_wasFirstDown && m_drawableObject!=null)
             {
+
                 m_drawableObject.AddPointToList(m_positionInCanvas);
                 m_mainCanvas.InvalidateVisual();
             }
@@ -76,14 +103,43 @@ namespace VectorMaker
 
         private void MainCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (!m_wasFirstDown)
+            Trace.WriteLine("MainCanvasLeftButtonDown ");
+            if (!m_ignoreDrawingGeometries)
             {
-                m_wasFirstDown = true;
-                m_drawableObject = new DrawableLine(m_pathSettings);
-                var path = m_drawableObject.SetStartPoint(m_positionInCanvas);
-                m_listOfPaths.Add(path);
-                m_mainCanvas.Children.Add(path);
-                Trace.WriteLine(m_positionInCanvas);
+                if (!m_wasFirstDown)
+                {
+                    m_wasFirstDown = true;
+                    switch (m_drawableType)
+                    {
+                        case DrawableTypes.Ellipse:
+                            {
+                                m_drawableObject = new DrawableEllipse(m_pathSettings);
+                                break;
+                            }
+                        case DrawableTypes.Rectangle:
+                            {
+                                m_drawableObject = new DrawableRectangle(m_pathSettings);
+                                break;
+                            }
+                        case DrawableTypes.Line:
+                            {
+                                m_drawableObject = new DrawableLine(m_pathSettings);
+                                break;
+                            }
+                        case DrawableTypes.None:
+                            {
+                                m_drawableObject = null;
+                                break;
+                            }
+                    }
+                    if (m_drawableObject != null)
+                    {
+                        var path = m_drawableObject.SetStartPoint(m_positionInCanvas);
+                        m_listOfPaths.Add(path);
+                        m_mainCanvas.Children.Add(path);
+                        Trace.WriteLine(m_positionInCanvas);
+                    }
+                }
             }
         }
 
@@ -95,6 +151,11 @@ namespace VectorMaker
         private void EndDrawing()
         {
             m_wasFirstDown = false;
+        }
+
+        private void SelectItem_Click(object sender, RoutedEventArgs e)
+        {
+            m_ignoreDrawingGeometries = true;
         }
     }
 }

@@ -37,6 +37,7 @@
     <SolidColorBrush x:Key="TabControlBorderColor">#FFC1125B</SolidColorBrush>
     <SolidColorBrush x:Key="TabControlBackgroundColor">#262626</SolidColorBrush>
     <SolidColorBrush x:Key="TabItemBackgroundSelectedColor">#FFC1125B</SolidColorBrush>
+    <SolidColorBrush x:Key="TabItemBackgroundNotSelectedColor">#00000000</SolidColorBrush>
     <SolidColorBrush x:Key="TabItemForegroundOnMouseOverColor">#FFC1125B</SolidColorBrush>
 
     <DrawingBrush x:Key="" TileMode="Tile" Viewport="0,0,32,32" ViewportUnits="Absolute">

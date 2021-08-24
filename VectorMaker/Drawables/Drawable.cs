@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -22,7 +25,7 @@ namespace VectorMaker.Drawables
         Rectangle,
         Geometry,
         Ellipse,
-        Path
+        Line
     }
 
     public abstract class Drawable
@@ -46,8 +49,8 @@ namespace VectorMaker.Drawables
         public Path SetStartPoint(System.Windows.Point startPoint)
         {
             m_startPoint = startPoint;
-            CreateGeometry();
             m_path = new Path();
+            CreateGeometryBase();
             m_path.Data = m_geometryToDraw;
             SetPathSettings();
             return m_path;
@@ -60,6 +63,12 @@ namespace VectorMaker.Drawables
             SetPathSettings();
         }
 
+        private void CreateGeometryBase()
+        {
+            m_path.MouseLeftButtonDown += SelectObject;
+            CreateGeometry();
+        }
+
         private void SetPathSettings()
         {
             m_path.Fill = m_pathSettings.Fill;
@@ -68,6 +77,13 @@ namespace VectorMaker.Drawables
             m_path.Visibility = m_pathSettings.Visibility;
             m_path.VerticalAlignment = m_pathSettings.VerticalAlignment;
             m_path.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
+        }
+
+        private void SelectObject(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow.Instance.DrawableTypes = DrawableTypes.None;
+            MainWindow.Instance.DrawableObject = null;
+            Trace.WriteLine("Object Clicked " + m_geometryToDraw.ToString());
         }
     }
 }

@@ -26,6 +26,9 @@
     <Compile Update="ControlsResources\ButtonWithIcon.cs">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
     </Compile>
+    <Compile Update="ControlsResources\ColorsReference.cs">
+      <CustomToolNamespace>VectorMaker</CustomToolNamespace>
+    </Compile>
     <Compile Update="Languages\EN.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
