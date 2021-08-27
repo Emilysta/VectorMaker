@@ -81,9 +81,8 @@ namespace VectorMaker.Drawables
 
         private void SelectObject(object sender, MouseButtonEventArgs e)
         {
-            MainWindow.Instance.DrawableTypes = DrawableTypes.None;
-            MainWindow.Instance.DrawableObject = null;
             Trace.WriteLine("Object Clicked " + m_geometryToDraw.ToString());
+            MainWindow.Instance.SelectedObejct = m_path;
         }
     }
 }

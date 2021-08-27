@@ -97,7 +97,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
-                       Content="{x:Static languages:EN.NoSelectedObjectLabel}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                       Content="{Binding SelectedObjectString}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{DynamicResource SeparatorColor}"/>
                 </StackPanel>
@@ -112,8 +112,8 @@
                 <Menu Background="#FF2D2D30">
                     <MenuItem Foreground="#FFC3C3C3" Click="DrawRectangleButton_Click" Header="{iconPacks:BootstrapIcons SquareHalf,Width=10,Height=15}"/>
                     <MenuItem Foreground="#FFC3C3C3" Click="DrawEllipseButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf,Width=10,Height=15}"/>
-                    <MenuItem Foreground="#FFC3C3C3" Click="DrawLine_Click" Header="{iconPacks:BootstrapIcons CircleHalf,Width=10,Height=15}"/>
-                    <MenuItem Foreground="#FFC3C3C3" Click="SelectItem_Click" Header="{iconPacks:BootstrapIcons Mouse,Width=10,Height=15}"/>
+                    <MenuItem Foreground="#FFC3C3C3" Click="DrawLineButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf,Width=10,Height=15}"/>
+                    <MenuItem Foreground="#FFC3C3C3" Click="SelectItemButton_Click" Header="{iconPacks:BootstrapIcons Mouse,Width=10,Height=15}"/>
                     <MenuItem Header="4" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
@@ -183,7 +183,6 @@
                         </Canvas>
                     </mahControls:MetroTabItem>
                 </mahControls:MetroTabControl>
-
             </Grid>
         </DockPanel>
     </Grid>

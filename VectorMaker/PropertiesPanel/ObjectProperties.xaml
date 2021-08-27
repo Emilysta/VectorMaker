@@ -17,21 +17,32 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="15" />
                 </Grid.ColumnDefinitions>
-                <Label Foreground="White" FontSize="6" Content="Object Properties" Margin="2" Background="Transparent"/>
+                <TextBlock Text="Object Properties" Grid.Column="0" 
+                           x:Name="ObjectPropertiesLabel" FontSize="5" Foreground="{StaticResource LightText}"
+                           VerticalAlignment="Center" Margin="2,1"/>
                 <controls:ButtonWithIcon x:Name="CloseWindowButton" Grid.Column="4" Margin="1" IconKind="X" 
                                      IconHeight="5" IconWidth="5" ButtonCornerRadius="0" Content="Exit"/>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Background="#FF282828">
                 <mahControls:MetroTabControl x:Name="ObjectPropertiesTabControl" 
                                      mahControls:HeaderedControlHelper.HeaderFontSize="5" 
                                      Grid.Row="1" Margin="1" Background="#FF1A1A1A"
-                                     BorderThickness="0,2,0,0" BorderBrush="{StaticResource TabControlBorderColor}" 
+                                     BorderThickness="0,1,0,0" BorderBrush="{StaticResource TabControlBorderColor}" 
                                      SelectionChanged="ObjectPropertiesTabControl_SelectionChanged">
-                    <mahControls:MetroTabItem Header="TabItem" CloseButtonEnabled="False" 
-                                                  Background="Transparent">
+                    <mahControls:MetroTabItem Header="Fill" CloseButtonEnabled="False" 
+                                                  Background="#19FFFFFF">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <mahControls:ColorPickerBase>
+                            </mahControls:ColorPickerBase>
+                        </Grid>
                     </mahControls:MetroTabItem>
                 </mahControls:MetroTabControl>
             </Grid>

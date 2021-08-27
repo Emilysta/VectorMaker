@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using VectorMaker.Drawables;
 
@@ -22,6 +24,7 @@ namespace VectorMaker
         private DrawableTypes m_drawableType;
         private PathSettings m_pathSettings;
         private bool m_ignoreDrawingGeometries = true;
+        private Observable<Path> m_selectedObject = null;
 
         public static MainWindow Instance { get; private set; }
         public Drawable DrawableObject {
@@ -42,6 +45,19 @@ namespace VectorMaker
             set => m_drawableType = value;
         }
 
+        public Path SelectedObejct
+        {
+            get {
+                return m_selectedObject.ObserwableObject;
+            }
+            set
+            {
+                m_selectedObject.ObserwableObject = value;
+            }
+        }
+
+        public string SelectedObjectString { get; set; } = "No selected Obejct";
+
         static MainWindow()
         {
             Instance = new MainWindow();
@@ -49,12 +65,14 @@ namespace VectorMaker
 
         private MainWindow()
         {
+            this.DataContext = this;
             InitializeComponent();
             m_mainCanvas = MainCanvas;
             m_mainCanvasBorder = MainCanvasBorder;
             m_positionInCanvas = new Point(0, 0);
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
+            m_selectedObject = new Observable<Path>(SelectionOfObject);
         }
 
         private void TabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -78,7 +96,7 @@ namespace VectorMaker
             m_drawableType = DrawableTypes.Ellipse;
         }
         
-        private void DrawLine_Click(object sender, RoutedEventArgs e)
+        private void DrawLineButton_Click(object sender, RoutedEventArgs e)
         {
             m_ignoreDrawingGeometries = false;
             m_drawableType = DrawableTypes.Line;
@@ -103,7 +121,6 @@ namespace VectorMaker
 
         private void MainCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Trace.WriteLine("MainCanvasLeftButtonDown ");
             if (!m_ignoreDrawingGeometries)
             {
                 if (!m_wasFirstDown)
@@ -153,9 +170,39 @@ namespace VectorMaker
             m_wasFirstDown = false;
         }
 
-        private void SelectItem_Click(object sender, RoutedEventArgs e)
+        private void SelectItemButton_Click(object sender, RoutedEventArgs e)
         {
+            DrawableTypes = DrawableTypes.None;
+            DrawableObject = null;
             m_ignoreDrawingGeometries = true;
+        }
+
+        private void SelectionOfObject(object sender, PropertyChangedEventArgs args)
+        {
+            Trace.WriteLine("DebugLogOfSelection" + m_selectedObject.ObserwableObject.Data);
+            switch (m_selectedObject.ObserwableObject.Data)
+            {
+                case RectangleGeometry:
+                    {
+                        SelectedObjectString = "Rectangle/Square";
+                        break;
+                    }
+                case LineGeometry:
+                    {
+                        SelectedObjectString = "Line";
+                        break;
+                    }
+                case EllipseGeometry:
+                    {
+                        SelectedObjectString = "Ellipse/Cricle";
+                        break;
+                    }
+                case null:
+                    {
+                        SelectedObjectString = "No Object Selected";
+                        break;
+                    }
+            }     
         }
     }
 }
