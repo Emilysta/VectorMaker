@@ -27,7 +27,8 @@ namespace VectorMaker
         private Observable<Path> m_selectedObject = null;
 
         public static MainWindow Instance { get; private set; }
-        public Drawable DrawableObject {
+        public Drawable DrawableObject
+        {
             get
             {
                 return m_drawableObject;
@@ -37,17 +38,19 @@ namespace VectorMaker
                 m_drawableObject = value;
             }
         }
-        public DrawableTypes DrawableTypes {
+        public DrawableTypes DrawableTypes
+        {
             get
             {
-               return m_drawableType;
+                return m_drawableType;
             }
             set => m_drawableType = value;
         }
 
         public Path SelectedObejct
         {
-            get {
+            get
+            {
                 return m_selectedObject.ObserwableObject;
             }
             set
@@ -95,7 +98,7 @@ namespace VectorMaker
             m_ignoreDrawingGeometries = false;
             m_drawableType = DrawableTypes.Ellipse;
         }
-        
+
         private void DrawLineButton_Click(object sender, RoutedEventArgs e)
         {
             m_ignoreDrawingGeometries = false;
@@ -106,7 +109,7 @@ namespace VectorMaker
         {
             m_positionInCanvas.X = e.GetPosition(m_mainCanvas).X;
             m_positionInCanvas.Y = e.GetPosition(m_mainCanvas).Y;
-            if (m_wasFirstDown && m_drawableObject!=null)
+            if (m_wasFirstDown && m_drawableObject != null)
             {
 
                 m_drawableObject.AddPointToList(m_positionInCanvas);
@@ -202,7 +205,8 @@ namespace VectorMaker
                         SelectedObjectString = "No Object Selected";
                         break;
                     }
-            }     
+            }
         }
     }
 }
+ 

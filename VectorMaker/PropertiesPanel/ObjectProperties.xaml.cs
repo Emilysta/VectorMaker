@@ -7,7 +7,7 @@ namespace VectorMaker.PropertiesPanel
     /// <summary>
     /// Interaction logic for ObjectProperties.xaml
     /// </summary>
-    public partial class ObjectProperties : Page
+    public partial class ObjectProperties : UserControl
     {
         public ObjectProperties()
         {

@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- BaseColors -->
+    <Color x:Key="MagentaBaseColor">#FFC1125B</Color>
+    
     <!-- Text Colors -->
     <SolidColorBrush x:Key="LightText">#CCCCCC</SolidColorBrush>
     <SolidColorBrush x:Key="DarkText">#606060</SolidColorBrush>
@@ -40,9 +43,4 @@
     <SolidColorBrush x:Key="TabItemBackgroundNotSelectedColor">#00000000</SolidColorBrush>
     <SolidColorBrush x:Key="TabItemForegroundOnMouseOverColor">#FFC1125B</SolidColorBrush>
 
-    <DrawingBrush x:Key="" TileMode="Tile" Viewport="0,0,32,32" ViewportUnits="Absolute">
-        <DrawingBrush.Drawing>
-            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="LightGray"/>
-        </DrawingBrush.Drawing>
-    </DrawingBrush>
 </ResourceDictionary>

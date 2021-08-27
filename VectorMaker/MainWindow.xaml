@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
         xmlns:languages ="clr-namespace:VectorMaker.Languages" 
+        xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
@@ -173,14 +174,8 @@
                         </Grid>
                     </mahControls:MetroTabItem>
                     <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
-                                                  Background="Transparent">
-                        <Canvas Width="300" Height="50">
-                            <Path Fill="Red">
-                                <Path.Data>
-                                    <RectangleGeometry Rect="50,50,50,20" />
-                                </Path.Data>
-                            </Path>
-                        </Canvas>
+                                                  Background="Transparent" >
+                        <!--<properties:ObjectProperties></properties:ObjectProperties>-->
                     </mahControls:MetroTabItem>
                 </mahControls:MetroTabControl>
             </Grid>
