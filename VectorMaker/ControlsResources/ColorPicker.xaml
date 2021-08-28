@@ -4,79 +4,142 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:VectorMaker.ControlsResources"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="150">
-    <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-    </UserControl.Resources>
-    <Grid x:Name="BackgroundProperty"  Background="Transparent">
+             d:DesignHeight="115" d:DesignWidth="150">
+    <Grid x:Name="BackgroundProperty">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.ColumnSpan="2" 
-                   Grid.Row="0" Grid.RowSpan="2" Margin="10" Background="Black">
-            <Rectangle >
-                <Rectangle.Fill>
+                   Grid.Row="0" Margin="5,5,0,5">
+            <Border CornerRadius="0.3" BorderBrush="#FF444444" BorderThickness="0.1" Background="Black"/>
+            <Border CornerRadius="0.3" BorderBrush="#FF444444" BorderThickness="0.1">
+                <Border.Background>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Color="White" Offset="0" />
                             <GradientStop Color="{StaticResource MagentaBaseColor}" Offset="1" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
-                </Rectangle.Fill>
-                <Rectangle.OpacityMask>
+                </Border.Background>
+                <Border.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Color="#FFFFFFFF" Offset="0"/>
                             <GradientStop Color="#00FFFFFF" Offset="1"/>
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
-                </Rectangle.OpacityMask>
-            </Rectangle>
+                </Border.OpacityMask>
+            </Border>
         </Grid>
-        <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Margin="0,10,10,10">
+        <Grid Grid.Column="2" Margin="0,5,5,5">
             <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.13*"/>
+            </Grid.RowDefinitions>
+            <Border CornerRadius="0.3" Margin="1,0,0,0"  BorderBrush="#FF444444" BorderThickness="0.1">
+                <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Color="Red" Offset="1" />
+                        <GradientStop Color="Orange" Offset="0.84" />
+                        <GradientStop Color="Yellow" Offset="0.72" />
+                        <GradientStop Color="LawnGreen" Offset="0.6" />
+                        <GradientStop Color="Aqua" Offset="0.48" />
+                        <GradientStop Color="Blue" Offset="0.36" />
+                        <GradientStop Color="DarkViolet" Offset="0.24" />
+                        <GradientStop Color="Magenta" Offset="0.12" />
+                        <GradientStop Color="Red" Offset="0" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="0" Margin="0,5,5,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="RGB" Grid.Column="0" Grid.Row="0"
+            <TextBlock Text="RGB" Grid.Column="1" Grid.Row="0"
                        FontSize="7" Foreground="{StaticResource LightText}" 
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="HSV" Grid.Column="1" Grid.Row="0"
+            <TextBlock Text="HSV" Grid.Column="3" Grid.Row="0"
                        FontSize="7" Foreground="{StaticResource LightText}" 
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="R" Grid.Column="0" Grid.Row="1"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
+            <TextBlock Text="G" Grid.Column="0" Grid.Row="2"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
+            <TextBlock Text="B" Grid.Column="0" Grid.Row="3"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
+            <TextBlock Text="H" Grid.Column="2" Grid.Row="1"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Right" 
+                       TextDecorations="Underline" Margin="0,0,1,0"/>
+            <TextBlock Text="S" Grid.Column="2" Grid.Row="2"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Right" 
+                       TextDecorations="Underline" Margin="0,0,1,0"/>
+            <TextBlock Text="V" Grid.Column="2" Grid.Row="3"
+                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       VerticalAlignment="Center" HorizontalAlignment="Right" 
+                       TextDecorations="Underline" Margin="0,0,1,0"/>
+            <TextBox x:Name="RColor" Grid.Row="1" Grid.Column="1" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True"  />
+            <TextBox x:Name="HColor" Grid.Row="1" Grid.Column="3" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True"  />
+            <TextBox x:Name="GColor" Grid.Row="2" Grid.Column="1" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True"  />
+            <TextBox x:Name="SColor" Grid.Row="2" Grid.Column="3" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True"  />
+            <TextBox x:Name="BColor" Grid.Row="3" Grid.Column="1" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True" />
+            <TextBox x:Name="VColor" Grid.Row="3" Grid.Column="3" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                     Margin="0,5" Focusable="True"  />
+            <TextBox x:Name="HexColor" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                     Margin="8,10,0,0" Focusable="True"  />
         </Grid>
         <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <Slider  SmallChange="1" Margin="10,6,10,2"
-                     Background="#FF323232" 
-                     Style="{DynamicResource MahApps.Styles.Slider.Flat}" 
-                     Value="50" BorderBrush="#FFAEAEAE" 
-                     mahControls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True"/>
             <TextBlock Grid.Row="1" Text="0%" Foreground="{StaticResource LightText}" 
                        FontSize="5" HorizontalAlignment="Left" Margin="8,0,0,0"/>
             <TextBlock Grid.Row="1" Text="100%" Foreground="{StaticResource LightText}" 
                        FontSize="5" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+            <local:Slider Height="5" Width="100" MaxValue="100" MinValue="100" SliderValue="50" 
+                          SliderText="A" BackgroundColor="{StaticResource BackgroundSliderColor}" 
+                          BackgroundRadius="0.8" BackgroundStrokeThickness="1" 
+                          FontSize="3" Foreground="{StaticResource LightText}"/>
         </Grid>
-
     </Grid>
 </UserControl>

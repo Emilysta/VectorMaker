@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border x:Name="BackgroundOfControl" CornerRadius="1" BorderThickness="0.5" 
+                    <Border x:Name="BackgroundOfControl" CornerRadius="0.5" BorderThickness="0.2" 
                         Background="{StaticResource TextBoxBackgroundColor}"  BorderBrush="{StaticResource TextBoxBorderColor}">
                         <Grid>
                             <ScrollViewer Margin="0" x:Name="PART_ContentHost" HorizontalAlignment="Left" VerticalAlignment="Center"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>

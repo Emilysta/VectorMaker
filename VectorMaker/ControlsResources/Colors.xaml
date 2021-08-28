@@ -43,4 +43,7 @@
     <SolidColorBrush x:Key="TabItemBackgroundNotSelectedColor">#00000000</SolidColorBrush>
     <SolidColorBrush x:Key="TabItemForegroundOnMouseOverColor">#FFC1125B</SolidColorBrush>
 
+    <!-- Slider Colors -->
+    <SolidColorBrush x:Key="BackgroundSliderColor">#373737</SolidColorBrush>
+
 </ResourceDictionary>
