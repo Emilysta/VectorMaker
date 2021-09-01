@@ -53,5 +53,58 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type controls:ToggleButtonWithIcon}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundButtonColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ResourceKey=LightText}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <!--<Setter Property="IsChecked" Value="{Binding IsChecked, RelativeSource={RelativeSource 
+                            AncestorType={x:Type controls:ToggleButtonWithIcon}},Mode=OneWay}"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}" >
+                    <Border CornerRadius="{Binding ButtonCornerRadius, RelativeSource={RelativeSource 
+                            AncestorType={x:Type controls:ToggleButtonWithIcon}},Mode=OneWay}"
+                            BorderThickness="0" Background="{TemplateBinding Background}">
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ResourceKey=BackgroundButtoncolor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <icons:PackIconBootstrapIcons
+                               Height="{Binding IconHeight, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Width="{Binding IconWidth, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Grid.Row="{Binding IconRow, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Grid.Column="{Binding IconColumn, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Grid.ColumnSpan="{Binding IconColumnSpan, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Grid.RowSpan="{Binding IconRowSpan, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               Kind="{Binding IconKind, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <ContentPresenter Content="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}" 
+                                              Grid.Column="{Binding ContentColumn, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                                              Grid.ColumnSpan="{Binding ContentColumnSpan, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                                              Grid.Row="{Binding ContentRow, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                                              Grid.RowSpan="{Binding ContentRowSpan, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundMouseOverButtonColor}" />
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundPressedButtonColor}" />
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundCheckedButtonColor}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

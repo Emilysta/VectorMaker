@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ControlsResources\ToggleButtonWithIcon.cs">
+      <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
+    </Compile>
     <Compile Update="ControlsResources\ButtonWithIcon.cs">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
     </Compile>

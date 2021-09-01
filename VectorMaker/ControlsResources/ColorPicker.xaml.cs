@@ -25,5 +25,38 @@ namespace VectorMaker.ControlsResources
             InitializeComponent();
         }
 
+        private static DependencyProperty m_baseColor = DependencyProperty
+        .Register("BaseColor", typeof(Color), typeof(Slider),
+        new PropertyMetadata(ColorsReference.magentaBaseColor));
+
+        public Color BaseColor
+        {
+            get { return (Color)GetValue(m_baseColor); }
+            set { SetValue(m_baseColor, value); }
+        }
+
+        private void SetBaseColor(Color color)
+        {
+            BaseColor = color;
+        }
+
+        private void CalculateBaseColorOnPickedColor()
+        {
+
+        }
+
+        private void SetCursor(Point position)
+        { 
+        
+        }
+
+        public Color GetPickedColor()
+        {
+            Color color;
+
+            //toDo to_implement
+            return color;
+        }
+
     }
 }

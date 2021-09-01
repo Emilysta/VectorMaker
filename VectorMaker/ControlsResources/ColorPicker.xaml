@@ -31,7 +31,8 @@
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Color="White" Offset="0" />
-                            <GradientStop Color="{StaticResource MagentaBaseColor}" Offset="1" />
+                            <GradientStop Color="{Binding BaseColor, 
+                        RelativeSource={RelativeSource AncestorType=local:ColorPicker}}" Offset="1" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Border.Background>
@@ -78,19 +79,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="0.15*" />
             </Grid.RowDefinitions>
-            <local:ButtonWithIcon Grid.Column="0" Grid.Row="0" 
-                                  ButtonContent="RGB" 
-                                  Foreground="{StaticResource LightText}"
-                                  FontSize="6"
-                                  ContentColumnSpan="2"
-                                  
-                                  />
-            <local:ButtonWithIcon Grid.Column="1" Grid.Row="0" 
-                                  ButtonContent="HSV" 
-                                  Foreground="{StaticResource LightText}"
-                                  FontSize="6"
-                                  ContentColumnSpan="2"
-                                  />
+            <local:ToggleButtonWithIcon x:Name="RGBToggleButton"
+                IsChecked="True"  Grid.Column="0" Grid.Row="0" 
+                ButtonContent="RGB" Foreground="{StaticResource LightText}"
+                FontSize="6" ContentColumnSpan="2"
+                ButtonCornerRadius="1,0,0,1"/>
+            <local:ToggleButtonWithIcon x:Name="HSVToggleButton"
+                IsChecked="False" Grid.Column="1" Grid.Row="0" 
+                ButtonContent="HSV" Foreground="{StaticResource LightText}"
+                FontSize="6" ContentColumnSpan="2"
+                ButtonCornerRadius="0,1,1,0"/>
             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,2,0,0">
                 <Grid x:Name="RGBProperties" Visibility="Visible">
                     <Grid.RowDefinitions>
@@ -116,15 +114,15 @@
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
                                TextDecorations="Underline" Margin="0,0,2,0"/>
 
-                    <TextBox x:Name="RColor" Grid.Row="0" Grid.Column="1" 
+                    <TextBox x:Name="RColorTextBox" Grid.Row="0" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True"  />
 
-                    <TextBox x:Name="GColor" Grid.Row="1" Grid.Column="1" 
+                    <TextBox x:Name="GColorTextBox" Grid.Row="1" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True"  />
 
-                    <TextBox x:Name="BColor" Grid.Row="2" Grid.Column="1" 
+                    <TextBox x:Name="BColorTextBox" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True" />
                 </Grid>
@@ -152,13 +150,13 @@
                         FontSize="5" Foreground="{StaticResource LightText}" 
                         VerticalAlignment="Center" HorizontalAlignment="Right" 
                         TextDecorations="Underline" Margin="0,0,2,0"/>
-                    <TextBox x:Name="HColor" Grid.Row="0" Grid.Column="3" 
+                    <TextBox x:Name="HColorTextBox" Grid.Row="0" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
                         Margin="0,2" Focusable="True"  />
-                    <TextBox x:Name="SColor" Grid.Row="1" Grid.Column="3" 
+                    <TextBox x:Name="SColorTextBox" Grid.Row="1" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True"  />
-                    <TextBox x:Name="VColor" Grid.Row="2" Grid.Column="3" 
+                    <TextBox x:Name="VColorTextBox" Grid.Row="2" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True"  />
                 </Grid>
@@ -186,7 +184,7 @@
                           SliderText="A" BackgroundColor="{StaticResource BackgroundSliderColor}" 
                           BackgroundRadius="0.8" BackgroundStrokeThickness="1" 
                           FontSize="10" Foreground="{StaticResource LightText}"/>-->
-            <Slider x:Name="OpacitySlider" Maximum="100" Minimum="0" 
+            <Slider x:Name="OpacitySlider" Maximum="100" Minimum="0"
                     Value="100" Style="{DynamicResource MahApps.Styles.Slider.Flat}"
                     Margin="5,2"/>
 

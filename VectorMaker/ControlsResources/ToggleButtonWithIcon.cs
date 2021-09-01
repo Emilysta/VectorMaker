@@ -1,43 +1,45 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using MahApps.Metro.IconPacks;
 
 
 namespace VectorMaker.ControlsResources
 {
-    public class ButtonWithIcon : Button
+    public class ToggleButtonWithIcon : ToggleButton
     {
-        private static DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ButtonWithIcon), new PropertyMetadata(new CornerRadius(0,0,0,0)));
+        private static DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ToggleButtonWithIcon), new PropertyMetadata(new CornerRadius(0,0,0,0)));
 
-        private static DependencyProperty m_imageWidth = DependencyProperty.Register("IconWidth", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
+        private static DependencyProperty m_imageWidth = DependencyProperty.Register("IconWidth", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(15));
 
-        private static DependencyProperty m_imageHeight = DependencyProperty.Register("IconHeight", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
+        private static DependencyProperty m_imageHeight = DependencyProperty.Register("IconHeight", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(15));
 
-        private static DependencyProperty m_iconRow = DependencyProperty.Register("IconRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static DependencyProperty m_iconRow = DependencyProperty.Register("IconRow", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_iconColumn = DependencyProperty.Register("IconColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static DependencyProperty m_iconColumn = DependencyProperty.Register("IconColumn", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_iconRowSpan = DependencyProperty.Register("IconRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static DependencyProperty m_iconRowSpan = DependencyProperty.Register("IconRowSpan", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_iconColumnSpan = DependencyProperty.Register("IconColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static DependencyProperty m_iconColumnSpan = DependencyProperty.Register("IconColumnSpan", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_contentRow = DependencyProperty.Register("ContentRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static DependencyProperty m_contentRow = DependencyProperty.Register("ContentRow", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_contentColumn = DependencyProperty.Register("ContentColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static DependencyProperty m_contentColumn = DependencyProperty.Register("ContentColumn", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_contentRowSpan = DependencyProperty.Register("ContentRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static DependencyProperty m_contentRowSpan = DependencyProperty.Register("ContentRowSpan", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_contentColumnSpan = DependencyProperty.Register("ContentColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static DependencyProperty m_contentColumnSpan = DependencyProperty.Register("ContentColumnSpan", typeof(int), typeof(ToggleButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ButtonWithIcon), new PropertyMetadata(""));
+        private static DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ToggleButtonWithIcon), new PropertyMetadata(""));
 
-        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
+        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ToggleButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
 
-        static ButtonWithIcon()
+        private static DependencyProperty m_isChecked = ToggleButton.IsCheckedProperty.AddOwner(typeof(ToggleButtonWithIcon));
+
+        static ToggleButtonWithIcon()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ButtonWithIcon), new FrameworkPropertyMetadata(typeof(ButtonWithIcon)));    
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleButtonWithIcon), new FrameworkPropertyMetadata(typeof(ToggleButtonWithIcon)));    
         }
 
         protected override void OnInitialized(EventArgs e) //override On Initialized Event Rised after initialization of Parent
@@ -124,6 +126,12 @@ namespace VectorMaker.ControlsResources
         {
             get { return (PackIconBootstrapIconsKind)GetValue(m_iconKind); }
             set { SetValue(m_iconKind, value); }
+        }
+
+        public new bool IsChecked
+        {
+            get { return (bool)GetValue(m_isChecked); }
+            set { SetValue(m_contentColumn, value); }
         }
 
         private void SetColumnsVisualPart(string buttonContent, string iconKind)
