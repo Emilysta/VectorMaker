@@ -13,7 +13,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}" >
-                    <Border CornerRadius="{Binding ButtonCornerRadius, RelativeSource={RelativeSource AncestorType=controls:ButtonWithIcon}}"  BorderThickness="0" Background="{TemplateBinding Background}">
+                    <Border CornerRadius="{Binding ButtonCornerRadius, RelativeSource={RelativeSource 
+                            AncestorType={x:Type controls:ButtonWithIcon}},Mode=OneWay}"
+                            BorderThickness="0" Background="{TemplateBinding Background}">
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ResourceKey=BackgroundButtoncolor}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

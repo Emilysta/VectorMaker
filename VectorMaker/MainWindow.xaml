@@ -176,7 +176,7 @@
                     <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
                                                   Background="Transparent" >
                         <!--<properties:ObjectProperties></properties:ObjectProperties>-->
-                        <controls:ColorPicker></controls:ColorPicker>
+                        <controls:ColorPicker Height="230" Width="300"></controls:ColorPicker>
                     </mahControls:MetroTabItem>
                 </mahControls:MetroTabControl>
             </Grid>

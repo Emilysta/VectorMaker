@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:VectorMaker.ControlsResources"
+             
              mc:Ignorable="d" 
              d:DesignHeight="115" d:DesignWidth="150">
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatSlider.xaml" />
+    </UserControl.Resources>
     <Grid x:Name="BackgroundProperty">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -48,84 +52,126 @@
             </Grid.RowDefinitions>
             <Border CornerRadius="0.3" Margin="1,0,0,0"  BorderBrush="#FF444444" BorderThickness="0.1">
                 <Border.Background>
-                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
-                    <LinearGradientBrush.GradientStops>
-                        <GradientStop Color="Red" Offset="1" />
-                        <GradientStop Color="Orange" Offset="0.84" />
-                        <GradientStop Color="Yellow" Offset="0.72" />
-                        <GradientStop Color="LawnGreen" Offset="0.6" />
-                        <GradientStop Color="Aqua" Offset="0.48" />
-                        <GradientStop Color="Blue" Offset="0.36" />
-                        <GradientStop Color="DarkViolet" Offset="0.24" />
-                        <GradientStop Color="Magenta" Offset="0.12" />
-                        <GradientStop Color="Red" Offset="0" />
-                    </LinearGradientBrush.GradientStops>
-                </LinearGradientBrush>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Color="Red" Offset="1" />
+                            <GradientStop Color="Orange" Offset="0.84" />
+                            <GradientStop Color="Yellow" Offset="0.72" />
+                            <GradientStop Color="LawnGreen" Offset="0.6" />
+                            <GradientStop Color="Aqua" Offset="0.48" />
+                            <GradientStop Color="Blue" Offset="0.36" />
+                            <GradientStop Color="DarkViolet" Offset="0.24" />
+                            <GradientStop Color="Magenta" Offset="0.12" />
+                            <GradientStop Color="Red" Offset="0" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
                 </Border.Background>
             </Border>
         </Grid>
         <Grid Grid.Column="3" Grid.Row="0" Margin="0,5,5,5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.4*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="RGB" Grid.Column="1" Grid.Row="0"
-                       FontSize="7" Foreground="{StaticResource LightText}" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="HSV" Grid.Column="3" Grid.Row="0"
-                       FontSize="7" Foreground="{StaticResource LightText}" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="R" Grid.Column="0" Grid.Row="1"
-                       FontSize="5" Foreground="{StaticResource LightText}" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
-            <TextBlock Text="G" Grid.Column="0" Grid.Row="2"
-                       FontSize="5" Foreground="{StaticResource LightText}" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
-            <TextBlock Text="B" Grid.Column="0" Grid.Row="3"
-                       FontSize="5" Foreground="{StaticResource LightText}" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center" TextDecorations="Underline"/>
-            <TextBlock Text="H" Grid.Column="2" Grid.Row="1"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.15*" />
+            </Grid.RowDefinitions>
+            <local:ButtonWithIcon Grid.Column="0" Grid.Row="0" 
+                                  ButtonContent="RGB" 
+                                  Foreground="{StaticResource LightText}"
+                                  FontSize="6"
+                                  ContentColumnSpan="2"
+                                  
+                                  />
+            <local:ButtonWithIcon Grid.Column="1" Grid.Row="0" 
+                                  ButtonContent="HSV" 
+                                  Foreground="{StaticResource LightText}"
+                                  FontSize="6"
+                                  ContentColumnSpan="2"
+                                  />
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,2,0,0">
+                <Grid x:Name="RGBProperties" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="R" Grid.Column="0" Grid.Row="0"
                        FontSize="5" Foreground="{StaticResource LightText}" 
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
-                       TextDecorations="Underline" Margin="0,0,1,0"/>
-            <TextBlock Text="S" Grid.Column="2" Grid.Row="2"
+                               TextDecorations="Underline" Margin="0,0,2,0"/>
+                    <TextBlock Text="G" Grid.Column="0" Grid.Row="1"
                        FontSize="5" Foreground="{StaticResource LightText}" 
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
-                       TextDecorations="Underline" Margin="0,0,1,0"/>
-            <TextBlock Text="V" Grid.Column="2" Grid.Row="3"
+                               TextDecorations="Underline" Margin="0,0,2,0"/>
+                    <TextBlock Text="B" Grid.Column="0" Grid.Row="2"
                        FontSize="5" Foreground="{StaticResource LightText}" 
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
-                       TextDecorations="Underline" Margin="0,0,1,0"/>
-            <TextBox x:Name="RColor" Grid.Row="1" Grid.Column="1" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True"  />
-            <TextBox x:Name="HColor" Grid.Row="1" Grid.Column="3" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True"  />
-            <TextBox x:Name="GColor" Grid.Row="2" Grid.Column="1" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True"  />
-            <TextBox x:Name="SColor" Grid.Row="2" Grid.Column="3" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True"  />
-            <TextBox x:Name="BColor" Grid.Row="3" Grid.Column="1" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True" />
-            <TextBox x:Name="VColor" Grid.Row="3" Grid.Column="3" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                     Margin="0,5" Focusable="True"  />
-            <TextBox x:Name="HexColor" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                               TextDecorations="Underline" Margin="0,0,2,0"/>
+
+                    <TextBox x:Name="RColor" Grid.Row="0" Grid.Column="1" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,2" Focusable="True"  />
+
+                    <TextBox x:Name="GColor" Grid.Row="1" Grid.Column="1" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,2" Focusable="True"  />
+
+                    <TextBox x:Name="BColor" Grid.Row="2" Grid.Column="1" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,2" Focusable="True" />
+                </Grid>
+
+                <Grid x:Name="HSVProperties" Visibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="H" Grid.Column="0" Grid.Row="0"
+                        FontSize="5" Foreground="{StaticResource LightText}" 
+                        VerticalAlignment="Center" HorizontalAlignment="Right" 
+                        TextDecorations="Underline" Margin="0,0,2,0"/>
+                    <TextBlock Text="S" Grid.Column="0" Grid.Row="1"
+                        FontSize="5" Foreground="{StaticResource LightText}" 
+                        VerticalAlignment="Center" HorizontalAlignment="Right" 
+                        TextDecorations="Underline" Margin="0,0,2,0"/>
+                    <TextBlock Text="V" Grid.Column="0" Grid.Row="2"
+                        FontSize="5" Foreground="{StaticResource LightText}" 
+                        VerticalAlignment="Center" HorizontalAlignment="Right" 
+                        TextDecorations="Underline" Margin="0,0,2,0"/>
+                    <TextBox x:Name="HColor" Grid.Row="0" Grid.Column="3" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                        Margin="0,2" Focusable="True"  />
+                    <TextBox x:Name="SColor" Grid.Row="1" Grid.Column="3" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,2" Focusable="True"  />
+                    <TextBox x:Name="VColor" Grid.Row="2" Grid.Column="3" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,2" Focusable="True"  />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="HexColor" Grid.Column="1" 
                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
-                     Margin="8,10,0,0" Focusable="True"  />
+                     Focusable="True"  />
+            </Grid>
         </Grid>
         <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" >
             <Grid.RowDefinitions>
@@ -136,10 +182,14 @@
                        FontSize="5" HorizontalAlignment="Left" Margin="8,0,0,0"/>
             <TextBlock Grid.Row="1" Text="100%" Foreground="{StaticResource LightText}" 
                        FontSize="5" HorizontalAlignment="Right" Margin="0,0,4,0"/>
-            <local:Slider Height="5" Width="100" MaxValue="100" MinValue="100" SliderValue="50" 
+            <!--<local:Slider MaxValue="100" MinValue="100" SliderValue="50" Margin="5,1"
                           SliderText="A" BackgroundColor="{StaticResource BackgroundSliderColor}" 
                           BackgroundRadius="0.8" BackgroundStrokeThickness="1" 
-                          FontSize="3" Foreground="{StaticResource LightText}"/>
+                          FontSize="10" Foreground="{StaticResource LightText}"/>-->
+            <Slider x:Name="OpacitySlider" Maximum="100" Minimum="0" 
+                    Value="100" Style="{DynamicResource MahApps.Styles.Slider.Flat}"
+                    Margin="5,2"/>
+
         </Grid>
     </Grid>
 </UserControl>

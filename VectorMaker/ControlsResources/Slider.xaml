@@ -11,12 +11,12 @@
         <Border Background="{Binding BackgroundColor, RelativeSource={RelativeSource AncestorType=local:Slider}}"
                 BorderThickness="0" BorderBrush="Transparent" Margin="1" 
                 CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=local:Slider}}"/>
-        <Border x:Name="SliderBase" 
+        <Border x:Name="SliderBase"   
                 BorderBrush="{Binding BackgroundStrokeColor, RelativeSource={RelativeSource AncestorType=local:Slider}}"
                 BorderThickness="{Binding BackgroundStrokeThickness, RelativeSource={RelativeSource AncestorType=local:Slider}}"
                 CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=local:Slider}}">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
                     <GradientStop Color="{StaticResource MagentaBaseColor}" 
                                   Offset="{Binding OffsetValue, RelativeSource={RelativeSource AncestorType=local:Slider}}"/>
                     <GradientStop Color="{Binding BackgroundColor, 
@@ -25,20 +25,20 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <TextBlock Text="{Binding SliderText, RelativeSource={RelativeSource AncestorType=local:Slider}}" 
-                   FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=local:Slider}}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Margin="4,0,0,0"
-                   Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:Slider}}"
-                   FontStyle="{Binding FontStyle, RelativeSource={RelativeSource AncestorType=local:Slider}}"
-                   FontWeight="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:Slider}}"/>
 
-        <TextBlock Text="{Binding SliderValueInString, RelativeSource={RelativeSource AncestorType=local:Slider}}" 
-                   FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=local:Slider}}"
+        <TextBlock Text="{Binding SliderText, RelativeSource={RelativeSource AncestorType=local:Slider}}" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Margin="4,0,0,0"/>
+
+        <TextBlock Text="{Binding SliderValueInString, RelativeSource={RelativeSource AncestorType=local:Slider}}"
                    HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Margin="0,0,4,0"
-                   Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:Slider}}"
-                   FontStyle="{Binding FontStyle, RelativeSource={RelativeSource AncestorType=local:Slider}}"
-                   FontWeight="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:Slider}}"/>
+                   Margin="0,0,4,0"/>
+
+        <Rectangle Width="10" Height="{Binding Height, RelativeSource={RelativeSource AncestorType=local:Slider}}"
+                   RadiusX="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=local:Slider}}"
+                    RadiusY="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=local:Slider}}"
+                   Fill="LightGray" MouseLeftButtonDown="Thumb_MouseLeftButtonDown" x:Name="Thumb"
+                   MouseLeftButtonUp="Thumb_MouseLeftButtonUp" MouseMove="Thumb_MouseMove"
+                   />
     </Grid>
 </UserControl>

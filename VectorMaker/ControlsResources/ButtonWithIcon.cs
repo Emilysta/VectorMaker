@@ -9,7 +9,7 @@ namespace VectorMaker.ControlsResources
 {
     public class ButtonWithIcon : Button
     {
-        private static DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ButtonWithIcon), new PropertyMetadata(0));
 
         private static DependencyProperty m_imageWidth = DependencyProperty.Register("IconWidth", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
 
@@ -46,13 +46,11 @@ namespace VectorMaker.ControlsResources
             string iconKind = this.IconKind.ToString(); //getting value of own property
             string buttonContent = this.ButtonContent.ToString();
             SetColumnsVisualPart(buttonContent, iconKind);
-            Trace.WriteLine(iconKind);
-            Trace.WriteLine(buttonContent);
         }
 
-        public int ButtonCornerRadius //implement Wrapper
+        public CornerRadius ButtonCornerRadius //implement Wrapper
         {
-            get { return (int)GetValue(m_buttonCornerRadius); }
+            get { return (CornerRadius)GetValue(m_buttonCornerRadius); }
             set { SetValue(m_buttonCornerRadius, value); }
         }
 

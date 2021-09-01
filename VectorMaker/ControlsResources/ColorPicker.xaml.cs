@@ -24,5 +24,6 @@ namespace VectorMaker.ControlsResources
         {
             InitializeComponent();
         }
+
     }
 }
