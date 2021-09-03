@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace VectorMaker.ControlsResources
 {
@@ -20,6 +11,16 @@ namespace VectorMaker.ControlsResources
     /// </summary>
     public partial class ColorPicker : UserControl
     {
+        private Color m_pickedColor;
+
+        public Color PickedColor
+        {
+            get { return m_pickedColor; }
+            set { m_pickedColor = value; }
+        }
+
+
+
         public ColorPicker()
         {
             InitializeComponent();
@@ -42,21 +43,14 @@ namespace VectorMaker.ControlsResources
 
         private void CalculateBaseColorOnPickedColor()
         {
-
+            float hueColor = m_pickedColor.GetHue();
+            float saturationColot = m_pickedColor.GetSaturation();
+            float value = m_pickedColor.GetBrightness();
         }
 
-        private void SetCursor(Point position)
+        private void SetCursor(System.Drawing.Point position)
         { 
         
         }
-
-        public Color GetPickedColor()
-        {
-            Color color;
-
-            //toDo to_implement
-            return color;
-        }
-
     }
 }
