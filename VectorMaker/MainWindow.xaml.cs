@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using VectorMaker.Drawables;
@@ -66,7 +65,7 @@ namespace VectorMaker
             Instance = new MainWindow();
         }
 
-        private MainWindow()
+        public MainWindow()
         {
             this.DataContext = this;
             InitializeComponent();

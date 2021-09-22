@@ -53,13 +53,12 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style TargetType="{x:Type controls:ToggleButtonWithIcon}" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundButtonColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource ResourceKey=LightText}" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <!--<Setter Property="IsChecked" Value="{Binding IsChecked, RelativeSource={RelativeSource 
-                            AncestorType={x:Type controls:ToggleButtonWithIcon}},Mode=OneWay}"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}" >
@@ -106,5 +105,147 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--<Style x:Key="SliderButtonStyle"
+       TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="IsTabStop"
+          Value="false" />
+        <Setter Property="Focusable"
+          Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+    <Style x:Key="HorizontalSliderThumbStyle"
+       TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Width"
+          Value="{Binding ThumbWidth, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle x:Name="Rectangle"
+                        RadiusX="0.1"
+                        RadiusY="0.1"
+                        StrokeThickness="{Binding ThumbStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" 
+                        Fill="{Binding ThumbColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                        Stroke="{Binding ThumbStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                        Height="{TemplateBinding Height}"
+                        Width="{Binding ThumbWidth, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}">
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VerticalSliderThumbStyle"
+       TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Height"
+          Value="{Binding ThumbHeight, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle x:Name="Rectangle"
+                        RadiusX="0.2"
+                        RadiusY="0.2"
+                        StrokeThickness="{Binding ThumbStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" 
+                        Fill="{Binding ThumbColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                        Stroke="{Binding ThumbStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                        Height="{Binding ThumbHeight, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                        Width="{TemplateBinding Width}">
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate TargetType="{x:Type Slider}" x:Key="Horizontal">
+        <Grid >
+            <Border x:Name="TrackBackground"
+                            CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Height="{TemplateBinding Height}"
+                            BorderBrush="{Binding BackgroundStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            BorderThickness="{Binding BackgroundStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Background="{TemplateBinding Background}"/>
+            <Border x:Name="PART_SelectionRange" HorizontalAlignment="Left" 
+                            CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Height="{TemplateBinding Height}"
+                            BorderBrush="{Binding BackgroundStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            BorderThickness="{Binding BackgroundStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Background="{Binding SelectionColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"/>
+            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}, Path=Value, StringFormat={}{0:F2},Mode=TwoWay }"
+                                 VerticalAlignment="Center" BorderThickness="0" Background="Transparent" 
+                                 HorizontalAlignment="Right" Style="{DynamicResource ResourceKey=TextBoxTransparent}"
+                                 Height="{TemplateBinding Height}" Padding="0,0,5,0"
+                                 IsEnabled="{Binding IsTextEnabled, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" 
+                                 Visibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"/>
+            <Track Grid.Row="0" x:Name="PART_Track" >
+                <Track.Thumb >
+                    <Thumb Style="{StaticResource HorizontalSliderThumbStyle}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type Slider}" x:Key="Vertical">
+        <Grid >
+            <Border x:Name="TrackBackground"
+                            CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Height="{TemplateBinding Height}"
+                            BorderBrush="{Binding BackgroundStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            BorderThickness="{Binding BackgroundStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Background="{TemplateBinding Background}"/>
+            <Border x:Name="PART_SelectionRange" VerticalAlignment="Top" 
+                            CornerRadius="{Binding BackgroundRadius, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Height="{TemplateBinding Height}"
+                            BorderBrush="{Binding BackgroundStrokeColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            BorderThickness="{Binding BackgroundStrokeThickness, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"
+                            Background="{Binding SelectionColor, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"/>
+            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}, Path=Value, StringFormat={}{0:F2},Mode=TwoWay }"
+                                 VerticalAlignment="Center" BorderThickness="0" Background="Transparent" 
+                                 HorizontalAlignment="Right" Style="{DynamicResource ResourceKey=TextBoxTransparent}"
+                                 Height="{TemplateBinding Height}" 
+                                 IsEnabled="{Binding IsTextEnabled, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}" 
+                                 Visibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType=controls:ModifiableSlider}}"/>
+            <Track Grid.Row="0" x:Name="PART_Track" >
+                <Track.Thumb >
+                    <Thumb Style="{StaticResource VerticalSliderThumbStyle}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="{x:Static Slider.IsSelectionRangeEnabledProperty}" Value="True">
+                <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible"/>
+            </Trigger>
+            <Trigger Property="{x:Static Slider.IsSelectionRangeEnabledProperty}" Value="False">
+                <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Hidden"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type controls:ModifiableSlider}" BasedOn="{StaticResource {x:Type Slider}}">
+        <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="SelectionStart" Value="{Binding Minimum, RelativeSource={RelativeSource Self}}"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Template" Value="{StaticResource Horizontal}"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template" Value="{StaticResource Vertical}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

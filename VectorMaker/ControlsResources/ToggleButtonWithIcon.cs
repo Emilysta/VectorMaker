@@ -131,7 +131,7 @@ namespace VectorMaker.ControlsResources
         public new bool IsChecked
         {
             get { return (bool)GetValue(m_isChecked); }
-            set { SetValue(m_contentColumn, value); }
+            set { SetValue(m_isChecked, value); }
         }
 
         private void SetColumnsVisualPart(string buttonContent, string iconKind)

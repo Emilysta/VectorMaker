@@ -5,13 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:VectorMaker.ControlsResources"
-             
              mc:Ignorable="d" 
              d:DesignHeight="115" d:DesignWidth="150">
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatSlider.xaml" />
     </UserControl.Resources>
-    <Grid x:Name="BackgroundProperty">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.5*"/>
@@ -24,15 +23,14 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.ColumnSpan="2" 
-                   Grid.Row="0" Margin="5,5,0,5">
+                   Grid.Row="0" Margin="5,5,0,5" x:Name="Picker">
             <Border CornerRadius="0.3" BorderBrush="#FF444444" BorderThickness="0.1" Background="Black"/>
             <Border CornerRadius="0.3" BorderBrush="#FF444444" BorderThickness="0.1">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Color="White" Offset="0" />
-                            <GradientStop Color="{Binding BaseColor, 
-                        RelativeSource={RelativeSource AncestorType=local:ColorPicker}}" Offset="1" />
+                            <GradientStop Color="{Binding Path=BaseColor}" Offset="1" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Border.Background>
@@ -46,28 +44,18 @@
                 </Border.OpacityMask>
             </Border>
         </Grid>
-        <Grid Grid.Column="2" Margin="0,5,5,5">
+        <Grid Grid.Column="2" Margin="1,5,5,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="0.13*"/>
             </Grid.RowDefinitions>
-            <Border CornerRadius="0.3" Margin="1,0,0,0"  BorderBrush="#FF444444" BorderThickness="0.1">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
-                        <LinearGradientBrush.GradientStops>
-                            <GradientStop Color="Red" Offset="1" />
-                            <GradientStop Color="Orange" Offset="0.84" />
-                            <GradientStop Color="Yellow" Offset="0.72" />
-                            <GradientStop Color="LawnGreen" Offset="0.6" />
-                            <GradientStop Color="Aqua" Offset="0.48" />
-                            <GradientStop Color="Blue" Offset="0.36" />
-                            <GradientStop Color="DarkViolet" Offset="0.24" />
-                            <GradientStop Color="Magenta" Offset="0.12" />
-                            <GradientStop Color="Red" Offset="0" />
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
+            <local:ModifiableSlider Orientation="Vertical" x:Name="ValuePicker2" Background="{StaticResource ValueGradient}"
+                                    MinWidth="0" BackgroundStrokeThickness="0.1" BackgroundStrokeColor="{StaticResource LightGreyBrush}"
+                                    BackgroundRadius="0.3" Maximum="1" Minimum="0"
+                                    Value="0.5" IsTextEnabled="True" TextVisibility="Hidden"
+                                    IsSelectionRangeEnabled="False" ThumbStrokeThickness="0"
+                                    ThumbColor="{StaticResource LightGreyBrush}"
+                                    FontSize="6" ThumbHeight="1"/>
         </Grid>
         <Grid Grid.Column="3" Grid.Row="0" Margin="0,5,5,5">
             <Grid.ColumnDefinitions>
@@ -80,7 +68,7 @@
                 <RowDefinition Height="0.15*" />
             </Grid.RowDefinitions>
             <local:ToggleButtonWithIcon x:Name="RGBToggleButton"
-                IsChecked="True"  Grid.Column="0" Grid.Row="0" 
+                IsChecked="True" Grid.Column="0" Grid.Row="0" 
                 ButtonContent="RGB" Foreground="{StaticResource LightText}"
                 FontSize="6" ContentColumnSpan="2"
                 ButtonCornerRadius="1,0,0,1"/>
@@ -116,15 +104,15 @@
 
                     <TextBox x:Name="RColorTextBox" Grid.Row="0" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True"  />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="GColorTextBox" Grid.Row="1" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True"  />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="BColorTextBox" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True" />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
 
                 <Grid x:Name="HSVProperties" Visibility="Hidden">
@@ -152,13 +140,13 @@
                         TextDecorations="Underline" Margin="0,0,2,0"/>
                     <TextBox x:Name="HColorTextBox" Grid.Row="0" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
-                        Margin="0,2" Focusable="True"  />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                     <TextBox x:Name="SColorTextBox" Grid.Row="1" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True"  />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                     <TextBox x:Name="VColorTextBox" Grid.Row="2" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True"  />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
             </Grid>
             <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -168,7 +156,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="HexColor" Grid.Column="1" 
                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
-                     Focusable="True"  />
+                     Focusable="True" Style="{StaticResource TextBoxClassic}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" >
@@ -180,14 +168,14 @@
                        FontSize="5" HorizontalAlignment="Left" Margin="8,0,0,0"/>
             <TextBlock Grid.Row="1" Text="100%" Foreground="{StaticResource LightText}" 
                        FontSize="5" HorizontalAlignment="Right" Margin="0,0,4,0"/>
-            <!--<local:Slider MaxValue="100" MinValue="100" SliderValue="50" Margin="5,1"
-                          SliderText="A" BackgroundColor="{StaticResource BackgroundSliderColor}" 
-                          BackgroundRadius="0.8" BackgroundStrokeThickness="1" 
-                          FontSize="10" Foreground="{StaticResource LightText}"/>-->
-            <Slider x:Name="OpacitySlider" Maximum="100" Minimum="0"
-                    Value="100" Style="{DynamicResource MahApps.Styles.Slider.Flat}"
-                    Margin="5,2"/>
-
+            <local:ModifiableSlider x:Name="OpacitySlider" Maximum="100" Minimum="0"
+                    Value="50" MinHeight="5" Background="{StaticResource DarkGreyBrush}" 
+                    BackgroundRadius="0.9" BackgroundStrokeColor="{StaticResource LightGreyBrush}" BackgroundStrokeThickness="0.2"
+                    Visibility="Visible" Orientation="Horizontal"
+                    IsSelectionRangeEnabled="True" SelectionColor="{StaticResource MagentaBaseBrush}"
+                    ThumbStrokeColor="{StaticResource LightGreyBrush}" ThumbStrokeThickness="0.2"
+                    ThumbColor="{StaticResource LightGreyBrush}"
+                    ThumbWidth="3" FontSize="6" Margin="5,0,5,0"/>
         </Grid>
     </Grid>
 </UserControl>

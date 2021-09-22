@@ -3,7 +3,11 @@
     <!-- BaseColors -->
     <Color x:Key="MagentaBaseColor">#FFC1125B</Color>
     <SolidColorBrush x:Key="MagentaBaseBrush">#FFC1125B</SolidColorBrush>
-    
+    <SolidColorBrush x:Key="DarkGreyBrush">#373737</SolidColorBrush>
+    <SolidColorBrush x:Key="LightGreyBrush">#606060</SolidColorBrush>
+    <Color x:Key="DarkGreyColor">#373737</Color>
+    <Color x:Key="LightGreyColor">#606060</Color>
+
     <!-- Text Colors -->
     <SolidColorBrush x:Key="LightText">#CCCCCC</SolidColorBrush>
     <SolidColorBrush x:Key="DarkText">#606060</SolidColorBrush>
@@ -48,4 +52,19 @@
     <!-- Slider Colors -->
     <SolidColorBrush x:Key="BackgroundSliderColor">#373737</SolidColorBrush>
 
+    
+    <!-- Gradient Color -->
+    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" x:Key="ValueGradient">
+        <LinearGradientBrush.GradientStops >
+            <GradientStop Color="Red" Offset="1" />
+            <GradientStop Color="Orange" Offset="0.84" />
+            <GradientStop Color="Yellow" Offset="0.72" />
+            <GradientStop Color="LawnGreen" Offset="0.6" />
+            <GradientStop Color="Aqua" Offset="0.48" />
+            <GradientStop Color="Blue" Offset="0.36" />
+            <GradientStop Color="DarkViolet" Offset="0.24" />
+            <GradientStop Color="Magenta" Offset="0.12" />
+            <GradientStop Color="Red" Offset="0" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
 </ResourceDictionary>
