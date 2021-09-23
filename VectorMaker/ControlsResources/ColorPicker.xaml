@@ -71,7 +71,7 @@
                 IsChecked="True" Grid.Column="0" Grid.Row="0" 
                 ButtonContent="RGB" Foreground="{StaticResource LightText}"
                 FontSize="6" ContentColumnSpan="2"
-                ButtonCornerRadius="1,0,0,1"/>
+                ButtonCornerRadius="1,0,0,1"/> 
             <local:ToggleButtonWithIcon x:Name="HSVToggleButton"
                 IsChecked="False" Grid.Column="1" Grid.Row="0" 
                 ButtonContent="HSV" Foreground="{StaticResource LightText}"
@@ -98,21 +98,21 @@
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
                                TextDecorations="Underline" Margin="0,0,2,0"/>
                     <TextBlock Text="B" Grid.Column="0" Grid.Row="2"
-                       FontSize="5" Foreground="{StaticResource LightText}" 
+                       FontSize="5" Foreground="{StaticResource LightText}"
                        VerticalAlignment="Center" HorizontalAlignment="Right" 
                                TextDecorations="Underline" Margin="0,0,2,0"/>
 
                     <TextBox x:Name="RColorTextBox" Grid.Row="0" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
+                        Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="GColorTextBox" Grid.Row="1" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
+                        Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="BColorTextBox" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
+                        Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
 
                 <Grid x:Name="HSVProperties" Visibility="Hidden">
@@ -143,7 +143,7 @@
                         Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                     <TextBox x:Name="SColorTextBox" Grid.Row="1" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
+                        Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}"/>
                     <TextBox x:Name="VColorTextBox" Grid.Row="2" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />

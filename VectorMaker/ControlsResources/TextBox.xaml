@@ -75,6 +75,33 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseDoubleClick">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames
+                             Storyboard.TargetProperty="Focusable">
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="LostFocus">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames
+                             Storyboard.TargetProperty="Focusable">
+                            <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False" />
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="TextBox" x:Key="TextBoxTransparent" BasedOn="{StaticResource TextBoxBase}">
