@@ -17,6 +17,14 @@ namespace VectorMaker.ControlsResources
         private Color m_pickedColorClass;
         private WindowsColor m_baseColor;
 
+        private string m_rColorText;
+        private string m_gColorText;
+        private string m_bColorText;
+        private string m_aColorText;
+        private string m_hColorText;
+        private string m_sColorText;
+        private string m_lColorText;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public WindowsColor PickedColor
@@ -32,6 +40,82 @@ namespace VectorMaker.ControlsResources
             {
                 m_baseColor = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BaseColor"));
+                
+            }
+        }
+
+        public string RColorText
+        {
+            get { return m_rColorText; }
+            set
+            {
+                m_rColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RColorText"));
+
+            }
+        }
+
+        public string GColorText
+        {
+            get { return m_gColorText; }
+            set
+            {
+                m_gColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GColorText"));
+
+            }
+        }
+
+        public string BColorText
+        {
+            get { return m_bColorText; }
+            set
+            {
+                m_bColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BColorText"));
+
+            }
+        }
+
+        public string AColorText
+        {
+            get { return m_aColorText; }
+            set
+            {
+                m_aColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AColorText"));
+
+            }
+        }
+
+        public string HColorText
+        {
+            get { return m_hColorText; }
+            set
+            {
+                m_hColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HColorText"));
+
+            }
+        }
+        public string SColorText
+        {
+            get { return m_sColorText; }
+            set
+            {
+                m_sColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SColorText"));
+
+            }
+        }
+        public string LColorText
+        {
+            get { return m_lColorText; }
+            set
+            {
+                m_lColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LColorText"));
+
             }
         }
 
@@ -46,13 +130,17 @@ namespace VectorMaker.ControlsResources
         private void SetBaseColor(WindowsColor color)
         {
             BaseColor = color;
-            Picker.InvalidateVisual();
         }
 
         private void CalculateBaseColorOnPickedColor()
         {
             Color tempColor = new Color(m_pickedColorClass.HSLColor.H.IntProperty, 100, 50, 255, true);
-            SetBaseColor(tempColor.ColorInWindowsFormat);
+            SetBaseColor(tempColor.ColorInWindowsFormat); 
+        }
+
+        private void CalculateAllParametersOfColor()
+        {
+            
         }
 
         private void SetCursor(System.Drawing.Point position)
