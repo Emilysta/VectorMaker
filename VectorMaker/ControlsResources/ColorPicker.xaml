@@ -49,13 +49,13 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="0.13*"/>
             </Grid.RowDefinitions>
-            <local:ModifiableSlider Orientation="Vertical" x:Name="ValuePicker2" Background="{StaticResource ValueGradient}"
+            <local:ModifiableSlider Orientation="Vertical" x:Name="ValuePicker" Background="{StaticResource ValueGradient}"
                                     MinWidth="0" BackgroundStrokeThickness="0.1" BackgroundStrokeColor="{StaticResource LightGreyBrush}"
                                     BackgroundRadius="0.3" Maximum="1" Minimum="0"
                                     Value="0.5" IsTextEnabled="True" TextVisibility="Hidden"
                                     IsSelectionRangeEnabled="False" ThumbStrokeThickness="0"
                                     ThumbColor="{StaticResource LightGreyBrush}"
-                                    FontSize="6" ThumbHeight="1"/>
+                                    FontSize="6" ThumbHeight="6" ValueChanged="ValuePicker_ValueChanged" />
         </Grid>
         <Grid Grid.Column="3" Grid.Row="0" Margin="0,5,5,5">
             <Grid.ColumnDefinitions>
