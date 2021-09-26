@@ -76,7 +76,9 @@ namespace VectorMaker
         public System.Windows.Media.Color ColorInWindowsFormat
         {
             get { return m_colorInWindowsFormat; }
-            set { m_colorInWindowsFormat = value; }
+            set { m_colorInWindowsFormat = value;
+                CalculateColorParametersFromWindowsColor();
+            }
         }
 
         public Color(int rh, int gs, int bl, int a = 255, bool isThisHSLColor = false)
@@ -85,6 +87,7 @@ namespace VectorMaker
             HSLColor = new HSLColorDefinition();
             A.SetIntProperty(a);
             SetColors(rh, gs, bl, isThisHSLColor);
+            SetColorInWindowsFormat();
         }
 
         public Color() 
@@ -105,7 +108,7 @@ namespace VectorMaker
                 RGBColor.SetColorProperties(rh, gs, bl);
                 CalculateHSLFromRGB();
             }
-            SetColorInWindowsFormat();
+            
         }
 
         public void SetColors(float rh, float gs, float bl, bool isThisHSLColor)
@@ -233,6 +236,13 @@ namespace VectorMaker
         {
             ColorInWindowsFormat = System.Windows.Media.Color.FromArgb((byte)A.IntProperty,
                 (byte)RGBColor.R.IntProperty, (byte)RGBColor.G.IntProperty, (byte)RGBColor.B.IntProperty);
+        }
+
+        private void CalculateColorParametersFromWindowsColor()
+        {
+            A.SetIntProperty(ColorInWindowsFormat.A);
+            SetColors((int)ColorInWindowsFormat.R, (int)ColorInWindowsFormat.G, (int)ColorInWindowsFormat.B, false);
+
         }
     }
 }

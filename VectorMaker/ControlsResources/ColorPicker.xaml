@@ -5,10 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:VectorMaker.ControlsResources"
+             xmlns:icons ="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="115" d:DesignWidth="150">
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatSlider.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -43,6 +48,25 @@
                     </LinearGradientBrush>
                 </Border.OpacityMask>
             </Border>
+            <mahControls:ColorEyeDropper SelectedColor="Green"
+                                         Width="20" Height="10" Background="Transparent" 
+                                         BorderThickness="0" IsEnabled="True" Content="" 
+                                         SelectedColorChanged="ColorEyeDropper_SelectedColorChanged">
+                <mahControls:ColorEyeDropper.Resources>
+                    <Style TargetType="ToolTip">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="PlacementRectangle" Value="-30,-30,5,5"/>
+                    </Style>
+                </mahControls:ColorEyeDropper.Resources>
+                <mahControls:ColorEyeDropper.PreviewContentTemplate>
+                    <DataTemplate DataType="{x:Type mahControls:ColorEyePreviewData}">
+                        <Border Background="Transparent">
+                            <Ellipse Width="20" Height="20" Fill="Transparent" Stroke="White" StrokeThickness="2"/>
+                        </Border>
+                    </DataTemplate>
+                </mahControls:ColorEyeDropper.PreviewContentTemplate>
+            </mahControls:ColorEyeDropper>
         </Grid>
         <Grid Grid.Column="2" Margin="1,5,5,5">
             <Grid.RowDefinitions>
@@ -78,12 +102,15 @@
                 FontSize="6" ContentColumnSpan="2"
                 ButtonCornerRadius="0,1,1,0"/>
             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,2,0,0">
-                <Grid x:Name="RGBProperties" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.2*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="RGBProperties" Visibility="Visible" Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="0.5*"/>
-                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.5*"/>
@@ -103,15 +130,18 @@
                                TextDecorations="Underline" Margin="0,0,2,0"/>
 
                     <TextBox x:Name="RColorTextBox" Grid.Row="0" Grid.Column="1" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Text="{Binding Path=RColorText}"
                         Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="GColorTextBox" Grid.Row="1" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Text="{Binding Path=GColorText}"
                         Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="BColorTextBox" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Text="{Binding BColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
                         Margin="0,2" Focusable="False" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
 
@@ -120,7 +150,6 @@
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="0.5*"/>
-                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.5*"/>
@@ -140,12 +169,15 @@
                         TextDecorations="Underline" Margin="0,0,2,0"/>
                     <TextBox x:Name="HColorTextBox" Grid.Row="0" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                        Text="{Binding HColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
                         Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                     <TextBox x:Name="SColorTextBox" Grid.Row="1" Grid.Column="3" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Text="{Binding SColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
                         Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}"/>
                     <TextBox x:Name="VColorTextBox" Grid.Row="2" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Text="{Binding LColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
                         Margin="0,2" Focusable="True" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
             </Grid>
