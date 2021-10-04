@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
 using WindowsColor = System.Windows.Media.Color;
 using WindowsMedia = System.Windows.Media;
+
 
 namespace VectorMaker.ControlsResources
 {
@@ -20,9 +20,6 @@ namespace VectorMaker.ControlsResources
         private Color m_pickedColorClass = new Color(0, 0, 0, 255);
         private WindowsColor m_baseColor;
         private Point m_colorPickerMarkerPosition;
-        private Point m_firstMarkerPosition;
-        private Size m_colorPickerSize;
-        private DispatcherTimer m_dispatcherTimer;
 
         private string m_rColorText;
         private string m_gColorText;
@@ -31,8 +28,15 @@ namespace VectorMaker.ControlsResources
         private string m_hColorText;
         private string m_sColorText;
         private string m_lColorText;
+        private string m_hexColorText;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        [DllImport("user32.dll")]
+        public static extern void ClipCursor(ref System.Drawing.Rectangle rect);
+
+        [DllImport("user32.dll")]
+        public static extern void ClipCursor(IntPtr rect);
 
         public WindowsColor PickedColor
         {
@@ -131,21 +135,25 @@ namespace VectorMaker.ControlsResources
             }
         }
 
+        public string HexColorText
+        {
+            get { return m_hexColorText; }
+            set
+            {
+                m_hexColorText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HexColorText"));
+            }
+        }
+
         public ColorPicker()
         {
             InitializeComponent();
             DataContext = this;
             CalculateBaseColorOnPickedColor();
             CalculateAllParametersOfColor();
-            m_colorPickerSize = Picker.RenderSize; // toDo sizeChanged method on whole app
-            m_dispatcherTimer = new DispatcherTimer();
-            m_dispatcherTimer.Tick += delegate
-            {
-               SetMarkerPosition(
-                    Mouse.GetPosition(Application.Current.MainWindow)
-                    );
-            };
-            m_dispatcherTimer.Interval = new System.TimeSpan(0, 0, 0, 0, 100);
+            ColorEyeDropper.PreviewMouseLeftButtonDown += ColorPickerMarker_MouseDown;
+            ColorEyeDropper.PreviewMouseLeftButtonUp += ColorPickerMarker_MouseUp;
+            ColorEyeDropper.PreviewMouseMove += ColorEyeDropper_PreviewMouseMove;
         }
 
         private void SetBaseColor(WindowsColor color)
@@ -171,12 +179,8 @@ namespace VectorMaker.ControlsResources
                 SColorText = m_pickedColorClass.HSLColor.S.IntProperty.ToString();
                 LColorText = m_pickedColorClass.HSLColor.L.IntProperty.ToString();
                 AColorText = m_pickedColorClass.A.IntProperty.ToString();
+                HexColorText = m_pickedColorClass.HexColor;
             }
-        }
-
-        private void SetMarkerPosition(System.Windows.Point position)
-        {
-
         }
 
         private void ValuePicker_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -213,25 +217,27 @@ namespace VectorMaker.ControlsResources
 
         private void ColorPickerMarker_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Application.Current.MainWindow.CaptureMouse();
-            m_dispatcherTimer.Start();
-            m_firstMarkerPosition = Mouse.GetPosition(Application.Current.MainWindow);
+            Point point = Picker.PointToScreen(new Point(0, 0));
+            System.Drawing.Rectangle rectangle = new System.Drawing
+                .Rectangle((int)point.X, (int)point.Y,
+                (int) (point.X + Picker.ActualWidth),
+                (int) (point.Y + Picker.ActualHeight));
+            ClipCursor(ref rectangle);
         }
 
         private void ColorPickerMarker_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            m_dispatcherTimer.Stop();
-            Application.Current.MainWindow.ReleaseMouseCapture();
-        }
-
-        private void ColorEyeDropper_Click(object sender, RoutedEventArgs e)
-        {
-
+            ClipCursor(IntPtr.Zero);
         }
 
         private void ColorEyeDropper_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<WindowsColor?> e)
         {
-               PickedColor = (WindowsColor)e.NewValue;
+            PickedColor = (WindowsColor)e.NewValue;
+        }
+
+        private void ColorEyeDropper_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            
         }
     }
 }

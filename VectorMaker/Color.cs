@@ -54,6 +54,7 @@ namespace VectorMaker
         private RGBColorDefinition m_rgbColor;
         private ColorPropertyPair m_a = new ColorPropertyPair(255,255);
         private System.Windows.Media.Color m_colorInWindowsFormat;
+        private string m_hexColor;
 
         public HSLColorDefinition HSLColor
         {
@@ -71,6 +72,12 @@ namespace VectorMaker
         {
             get { return m_a; }
             set { m_a = value; }
+        }
+
+        public string HexColor
+        {
+            get { return m_hexColor; }
+            set { m_hexColor = value; }
         }
 
         public System.Windows.Media.Color ColorInWindowsFormat
@@ -242,7 +249,7 @@ namespace VectorMaker
         {
             A.SetIntProperty(ColorInWindowsFormat.A);
             SetColors((int)ColorInWindowsFormat.R, (int)ColorInWindowsFormat.G, (int)ColorInWindowsFormat.B, false);
-
+            HexColor = ColorInWindowsFormat.ToString();
         }
     }
 }
