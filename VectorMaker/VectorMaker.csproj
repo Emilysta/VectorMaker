@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SVG_XAML_Converter2\SVG_XAML_Converter_Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="ControlsResources\Buttons.xaml">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
     </Resource>

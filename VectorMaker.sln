@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorMaker", "VectorMaker\VectorMaker.csproj", "{69741536-3F23-4589-A589-C0A851BAE54D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG_XAML_Converter", "SVG_XAML_Converter\SVG_XAML_Converter.csproj", "{C93D62D6-9ED4-469A-A72A-54828B8D1EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SVG_XAML_Converter", "SVG_XAML_Converter\SVG_XAML_Converter.csproj", "{C93D62D6-9ED4-469A-A72A-54828B8D1EB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG_XAML_Converter_Lib", "SVG_XAML_Converter2\SVG_XAML_Converter_Lib.csproj", "{92CE407F-0CB0-4242-BBE6-3B1D187A4375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C93D62D6-9ED4-469A-A72A-54828B8D1EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C93D62D6-9ED4-469A-A72A-54828B8D1EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C93D62D6-9ED4-469A-A72A-54828B8D1EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92CE407F-0CB0-4242-BBE6-3B1D187A4375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92CE407F-0CB0-4242-BBE6-3B1D187A4375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92CE407F-0CB0-4242-BBE6-3B1D187A4375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92CE407F-0CB0-4242-BBE6-3B1D187A4375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
