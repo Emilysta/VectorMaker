@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using VectorMaker.Drawables;
+using System.Xml.Linq;
 
 namespace VectorMaker
 {
@@ -24,6 +25,7 @@ namespace VectorMaker
         private PathSettings m_pathSettings;
         private bool m_ignoreDrawingGeometries = true;
         private Observable<Path> m_selectedObject = null;
+        private IEnumerable<XElement> m_xamlElements = null;
 
         public static MainWindow Instance { get; private set; }
         public Drawable DrawableObject

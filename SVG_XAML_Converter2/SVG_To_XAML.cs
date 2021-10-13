@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -7,49 +9,46 @@ namespace SVG_XAML_Converter_Lib
 {
     public static class SVG_To_XAML
     {
-        public static void ConvertSVGToXamlCode()
+        public static XDocument ConvertSVGToXamlCode()
         {
             Console.WriteLine("Podaj ścieżkę: ");
             string line = Console.ReadLine();
-            LoadSVGFile(line);
-
+            XDocument document = LoadSVGFile(line);
+            var desc = document.DescendantNodes();
+            XElement svgMainDocument = document.Descendants().Where(x => x.Name.LocalName == "svg").First();
+            XDocument xamlDocument = new XDocument();
+            foreach (var element in LoopThroughSVGElement(svgMainDocument))
+            {
+                xamlDocument.Add(element);
+            }
+            return xamlDocument;
         }
 
-        private static void LoadSVGFile(string fileName)
+        private static XDocument LoadSVGFile(string fileName)
         {
-            XmlReader xmlReader = null;
+            XDocument document = null;
             try
             {
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
-
-                xmlReaderSettings.ValidationEventHandler += new ValidationEventHandler(SVGValidationEventHandler);
-                xmlReaderSettings.DtdProcessing = DtdProcessing.Parse;
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/XML/1998/namespace", "./xml.xsd");
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/1999/xlink", "./xlink.xsd");
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/2000/svg", "./SVG.xsd");
                 xmlReaderSettings.Schemas.Compile();
-                xmlReaderSettings.ValidationType = ValidationType.Schema;
-                xmlReaderSettings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
-                xmlReaderSettings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
-                xmlReader = XmlReader.Create(fileName, xmlReaderSettings);
+                document = XDocument.Load(fileName);
+                document.Validate(xmlReaderSettings.Schemas, SVGValidationEventHandler);
 
-                while (xmlReader.Read())
-                {
-                }
-
-                Console.WriteLine("passed validation");
+                return document;
             }
             catch (XmlSchemaException e)
             {
-                Console.WriteLine("Not passed validation\n" + e.Message +"\n"+ e.SourceUri + " "+e.LineNumber);
+                Console.WriteLine("Schema error\n" + e.Message + "\n" + e.SourceUri + " " + e.LineNumber);
                 Console.WriteLine(e.StackTrace);
+                return null;
             }
-            finally 
-            { 
-                if(xmlReader!=null)
-                {
-                    xmlReader.Close();
-                }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception caught" + e.Message);
+                return null;
             }
         }
 
@@ -57,6 +56,21 @@ namespace SVG_XAML_Converter_Lib
         {
             Console.WriteLine("Not passed validation" + args.Message);
             //throw new Exception("Validation error");
+        }
+
+        private static IEnumerable<XElement> LoopThroughSVGElement(XElement element)
+        {
+            XElement mappedElement = Mapper.FindXAMLObjectReference(element);
+            yield return mappedElement;
+            IEnumerable<XElement> descendants = element.Descendants();
+            if (descendants.Count() != 0)
+            {
+                foreach (XElement descendantElement in descendants)
+                {
+                    foreach (var x in LoopThroughSVGElement(descendantElement))
+                        yield return x;
+                }
+            }
         }
     }
 }

@@ -16,25 +16,17 @@ namespace SVG_XAML_Converter_Lib
         {
             XElement pathElement = new XElement("Path");
             XElement pathDataElement = new XElement("Path.Data");
+            XElement baseElementForGeometry = null;
             XElement geometryElement = null;
             switch (svgElement.Name.LocalName)
             {
                 case "rect":
                     {
-                        geometryElement = new XElement("RectangleGeometry");
-                        XAttribute xamlReferenceOfAttribute;
-                        foreach (XAttribute x in svgElement.Attributes())
-                        {
-                            xamlReferenceOfAttribute = FindXAMLAttributeReference(x);
-                            if(xamlReferenceOfAttribute!=null)
-                            {
-                                AttributeParent parent = CheckParentForAttribute(xamlReferenceOfAttribute);
-                                if (parent == AttributeParent.Path)
-                                    pathElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
-                                else
-                                    geometryElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
-                            }
-                        }
+                        geometryElement = new XElement("Rect");
+                        baseElementForGeometry = new XElement("RectangleGeometry",
+                            new XElement("RectangleGeometry.Rect",
+                            geometryElement)
+                            );
                         break;
                     }
                 case "circle":
@@ -64,14 +56,36 @@ namespace SVG_XAML_Converter_Lib
                 case "g":
                     {
                         break;
-                    }    
+                    }
+                default: geometryElement = null;
+                    break;
             }
-            if(geometryElement!= null)
+            if (geometryElement == null)
+                return null;
+            
+
+            XAttribute xamlReferenceOfAttribute;
+            foreach (XAttribute x in svgElement.Attributes())
+            {
+                xamlReferenceOfAttribute = FindXAMLAttributeReference(x);
+                if (xamlReferenceOfAttribute != null)
+                {
+                    AttributeParent parent = CheckParentForAttribute(xamlReferenceOfAttribute);
+                    if (parent == AttributeParent.Path)
+                        pathElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
+                    else
+                        geometryElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
+                }
+            }
+            if(baseElementForGeometry!=null)
+                pathDataElement.Add(baseElementForGeometry);
+            else
                 pathDataElement.Add(geometryElement);
             pathElement.Add(pathDataElement);
+            
             return pathElement;
         }
-        public static XAttribute FindXAMLAttributeReference(XAttribute svgAttribute)
+        private static XAttribute FindXAMLAttributeReference(XAttribute svgAttribute)
         {
             XAttribute xamlAttribute = null;
             switch (svgAttribute.Name.LocalName)
@@ -82,94 +96,118 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "fill":
                     {
+                        xamlAttribute = new XAttribute("Fill", svgAttribute.Value);
                         break;
                     }
                 case "fill-opacity":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "opacity":
                     {
+                        xamlAttribute = new XAttribute("Opacity", svgAttribute.Value);
                         break;
                     }
                 case "stroke":
                     {
+                        xamlAttribute = new XAttribute("Stroke", svgAttribute.Value);
                         break;
                     }
                 case "stroke-opacity":
                     {
+
+                        xamlAttribute = new XAttribute("Opacity", svgAttribute.Value);
                         break;
                     }
                 case "stroke-width":
                     {
+                        xamlAttribute = new XAttribute("StrokeThickness", svgAttribute.Value);
                         break;
                     }
                 case "x":
                     {
+                        xamlAttribute = new XAttribute("X", svgAttribute.Value);
                         break;
                     }
                 case "y":
                     {
+                        xamlAttribute = new XAttribute("Y", svgAttribute.Value);
                         break;
                     }
                 case "cx":
                     {
+                        xamlAttribute = new XAttribute("Center", svgAttribute.Value+",0");
                         break;
                     }
                 case "cy":
                     {
+                        xamlAttribute = new XAttribute("Center", "0," + svgAttribute.Value );
                         break;
                     }
                 case "width":
                     {
+                        xamlAttribute = new XAttribute("Width", svgAttribute.Value);
                         break;
                     }
                 case "height":
                     {
+                        xamlAttribute = new XAttribute("Height", svgAttribute.Value);
                         break;
                     }
                 case "rx":
                     {
+                        xamlAttribute = new XAttribute("RadiusX", svgAttribute.Value);
                         break;
                     }
                 case "ry":
                     {
+                        xamlAttribute = new XAttribute("RadiusY", svgAttribute.Value);
                         break;
                     }
                 case "r":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "id":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "class":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "color":
                     {
+                        xamlAttribute = new XAttribute("RadiusY", svgAttribute.Value);
                         break;
                     }
                 case "clip-path":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "clip-rule":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "display":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "visibility":
                     {
+                        xamlAttribute = null;
                         break;
                     }
                 case "pathLength":
                     {
+                        xamlAttribute = null;
                         break;
                     }
             }
