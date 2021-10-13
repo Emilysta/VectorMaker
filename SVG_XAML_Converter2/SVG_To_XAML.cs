@@ -9,17 +9,18 @@ namespace SVG_XAML_Converter_Lib
 {
     public static class SVG_To_XAML
     {
-        public static XDocument ConvertSVGToXamlCode()
+        public static XDocument ConvertSVGToXamlCode(string fileName)
         {
-            Console.WriteLine("Podaj ścieżkę: ");
-            string line = Console.ReadLine();
-            XDocument document = LoadSVGFile(line);
+            XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+            XDocument document = LoadSVGFile(fileName);
             var desc = document.DescendantNodes();
             XElement svgMainDocument = document.Descendants().Where(x => x.Name.LocalName == "svg").First();
             XDocument xamlDocument = new XDocument();
+            XElement geometryGroup = new XElement(xNamespace + "Grid");
+            xamlDocument.Add(geometryGroup);
             foreach (var element in LoopThroughSVGElement(svgMainDocument))
             {
-                xamlDocument.Add(element);
+                geometryGroup.Add(element);
             }
             return xamlDocument;
         }

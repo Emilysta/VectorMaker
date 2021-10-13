@@ -7,6 +7,9 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using VectorMaker.Drawables;
 using System.Xml.Linq;
+using SVG_XAML_Converter_Lib;
+using System.Windows.Markup;
+using System.Linq;
 
 namespace VectorMaker
 {
@@ -25,7 +28,7 @@ namespace VectorMaker
         private PathSettings m_pathSettings;
         private bool m_ignoreDrawingGeometries = true;
         private Observable<Path> m_selectedObject = null;
-        private IEnumerable<XElement> m_xamlElements = null;
+        private XDocument m_xamlElements = null;
 
         public static MainWindow Instance { get; private set; }
         public Drawable DrawableObject
@@ -77,6 +80,11 @@ namespace VectorMaker
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_selectedObject = new Observable<Path>(SelectionOfObject);
+            m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//rysunek.svg");
+            //Trace.WriteLine(m_xamlElements.ToString());
+            object path = XamlReader.Parse(m_xamlElements.ToString());
+            //Geometry.Parse()
+            m_mainCanvas.Children.Add(path as UIElement);
         }
 
         private void TabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)

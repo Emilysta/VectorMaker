@@ -8,7 +8,9 @@ namespace SVG_XAML_Converter
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            SVG_To_XAML.ConvertSVGToXamlCode();
+            Console.WriteLine("Podaj ścieżkę: ");
+            string line = Console.ReadLine();
+            SVG_To_XAML.ConvertSVGToXamlCode(line);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Xaml;
+﻿using System.Linq;
+using System.Xaml;
 using System.Xml.Linq;
 
 namespace SVG_XAML_Converter_Lib
@@ -14,17 +15,19 @@ namespace SVG_XAML_Converter_Lib
     {
         public static XElement FindXAMLObjectReference(XElement svgElement)
         {
-            XElement pathElement = new XElement("Path");
-            XElement pathDataElement = new XElement("Path.Data");
+            XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+            XElement pathElement = new XElement(xNamespace+"Path");
+            XElement pathDataElement = new XElement(xNamespace + "Path.Data");
             XElement baseElementForGeometry = null;
             XElement geometryElement = null;
+            
             switch (svgElement.Name.LocalName)
             {
                 case "rect":
                     {
-                        geometryElement = new XElement("Rect");
-                        baseElementForGeometry = new XElement("RectangleGeometry",
-                            new XElement("RectangleGeometry.Rect",
+                        geometryElement = new XElement(xNamespace + "Rect");
+                        baseElementForGeometry = new XElement(xNamespace + "RectangleGeometry",
+                            new XElement(xNamespace+"RectangleGeometry.Rect",
                             geometryElement)
                             );
                         break;
@@ -82,6 +85,8 @@ namespace SVG_XAML_Converter_Lib
             else
                 pathDataElement.Add(geometryElement);
             pathElement.Add(pathDataElement);
+
+            pathElement.Descendants().Where(x => x.Name.LocalName == "Path.Data").First()?.Attributes("xmlns")?.Remove();
             
             return pathElement;
         }
