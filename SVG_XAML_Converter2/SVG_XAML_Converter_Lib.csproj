@@ -15,6 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Xaml">
+      <HintPath>..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Xaml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Mapper.cs" />
     <Resource Include="SVG.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
