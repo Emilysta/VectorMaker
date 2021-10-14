@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using SVG_XAML_Converter_Lib;
 using System.Windows.Markup;
 using System.Linq;
+using System;
 
 namespace VectorMaker
 {
@@ -85,6 +86,13 @@ namespace VectorMaker
             object path = XamlReader.Parse(m_xamlElements.ToString());
             //Geometry.Parse()
             m_mainCanvas.Children.Add(path as UIElement);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Instance = null;
+            App.Current.Shutdown();
         }
 
         private void TabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
