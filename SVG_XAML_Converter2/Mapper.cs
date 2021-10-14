@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace SVG_XAML_Converter_Lib
 {
     public enum AttributeParent
-    { 
+    {
         Path,
         Geometry
     }
@@ -16,18 +16,18 @@ namespace SVG_XAML_Converter_Lib
         public static XElement FindXAMLObjectReference(XElement svgElement)
         {
             XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
-            XElement pathElement = new XElement(xNamespace+"Path");
+            XElement pathElement = new XElement(xNamespace + "Path");
             XElement pathDataElement = new XElement(xNamespace + "Path.Data");
             XElement baseElementForGeometry = null;
             XElement geometryElement = null;
-            
+
             switch (svgElement.Name.LocalName)
             {
                 case "rect":
                     {
                         geometryElement = new XElement(xNamespace + "Rect");
                         baseElementForGeometry = new XElement(xNamespace + "RectangleGeometry",
-                            new XElement(xNamespace+"RectangleGeometry.Rect",
+                            new XElement(xNamespace + "RectangleGeometry.Rect",
                             geometryElement)
                             );
                         break;
@@ -58,14 +58,16 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "g":
                     {
+                        geometryElement = new XElement(xNamespace + "Grid");
                         break;
                     }
-                default: geometryElement = null;
+                default:
+                    geometryElement = null;
                     break;
             }
             if (geometryElement == null)
                 return null;
-            
+
 
             XAttribute xamlReferenceOfAttribute;
             foreach (XAttribute x in svgElement.Attributes())
@@ -80,14 +82,14 @@ namespace SVG_XAML_Converter_Lib
                         geometryElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
                 }
             }
-            if(baseElementForGeometry!=null)
+            if (baseElementForGeometry != null)
                 pathDataElement.Add(baseElementForGeometry);
             else
                 pathDataElement.Add(geometryElement);
             pathElement.Add(pathDataElement);
 
             pathElement.Descendants().Where(x => x.Name.LocalName == "Path.Data").First()?.Attributes("xmlns")?.Remove();
-            
+
             return pathElement;
         }
         private static XAttribute FindXAMLAttributeReference(XAttribute svgAttribute)
@@ -142,12 +144,12 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "cx":
                     {
-                        xamlAttribute = new XAttribute("Center", svgAttribute.Value+",0");
+                        xamlAttribute = new XAttribute("Center", svgAttribute.Value + ",0");
                         break;
                     }
                 case "cy":
                     {
-                        xamlAttribute = new XAttribute("Center", "0," + svgAttribute.Value );
+                        xamlAttribute = new XAttribute("Center", "0," + svgAttribute.Value);
                         break;
                     }
                 case "width":
@@ -223,7 +225,7 @@ namespace SVG_XAML_Converter_Lib
         {
             switch (attribute.Name.LocalName)
             {
-                case "Fill": return AttributeParent.Path; 
+                case "Fill": return AttributeParent.Path;
                 case "Stroke": return AttributeParent.Path;
                 case "StrokeThickness": return AttributeParent.Path;
                 default: return AttributeParent.Geometry;

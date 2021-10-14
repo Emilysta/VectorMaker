@@ -66,11 +66,6 @@ namespace VectorMaker
 
         public string SelectedObjectString { get; set; } = "No selected Obejct";
 
-        static MainWindow()
-        {
-            Instance = new MainWindow();
-        }
-
         public MainWindow()
         {
             this.DataContext = this;
@@ -81,11 +76,16 @@ namespace VectorMaker
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_selectedObject = new Observable<Path>(SelectionOfObject);
-            m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//rysunek.svg");
-            //Trace.WriteLine(m_xamlElements.ToString());
-            object path = XamlReader.Parse(m_xamlElements.ToString());
-            //Geometry.Parse()
-            m_mainCanvas.Children.Add(path as UIElement);
+            m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//Emilia//Desktop//drawing.svg");
+            //m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//rysunek.svg");
+            if (m_xamlElements != null)
+            {
+                object path = XamlReader.Parse(m_xamlElements.ToString());
+                Trace.WriteLine(m_xamlElements.ToString());
+                //Geometry.Parse()
+                m_mainCanvas.Children.Add(path as UIElement);
+            }
+            Instance = this;
         }
 
         protected override void OnClosed(EventArgs e)

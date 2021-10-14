@@ -12,17 +12,29 @@ namespace SVG_XAML_Converter_Lib
         public static XDocument ConvertSVGToXamlCode(string fileName)
         {
             XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
-            XDocument document = LoadSVGFile(fileName);
-            var desc = document.DescendantNodes();
-            XElement svgMainDocument = document.Descendants().Where(x => x.Name.LocalName == "svg").First();
-            XDocument xamlDocument = new XDocument();
-            XElement geometryGroup = new XElement(xNamespace + "Grid");
-            xamlDocument.Add(geometryGroup);
-            foreach (var element in LoopThroughSVGElement(svgMainDocument))
+            try
             {
-                geometryGroup.Add(element);
+                XDocument document = LoadSVGFile(fileName);
+                if (document == null)
+                    throw new Exception();
+                XElement svgMainDocument = document.Elements().Where(x => x.Name.LocalName == "svg").First();
+                XDocument xamlDocument = new XDocument();
+                XElement geometryGroup = new XElement(xNamespace + "Grid");
+                foreach (var element in LoopThroughSVGElement(svgMainDocument))
+                {
+                    if (element != null)
+                    {
+                        geometryGroup.Add(element);
+                    }
+                }
+                xamlDocument.Add(geometryGroup);
+                return xamlDocument;
             }
-            return xamlDocument;
+            catch(Exception e)
+            {
+                Console.WriteLine("Blad przy konwersji \n" + e.Message);
+                return null;   
+            }
         }
 
         private static XDocument LoadSVGFile(string fileName)
@@ -56,14 +68,13 @@ namespace SVG_XAML_Converter_Lib
         private static void SVGValidationEventHandler(object e, ValidationEventArgs args)
         {
             Console.WriteLine("Not passed validation" + args.Message);
-            //throw new Exception("Validation error");
         }
 
         private static IEnumerable<XElement> LoopThroughSVGElement(XElement element)
         {
             XElement mappedElement = Mapper.FindXAMLObjectReference(element);
             yield return mappedElement;
-            IEnumerable<XElement> descendants = element.Descendants();
+            IEnumerable<XElement> descendants = element.Elements();
             if (descendants.Count() != 0)
             {
                 foreach (XElement descendantElement in descendants)

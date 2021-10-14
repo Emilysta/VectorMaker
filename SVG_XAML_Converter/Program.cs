@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using SVG_XAML_Converter_Lib;
 
 namespace SVG_XAML_Converter
@@ -10,7 +11,8 @@ namespace SVG_XAML_Converter
             Console.WriteLine("Hello World!");
             Console.WriteLine("Podaj ścieżkę: ");
             string line = Console.ReadLine();
-            SVG_To_XAML.ConvertSVGToXamlCode(line);
+            XDocument document = SVG_To_XAML.ConvertSVGToXamlCode(line);
+            Console.WriteLine(document.ToString());
         }
     }
 }

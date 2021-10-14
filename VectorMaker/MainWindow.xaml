@@ -172,6 +172,7 @@
                                         MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                         MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
                         </Grid>
+
                     </mahControls:MetroTabItem>
                     <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
                                                   Background="Transparent" >
