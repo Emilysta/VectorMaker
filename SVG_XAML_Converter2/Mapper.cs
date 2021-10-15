@@ -59,7 +59,8 @@ namespace SVG_XAML_Converter_Lib
                 case "g":
                     {
                         geometryElement = new XElement(xNamespace + "Grid");
-                        break;
+                        geometryElement.SetAttributeValue("Tag", "group");
+                        return geometryElement;
                     }
                 default:
                     geometryElement = null;

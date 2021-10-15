@@ -19,21 +19,16 @@ namespace SVG_XAML_Converter_Lib
                     throw new Exception();
                 XElement svgMainDocument = document.Elements().Where(x => x.Name.LocalName == "svg").First();
                 XDocument xamlDocument = new XDocument();
-                XElement geometryGroup = new XElement(xNamespace + "Grid");
-                foreach (var element in LoopThroughSVGElement(svgMainDocument))
-                {
-                    if (element != null)
-                    {
-                        geometryGroup.Add(element);
-                    }
-                }
-                xamlDocument.Add(geometryGroup);
+                XElement parentElement = new XElement(xNamespace + "Grid");
+
+                LoopThroughSVGElement(svgMainDocument, parentElement);
+                xamlDocument.Add(parentElement);
                 return xamlDocument;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Blad przy konwersji \n" + e.Message);
-                return null;   
+                return null;
             }
         }
 
@@ -70,18 +65,15 @@ namespace SVG_XAML_Converter_Lib
             Console.WriteLine("Not passed validation" + args.Message);
         }
 
-        private static IEnumerable<XElement> LoopThroughSVGElement(XElement element)
+        private static void LoopThroughSVGElement(XElement element, XElement parent)
         {
             XElement mappedElement = Mapper.FindXAMLObjectReference(element);
-            yield return mappedElement;
-            IEnumerable<XElement> descendants = element.Elements();
-            if (descendants.Count() != 0)
+            if (mappedElement != null)
+                parent.Add(mappedElement);
+
+            foreach (XElement descendantElement in element.Elements())
             {
-                foreach (XElement descendantElement in descendants)
-                {
-                    foreach (var x in LoopThroughSVGElement(descendantElement))
-                        yield return x;
-                }
+                LoopThroughSVGElement(descendantElement, element.Name.LocalName=="svg" ? parent : mappedElement);
             }
         }
     }
