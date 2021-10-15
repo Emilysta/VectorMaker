@@ -161,11 +161,17 @@
                                                   Background="Transparent" Foreground="AntiqueWhite">
                         <Grid>
                             <Grid.Resources>
-                                <Path x:Key="BluePath" Fill="Blue" StrokeThickness="50" Stroke="AliceBlue">
-                                    <Path.Data>
-                                        <LineGeometry StartPoint="0,0" EndPoint="50,50"/>
-                                    </Path.Data>
-                                </Path>
+                                <Style x:Key="BluePath" TargetType="Path">
+                                    <Setter Property="Fill" Value="Blue"/>
+                                    <Setter Property="StrokeThickness" Value="10"/>
+                                    <Setter Property="Stroke" Value="AliceBlue"/>
+                                    <Setter Property="Data">
+                                        <Setter.Value>
+                                            <LineGeometry StartPoint="0,0" EndPoint="50,50"/>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                </Style>
                             </Grid.Resources>
                             <Border x:Name ="MainCanvasBorder" Height="300" Width="300" 
                                         Background="DarkGray" VerticalAlignment="Center" 
@@ -178,8 +184,6 @@
                             <Canvas x:Name="MainCanvas" Background="Transparent" MouseLeave="MainCanvas_MouseLeave" 
                                         MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                         MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
-                            <StaticResourceExtension ResourceKey="BluePath" >
-                            </StaticResourceExtension>
                         </Grid>
 
                     </mahControls:MetroTabItem>

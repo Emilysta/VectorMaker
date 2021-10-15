@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xaml;
 using System.Xml.Linq;
 
@@ -15,13 +17,26 @@ namespace SVG_XAML_Converter_Lib
     {
         public static XElement FindXAMLObjectReference(XElement svgElement)
         {
+            if (CheckIfContainsIdAttribute(svgElement))
+            {
+
+            }
+            {
+                return FindXamlReferenceWhenNoID(svgElement);
+            }
+        }
+
+        private static XElement FindXamlReferenceWhenNoID(XElement svgElement)
+        {
+
             XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
             XElement pathElement = new XElement(xNamespace + "Path");
+            pathElement.SetAttributeValue("Fill", "Black");
             XElement pathDataElement = new XElement(xNamespace + "Path.Data");
             XElement baseElementForGeometry = null;
             XElement geometryElement = null;
 
-            switch (svgElement.Name.LocalName)
+            switch (svgElement.Name.LocalName) //set markup  reference
             {
                 case "rect":
                     {
@@ -34,27 +49,43 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "circle":
                     {
+                        geometryElement = new XElement(xNamespace + "EllipseGeomentry");
                         break;
                     }
                 case "ellipse":
                     {
+                        geometryElement = new XElement(xNamespace + "EllipseGeomentry");
                         break;
                     }
                 case "polyline":
                     {
+                        geometryElement = new XElement(xNamespace + "PolyLineSegment");
+                        baseElementForGeometry = new XElement(xNamespace + "PathGeometry",
+                            new XElement(xNamespace + "PathGeometry.Figures",
+                                new XElement(xNamespace + "PathFigure", geometryElement)
+                                )
+                            );
                         break;
                     }
                 case "polygon":
                     {
+                        geometryElement = new XElement(xNamespace + "PolyLineSegment");
+                        baseElementForGeometry = new XElement(xNamespace + "PathGeometry",
+                            new XElement(xNamespace + "PathGeometry.Figures",
+                                new XElement(xNamespace + "PathFigure", geometryElement)
+                                )
+                            );
                         break;
                     }
                 case "path":
                     {
+                        geometryElement = new XElement(xNamespace + "PathGeometry");
                         break;
                     }
                 case "use":
                     {
-                        break;
+                        //display warning : style block is not supported
+                        return null;
                     }
                 case "g":
                     {
@@ -62,175 +93,266 @@ namespace SVG_XAML_Converter_Lib
                         geometryElement.SetAttributeValue("Tag", "group");
                         return geometryElement;
                     }
+                case "text":
+                    {
+                        break;
+                    }
+                case "style":
+                    {
+                        //display warning : style block is not supported
+                        break;
+                    }
+                case "glyph":
+                    {
+                        //depre
+                        break;
+                    }
                 default:
-                    geometryElement = null;
-                    break;
+                    return null;
             }
-            if (geometryElement == null)
-                return null;
 
+            SetAllAttributes(svgElement, pathElement, geometryElement); //set all atributes for whole object 
 
-            XAttribute xamlReferenceOfAttribute;
-            foreach (XAttribute x in svgElement.Attributes())
-            {
-                xamlReferenceOfAttribute = FindXAMLAttributeReference(x);
-                if (xamlReferenceOfAttribute != null)
-                {
-                    AttributeParent parent = CheckParentForAttribute(xamlReferenceOfAttribute);
-                    if (parent == AttributeParent.Path)
-                        pathElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
-                    else
-                        geometryElement.SetAttributeValue(xamlReferenceOfAttribute.Name, xamlReferenceOfAttribute.Value);
-                }
-            }
-            if (baseElementForGeometry != null)
+            if (baseElementForGeometry != null) //if base element is available add it to pathDataElement
                 pathDataElement.Add(baseElementForGeometry);
             else
-                pathDataElement.Add(geometryElement);
+                pathDataElement.Add(geometryElement); //else add geometry directly to path Data
             pathElement.Add(pathDataElement);
 
-            pathElement.Descendants().Where(x => x.Name.LocalName == "Path.Data").First()?.Attributes("xmlns")?.Remove();
-
+            pathElement.Descendants().Where(x => x.Name.LocalName == "Path.Data").First()?.Attributes("xmlns")?.Remove(); //remove namespace for child Path.Data
+            
             return pathElement;
         }
-        private static XAttribute FindXAMLAttributeReference(XAttribute svgAttribute)
+
+        private static void SetAllAttributes(XElement svgElement, XElement pathElement, XElement geometryElement)
         {
-            XAttribute xamlAttribute = null;
+            List<XAttribute> xamlReferenceOfAttributes;
+            foreach (XAttribute x in svgElement.Attributes())
+            {
+                xamlReferenceOfAttributes = FindXAMLAttributeReference(x);
+                if (xamlReferenceOfAttributes != null)
+                {
+                    foreach (XAttribute attribute in xamlReferenceOfAttributes)
+                    {
+                        AttributeParent parent = CheckParentForAttribute(attribute);
+                        if (parent == AttributeParent.Path)
+                            pathElement.SetAttributeValue(attribute.Name, attribute.Value);
+                        else
+
+                            geometryElement.SetAttributeValue(attribute.Name, attribute.Value);
+                    }
+                }
+            }
+            if(svgElement.Value!=null && svgElement.Value.Length !=0) //add text or other content
+
+                
+            if (svgElement.Name.LocalName == "polyline")
+            {
+
+                string[] points = geometryElement.Attribute("Points").Value.Split(' ');
+                if (points.Length != 0)
+                    geometryElement.Parent.SetAttributeValue("StartPoint", points[0]);
+            }
+            if (svgElement.Name.LocalName == "polygon")
+            {
+
+                string[] points = geometryElement.Attribute("Points").Value.Split(' ');
+                if (points.Length != 0)
+                {
+                    geometryElement.Parent.SetAttributeValue("StartPoint", points[0]);
+                    geometryElement.Parent.SetAttributeValue("IsClosed", "True");
+                }
+            }
+        }
+
+        private static List<XAttribute> FindXAMLAttributeReference(XAttribute svgAttribute)
+        {
+            List<XAttribute> xamlAttributesList = new List<XAttribute>();
             switch (svgAttribute.Name.LocalName)
             {
                 case "style":
                     {
+                        try
+                        {
+                            List <XAttribute> tempList = null;
+                            foreach (string s in svgAttribute.Value.Split(';'))
+                            {
+                                string[] values = s.Split(':');
+                                tempList = FindXAMLAttributeReference(new XAttribute(values[0], values[1]));
+                                if(tempList!=null)
+                                    xamlAttributesList.AddRange(tempList);
+                            }
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            return null;
+                        }
                         break;
                     }
                 case "fill":
                     {
-                        xamlAttribute = new XAttribute("Fill", svgAttribute.Value);
+                        if (svgAttribute.Value != "none")
+                            xamlAttributesList.Add( new XAttribute("Fill", 
+                                char.ToUpper(svgAttribute.Value[0]) + svgAttribute.Value.Substring(1)
+                                ));
+                        else
+                            xamlAttributesList.Add(new XAttribute("Fill", "transparent"));
                         break;
                     }
                 case "fill-opacity":
                     {
-                        xamlAttribute = null;
                         break;
                     }
                 case "opacity":
                     {
-                        xamlAttribute = new XAttribute("Opacity", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Opacity", svgAttribute.Value));
                         break;
                     }
                 case "stroke":
                     {
-                        xamlAttribute = new XAttribute("Stroke", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Stroke", svgAttribute.Value));
                         break;
                     }
                 case "stroke-opacity":
                     {
-
-                        xamlAttribute = new XAttribute("Opacity", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Opacity", svgAttribute.Value));
                         break;
                     }
                 case "stroke-width":
                     {
-                        xamlAttribute = new XAttribute("StrokeThickness", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("StrokeThickness", svgAttribute.Value));
                         break;
                     }
                 case "x":
                     {
-                        xamlAttribute = new XAttribute("X", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("X", svgAttribute.Value));
                         break;
                     }
                 case "y":
                     {
-                        xamlAttribute = new XAttribute("Y", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Y", svgAttribute.Value));
                         break;
                     }
                 case "cx":
                     {
-                        xamlAttribute = new XAttribute("Center", svgAttribute.Value + ",0");
+                        xamlAttributesList.Add(new XAttribute("Center", svgAttribute.Value + ",0"));
                         break;
                     }
                 case "cy":
                     {
-                        xamlAttribute = new XAttribute("Center", "0," + svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Center", "0," + svgAttribute.Value));
                         break;
                     }
                 case "width":
                     {
-                        xamlAttribute = new XAttribute("Width", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Width", svgAttribute.Value));
                         break;
                     }
                 case "height":
                     {
-                        xamlAttribute = new XAttribute("Height", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("Height", svgAttribute.Value));
                         break;
                     }
                 case "rx":
                     {
-                        xamlAttribute = new XAttribute("RadiusX", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("RadiusX", svgAttribute.Value));
                         break;
                     }
                 case "ry":
                     {
-                        xamlAttribute = new XAttribute("RadiusY", svgAttribute.Value);
+                        xamlAttributesList.Add(new XAttribute("RadiusY", svgAttribute.Value));
                         break;
                     }
                 case "r":
                     {
-                        xamlAttribute = null;
-                        break;
-                    }
-                case "id":
-                    {
-                        xamlAttribute = null;
+                        xamlAttributesList.Add(new XAttribute("RadiusX", svgAttribute.Value));
+                        xamlAttributesList.Add(new XAttribute("RadiusY", svgAttribute.Value));
                         break;
                     }
                 case "class":
                     {
-                        xamlAttribute = null;
+                        //display warning : style block is not supported
                         break;
                     }
                 case "color":
                     {
-                        xamlAttribute = new XAttribute("RadiusY", svgAttribute.Value);
+
                         break;
                     }
                 case "clip-path":
                     {
-                        xamlAttribute = null;
                         break;
                     }
                 case "clip-rule":
                     {
-                        xamlAttribute = null;
                         break;
                     }
                 case "display":
                     {
-                        xamlAttribute = null;
                         break;
                     }
                 case "visibility":
                     {
-                        xamlAttribute = null;
                         break;
                     }
                 case "pathLength":
                     {
-                        xamlAttribute = null;
                         break;
                     }
+                case "href":
+                    {
+
+                        break;
+                    }
+                case "d":
+                    {
+                        xamlAttributesList.Add(new XAttribute("Figures", svgAttribute.Value));
+                        break;
+                    }
+                case "points":
+                    {
+                        xamlAttributesList.Add(new XAttribute("Points", svgAttribute.Value));
+                        break;
+                    }
+                default: return null;
             }
-            return xamlAttribute;
+            return xamlAttributesList;
         }
 
         private static AttributeParent CheckParentForAttribute(XAttribute attribute)
         {
             switch (attribute.Name.LocalName)
             {
-                case "Fill": return AttributeParent.Path;
-                case "Stroke": return AttributeParent.Path;
-                case "StrokeThickness": return AttributeParent.Path;
+                case "Fill": case "Stroke": case "StrokeThickness": case "Opacity": return AttributeParent.Path;
+
                 default: return AttributeParent.Geometry;
             }
+        }
+
+        private static bool CheckIfContainsSpecialHrefAttribute(XElement element)
+        {
+            foreach (XAttribute att in element.Attributes())
+            {
+                if (att.Value.Contains('#'))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool CheckIfContainsIdAttribute(XElement element)
+        {
+            foreach (XAttribute att in element.Attributes())
+            {
+                if (att.Name.LocalName == "id")
+                    return true;
+            }
+            return false;
         }
     }
 }
