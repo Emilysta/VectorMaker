@@ -168,9 +168,8 @@
                                     <Setter Property="Data">
                                         <Setter.Value>
                                             <LineGeometry StartPoint="0,0" EndPoint="50,50"/>
-                                        </Setter.Value>
+                                        </Setter.Value> 
                                     </Setter>
-
                                 </Style>
                             </Grid.Resources>
                             <Border x:Name ="MainCanvasBorder" Height="300" Width="300" 
@@ -184,6 +183,15 @@
                             <Canvas x:Name="MainCanvas" Background="Transparent" MouseLeave="MainCanvas_MouseLeave" 
                                         MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                         MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
+                            <!--<Path Style="{StaticResource BluePath}" Fill="Aqua" RenderTransformOrigin="0,0">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="700" Y="200"/>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>-->
+
                         </Grid>
 
                     </mahControls:MetroTabItem>

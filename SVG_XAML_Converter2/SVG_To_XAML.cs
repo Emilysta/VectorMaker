@@ -20,8 +20,10 @@ namespace SVG_XAML_Converter_Lib
                 XElement svgMainDocument = document.Elements().Where(x => x.Name.LocalName == "svg").First();
                 XDocument xamlDocument = new XDocument();
                 XElement parentElement = new XElement(xNamespace + "Grid");
+                XElement parentResourcesElement = new XElement(xNamespace + "Grid.Resources");
+                parentElement.Add(parentResourcesElement);
 
-                LoopThroughSVGElement(svgMainDocument, parentElement);
+                LoopThroughSVGElement(svgMainDocument, parentElement, parentResourcesElement);
                 xamlDocument.Add(parentElement);
                 return xamlDocument;
             }
@@ -65,16 +67,25 @@ namespace SVG_XAML_Converter_Lib
             Console.WriteLine("Not passed validation" + args.Message);
         }
 
-        private static void LoopThroughSVGElement(XElement element, XElement parent)
+        private static void LoopThroughSVGElement(XElement element, XElement parent, XElement mainResources)
         {
-            XElement mappedElement = Mapper.FindXAMLObjectReference(element);
-            if (mappedElement != null)
-                parent.Add(mappedElement);
+            List<XElement> mappedElements = Mapper.FindXAMLObjectReference(element);
+            foreach (XElement mappedElement in mappedElements)
+            {
+                if (mappedElement != null)
+                {
+                    if (mappedElement.Name.LocalName == "Style")
+                        mainResources.Add(mappedElement);
+                    else
+                        parent.Add(mappedElement);
+                }
+            }
 
             foreach (XElement descendantElement in element.Elements())
             {
-                LoopThroughSVGElement(descendantElement, element.Name.LocalName=="svg" ? parent : mappedElement);
+                LoopThroughSVGElement(descendantElement, element.Name.LocalName == "svg" ? parent : mappedElements.Find(x=>x.Name!="Style"), mainResources);
             }
+
         }
     }
 }
