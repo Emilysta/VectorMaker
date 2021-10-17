@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Mapper.cs" />
+    <Resource Include="MapperToXaml.cs" />
     <Resource Include="SVG.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

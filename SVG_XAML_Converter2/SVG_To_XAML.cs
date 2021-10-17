@@ -9,17 +9,22 @@ namespace SVG_XAML_Converter_Lib
 {
     public static class SVG_To_XAML
     {
+        public static XDocument svgDocument = null;
         public static XDocument ConvertSVGToXamlCode(string fileName)
         {
             XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+            XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
+
             try
             {
                 XDocument document = LoadSVGFile(fileName);
                 if (document == null)
                     throw new Exception();
+                svgDocument = document;
                 XElement svgMainDocument = document.Elements().Where(x => x.Name.LocalName == "svg").First();
                 XDocument xamlDocument = new XDocument();
                 XElement parentElement = new XElement(xNamespace + "Grid");
+                parentElement.SetAttributeValue(XNamespace.Xmlns + "x", m_xNamespace);
                 XElement parentResourcesElement = new XElement(xNamespace + "Grid.Resources");
                 parentElement.Add(parentResourcesElement);
 
@@ -69,21 +74,35 @@ namespace SVG_XAML_Converter_Lib
 
         private static void LoopThroughSVGElement(XElement element, XElement parent, XElement mainResources)
         {
-            List<XElement> mappedElements = Mapper.FindXAMLObjectReference(element);
-            foreach (XElement mappedElement in mappedElements)
+            List<XElement> mappedElements = MapperToXaml.FindXAMLObjectReference(element);
+            XElement parentElementFromMapped = null;
+            if (mappedElements != null)
             {
-                if (mappedElement != null)
+                foreach (XElement mappedElement in mappedElements)
                 {
-                    if (mappedElement.Name.LocalName == "Style")
-                        mainResources.Add(mappedElement);
-                    else
-                        parent.Add(mappedElement);
+                    if (mappedElement != null)
+                    {
+                        if (mappedElement.Name.LocalName == "Style" || mappedElement.Name.LocalName=="DataTemplate")
+                            mainResources.Add(mappedElement);
+                        else
+                            parent.Add(mappedElement);
+                    }
                 }
+                parentElementFromMapped = mappedElements.Find(x => x?.Name.LocalName != "Style");
             }
-
             foreach (XElement descendantElement in element.Elements())
             {
-                LoopThroughSVGElement(descendantElement, element.Name.LocalName == "svg" ? parent : mappedElements.Find(x=>x.Name!="Style"), mainResources);
+
+                if (parentElementFromMapped != null)
+                {
+                    
+                    if(parentElementFromMapped.Name.LocalName == "DataTemplate")
+                        LoopThroughSVGElement(descendantElement, parentElementFromMapped.Elements().Where(x=>x.Name.LocalName=="Canvas").FirstOrDefault(), mainResources);
+                    else
+                        LoopThroughSVGElement(descendantElement, parentElementFromMapped, mainResources);
+                }
+                else
+                    LoopThroughSVGElement(descendantElement, parent, mainResources);
             }
 
         }

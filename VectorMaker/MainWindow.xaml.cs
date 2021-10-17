@@ -76,8 +76,8 @@ namespace VectorMaker
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_selectedObject = new Observable<Path>(SelectionOfObject);
-            m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//Emilia//Desktop//drawing.svg");
-            //m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//rysunek.svg");
+            //m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//Emilia//Desktop//drawing.svg");
+            m_xamlElements = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//UseTest.svg");
             if (m_xamlElements != null)
             {
                 object path = XamlReader.Parse(m_xamlElements.ToString());
@@ -93,6 +93,7 @@ namespace VectorMaker
             base.OnClosed(e);
             Instance = null;
             App.Current.Shutdown();
+            
         }
 
         private void TabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)

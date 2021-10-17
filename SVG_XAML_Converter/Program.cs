@@ -10,9 +10,10 @@ namespace SVG_XAML_Converter
         {
             Console.WriteLine("Hello World!");
             Console.WriteLine("Podaj ścieżkę: ");
-            string line = Console.ReadLine();
-            XDocument document = SVG_To_XAML.ConvertSVGToXamlCode(line);
-            Console.WriteLine(document.ToString());
+            //string line = Console.ReadLine();
+            XDocument document = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//UseTest.svg");
+            if (document != null)
+                Console.WriteLine(document.ToString());
         }
     }
 }

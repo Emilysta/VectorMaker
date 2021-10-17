@@ -161,16 +161,20 @@
                                                   Background="Transparent" Foreground="AntiqueWhite">
                         <Grid>
                             <Grid.Resources>
-                                <Style x:Key="BluePath" TargetType="Path">
-                                    <Setter Property="Fill" Value="Blue"/>
-                                    <Setter Property="StrokeThickness" Value="10"/>
-                                    <Setter Property="Stroke" Value="AliceBlue"/>
-                                    <Setter Property="Data">
-                                        <Setter.Value>
-                                            <LineGeometry StartPoint="0,0" EndPoint="50,50"/>
-                                        </Setter.Value> 
-                                    </Setter>
-                                </Style>
+                                <!--<DataTemplate  x:Key="Control"  >
+                                    <Canvas>
+                                        <Path Fill="Blue">
+                                            <Path.Data>
+                                                <RectangleGeometry RadiusX="5" RadiusY="5" Rect="50,50,50,50"/>
+                                            </Path.Data>
+                                        </Path>
+                                        <Path Fill="Blue">
+                                            <Path.Data>
+                                                <EllipseGeometry RadiusX="5" RadiusY="5" Center="50,50"/>
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </DataTemplate>-->
                             </Grid.Resources>
                             <Border x:Name ="MainCanvasBorder" Height="300" Width="300" 
                                         Background="DarkGray" VerticalAlignment="Center" 
@@ -183,15 +187,6 @@
                             <Canvas x:Name="MainCanvas" Background="Transparent" MouseLeave="MainCanvas_MouseLeave" 
                                         MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                         MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
-                            <!--<Path Style="{StaticResource BluePath}" Fill="Aqua" RenderTransformOrigin="0,0">
-                                <Path.RenderTransform>
-                                    <TransformGroup>
-                                        <TranslateTransform X="700" Y="200"/>
-                                        <TranslateTransform X="0" Y="0"/>
-                                    </TransformGroup>
-                                </Path.RenderTransform>
-                            </Path>-->
-
                         </Grid>
 
                     </mahControls:MetroTabItem>
