@@ -9,6 +9,7 @@
         xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
+        xmlns:pages ="clr-namespace:VectorMaker.Pages"
         Title="MainWindow" Height="810" Width="1440" >
     <Grid Background="#FF2D2D30">
         <!--xmlns:icons = "http://metro.mahapps.com/winfx/xaml/iconpacks"-->
@@ -153,45 +154,18 @@
                     </DataTemplate>
                 </Grid.Resources>
 
-                <mahControls:MetroTabControl x:Name="TabControl1" mahControls:HeaderedControlHelper.HeaderFontSize="12"
+                <mahControls:MetroTabControl x:Name="FilesTabControl" mahControls:HeaderedControlHelper.HeaderFontSize="12"
                     Margin="2" Background="#FF1A1A1A" BorderThickness="0,2,0,0" 
-                                                 BorderBrush="{StaticResource TabControlBorderColor}" 
-                                                 SelectionChanged="TabControl1_SelectionChanged">
-                    <mahControls:MetroTabItem Header="TabItem" CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8" 
-                                                  Background="Transparent" Foreground="AntiqueWhite">
-                        <Grid>
-                            <Grid.Resources>
-                                <!--<DataTemplate  x:Key="Control"  >
-                                    <Canvas>
-                                        <Path Fill="Blue">
-                                            <Path.Data>
-                                                <RectangleGeometry RadiusX="5" RadiusY="5" Rect="50,50,50,50"/>
-                                            </Path.Data>
-                                        </Path>
-                                        <Path Fill="Blue">
-                                            <Path.Data>
-                                                <EllipseGeometry RadiusX="5" RadiusY="5" Center="50,50"/>
-                                            </Path.Data>
-                                        </Path>
-                                    </Canvas>
-                                </DataTemplate>-->
-                            </Grid.Resources>
-                            <Border x:Name ="MainCanvasBorder" Height="300" Width="300" 
-                                        Background="DarkGray" VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center" BorderThickness="1" 
-                                        BorderBrush="Gray" CornerRadius="1">
-                                <Border.Effect>
-                                    <DropShadowEffect/>
-                                </Border.Effect>
-                            </Border>
-                            <Canvas x:Name="MainCanvas" Background="Transparent" MouseLeave="MainCanvas_MouseLeave" 
-                                        MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
-                                        MouseMove="MainCanvas_MouseMove" MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"/>
-                        </Grid>
-
-                    </mahControls:MetroTabItem>
-                    <mahControls:MetroTabItem Header="TabItem"  CloseButtonEnabled="True" CloseButtonMargin="1,8,5,8"
-                                                  Background="Transparent" >
+                    BorderBrush="{StaticResource TabControlBorderColor}" 
+                    SelectionChanged="FilesTabControl_SelectionChanged">
+                    <mahControls:MetroTabControl.Resources>
+                        <Style TargetType="mahControls:MetroTabItem">
+                            <Setter Property="CloseButtonEnabled" Value="True"/>
+                            <Setter Property="CloseButtonMargin" Value="1,8,5,8"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </mahControls:MetroTabControl.Resources>
+                    <mahControls:MetroTabItem Header="ColorPicker">
                         <!--<properties:ObjectProperties></properties:ObjectProperties>-->
                         <controls:ColorPicker Height="460" Width="600"></controls:ColorPicker>
                     </mahControls:MetroTabItem>
