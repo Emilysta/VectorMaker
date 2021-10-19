@@ -14,6 +14,7 @@ namespace SVG_XAML_Converter_Lib
         {
             XNamespace xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
             XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
+            XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options";
 
             try
             {
@@ -25,6 +26,7 @@ namespace SVG_XAML_Converter_Lib
                 XDocument xamlDocument = new XDocument();
                 XElement parentElement = new XElement(xNamespace + "Grid");
                 parentElement.SetAttributeValue(XNamespace.Xmlns + "x", m_xNamespace);
+                parentElement.SetAttributeValue(XNamespace.Xmlns + "PresentationOptions", m_presentationNamespace);
                 XElement parentResourcesElement = new XElement(xNamespace + "Grid.Resources");
                 parentElement.Add(parentResourcesElement);
 

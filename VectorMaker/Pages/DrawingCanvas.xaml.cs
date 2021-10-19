@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Windows.Shapes;
 using System.Windows.Markup;
 using System.Diagnostics;
+using Microsoft.Win32;
+using System;
 
 namespace VectorMaker.Pages
 {
@@ -22,6 +24,10 @@ namespace VectorMaker.Pages
         private Drawable m_drawableObject;
         private PathSettings m_pathSettings;
         private XDocument m_xamlElements = null;
+        private bool m_isSaved = false;
+        private string m_filePath;
+
+        public bool IsSaved => m_isSaved;
 
         public DrawingCanvas()
         {
@@ -35,11 +41,12 @@ namespace VectorMaker.Pages
             InitializeComponent();
             SetProperties();
             XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(fileName);
+            m_filePath = fileName;
             if (document != null)
             {
                 m_xamlElements = document;
                 object path = XamlReader.Parse(m_xamlElements.ToString());
-                Trace.WriteLine(m_xamlElements.ToString());
+                //Trace.WriteLine(m_xamlElements.ToString());
                 //Geometry.Parse()
                 m_mainCanvas.Children.Add(path as UIElement);
             }
@@ -122,6 +129,33 @@ namespace VectorMaker.Pages
         private void EndDrawing()
         {
             m_wasFirstDown = false;
+        }
+
+        public bool SaveToFile()
+        {
+            if (!m_isSaved)
+            {
+                if (m_filePath == "")
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                    saveFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Microsoft XAML File (*.xaml) | *.xaml";
+                    saveFileDialog.FileName = "untilted.xaml";
+                    Nullable<bool> result = saveFileDialog.ShowDialog();
+                    if (result == true)
+                    {
+                        m_xamlElements.Save(saveFileDialog.OpenFile());
+                        m_filePath = saveFileDialog.FileName;
+                        m_isSaved = true;
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                m_xamlElements.Save(m_filePath);
+                return true;
+            }
+            return true;
         }
     }
 }

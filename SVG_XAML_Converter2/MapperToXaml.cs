@@ -20,6 +20,7 @@ namespace SVG_XAML_Converter_Lib
     {
         private static XNamespace m_xmlnsNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         private static XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
+        private static XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"; 
 
         public static List<XElement> FindXAMLObjectReference(XElement svgElement)
         {
@@ -182,12 +183,12 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "style":
                     {
-                        //display warning : style block is not supported
+                        //toDo display warning : style block is not supported
                         break;
                     }
                 case "glyph":
                     {
-                        //depre
+                        //toDo depreceated
                         break;
                     }
                 default:
@@ -210,6 +211,7 @@ namespace SVG_XAML_Converter_Lib
         private static void CreateDefaultPathElement(out XElement pathElement, out XElement pathDataElement)
         {
             pathElement = new XElement(m_xmlnsNamespace + "Path");
+            pathElement.SetAttributeValue(m_presentationNamespace + "Freeze", "true");
             pathElement.SetAttributeValue("Fill", "Black");
             pathDataElement = new XElement(m_xmlnsNamespace + "Path.Data");
             XElement renderTransformElement = new XElement(m_xmlnsNamespace + "Path.RenderTransform");

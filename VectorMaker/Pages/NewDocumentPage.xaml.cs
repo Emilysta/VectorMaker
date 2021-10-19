@@ -1,12 +1,6 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using MahApps.Metro.Controls;
-
+using VectorMaker.Utility;
 
 namespace VectorMaker.Pages
 {
@@ -24,36 +18,19 @@ namespace VectorMaker.Pages
 
         private void OpenDocument_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                char[] splitters = { '/', '\\' };
-                MetroTabItem newItem = new MetroTabItem();
-                newItem.Header = openFileDialog.FileName.Split(splitters).Last();
-                DrawingCanvas page = new DrawingCanvas(openFileDialog.FileName);
-                Trace.WriteLine(openFileDialog.FileName);
-                Frame tabItemFrame = new Frame();
-                tabItemFrame.Content = page;
-                newItem.Content = tabItemFrame;
-
-                MainWindow.Instance.FilesTabControl.Items.Add(newItem);
-
+           if(TabControlManager.OpenExistingDocumentTab())
+           {
                 RemoveParentTabFromControl();
-            }
+           }
+            else
+            {
+                //toDo warning with file error or path
+            } 
         }
 
         private void NewDocument_Click(object sender, RoutedEventArgs e)
         {
-            MetroTabItem newItem = new MetroTabItem();
-            newItem.Header = "untilted.svg";
-            DrawingCanvas page = new DrawingCanvas();
-
-            Frame tabItemFrame = new Frame();
-            tabItemFrame.Content = page;
-            newItem.Content = tabItemFrame;
-
-            MainWindow.Instance.FilesTabControl.Items.Add(newItem);
+            TabControlManager.OpenNewDocumentTab();
             RemoveParentTabFromControl();
         }
 
