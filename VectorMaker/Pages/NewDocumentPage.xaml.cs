@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using VectorMaker.Utility;
 
@@ -9,36 +10,23 @@ namespace VectorMaker.Pages
     /// </summary>
     public partial class NewDocumentPage : Page
     {
-        TabItem parentTabItem;
-        public NewDocumentPage(TabItem item)
+        public NewDocumentPage()
         {
             InitializeComponent();
-            parentTabItem = item;
         }
 
         private void OpenDocument_Click(object sender, RoutedEventArgs e)
         {
-           if(TabControlManager.OpenExistingDocumentTab())
-           {
-                RemoveParentTabFromControl();
-           }
-            else
+            if (!TabControlManager.OpenExistingDocumentTab())
             {
+                Trace.WriteLine("brlbelr");
                 //toDo warning with file error or path
-            } 
+            }
         }
 
         private void NewDocument_Click(object sender, RoutedEventArgs e)
         {
             TabControlManager.OpenNewDocumentTab();
-            RemoveParentTabFromControl();
-        }
-
-        private void RemoveParentTabFromControl()
-        {
-            MainWindow.Instance.FilesTabControl.Items.Remove(parentTabItem);
-            MainWindow.Instance.FilesTabControl.Items.Refresh();
-            parentTabItem = null;
         }
     }
 }

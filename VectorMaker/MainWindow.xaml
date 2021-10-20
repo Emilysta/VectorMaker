@@ -8,9 +8,9 @@
         xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-        xmlns:pages ="clr-namespace:VectorMaker.Pages"
-        xmlns:Utility="clr-namespace:VectorMaker.Utility" x:Class="VectorMaker.MainWindow"
+        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:Utility="clr-namespace:VectorMaker.Utility"
+        xmlns:Pages="clr-namespace:VectorMaker.Pages"
+        x:Class="VectorMaker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
     <Grid Background="#FF2D2D30">
@@ -138,27 +138,10 @@
             </Grid>
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch">
-                <Grid.Resources>
-                    <DataTemplate x:Key="CustomHeaderTemplate">
-                        <DockPanel LastChildFill="True">
-                            <Button Content="X" DockPanel.Dock="Right"
-                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}"
-                            CommandParameter="{Binding ID}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Label FontWeight="Bold" Content="X" />
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Label Content="{Binding ID}" />
-                        </DockPanel>
-                    </DataTemplate>
-                </Grid.Resources>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
+                <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Visible"/>
                 <mahControls:MetroTabControl x:Name="FilesTabControl" mahControls:HeaderedControlHelper.HeaderFontSize="12"
                     Margin="2" Background="#FF1A1A1A" BorderThickness="0,2,0,0" 
                     SelectionChanged="FilesTabControl_SelectionChanged">
@@ -179,15 +162,6 @@
                     <mahControls:MetroTabControl.BorderBrush>
                         <StaticResource ResourceKey="TabControlBorderColor"/>
                     </mahControls:MetroTabControl.BorderBrush>
-                    <mahControls:MetroTabItem Header="ColorPicker">
-                        <!--<properties:ObjectProperties></properties:ObjectProperties>-->
-                        <controls:ColorPicker Height="460" Width="600"/>
-                    </mahControls:MetroTabItem>
-                    <mahControls:MetroTabItem Header="ColorPicker2" >
-                        <!--<properties:ObjectProperties></properties:ObjectProperties>-->
-                        <!--<Frame Source="pages/PagesDrawingCanvas.xaml"/>-->
-                    </mahControls:MetroTabItem>
-
                 </mahControls:MetroTabControl>
             </Grid>
         </DockPanel>

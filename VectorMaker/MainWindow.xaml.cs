@@ -51,17 +51,8 @@ namespace VectorMaker
             this.DataContext = this;
             InitializeComponent();
             m_selectedObject = new Observable<Path>(SelectionOfObject);
-            MetroTabItem newItem = new MetroTabItem();
-            newItem.CloseButtonEnabled = false;
-            newItem.Header = "New Document";
-            NewDocumentPage page = new NewDocumentPage(newItem);
-            Frame tabItemFrame = new Frame();
-            tabItemFrame.Content = page;
-            newItem.Content = tabItemFrame;
-
-            FilesTabControl.Items.Add(newItem);
-            FilesTabControl.Items.Refresh();
             Instance = this;
+            TabControlManager.RunOpenVisibilityCheck();
         }
 
         protected override void OnClosed(EventArgs e)

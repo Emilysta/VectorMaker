@@ -8,6 +8,9 @@ using System.Windows.Markup;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System;
+using System.Windows.Input;
+using VectorMaker.Utility;
+using System.Windows.Media;
 
 namespace VectorMaker.Pages
 {
@@ -24,8 +27,11 @@ namespace VectorMaker.Pages
         private Drawable m_drawableObject;
         private PathSettings m_pathSettings;
         private XDocument m_xamlElements = null;
-        private bool m_isSaved = false;
+        private bool m_isSaved = true;
         private string m_filePath;
+        public Scaler scaler;
+
+
 
         public bool IsSaved => m_isSaved;
 
@@ -33,6 +39,9 @@ namespace VectorMaker.Pages
         {
             InitializeComponent();
             SetProperties();
+            ScaleTransform scaleTransform = new ScaleTransform(1, 1);
+            MainCanvas.RenderTransform = scaleTransform;
+            scaler = new Scaler(scaleTransform);
         }
 
 
@@ -50,6 +59,7 @@ namespace VectorMaker.Pages
                 //Geometry.Parse()
                 m_mainCanvas.Children.Add(path as UIElement);
             }
+
         }
 
         private void SetProperties()
@@ -60,14 +70,17 @@ namespace VectorMaker.Pages
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
+            ScaleTransform scaleTransform = new ScaleTransform(1, 1);
+            MainCanvas.LayoutTransform = scaleTransform;
+            scaler = new Scaler(scaleTransform);
         }
 
-        private void MainCanvas_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
         {
             EndDrawing();
         }
 
-        private void MainCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!MainWindow.Instance.IgnoreDrawingGrometries)
             {
@@ -108,13 +121,13 @@ namespace VectorMaker.Pages
             }
         }
 
-        private void MainCanvas_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             EndDrawing();
         }
 
 
-        private void MainCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             m_positionInCanvas.X = e.GetPosition(m_mainCanvas).X;
             m_positionInCanvas.Y = e.GetPosition(m_mainCanvas).Y;
@@ -123,6 +136,21 @@ namespace VectorMaker.Pages
 
                 m_drawableObject.AddPointToList(m_positionInCanvas);
                 m_mainCanvas.InvalidateVisual();
+            }
+        }
+
+        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            switch (Keyboard.Modifiers)
+            {
+                case ModifierKeys.Control:
+                    {
+                        if (e.Delta > 0)
+                            scaler.ZoomIn();
+                        else if (e.Delta < 0)
+                            scaler.ZoomOut();
+                        break;
+                    }
             }
         }
 
@@ -157,5 +185,9 @@ namespace VectorMaker.Pages
             }
             return true;
         }
+
+
+
+
     }
 }
