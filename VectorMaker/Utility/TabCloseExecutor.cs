@@ -36,7 +36,6 @@ namespace VectorMaker.Utility
 
         public void Execute(object parameter)
         {
-            Trace.WriteLine("CloseButtonExecute");
             RunCloseVisibilityCheck();
         }
 

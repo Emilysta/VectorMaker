@@ -19,7 +19,6 @@ namespace VectorMaker.Pages
     /// </summary>
     public partial class DrawingCanvas : Page
     {
-        private Border m_mainCanvasBorder;
         private Canvas m_mainCanvas;
         private Point m_positionInCanvas;
         private List<Path> m_listOfPaths;
@@ -29,9 +28,7 @@ namespace VectorMaker.Pages
         private XDocument m_xamlElements = null;
         private bool m_isSaved = true;
         private string m_filePath;
-        public Scaler scaler;
-
-
+        public ViewportController viewportController;
 
         public bool IsSaved => m_isSaved;
 
@@ -39,11 +36,7 @@ namespace VectorMaker.Pages
         {
             InitializeComponent();
             SetProperties();
-            ScaleTransform scaleTransform = new ScaleTransform(1, 1);
-            MainCanvas.RenderTransform = scaleTransform;
-            scaler = new Scaler(scaleTransform);
         }
-
 
         public DrawingCanvas(string fileName)
         {
@@ -55,8 +48,6 @@ namespace VectorMaker.Pages
             {
                 m_xamlElements = document;
                 object path = XamlReader.Parse(m_xamlElements.ToString());
-                //Trace.WriteLine(m_xamlElements.ToString());
-                //Geometry.Parse()
                 m_mainCanvas.Children.Add(path as UIElement);
             }
 
@@ -65,14 +56,12 @@ namespace VectorMaker.Pages
         private void SetProperties()
         {
             m_mainCanvas = MainCanvas;
-            m_mainCanvasBorder = MainCanvasBorder;
+            //m_mainCanvasBorder = MainCanvasBorder;
             m_positionInCanvas = new Point(0, 0);
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
-            ScaleTransform scaleTransform = new ScaleTransform(1, 1);
-            MainCanvas.LayoutTransform = scaleTransform;
-            scaler = new Scaler(scaleTransform);
+            viewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
         }
 
         private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
@@ -139,20 +128,6 @@ namespace VectorMaker.Pages
             }
         }
 
-        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            switch (Keyboard.Modifiers)
-            {
-                case ModifierKeys.Control:
-                    {
-                        if (e.Delta > 0)
-                            scaler.ZoomIn();
-                        else if (e.Delta < 0)
-                            scaler.ZoomOut();
-                        break;
-                    }
-            }
-        }
 
         private void EndDrawing()
         {
@@ -186,8 +161,14 @@ namespace VectorMaker.Pages
             return true;
         }
 
+        private void ZoomScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            viewportController.ScrollViewerChanged(e);
+        }
 
-
-
+        private void ZoomScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            viewportController.MouseWheel(e);
+        }
     }
 }

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VectorMaker.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="650" d:DesignWidth="1400"
       Title="DrawingCanvas">
     <Page.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
@@ -15,23 +15,37 @@
             <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
             <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
         </Grid.Resources>
-        <Border x:Name ="MainCanvasBorder" Height="300" Width="300" 
-                                        Background="DarkGray" VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center" BorderThickness="1" 
-                                        BorderBrush="Gray" CornerRadius="1">
-            <Border.Effect>
-                <DropShadowEffect/>
-            </Border.Effect>
-        </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible" 
+                      x:Name="ZoomScrollViewer"
+                      ScrollChanged="ZoomScrollViewer_ScrollChanged"
+                      PreviewMouseWheel="ZoomScrollViewer_MouseWheel">
+            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
 
-        <Canvas x:Name="MainCanvas" Background="Transparent"
-                            MouseLeave="MainCanvas_MouseLeave" 
-                            MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
-                            MouseMove="MainCanvas_MouseMove" 
-                            MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
-                            MouseWheel="MainCanvas_MouseWheel"
-                            ScrollViewer.CanContentScroll="True" 
-                            ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                <Canvas x:Name="MainCanvas" 
+                                MouseLeave="MainCanvas_MouseLeave" 
+                                MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+                                MouseMove="MainCanvas_MouseMove" 
+                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp">
+                    <Canvas.Background>
+                        <DrawingBrush TileMode="None" Stretch="None">
+                            <DrawingBrush.Drawing>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0,0,300,300"/>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Pen>
+                                        <Pen Brush="AliceBlue"/>
+                                    </GeometryDrawing.Pen>
+                                    <GeometryDrawing.Brush>
+                                        <VisualBrush></VisualBrush>
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Canvas.Background>
+                </Canvas>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
