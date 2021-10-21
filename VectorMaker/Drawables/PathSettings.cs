@@ -70,5 +70,18 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+        public static PathSettings Default()
+        {
+            return new PathSettings();
+        }
+
+        public static PathSettings SelectionSettings()
+        {
+            PathSettings pathSettings = new PathSettings();
+            pathSettings.Fill = Brushes.Transparent;
+            pathSettings.Stroke = Brushes.LightGray;
+            pathSettings.StrokeThickness = 1f;
+            return pathSettings;
+        }
     }
 }

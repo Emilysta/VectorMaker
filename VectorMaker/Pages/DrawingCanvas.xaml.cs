@@ -11,6 +11,8 @@ using System;
 using System.Windows.Input;
 using VectorMaker.Utility;
 using System.Windows.Media;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 
 namespace VectorMaker.Pages
 {
@@ -28,6 +30,9 @@ namespace VectorMaker.Pages
         private XDocument m_xamlElements = null;
         private bool m_isSaved = true;
         private string m_filePath;
+        private Drawable m_selectionObject;
+        private Path m_selectionObjectPath;
+        private List<SelectedVisual> m_selectedObjects;
         public ViewportController viewportController;
 
         public bool IsSaved => m_isSaved;
@@ -62,6 +67,9 @@ namespace VectorMaker.Pages
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
             viewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
+            m_selectedObjects = new List<SelectedVisual>();
+            m_selectionObjectPath = new Path();
+            m_mainCanvas.Children.Add(m_selectionObjectPath);
         }
 
         private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
@@ -108,11 +116,39 @@ namespace VectorMaker.Pages
                     }
                 }
             }
+            else
+            {
+                switch (MainWindow.Instance.DrawableType)
+                {
+                    case DrawableTypes.SelectionTool:
+                        {
+                            m_wasFirstDown = true;
+                            m_selectionObject = new DrawableRectangle(PathSettings.SelectionSettings());
+                            m_selectionObjectPath = m_selectionObject.SetStartPoint(m_positionInCanvas);
+                            break;
+                        }
+                    case DrawableTypes.EditPointSelectionTool:
+                        {
+                            m_wasFirstDown = true;
+                            m_selectionObject = new DrawableRectangle(PathSettings.SelectionSettings());
+                            m_selectionObjectPath = m_selectionObject.SetStartPoint(m_positionInCanvas);
+                            break;
+                        }
+                    case DrawableTypes.None:
+                        {
+                            m_selectionObject = null;
+                            break;
+                        }
+                }
+            }
         }
 
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            EndDrawing();
+            if (!MainWindow.Instance.IgnoreDrawingGrometries)
+                EndDrawing();
+            else if (MainWindow.Instance.DrawableType != DrawableTypes.None)
+                SelectionTest(e.GetPosition(m_mainCanvas));
         }
 
 
@@ -122,8 +158,10 @@ namespace VectorMaker.Pages
             m_positionInCanvas.Y = e.GetPosition(m_mainCanvas).Y;
             if (m_wasFirstDown && m_drawableObject != null)
             {
-
-                m_drawableObject.AddPointToList(m_positionInCanvas);
+                if (MainWindow.Instance.IgnoreDrawingGrometries == true)
+                    m_selectionObject.AddPointToList(m_positionInCanvas);
+                else
+                    m_drawableObject.AddPointToList(m_positionInCanvas);
                 m_mainCanvas.InvalidateVisual();
             }
         }
@@ -132,6 +170,43 @@ namespace VectorMaker.Pages
         private void EndDrawing()
         {
             m_wasFirstDown = false;
+        }
+
+        private void SelectionTest(Point e)
+        {
+            if (!(Keyboard.Modifiers == ModifierKeys.Shift))
+            {
+                //foreach (SelectedVisual visual in m_selectedObjects)
+                //    visual.RemoveSelection();
+                //m_selectedObjects.Clear();
+            }
+
+            //if(m_selectionObject)
+
+            // Set up a callback to receive the hit test result enumeration.
+            VisualTreeHelper.HitTest(MainCanvas, null,
+                HitTestResultCallback,
+                new PointHitTestParameters(e));
+
+            // Perform actions on the hit test results list.
+            //if (m_selectedObjects.Count > 0)
+            //{
+            //    foreach (Visual visual in m_selectedObjects)
+            //    {
+            //        DrawObjectBoundries(visual);
+            //    }
+            //}
+        }
+
+        private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
+        {
+            PointHitTestResult testResult = result as PointHitTestResult;
+            if ((testResult.VisualHit as FrameworkElement).Parent != ScaleParent)
+            {
+                //m_selectedObjects.Add(new SelectedVisual(testResult.VisualHit,m_mainCanvas));
+                return HitTestResultBehavior.Stop;
+            }
+            return HitTestResultBehavior.Continue;
         }
 
         public bool SaveToFile()

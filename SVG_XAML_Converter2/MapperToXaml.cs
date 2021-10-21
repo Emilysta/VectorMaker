@@ -211,7 +211,7 @@ namespace SVG_XAML_Converter_Lib
         private static void CreateDefaultPathElement(out XElement pathElement, out XElement pathDataElement)
         {
             pathElement = new XElement(m_xmlnsNamespace + "Path");
-            pathElement.SetAttributeValue(m_presentationNamespace + "Freeze", "true");
+            //pathElement.SetAttributeValue(m_presentationNamespace + "Freeze", "true");
             pathElement.SetAttributeValue("Fill", "Black");
             pathDataElement = new XElement(m_xmlnsNamespace + "Path.Data");
             XElement renderTransformElement = new XElement(m_xmlnsNamespace + "Path.RenderTransform");

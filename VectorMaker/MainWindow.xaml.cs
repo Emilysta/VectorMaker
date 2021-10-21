@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using VectorMaker.Pages;
 using MahApps.Metro.Controls;
 using VectorMaker.Utility;
+using System.Windows.Documents;
 
 namespace VectorMaker
 {
@@ -83,7 +84,7 @@ namespace VectorMaker
 
         private void SelectItemButton_Click(object sender, RoutedEventArgs e)
         {
-            DrawableType = DrawableTypes.None;
+            DrawableType = DrawableTypes.SelectionTool;
             m_ignoreDrawingGeometries = true;
         }
 

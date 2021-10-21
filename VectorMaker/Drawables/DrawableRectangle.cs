@@ -25,5 +25,12 @@ namespace VectorMaker.Drawables
             m_rectangleGeometry.Rect = new Rect(m_startPoint,m_startPoint);
             m_size = m_rectangleGeometry.Rect.Size;
         }
+
+        public Point? GetEndPoint()
+        {
+            if (m_endPoint.X == 0 && m_endPoint.Y == 0)
+                return null;
+            return m_endPoint;
+        }
     }
 }

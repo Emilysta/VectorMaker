@@ -22,11 +22,12 @@
                       PreviewMouseWheel="ZoomScrollViewer_MouseWheel">
             <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
 
-                <Canvas x:Name="MainCanvas" 
+                <Canvas x:Name="MainCanvas"
                                 MouseLeave="MainCanvas_MouseLeave" 
                                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                 MouseMove="MainCanvas_MouseMove" 
-                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp">
+                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
+                          >
                     <Canvas.Background>
                         <DrawingBrush TileMode="None" Stretch="None">
                             <DrawingBrush.Drawing>

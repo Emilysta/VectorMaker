@@ -22,6 +22,8 @@ namespace VectorMaker.Drawables
     public enum DrawableTypes
     { 
         None,
+        SelectionTool,
+        EditPointSelectionTool,
         Rectangle,
         Geometry,
         Ellipse,
@@ -83,6 +85,11 @@ namespace VectorMaker.Drawables
         {
             Trace.WriteLine("Object Clicked " + m_geometryToDraw.ToString());
             MainWindow.Instance.SelectedObejct = m_path;
+        }
+
+        public Geometry GetGeometry()
+        {
+            return m_geometryToDraw;
         }
     }
 }
