@@ -26,7 +26,6 @@ namespace SVG_XAML_Converter_Lib
                 XDocument xamlDocument = new XDocument();
                 XElement parentElement = new XElement(xNamespace + "Grid");
                 parentElement.SetAttributeValue(XNamespace.Xmlns + "x", m_xNamespace);
-                parentElement.SetAttributeValue(XNamespace.Xmlns + "PresentationOptions", m_presentationNamespace);
                 XElement parentResourcesElement = new XElement(xNamespace + "Grid.Resources");
                 parentElement.Add(parentResourcesElement);
 

@@ -564,7 +564,7 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="a+"/>
-            <xs:pattern value="\d{1,4}\s\d{1,4}\s\d{1,4}\s\d{1,4}\s*"/>
+            <xs:pattern value="[-]\d{1,4}\s[-]\d{1,4}\s\d{1,4}\s\d{1,4}\s*"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- attribute xs:groups -->

@@ -141,6 +141,20 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <!--<Style x:Key="rectanglemy" TargetType="Rectangle">
+                        <Setter Property="Fill" Value="AntiqueWhite"/>
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Height" Value="200"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <TransformGroup>
+                                    <TranslateTransform X="20" Y="100"/>
+                                </TransformGroup>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>-->
+                </Grid.Resources>
                 <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Visible"/>
                 <mahControls:MetroTabControl x:Name="FilesTabControl" mahControls:HeaderedControlHelper.HeaderFontSize="12"
                     Margin="2" Background="#FF1A1A1A" BorderThickness="0,2,0,0" 

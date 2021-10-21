@@ -32,7 +32,7 @@ namespace VectorMaker.Pages
         private string m_filePath;
         private Drawable m_selectionObject;
         private Path m_selectionObjectPath;
-        private List<SelectedVisual> m_selectedObjects;
+        private List<ResizingAdorner> m_selectedObjects;
         public ViewportController viewportController;
 
         public bool IsSaved => m_isSaved;
@@ -67,7 +67,7 @@ namespace VectorMaker.Pages
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
             viewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
-            m_selectedObjects = new List<SelectedVisual>();
+            m_selectedObjects = new List<ResizingAdorner>();
             m_selectionObjectPath = new Path();
             m_mainCanvas.Children.Add(m_selectionObjectPath);
         }
@@ -176,12 +176,13 @@ namespace VectorMaker.Pages
         {
             if (!(Keyboard.Modifiers == ModifierKeys.Shift))
             {
-                //foreach (SelectedVisual visual in m_selectedObjects)
-                //    visual.RemoveSelection();
-                //m_selectedObjects.Clear();
+                foreach (ResizingAdorner adorner in m_selectedObjects)
+                {
+                    adorner.RemoveFromAdornerLayer();
+                }
+                m_selectedObjects.Clear();
             }
 
-            //if(m_selectionObject)
 
             // Set up a callback to receive the hit test result enumeration.
             VisualTreeHelper.HitTest(MainCanvas, null,
@@ -203,6 +204,10 @@ namespace VectorMaker.Pages
             PointHitTestResult testResult = result as PointHitTestResult;
             if ((testResult.VisualHit as FrameworkElement).Parent != ScaleParent)
             {
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
+                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer);
+                adornerLayer.Add(adorner);
+                m_selectedObjects.Add(adorner);
                 //m_selectedObjects.Add(new SelectedVisual(testResult.VisualHit,m_mainCanvas));
                 return HitTestResultBehavior.Stop;
             }
