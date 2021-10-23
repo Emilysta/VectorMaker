@@ -177,6 +177,17 @@
                         <StaticResource ResourceKey="TabControlBorderColor"/>
                     </mahControls:MetroTabControl.BorderBrush>
                 </mahControls:MetroTabControl>
+
+                <!--<Rectangle Fill="Blue" RenderTransformOrigin="0,0">
+                    <Rectangle.RenderTransform >
+                        <TransformGroup >
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="10"/>
+                            <RotateTransform Angle="1.072"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>-->
             </Grid>
         </DockPanel>
     </Grid>

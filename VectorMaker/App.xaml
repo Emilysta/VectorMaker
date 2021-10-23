@@ -19,29 +19,47 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Magenta.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="DragThumb" TargetType="{x:Type Thumb}">
-                <Setter Property="SnapsToDevicePixels"
-          Value="true" />
-                <Setter Property="OverridesDefaultStyle"
-          Value="true" />
-                <Setter Property="Height"
-          Value="14" />
-                <Setter Property="Width"
-          Value="14" />
+            <Style x:Key="RotateThumb" TargetType="{x:Type Thumb}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Height" Value="20" />
+                <Setter Property="Width" Value="20" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}" >
-                            <StackPanel Width="10" Height="10">
-                                <iconPacks:FontAwesome Kind="ArrowsAltSolid" Width="10" Height="10"/>
+                            <StackPanel>
+                                <iconPacks:PackIconMaterialDesign Kind="RotateLeft" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Foreground="AliceBlue"/>
                             </StackPanel>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
-            <ControlTemplate TargetType="{x:Type Thumb}" x:Key="ThumbTemplate">
-                <Rectangle Width="10" Height="10" Fill="Blue">
-                </Rectangle>
-            </ControlTemplate>
+
+            <Style x:Key="DragThumb" TargetType="{x:Type Thumb}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}" >
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="Transparent" Stroke="#28C2E0" StrokeThickness="2" StrokeDashArray="2 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style x:Key="ResizeThumb" TargetType="{x:Type Thumb}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}" >
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="#28C2E0" Stroke="#28C2E0" StrokeThickness="1"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
         
     </Application.Resources>
