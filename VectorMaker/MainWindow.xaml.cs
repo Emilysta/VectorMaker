@@ -10,6 +10,9 @@ using VectorMaker.Pages;
 using MahApps.Metro.Controls;
 using VectorMaker.Utility;
 using System.Windows.Documents;
+using AvalonDock;
+using System.Linq;
+using AvalonDock.Layout;
 
 namespace VectorMaker
 {
@@ -54,6 +57,7 @@ namespace VectorMaker
             m_selectedObject = new Observable<Path>(SelectionOfObject);
             Instance = this;
             TabControlManager.RunOpenVisibilityCheck();
+            ChangeColor();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -139,21 +143,57 @@ namespace VectorMaker
 
         private void SaveDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame frame = FilesTabControl.SelectedContent as Frame;
-            DrawingCanvas drawingCanvas = frame?.Content as DrawingCanvas;
-            if (drawingCanvas != null)
-            {
-                if (!drawingCanvas.SaveToFile())
-                {
-                    //toDo open Dialog with warning
-                }
-            }
-
+            //Frame frame = FilesTabControl.SelectedContent as Frame;
+            //DrawingCanvas drawingCanvas = frame?.Content as DrawingCanvas;
+            //if (drawingCanvas != null)
+            //{
+            //    if (!drawingCanvas.SaveToFile())
+            //    {
+            //        //toDo open Dialog with warning
+            //    }
+            //}
         }
 
         private void SaveAllDocumentsButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void TransformToolMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (TransformTool.IsHidden)
+                TransformTool.Show();
+            else if (TransformTool.IsVisible)
+                TransformTool.IsActive = true;
+            else
+                TransformTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+        }
+
+        private void PropertiesToolMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (PropertiesTool.IsHidden)
+                PropertiesTool.Show();
+            else if (PropertiesTool.IsVisible)
+                PropertiesTool.IsActive = true;
+            else
+                PropertiesTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+        }
+
+        private void ColorPickerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (ColorPicker.IsHidden)
+                ColorPicker.Show();
+            else if (ColorPicker.IsVisible)
+                ColorPicker.IsActive = true;
+            else
+                ColorPicker.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+        }
+
+        public void ChangeColor()
+        {
+            System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
+            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
+            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
         }
     }
 }

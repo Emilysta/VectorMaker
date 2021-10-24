@@ -239,5 +239,19 @@ namespace VectorMaker.ControlsResources
         {
             
         }
+
+        private void HSLToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            RGBToggleButton.IsChecked = false;
+            RGBProperties.Visibility = Visibility.Hidden;
+            HSLProperties.Visibility = Visibility.Visible;
+        }
+
+        private void RGBToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            HSVToggleButton.IsChecked = false;
+            RGBProperties.Visibility = Visibility.Visible;
+            HSLProperties.Visibility = Visibility.Hidden;
+        }
     }
 }

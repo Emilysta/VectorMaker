@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using AvalonDock.Layout;
+using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Linq;
@@ -35,30 +36,31 @@ namespace VectorMaker.Utility
 
         public static void RunOpenVisibilityCheck()
         {
-            if (TabCloseExecutor.filesTabControl.Items.Count >= 1)
+            if (MainWindow.Instance.DocumentPaneGroup.Children.Count <= 0)
             {
-                TabCloseExecutor.newDocumentFrame.Visibility = System.Windows.Visibility.Hidden;
-                TabCloseExecutor.filesTabControl.Visibility = System.Windows.Visibility.Visible;
+                MainWindow.Instance.DockingManager.Visibility = System.Windows.Visibility.Hidden;
+                MainWindow.Instance.NewDocumentFrame.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                TabCloseExecutor.newDocumentFrame.Visibility = System.Windows.Visibility.Visible;
-                TabCloseExecutor.filesTabControl.Visibility = System.Windows.Visibility.Hidden;
+                MainWindow.Instance.DockingManager.Visibility = System.Windows.Visibility.Visible;
+                MainWindow.Instance.NewDocumentFrame.Visibility = System.Windows.Visibility.Hidden;
             }
+
         }
 
         private static void CreateAndAddTabItem(DrawingCanvas page, string header)
         {
-            page.Width = double.NaN;
-            page.Height = double.NaN;
-            MetroTabItem newItem = new MetroTabItem();
-            newItem.Header = header;
-            Frame tabItemFrame = new Frame();
-            tabItemFrame.Content = page;
-            newItem.Content = tabItemFrame;
-            MainWindow.Instance.FilesTabControl.Items.Add(newItem);
+            Frame frame = new Frame();
+            frame.Content = page;
+            LayoutDocument layoutDocument = new LayoutDocument();
+            layoutDocument.Content = frame;
+            layoutDocument.ContentId = header;
+            layoutDocument.Title = header;
+            layoutDocument.IsSelected = true;
+            layoutDocument.Closed += (a,b) => RunOpenVisibilityCheck();
+            MainWindow.Instance.DocumentPaneGroup.Children.Add(layoutDocument);
             RunOpenVisibilityCheck();
-            MainWindow.Instance.FilesTabControl.SelectedItem = newItem;
         }
     }
 }

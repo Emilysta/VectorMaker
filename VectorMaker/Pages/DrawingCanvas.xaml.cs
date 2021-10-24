@@ -11,15 +11,17 @@ using System;
 using System.Windows.Input;
 using VectorMaker.Utility;
 using System.Windows.Media;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using VectorMaker.PropertiesPanel;
 
 namespace VectorMaker.Pages
 {
     /// <summary>
     /// Logika interakcji dla klasy Page1.xaml
     /// </summary>
-    public partial class DrawingCanvas : Page
+    public partial class DrawingCanvas : Page, INotifyPropertyChanged
     {
         private Canvas m_mainCanvas;
         private Point m_positionInCanvas;
@@ -32,8 +34,13 @@ namespace VectorMaker.Pages
         private string m_filePath;
         private Drawable m_selectionObject;
         private Path m_selectionObjectPath;
-        private List<ResizingAdorner> m_selectedObjects;
+        private ObservableCollection<ResizingAdorner> m_selectedObjects;
         public ViewportController viewportController;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<ResizingAdorner> SelectedObjects => m_selectedObjects;
+
 
         public bool IsSaved => m_isSaved;
 
@@ -55,7 +62,6 @@ namespace VectorMaker.Pages
                 object path = XamlReader.Parse(m_xamlElements.ToString());
                 m_mainCanvas.Children.Add(path as UIElement);
             }
-
         }
 
         private void SetProperties()
@@ -67,8 +73,9 @@ namespace VectorMaker.Pages
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
             viewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
-            m_selectedObjects = new List<ResizingAdorner>();
             m_selectionObjectPath = new Path();
+            m_selectedObjects = new ObservableCollection<ResizingAdorner>();
+            m_selectedObjects.CollectionChanged += MainWindow.Instance.ObjectTransforms.SelectedObjectsChanged;
             m_mainCanvas.Children.Add(m_selectionObjectPath);
         }
 
@@ -183,20 +190,9 @@ namespace VectorMaker.Pages
                 m_selectedObjects.Clear();
             }
 
-
-            // Set up a callback to receive the hit test result enumeration.
             VisualTreeHelper.HitTest(MainCanvas, null,
                 HitTestResultCallback,
                 new PointHitTestParameters(e));
-
-            // Perform actions on the hit test results list.
-            //if (m_selectedObjects.Count > 0)
-            //{
-            //    foreach (Visual visual in m_selectedObjects)
-            //    {
-            //        DrawObjectBoundries(visual);
-            //    }
-            //}
         }
 
         private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
@@ -208,7 +204,6 @@ namespace VectorMaker.Pages
                 ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer);
                 adornerLayer.Add(adorner);
                 m_selectedObjects.Add(adorner);
-                //m_selectedObjects.Add(new SelectedVisual(testResult.VisualHit,m_mainCanvas));
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
@@ -249,6 +244,14 @@ namespace VectorMaker.Pages
         private void ZoomScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             viewportController.MouseWheel(e);
+        }
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if(this.PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

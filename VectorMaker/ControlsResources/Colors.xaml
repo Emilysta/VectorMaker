@@ -4,6 +4,7 @@
     <Color x:Key="MagentaBaseColor">#FFC1125B</Color>
     <SolidColorBrush x:Key="MagentaBaseBrush">#FFC1125B</SolidColorBrush>
     <SolidColorBrush x:Key="DarkGreyBrush">#373737</SolidColorBrush>
+    <SolidColorBrush x:Key="MediumGreyBrush">#454545</SolidColorBrush>
     <SolidColorBrush x:Key="LightGreyBrush">#606060</SolidColorBrush>
     <Color x:Key="DarkGreyColor">#373737</Color>
     <Color x:Key="LightGreyColor">#606060</Color>

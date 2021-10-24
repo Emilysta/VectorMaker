@@ -6,11 +6,9 @@
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
         xmlns:languages ="clr-namespace:VectorMaker.Languages" 
         xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
-        xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:Utility="clr-namespace:VectorMaker.Utility"
-        xmlns:Pages="clr-namespace:VectorMaker.Pages"
-        x:Class="VectorMaker.MainWindow"
+        xmlns:docks="https://github.com/Dirkster99/AvalonDock"
+    x:Class="VectorMaker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
     <Grid Background="#FF2D2D30">
@@ -39,8 +37,11 @@
                     <MenuItem Header="Layer" />
                     <MenuItem Header="Filter" />
                     <MenuItem Header="Select" />
-                    <MenuItem Header="View" />
-                    <MenuItem Header="Window" />
+                    <MenuItem Header="Tools" >
+                        <MenuItem Header="Transform Tool" Click="TransformToolMenuItem_Click"/>
+                        <MenuItem Header="Fill &amp; Stroke Properties Tool" Click="PropertiesToolMenuItem_Click"/>
+                        <MenuItem Header="Color Picker" Click="ColorPickerMenuItem_Click"/>
+                    </MenuItem>
                     <MenuItem Header="Help" />
                     <MenuItem Header="" />
                 </Menu>
@@ -112,7 +113,6 @@
                 <TextBox x:Name="StrokeTextBox" Grid.Column="2" Margin="3"/>
                 <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>
             </Grid>
-
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
                 <Menu Background="#FF2D2D30">
@@ -138,57 +138,52 @@
             </Grid>
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <!--<Style x:Key="rectanglemy" TargetType="Rectangle">
-                        <Setter Property="Fill" Value="AntiqueWhite"/>
-                        <Setter Property="Width" Value="100"/>
-                        <Setter Property="Height" Value="200"/>
-                        <Setter Property="RenderTransform">
-                            <Setter.Value>
-                                <TransformGroup>
-                                    <TranslateTransform X="20" Y="100"/>
-                                </TransformGroup>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>-->
-                </Grid.Resources>
                 <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Visible"/>
-                <mahControls:MetroTabControl x:Name="FilesTabControl" mahControls:HeaderedControlHelper.HeaderFontSize="12"
-                    Margin="2" Background="#FF1A1A1A" BorderThickness="0,2,0,0" 
-                    SelectionChanged="FilesTabControl_SelectionChanged">
-                    <mahControls:MetroTabControl.Resources>
-                        <Style TargetType="{x:Type mahControls:MetroTabItem}">
-                            <Setter Property="CloseButtonEnabled" Value="True"/>
-                            <Setter Property="CloseButtonMargin" Value="1,8,5,8"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="CloseTabCommand">
-                                <Setter.Value>
-                                    <Utility:TabCloseExecutor/>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="CloseTabCommandParameter" 
-                                    Value="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                        </Style>
-                    </mahControls:MetroTabControl.Resources>
-                    <mahControls:MetroTabControl.BorderBrush>
-                        <StaticResource ResourceKey="TabControlBorderColor"/>
-                    </mahControls:MetroTabControl.BorderBrush>
-                </mahControls:MetroTabControl>
-
-                <!--<Rectangle Fill="Blue" RenderTransformOrigin="0,0">
-                    <Rectangle.RenderTransform >
-                        <TransformGroup >
-                            <ScaleTransform/>
-                            <SkewTransform AngleX="10"/>
-                            <RotateTransform Angle="1.072"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>-->
+                <docks:DockingManager HorizontalAlignment="Stretch" x:Name="DockingManager" Visibility="Hidden" AutoWindowSizeWhenOpened="True">
+                    <DockingManager.Theme>
+                        <Vs2013DarkTheme/>
+                    </DockingManager.Theme>
+                    <docks:LayoutRoot>
+                        <LayoutPanel>
+                            <LayoutDocumentPaneGroup>
+                                <LayoutDocumentPane x:Name="DocumentPaneGroup">
+                                </LayoutDocumentPane>
+                            </LayoutDocumentPaneGroup>
+                            <LayoutAnchorablePaneGroup DockMinWidth="300" >
+                                <LayoutAnchorablePane>
+                                    <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Color Picker" 
+                                                  ContentId="Color Picker" 
+                                                  AutoHideMinWidth="300" CanAutoHide="True" 
+                                                  AutoHideMinHeight="99" FloatingHeight="100" FloatingWidth="100" x:Name="ColorPicker">
+                                        <StackPanel>
+                                            <Viewbox>
+                                                <controls:ColorPicker />
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </LayoutAnchorable>
+                                    <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Transform Tool" 
+                                                  ContentId="Transform Tool"  x:Name="TransformTool" >
+                                        <StackPanel>
+                                            <Viewbox>
+                                                <properties:ObjectTransforms x:Name="ObjectTransforms" />
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </LayoutAnchorable>
+                                    <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Fill &amp; Stroke Tool" 
+                                                      ContentId="Fill &amp; Stroke Tool"  x:Name="PropertiesTool" >
+                                        <StackPanel>
+                                            <Viewbox>
+                                                <properties:ObjectProperties x:Name="ObjectProperties"/>
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </LayoutAnchorable>
+                                </LayoutAnchorablePane>
+                            </LayoutAnchorablePaneGroup>
+                        </LayoutPanel>
+                    </docks:LayoutRoot>
+                </docks:DockingManager>
             </Grid>
+
         </DockPanel>
     </Grid>
 </Window>
