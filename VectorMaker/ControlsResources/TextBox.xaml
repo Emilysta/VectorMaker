@@ -120,7 +120,15 @@
 
 
     <Style TargetType="{x:Type mah:NumericUpDown}" BasedOn="{StaticResource {x:Type mah:NumericUpDown}}">
-        <Setter Property="Template" >
+        <Setter Property="Minimum" Value="-10000"/>
+        <Setter Property="Maximum" Value="10000"/>
+        <Setter Property="Value" Value="0"/>
+        <Setter Property="Interval" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource MediumGreyBrush}"/>
+        <Setter Property="BorderThickness" Value="0.2"/>
+        <Setter Property="StringFormat" Value="F2"/>
+        <Setter Property="Margin" Value="2,3"/>
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="BackgroundOfControl" CornerRadius="0.8" BorderThickness="{TemplateBinding BorderThickness}" 
@@ -128,7 +136,7 @@
                         <Grid Height="{TemplateBinding Height}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="PART_TextBox" Grid.Row="0" Style="{StaticResource TextBoxClassic}" Height="{TemplateBinding Height}" />
                             <Grid Grid.Column="1"  >
