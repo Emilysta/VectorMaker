@@ -49,13 +49,25 @@
             </Style>
 
 
-            <Style x:Key="ResizeThumb" TargetType="{x:Type Thumb}">
+            <Style x:Key="ScaleThumb" TargetType="{x:Type Thumb}">
                 <Setter Property="SnapsToDevicePixels" Value="true" />
                 <Setter Property="OverridesDefaultStyle" Value="true" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}" >
-                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="#28C2E0" Stroke="#28C2E0" StrokeThickness="1"/>
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="#28C2E0"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ScaleThumbDuringDrag" TargetType="{x:Type Thumb}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}" >
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="Transparent" StrokeThickness="0"/>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

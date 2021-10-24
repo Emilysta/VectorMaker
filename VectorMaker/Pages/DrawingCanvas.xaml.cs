@@ -201,7 +201,7 @@ namespace VectorMaker.Pages
             if ((testResult.VisualHit as FrameworkElement).Parent != ScaleParent)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer);
+                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer,MainCanvas);
                 adornerLayer.Add(adorner);
                 m_selectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;

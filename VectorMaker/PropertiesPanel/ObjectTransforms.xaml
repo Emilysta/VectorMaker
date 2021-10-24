@@ -59,10 +59,12 @@
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="CenterX" />
-                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="RotateCenterXBox" />
+                            <TextBlock Text="CenterX"/>
+                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="RotateCenterXBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                             <TextBlock Text="CenterY" Grid.Column="2"/>
-                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="RotateCenterYBox" />
+                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="RotateCenterYBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -94,9 +96,11 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="CenterX" />
-                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="ScaleCenterXBox" />
+                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="ScaleCenterXBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                             <TextBlock Text="CenterY" Grid.Column="2"/>
-                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="ScaleCenterYBox"/>
+                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="ScaleCenterYBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -132,9 +136,11 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="CenterX" />
-                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="SkewCenterXBox" />
+                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="SkewCenterXBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                             <TextBlock Text="CenterY" Grid.Column="2"/>
-                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="SkewCenterYBox" />
+                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="SkewCenterYBox" 
+                                                       Minimum="0" Maximum="1" Interval="0.01"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -150,12 +156,14 @@
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="SkewAngleYBox"/>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplySkewButton" Click="ApplySkewButton_Click" VerticalContentAlignment="Center"/>
+                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" 
+                                                     Width="80" x:Name="ApplySkewButton" Click="ApplySkewButton_Click" VerticalContentAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
             </mahControls:MetroTabControl>
-            <Border Grid.Row="1" Margin="0,23,0,0" Background="{StaticResource LightGreyBrush}" Opacity="0.2" Visibility="Hidden" x:Name="BlockingBlend"/>
+            <Border Grid.Row="1" Margin="0,23,0,0" Background="{StaticResource LightGreyBrush}" 
+                    Opacity="0.2" Visibility="Hidden" x:Name="BlockingBlend"/>
         </Grid>
     </Border>
 </UserControl>
