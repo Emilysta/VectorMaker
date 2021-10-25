@@ -15,6 +15,10 @@ namespace SVG_XAML_Converter
             //XDocument document = SVG_To_XAML.ConvertSVGToXamlCode("C://Users//emili//OneDrive//Pulpit//UseTest.svg");
             if (document != null)
                 Console.WriteLine(document.ToString());
+
+            XDocument svgDocument = XAML_To_SVG.ConvertXAMLToSVGCode(document);
+            if (svgDocument != null)
+                Console.WriteLine(svgDocument.ToString());
         }
     }
 }

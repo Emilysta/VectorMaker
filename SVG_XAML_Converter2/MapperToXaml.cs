@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Drawing;
 
 namespace SVG_XAML_Converter_Lib
 {
@@ -20,7 +17,7 @@ namespace SVG_XAML_Converter_Lib
     {
         private static XNamespace m_xmlnsNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         private static XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
-        private static XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"; 
+        private static XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options";
 
         public static List<XElement> FindXAMLObjectReference(XElement svgElement)
         {
@@ -125,6 +122,11 @@ namespace SVG_XAML_Converter_Lib
                         geometryElement = new XElement(m_xmlnsNamespace + "Path");
                         break;
                     }
+                case "line":
+                    {
+                        geometryElement = new XElement(m_xmlnsNamespace + "Line");
+                        break;
+                    }
                 case "use":
                     {
                         //if (CheckIfContainsSpecialHrefAttribute(svgElement, out string id))
@@ -168,13 +170,15 @@ namespace SVG_XAML_Converter_Lib
                         //toDo depreceated
                         break;
                     }
+                case "image":
+                    {
+                        break;
+                    }
                 default:
                     return null;
             }
 
             SetAllAttributes(svgElement, geometryElement); //set all atributes for whole object 
-
-            //pathElement.Descendants().Where(x => x.Name.LocalName == "Path.Data").FirstOrDefault()?.Attributes("xmlns")?.Remove(); //remove namespace for child Path.Data
 
             return geometryElement;
         }
@@ -185,19 +189,20 @@ namespace SVG_XAML_Converter_Lib
             return svgMainDocument.Descendants().Where(x => x.Attribute("id")?.Value == id).FirstOrDefault();
         }
 
-        private static void SetAllAttributes(XElement svgElement, XElement pathElement,bool isNotContentPresenter = true)
+        private static void SetAllAttributes(XElement svgElement, XElement pathElement, bool isNotContentPresenter = true)
         {
             foreach (XAttribute x in svgElement.Attributes())
             {
-                FindXAMLAttributeReference(x, pathElement,isNotContentPresenter);
+                FindXAMLAttributeReference(x, pathElement, isNotContentPresenter);
             }
         }
 
         private static void FindXAMLAttributeReference(XAttribute svgAttribute, XElement geometryElement, bool isNotContentPresenter = true)
         {
+            //toDo using with url()
             switch (svgAttribute.Name.LocalName)
             {
-                case "style" when isNotContentPresenter: 
+                case "style" when isNotContentPresenter:
                     {
                         try
                         {
@@ -217,16 +222,20 @@ namespace SVG_XAML_Converter_Lib
                         }
                         break;
                     }
-                case "fill" when isNotContentPresenter: 
+                case "fill" when isNotContentPresenter:
                     {
-                        if (svgAttribute.Value != "none")
-                            geometryElement.SetAttributeValue("Fill",
-                                char.ToUpper(svgAttribute.Value[0]) + svgAttribute.Value[1..]);
+
+                        if (svgAttribute.Value == "none")
+                        {
+                            geometryElement.SetAttributeValue("Fill", "Tranparent");
+                        }
                         else
-                            geometryElement.SetAttributeValue("Fill", "Transparent");
+                        {
+                            geometryElement.SetAttributeValue("Fill", svgAttribute.Value);
+                        }
                         break;
                     }
-                case "fill-opacity" when isNotContentPresenter: 
+                case "fill-opacity" when isNotContentPresenter:
                     {
                         break;
                     }
@@ -243,6 +252,54 @@ namespace SVG_XAML_Converter_Lib
                 case "stroke-opacity" when isNotContentPresenter:
                     {
                         geometryElement.SetAttributeValue("Opacity", svgAttribute.Value);
+                        break;
+                    }
+                case "stroke-linecap" when isNotContentPresenter:
+                    {
+                        switch (svgAttribute.Value)
+                        {
+                            case "butt":
+                                {
+                                    geometryElement.SetAttributeValue("StrokeStartLineCap", "Flat");
+                                    geometryElement.SetAttributeValue("StrokeEndLineCap", "Flat");
+                                    geometryElement.SetAttributeValue("StrokeDashCap", "Flat");
+                                    break;
+                                }
+                            case "square":
+                                {
+                                    geometryElement.SetAttributeValue("StrokeStartLineCap", "Square");
+                                    geometryElement.SetAttributeValue("StrokeEndLineCap", "Square");
+                                    geometryElement.SetAttributeValue("StrokeDashCap", "Square");
+                                    break;
+                                }
+                            case "round":
+                                {
+                                    geometryElement.SetAttributeValue("StrokeStartLineCap", "Round");
+                                    geometryElement.SetAttributeValue("StrokeEndLineCap", "Round");
+                                    geometryElement.SetAttributeValue("StrokeDashCap", "Round");
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case "stroke-linejoin" when isNotContentPresenter:
+                    {
+                        geometryElement.SetAttributeValue("StrokeLineJoin", char.ToUpper(svgAttribute.Value[0]) + svgAttribute.Value[1..]);
+                        break;
+                    }
+                case "stroke-dasharray" when isNotContentPresenter:
+                    {
+                        geometryElement.SetAttributeValue("StrokeDashArray", svgAttribute.Value.Replace(',', ' '));
+                        break;
+                    }
+                case "stroke-dashoffset" when isNotContentPresenter:
+                    {
+                        geometryElement.SetAttributeValue("StrokeDashOffset", svgAttribute.Value);
+                        break;
+                    }
+                case "stroke-miterlimit" when isNotContentPresenter:
+                    {
+                        geometryElement.SetAttributeValue("StrokeMiterLimit", svgAttribute.Value);
                         break;
                     }
                 case "stroke-width" when isNotContentPresenter:
@@ -264,6 +321,26 @@ namespace SVG_XAML_Converter_Lib
                         XElement element = new XElement(m_xmlnsNamespace + "TranslateTransform");
                         element.SetAttributeValue("Y", svgAttribute.Value);
                         renderTransformElement.Add(element);
+                        break;
+                    }
+                case "x1":
+                    {
+                        geometryElement.SetAttributeValue("X1", svgAttribute.Value);
+                        break;
+                    }
+                case "y1":
+                    {
+                        geometryElement.SetAttributeValue("Y1", svgAttribute.Value);
+                        break;
+                    }
+                case "x2":
+                    {
+                        geometryElement.SetAttributeValue("X2", svgAttribute.Value);
+                        break;
+                    }
+                case "y2":
+                    {
+                        geometryElement.SetAttributeValue("Y2", svgAttribute.Value);
                         break;
                     }
                 case "cx" when isNotContentPresenter:
@@ -294,9 +371,9 @@ namespace SVG_XAML_Converter_Lib
                     }
                 case "rx" when isNotContentPresenter:
                     {
-                        if(geometryElement.Name.LocalName == "Rectangle")
+                        if (geometryElement.Name.LocalName == "Rectangle")
                         {
-                            //toDo
+                            geometryElement.SetAttributeValue("RadiusX", svgAttribute.Value);
                         }
                         else
                         {
@@ -309,7 +386,7 @@ namespace SVG_XAML_Converter_Lib
                     {
                         if (geometryElement.Name.LocalName == "Rectangle")
                         {
-                            //toDo
+                            geometryElement.SetAttributeValue("RadiusY", svgAttribute.Value);
                         }
                         else
                         {
@@ -325,7 +402,7 @@ namespace SVG_XAML_Converter_Lib
                             geometryElement.SetAttributeValue("Width", svgAttribute.Value);
                         }
                         else
-                        { 
+                        {
                             //toDo radial Gradient
                             geometryElement.SetAttributeValue("RadiusX", svgAttribute.Value);
                             geometryElement.SetAttributeValue("RadiusY", svgAttribute.Value);
@@ -365,7 +442,7 @@ namespace SVG_XAML_Converter_Lib
                 case "href" when isNotContentPresenter:
                     {
                         if (svgAttribute.Value.Contains('#'))
-                           geometryElement.SetAttributeValue("Style", "{StaticResource " + svgAttribute.Value.TrimStart('#') + "}");
+                            geometryElement.SetAttributeValue("Style", "{StaticResource " + svgAttribute.Value.TrimStart('#') + "}");
                         else
                         {
                             //todo hrefs nieobsługiwane linki sieciowe
@@ -382,7 +459,7 @@ namespace SVG_XAML_Converter_Lib
                         }
                         break;
                     }
-                case "d" when isNotContentPresenter: 
+                case "d" when isNotContentPresenter:
                     {
                         geometryElement.SetAttributeValue("Data", svgAttribute.Value);
                         break;

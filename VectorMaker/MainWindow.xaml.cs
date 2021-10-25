@@ -6,12 +6,7 @@ using VectorMaker.Drawables;
 using System;
 using System.Windows.Shapes;
 using System.Windows.Controls;
-using VectorMaker.Pages;
-using MahApps.Metro.Controls;
 using VectorMaker.Utility;
-using System.Windows.Documents;
-using AvalonDock;
-using System.Linq;
 using AvalonDock.Layout;
 
 namespace VectorMaker
@@ -24,7 +19,7 @@ namespace VectorMaker
         private DrawableTypes m_drawableType;
         private bool m_ignoreDrawingGeometries = true;
         private Observable<Path> m_selectedObject = null;
-
+        
         public DrawableTypes DrawableType
         {
             get
@@ -65,7 +60,6 @@ namespace VectorMaker
             base.OnClosed(e);
             Instance = null;
             App.Current.Shutdown();
-
         }
 
         private void DrawRectangleButton_Click(object sender, RoutedEventArgs e)
