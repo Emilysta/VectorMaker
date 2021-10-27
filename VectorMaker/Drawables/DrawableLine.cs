@@ -1,27 +1,49 @@
 ﻿using System.Windows;
-using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace VectorMaker.Drawables
 {
     public class DrawableLine : Drawable
     {
-        private LineGeometry m_lineGeometry;
+        Line m_line => (Line)m_shape;
+        public DrawableLine(PathSettings pathSettings) : base(pathSettings) { }
 
-        protected override Geometry m_geometryToDraw => m_lineGeometry;
-        
-        public DrawableLine(PathSettings pathSettings) : base(pathSettings) {}
-
-        public override void AddPointToList(Point point)
+        public override void SetValueOfPoint(Point point)
         {
-            m_lineGeometry.EndPoint = m_path.RenderTransform.Inverse.Transform(point);
-            m_endPoint = point;
+            Point translated = m_shape.RenderTransform.Inverse.Transform(point);
+            m_line.X2 = translated.X;
+            m_line.Y2 = translated.Y;
+            m_endPoint = translated;
         }
 
         protected override void CreateGeometry()
         {
-            m_lineGeometry = new LineGeometry();
-            m_lineGeometry.StartPoint = new Point(0, 0);
-            m_lineGeometry.EndPoint = m_lineGeometry.StartPoint;
+            m_shape = new Line();
+            m_line.X1 = 0;
+            m_line.X2 = 0;
+            m_line.Y1 = 0;
+            m_line.Y2 = 0;
+            SetPathSettingsWithoutFill();
         }
+
+        public override void EndDrawing()
+        {
+            Vector vector = new Vector(m_endPoint.X, m_endPoint.Y);
+            vector.Negate();
+
+            m_line.X1 = 0;
+            m_line.Y1 = 0;
+            if (m_endPoint.X < 0 || m_endPoint.Y < 0)
+            {
+                m_line.X2 = vector.X;
+                m_line.Y2 = vector.Y;
+                m_translateTransform.X -= vector.X;
+                m_translateTransform.Y -= vector.Y;
+            }
+
+        }
+
+        public override void AddPointToCollection() { }
+
     }
 }

@@ -11,7 +11,6 @@ namespace VectorMaker.Utility
 {
     public class ResizingAdorner : Adorner
     {
-        private const int ScaleStep = 5;
         private const double ScaleStepValue = 0.01d;
         private Thumb m_scaleThumb;
         private Thumb m_dragThumb;
@@ -35,7 +34,6 @@ namespace VectorMaker.Utility
             m_myLayer = myLayer;
             SetClassElements();
             m_canvas = canvas;
-
         }
         public void RemoveFromAdornerLayer()
         {

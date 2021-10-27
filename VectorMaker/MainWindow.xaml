@@ -115,13 +115,13 @@
             </Grid>
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
-                <Menu Background="#FF2D2D30">
-                    <MenuItem Foreground="#FFC3C3C3" Click="DrawRectangleButton_Click" Header="{iconPacks:BootstrapIcons SquareHalf, Height=15, Width=10}"/>
-                    <MenuItem Foreground="#FFC3C3C3" Click="DrawEllipseButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
-                    <MenuItem Foreground="#FFC3C3C3" Click="DrawLineButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
-                    <MenuItem Foreground="#FFC3C3C3" Click="SelectItemButton_Click" Header="{iconPacks:BootstrapIcons Mouse, Height=15, Width=10}"/>
-                    <MenuItem Header="4" Foreground="#FFC3C3C3"/>
-                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
+                <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
+                    <MenuItem Click="DrawRectangleButton_Click" Header="{iconPacks:BootstrapIcons SquareHalf, Height=15, Width=10}"/>
+                    <MenuItem Click="DrawEllipseButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
+                    <MenuItem Click="DrawLineButton_Click" Header="{iconPacks:BootstrapIcons Slash, Height=15, Width=10}"/>
+                    <MenuItem Click="SelectItemButton_Click" Header="{iconPacks:BootstrapIcons Kind=BoundingBox, Height=15, Width=10}"/>
+                    <MenuItem Click="DrawPolylineButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
+                    <MenuItem Click="DrawPolygonButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="1" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
@@ -183,7 +183,6 @@
                     </docks:LayoutRoot>
                 </docks:DockingManager>
             </Grid>
-
         </DockPanel>
     </Grid>
 </Window>

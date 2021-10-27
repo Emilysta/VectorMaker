@@ -20,23 +20,27 @@ namespace VectorMaker.Drawables
     }
 
     public enum DrawableTypes
-    { 
+    {
         None,
         SelectionTool,
         EditPointSelectionTool,
         Rectangle,
         Geometry,
         Ellipse,
-        Line
+        Line,
+        PolyLine,
+        Polygon,
+        Path,
     }
 
     public abstract class Drawable
     {
-        protected abstract Geometry m_geometryToDraw { get; }
         protected System.Windows.Point m_startPoint;
         protected System.Windows.Point m_endPoint;
-        protected Path m_path;
+        protected Shape m_shape;
         private PathSettings m_pathSettings;
+        protected TranslateTransform m_translateTransform;
+        protected GeneralTransform m_inverseTranslateTransform => m_translateTransform.Inverse;
 
         public PathSettings Settings => m_pathSettings;
 
@@ -46,20 +50,20 @@ namespace VectorMaker.Drawables
             m_pathSettings.OnValuesChange += OnSettingsChange;
         }
 
-        public abstract void AddPointToList(System.Windows.Point point);
+        public abstract void SetValueOfPoint(System.Windows.Point point);
 
-        public Path SetStartPoint(System.Windows.Point startPoint)
+        public Shape SetStartPoint(System.Windows.Point startPoint)
         {
             m_startPoint = startPoint;
-            m_path = new Path();
+            m_translateTransform = new TranslateTransform(m_startPoint.X, m_startPoint.Y);
             CreateGeometryBase();
-            m_path.RenderTransform = new TranslateTransform(m_startPoint.X, m_startPoint.Y);
-            m_path.Data = m_geometryToDraw;
-            SetPathSettings();
-            return m_path;
+            m_shape.RenderTransform = m_translateTransform;
+            return m_shape;
         }
 
         protected abstract void CreateGeometry();
+        public abstract void EndDrawing();
+        public abstract void AddPointToCollection();
 
         private void OnSettingsChange()
         {
@@ -68,29 +72,26 @@ namespace VectorMaker.Drawables
 
         private void CreateGeometryBase()
         {
-            m_path.MouseLeftButtonDown += SelectObject;
             CreateGeometry();
         }
 
-        private void SetPathSettings()
+        protected void SetPathSettings()
         {
-            m_path.Fill = m_pathSettings.Fill;
-            m_path.Stroke = m_pathSettings.Stroke;
-            m_path.StrokeThickness = m_pathSettings.StrokeThickness;
-            m_path.Visibility = m_pathSettings.Visibility;
-            m_path.VerticalAlignment = m_pathSettings.VerticalAlignment;
-            m_path.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
+            m_shape.Fill = m_pathSettings.Fill;
+            m_shape.Stroke = m_pathSettings.Stroke;
+            m_shape.StrokeThickness = m_pathSettings.StrokeThickness;
+            m_shape.Visibility = m_pathSettings.Visibility;
+            m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
+            m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
         }
 
-        private void SelectObject(object sender, MouseButtonEventArgs e)
+        protected void SetPathSettingsWithoutFill()
         {
-            Trace.WriteLine("Object Clicked " + m_geometryToDraw.ToString());
-            MainWindow.Instance.SelectedObejct = m_path;
-        }
-
-        public Geometry GetGeometry()
-        {
-            return m_geometryToDraw;
+            m_shape.Stroke = m_pathSettings.Stroke;
+            m_shape.StrokeThickness = m_pathSettings.StrokeThickness;
+            m_shape.Visibility = m_pathSettings.Visibility;
+            m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
+            m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
         }
     }
 }

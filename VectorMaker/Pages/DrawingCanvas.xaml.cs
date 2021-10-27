@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Documents;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using VectorMaker.PropertiesPanel;
 using System.Windows.Media.Imaging;
 
 namespace VectorMaker.Pages
@@ -26,15 +25,13 @@ namespace VectorMaker.Pages
     {
         private Canvas m_mainCanvas;
         private Point m_positionInCanvas;
-        private List<Path> m_listOfPaths;
+        private List<Shape> m_listOfShapes;
         private bool m_wasFirstDown = false;
         private Drawable m_drawableObject;
         private PathSettings m_pathSettings;
         private XDocument m_xamlElements = null;
         private bool m_isSaved = true;
         private string m_filePath;
-        private Drawable m_selectionObject;
-        private Path m_selectionObjectPath;
         private ObservableCollection<ResizingAdorner> m_selectedObjects;
         public ViewportController ViewportController;
 
@@ -70,14 +67,12 @@ namespace VectorMaker.Pages
             m_mainCanvas = MainCanvas;
             //m_mainCanvasBorder = MainCanvasBorder;
             m_positionInCanvas = new Point(0, 0);
-            m_listOfPaths = new List<Path>();
+            m_listOfShapes = new List<Shape>();
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
             ViewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
-            m_selectionObjectPath = new Path();
             m_selectedObjects = new ObservableCollection<ResizingAdorner>();
             m_selectedObjects.CollectionChanged += MainWindow.Instance.ObjectTransforms.SelectedObjectsChanged;
-            m_mainCanvas.Children.Add(m_selectionObjectPath);
         }
 
         private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
@@ -92,73 +87,33 @@ namespace VectorMaker.Pages
                 if (!m_wasFirstDown)
                 {
                     m_wasFirstDown = true;
-                    switch (MainWindow.Instance.DrawableType)
-                    {
-                        case DrawableTypes.Ellipse:
-                            {
-                                m_drawableObject = new DrawableEllipse(m_pathSettings);
-                                break;
-                            }
-                        case DrawableTypes.Rectangle:
-                            {
-                                m_drawableObject = new DrawableRectangle(m_pathSettings);
-                                break;
-                            }
-                        case DrawableTypes.Line:
-                            {
-                                m_drawableObject = new DrawableLine(m_pathSettings);
-                                break;
-                            }
-                        case DrawableTypes.None:
-                            {
-                                m_drawableObject = null;
-                                break;
-                            }
-                    }
+                    SetDrawableObject();
                     if (m_drawableObject != null)
                     {
                         var path = m_drawableObject.SetStartPoint(m_positionInCanvas);
-                        m_listOfPaths.Add(path);
+                        m_listOfShapes.Add(path);
                         m_mainCanvas.Children.Add(path);
-                        Trace.WriteLine(m_positionInCanvas);
+                        //Trace.WriteLine(m_positionInCanvas);
                     }
                 }
-            }
-            else
-            {
-                switch (MainWindow.Instance.DrawableType)
+                else
                 {
-                    case DrawableTypes.SelectionTool:
-                        {
-                            m_wasFirstDown = true;
-                            m_selectionObject = new DrawableRectangle(PathSettings.SelectionSettings());
-                            m_selectionObjectPath = m_selectionObject.SetStartPoint(m_positionInCanvas);
-                            break;
-                        }
-                    case DrawableTypes.EditPointSelectionTool:
-                        {
-                            m_wasFirstDown = true;
-                            m_selectionObject = new DrawableRectangle(PathSettings.SelectionSettings());
-                            m_selectionObjectPath = m_selectionObject.SetStartPoint(m_positionInCanvas);
-                            break;
-                        }
-                    case DrawableTypes.None:
-                        {
-                            m_selectionObject = null;
-                            break;
-                        }
+                    m_drawableObject.AddPointToCollection();
                 }
             }
         }
 
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (!MainWindow.Instance.IgnoreDrawingGrometries)
-                EndDrawing();
+            if (!MainWindow.Instance.IgnoreDrawingGrometries && m_drawableObject != null)
+            {
+                if (MainWindow.Instance.DrawableType != DrawableTypes.Polygon &&
+                    MainWindow.Instance.DrawableType != DrawableTypes.PolyLine)
+                    EndDrawing();
+            }
             else if (MainWindow.Instance.DrawableType != DrawableTypes.None)
                 SelectionTest(e.GetPosition(m_mainCanvas));
         }
-
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -166,18 +121,146 @@ namespace VectorMaker.Pages
             m_positionInCanvas.Y = e.GetPosition(m_mainCanvas).Y;
             if (m_wasFirstDown && m_drawableObject != null)
             {
-                if (MainWindow.Instance.IgnoreDrawingGrometries == true)
-                    m_selectionObject.AddPointToList(m_positionInCanvas);
-                else
-                    m_drawableObject.AddPointToList(m_positionInCanvas);
+                m_drawableObject.SetValueOfPoint(m_positionInCanvas);
                 m_mainCanvas.InvalidateVisual();
             }
         }
 
+        private void ZoomScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ViewportController.ScrollViewerChanged(e);
+        }
+
+        private void ZoomScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ViewportController.MouseWheel(e);
+        }
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void File_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                Image image = new Image();
+                BitmapImage bitmapImage = new BitmapImage();
+                try
+                {
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri(files[0]);
+                    bitmapImage.EndInit();
+
+                    if (bitmapImage != null)
+                    {
+                        Point point = e.GetPosition(MainCanvas);
+                        image.Source = bitmapImage;
+                        image.Stretch = Stretch.Fill;
+                        image.Width = 200;
+                        image.RenderTransform = new TranslateTransform(point.X, point.Y);
+                        MainCanvas.Children.Add(image);
+                        MainCanvas.InvalidateVisual();
+                    }
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.Message);
+                }
+
+            }
+        }
+
+        private void MainCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Delete:
+                    {
+                        DeleteSelectedObjects();
+                        break;
+                    }
+                case Key.Enter:
+                    {
+                        EndDrawing();
+                        break;
+                    }
+                case Key.S:
+                    {
+                        if(Keyboard.Modifiers == ModifierKeys.Control)
+                        {
+                            //toDo Save
+                        }
+                        break;
+                    }
+            }
+
+        }
+
+        private void DeleteSelectedObjects()
+        {
+            if (m_selectedObjects.Count > 0)
+            {
+                foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
+                {
+                    resizingAdorner.RemoveFromAdornerLayer();
+                    MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
+                }
+                m_selectedObjects.Clear();
+            }
+        }
 
         private void EndDrawing()
         {
-            m_wasFirstDown = false;
+            if (m_drawableObject != null)
+            {
+                m_wasFirstDown = false;
+                m_drawableObject.EndDrawing();
+                m_drawableObject = null;
+            }
+        }
+
+        private void SetDrawableObject()
+        {
+            switch (MainWindow.Instance.DrawableType)
+            {
+                case DrawableTypes.Ellipse:
+                    {
+                        m_drawableObject = new DrawableEllipse(m_pathSettings);
+                        break;
+                    }
+                case DrawableTypes.Rectangle:
+                    {
+                        m_drawableObject = new DrawableRectangle(m_pathSettings);
+                        break;
+                    }
+                case DrawableTypes.Line:
+                    {
+                        m_drawableObject = new DrawableLine(m_pathSettings);
+                        break;
+                    }
+                case DrawableTypes.None:
+                    {
+                        m_drawableObject = null;
+                        break;
+                    }
+                case DrawableTypes.PolyLine:
+                    {
+                        m_drawableObject = new DrawablePolyline(m_pathSettings);
+                        break;
+                    }
+                case DrawableTypes.Polygon:
+                    {
+                        m_drawableObject = new DrawablePolygon(m_pathSettings);
+                        break;
+                    }
+            }
         }
 
         private void SelectionTest(Point e)
@@ -235,83 +318,6 @@ namespace VectorMaker.Pages
                 return true;
             }
             return true;
-        }
-
-        private void ZoomScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            ViewportController.ScrollViewerChanged(e);
-        }
-
-        private void ZoomScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ViewportController.MouseWheel(e);
-        }
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void File_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                Image image = new Image();
-                BitmapImage bitmapImage = new BitmapImage();
-                try
-                {
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = new Uri(files[0]);
-                    bitmapImage.EndInit();
-
-                    if (bitmapImage != null)
-                    {
-                        Point point = e.GetPosition(MainCanvas);
-                        image.Source = bitmapImage;
-                        image.Stretch = Stretch.Fill;
-                        image.Width = 200;
-                        image.RenderTransform = new TranslateTransform(point.X, point.Y);
-                        MainCanvas.Children.Add(image);
-                        MainCanvas.InvalidateVisual();
-                    }
-                }
-                catch(Exception exp)
-                {
-                    MessageBox.Show(exp.Message);
-                }
-
-            }
-        }
-
-        private void MainCanvas_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Delete:
-                    {
-                        DeleteSelectedObjects();
-                        break;
-                    }
-            }
-
-        }
-
-        private void DeleteSelectedObjects()
-        {
-            if (m_selectedObjects.Count > 0)
-            {
-                foreach(ResizingAdorner resizingAdorner in m_selectedObjects)
-                {
-                    resizingAdorner.RemoveFromAdornerLayer();
-                    MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
-                }
-                m_selectedObjects.Clear();
-            }
         }
     }
 }

@@ -1,38 +1,31 @@
 ﻿using System.Windows;
-using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace VectorMaker.Drawables
 {
     public class DrawableEllipse : Drawable
     {
-        private EllipseGeometry m_ellipseGeometry;
-        private Point m_centerPoint;
-        private double m_radiusX;
-        private double m_radiusY;
-
-        public Point CenterPoint => m_centerPoint;
-        public double RadiusX => m_radiusX;
-        public double RadiusY => m_radiusY;
-        protected override Geometry m_geometryToDraw => m_ellipseGeometry;
-
         public DrawableEllipse(PathSettings pathSettings) : base(pathSettings) { }
 
-        public override void AddPointToList(Point point)
+        public override void SetValueOfPoint(Point point)
         {
             Rect rect = new Rect(m_startPoint, point);
-            m_ellipseGeometry.RadiusX = (rect.Width / 2d);
-            m_ellipseGeometry.RadiusY = (rect.Height / 2d);
+            m_shape.Width = rect.Width;
+            m_shape.Height = rect.Height;
             m_endPoint = point;
-            m_radiusX = m_ellipseGeometry.RadiusX;
-            m_radiusY = m_ellipseGeometry.RadiusY;
         }
+
+        public override void EndDrawing() { }
+
+        public override void AddPointToCollection() { }
 
         protected override void CreateGeometry()
         {
             Rect rect = new Rect(m_startPoint, m_startPoint);
-            m_ellipseGeometry = new EllipseGeometry(new Rect(0,0,rect.Width,rect.Height));
-            m_radiusX = m_ellipseGeometry.RadiusX;
-            m_radiusY = m_ellipseGeometry.RadiusY;
+            m_shape = new Ellipse();
+            m_shape.Width = rect.Width;
+            m_shape.Height = rect.Height;
+            SetPathSettings();
         }
     }
 }

@@ -49,10 +49,9 @@ namespace VectorMaker
         {
             this.DataContext = this;
             InitializeComponent();
-            m_selectedObject = new Observable<Path>(SelectionOfObject);
             Instance = this;
             TabControlManager.RunOpenVisibilityCheck();
-            ChangeColor();
+            //ChangeColor();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -86,47 +85,22 @@ namespace VectorMaker
             m_ignoreDrawingGeometries = true;
         }
 
-        private void SelectionOfObject(object sender, PropertyChangedEventArgs args)
+        private void DrawPolylineButton_Click(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("DebugLogOfSelection" + m_selectedObject.ObserwableObject.Data);
-            switch (m_selectedObject.ObserwableObject.Data)
-            {
-                case RectangleGeometry:
-                    {
-                        SelectedObjectString = "Rectangle/Square";
-                        break;
-                    }
-                case LineGeometry:
-                    {
-                        SelectedObjectString = "Line";
-                        break;
-                    }
-                case EllipseGeometry:
-                    {
-                        SelectedObjectString = "Ellipse/Cricle";
-                        break;
-                    }
-                case null:
-                    {
-                        SelectedObjectString = "No Object Selected";
-                        break;
-                    }
-            }
+            m_ignoreDrawingGeometries = false;
+            m_drawableType = DrawableTypes.PolyLine;
         }
-
-        private void FilesTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DrawPolygonButton_Click(object sender, RoutedEventArgs e)
         {
-
-            foreach (var item in e.AddedItems)
-                (item as TabItem).Background = ColorsReference.selectedTabItemBackground;
-            foreach (var item in e.RemovedItems)
-                (item as TabItem).Background = ColorsReference.notSelectedTabItemBackground;
+            m_ignoreDrawingGeometries = false;
+            m_drawableType = DrawableTypes.Polygon;
         }
 
         private void NewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             TabControlManager.OpenNewDocumentTab();
         }
+
         private void OpenDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             if (!TabControlManager.OpenExistingDocumentTab())
