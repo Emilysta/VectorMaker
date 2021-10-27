@@ -17,7 +17,7 @@ namespace VectorMaker.Pages
 
         private void OpenDocument_Click(object sender, RoutedEventArgs e)
         {
-            if (!TabControlManager.OpenExistingDocumentTab())
+            if (!DocumentManager.OpenExistingDocumentTab())
             {
                 Trace.WriteLine("brlbelr");
                 //toDo warning with file error or path
@@ -26,7 +26,7 @@ namespace VectorMaker.Pages
 
         private void NewDocument_Click(object sender, RoutedEventArgs e)
         {
-            TabControlManager.OpenNewDocumentTab();
+            DocumentManager.OpenNewDocumentTab();
         }
     }
 }

@@ -8,6 +8,7 @@
         xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:docks="https://github.com/Dirkster99/AvalonDock"
+        xmlns:pages="clr-namespace:VectorMaker.Pages"
     x:Class="VectorMaker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
@@ -28,13 +29,29 @@
                     </Menu.ItemsPanel>
                     <MenuItem Header="VectorMaker" IsEnabled="False" />
                     <MenuItem Header="File">
-                        <Popup x:Name="NewPopup">
-                            <MenuItem Header="Tekst"/>
-                        </Popup>
+                        <MenuItem Header="New Document" Click="NewDocumentButton_Click"/>
+                        <MenuItem Header="Open Document" Click="OpenDocumentButton_Click"/>
+                        <Separator/>
+                        <MenuItem Header="Export as">
+                            <MenuItem Header="SVG File" Click="SaveAsSVGDocumentButton_Click"/>
+                            <MenuItem Header="PNG File" Click="SaveAsPNGDocumentButton_Click"/>
+                            <MenuItem Header="BMP File" Click="SaveAsBMPDocumentButton_Click"/>
+                            <MenuItem Header="PDF File" Click="SaveAsPDFDocumentButton_Click"/>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Save Current File" Click="SaveDocumentButton_Click"/>
+                        <MenuItem Header="Save All Files" Click="SaveAllDocumentsButton_Click"/>
                     </MenuItem>
                     <MenuItem Header="Edit" IsEnabled="False"/>
-                    <MenuItem Header="Object" />
-                    <MenuItem Header="Layer" />
+                    <MenuItem Header="Object" >
+                        <MenuItem Header="Group"/>
+                        <MenuItem Header="Ungroup"/>
+                        <Separator/>
+                    </MenuItem>
+                    <MenuItem Header="Layer" >
+                        <MenuItem Header="Add layer above current"/>
+                        <MenuItem Header="Add layer below current"/>
+                    </MenuItem>
                     <MenuItem Header="Filter" />
                     <MenuItem Header="Select" />
                     <MenuItem Header="Tools" >
@@ -52,9 +69,10 @@
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <controls:ButtonWithIcon x:Name="MinimizeApplicationButton" Grid.Column="1" ToolTip="Minimize" ButtonContent="-"/>
-                    <controls:ButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="NodePlus"/>
-                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="X"/>
+                    <controls:ButtonWithIcon x:Name="MinimizeApplicationButton" Grid.Column="1" ToolTip="Minimize" IconKind="Dash" Click="MinimizeApplicationButton_Click" />
+                    <controls:ToggleButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="WindowMaximizeRegular"
+                                                   Click="MaximizeRestoreApplicationButton_Click"/>
+                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="X" Click="ExitApplicationButton_Click"/>
 
                 </Grid>
                 <!--<ToolBar HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="800" Background="#FF1A1A1A">
@@ -139,7 +157,8 @@
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch">
                 <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Visible"/>
-                <docks:DockingManager HorizontalAlignment="Stretch" x:Name="DockingManager" Visibility="Hidden" AutoWindowSizeWhenOpened="True">
+                <docks:DockingManager HorizontalAlignment="Stretch" x:Name="DockingManager" Visibility="Hidden" AutoWindowSizeWhenOpened="True" 
+                                      ActiveContent="{Binding DocumentManager.ActiveDocument,Mode=TwoWay}">
                     <DockingManager.Theme>
                         <Vs2013DarkTheme/>
                     </DockingManager.Theme>
@@ -147,14 +166,18 @@
                         <LayoutPanel>
                             <LayoutDocumentPaneGroup>
                                 <LayoutDocumentPane x:Name="DocumentPaneGroup">
+                                    <!--<LayoutDocument CanClose="False" CanFloat="False" CanMove="False" ContentId="New Document" Title="New Document" IsSelected="True"  IsActive="True">
+                                        <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame"/>
+                                        --><!--<pages:NewDocumentPage x:Name="NewDocumentFrame"/>--><!--
+                                    </LayoutDocument>-->
                                 </LayoutDocumentPane>
                             </LayoutDocumentPaneGroup>
+                            
                             <LayoutAnchorablePaneGroup DockMinWidth="300" >
                                 <LayoutAnchorablePane>
                                     <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Color Picker" 
-                                                  ContentId="Color Picker" 
-                                                  AutoHideMinWidth="300" CanAutoHide="True" 
-                                                  AutoHideMinHeight="99" FloatingHeight="100" FloatingWidth="100" x:Name="ColorPicker">
+                                        ContentId="Color Picker" AutoHideMinWidth="300" CanAutoHide="True" 
+                                        AutoHideMinHeight="99" FloatingHeight="100" FloatingWidth="100" x:Name="ColorPicker">
                                         <StackPanel>
                                             <Viewbox>
                                                 <controls:ColorPicker />

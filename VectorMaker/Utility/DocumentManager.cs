@@ -1,34 +1,30 @@
 ﻿using AvalonDock.Layout;
-using MahApps.Metro.Controls;
 using Microsoft.Win32;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
 using VectorMaker.Pages;
 
 namespace VectorMaker.Utility
 {
-    public static class TabControlManager
+    public static class DocumentManager
     {
         public static void OpenNewDocumentTab()
         {
-            string header = "untilted.svg";
+            string header = "untilted.xaml";
             DrawingCanvas page = new DrawingCanvas();
-            CreateAndAddTabItem(page, header);
+            CreateDocument(page, header);
         }
 
         public static bool OpenExistingDocumentTab()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg";
+            openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
             if (openFileDialog.ShowDialog() == true)
             {
                 char[] splitters = { '/', '\\' };
                 string header = openFileDialog.FileName.Split(splitters).Last();
                 DrawingCanvas page = new DrawingCanvas(openFileDialog.FileName);
-
-                //Trace.WriteLine(openFileDialog.FileName);
-                CreateAndAddTabItem(page, header);
+                CreateDocument(page, header);
                 return true;
             }
             return false;
@@ -49,7 +45,7 @@ namespace VectorMaker.Utility
 
         }
 
-        private static void CreateAndAddTabItem(DrawingCanvas page, string header)
+        private static void CreateDocument(DrawingCanvas page, string header)
         {
             Frame frame = new Frame();
             frame.Content = page;

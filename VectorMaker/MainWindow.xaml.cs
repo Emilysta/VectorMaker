@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using VectorMaker.Drawables;
 using System;
 using System.Windows.Shapes;
-using System.Windows.Controls;
 using VectorMaker.Utility;
 using AvalonDock.Layout;
+using System.Windows.Controls;
+using VectorMaker.Pages;
+using System.Diagnostics;
 
 namespace VectorMaker
 {
@@ -19,6 +19,7 @@ namespace VectorMaker
         private DrawableTypes m_drawableType;
         private bool m_ignoreDrawingGeometries = true;
         private Observable<Path> m_selectedObject = null;
+        private DrawingCanvas m_drawingCanvas;
         
         public DrawableTypes DrawableType
         {
@@ -45,13 +46,13 @@ namespace VectorMaker
         public string SelectedObjectString { get; set; } = "No selected Obejct";
 
         public static MainWindow Instance { get; private set; }
+
         public MainWindow()
         {
             this.DataContext = this;
             InitializeComponent();
             Instance = this;
-            TabControlManager.RunOpenVisibilityCheck();
-            //ChangeColor();
+            DocumentManager.RunOpenVisibilityCheck();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -90,6 +91,7 @@ namespace VectorMaker
             m_ignoreDrawingGeometries = false;
             m_drawableType = DrawableTypes.PolyLine;
         }
+
         private void DrawPolygonButton_Click(object sender, RoutedEventArgs e)
         {
             m_ignoreDrawingGeometries = false;
@@ -98,12 +100,12 @@ namespace VectorMaker
 
         private void NewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            TabControlManager.OpenNewDocumentTab();
+            DocumentManager.OpenNewDocumentTab();
         }
 
         private void OpenDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!TabControlManager.OpenExistingDocumentTab())
+            if (!DocumentManager.OpenExistingDocumentTab())
             {
                 //toDo info
             }
@@ -111,20 +113,36 @@ namespace VectorMaker
 
         private void SaveDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            //Frame frame = FilesTabControl.SelectedContent as Frame;
-            //DrawingCanvas drawingCanvas = frame?.Content as DrawingCanvas;
-            //if (drawingCanvas != null)
-            //{
-            //    if (!drawingCanvas.SaveToFile())
-            //    {
-            //        //toDo open Dialog with warning
-            //    }
-            //}
+            m_drawingCanvas.SaveFile();
         }
 
         private void SaveAllDocumentsButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void SaveAsSVGDocumentButton_Click(object sender, RoutedEventArgs e)
+        {
+            //m_drawingCanvas.SaveAsPDF();
+        }
+        private void SaveAsPNGDocumentButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame frame = DockingManager.ActiveContent as Frame;
+            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            drawingCanvas.SaveAsPNG();
+        }
+        private void SaveAsBMPDocumentButton_Click(object sender, RoutedEventArgs e)
+        {
+            //m_drawingCanvas.SaveAsPDF();
+            LayoutContent layoutContent = DocumentPaneGroup.SelectedContent;
+            //DocumentPaneGroup.Active
+        }
+
+        private void SaveAsPDFDocumentButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame frame = DockingManager.ActiveContent as Frame;
+            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            drawingCanvas.SaveAsPDF();
         }
 
         private void TransformToolMenuItem_Click(object sender, RoutedEventArgs e)
@@ -162,6 +180,30 @@ namespace VectorMaker
             System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
             Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
             Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
+        }
+
+        private void MinimizeApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeRestoreApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MaximizeApplicationButton.IsChecked == true)
+            {
+                WindowState = WindowState.Maximized;
+                MaximizeApplicationButton.IconKind = MahApps.Metro.IconPacks.PackIconFontAwesomeKind.WindowRestoreRegular;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                MaximizeApplicationButton.IconKind = MahApps.Metro.IconPacks.PackIconFontAwesomeKind.WindowMaximizeRegular;
+            }
+        }
+
+        private void ExitApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

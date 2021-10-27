@@ -70,7 +70,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <icons:PackIconBootstrapIcons
+                            <icons:PackIconFontAwesome
                                Height="{Binding IconHeight, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
                                Width="{Binding IconWidth, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"
                                Grid.Row="{Binding IconRow, RelativeSource={RelativeSource AncestorType=controls:ToggleButtonWithIcon}}"

@@ -33,7 +33,7 @@ namespace VectorMaker.ControlsResources
 
         private static DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ToggleButtonWithIcon), new PropertyMetadata(""));
 
-        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ToggleButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
+        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconFontAwesomeKind), typeof(ToggleButtonWithIcon), new PropertyMetadata(PackIconFontAwesomeKind.None));
 
         private static DependencyProperty m_isChecked = ToggleButton.IsCheckedProperty.AddOwner(typeof(ToggleButtonWithIcon));
 
@@ -122,9 +122,9 @@ namespace VectorMaker.ControlsResources
             set { SetValue(m_content, value); }
         }
 
-        public PackIconBootstrapIconsKind IconKind
+        public PackIconFontAwesomeKind IconKind
         {
-            get { return (PackIconBootstrapIconsKind)GetValue(m_iconKind); }
+            get { return (PackIconFontAwesomeKind)GetValue(m_iconKind); }
             set { SetValue(m_iconKind, value); }
         }
 
@@ -136,17 +136,17 @@ namespace VectorMaker.ControlsResources
 
         private void SetColumnsVisualPart(string buttonContent, string iconKind)
         {
-            if (iconKind != PackIconBootstrapIconsKind.None.ToString()
+            if (iconKind != PackIconFontAwesomeKind.None.ToString()
                 && buttonContent == "")
             {
                 IconColumnSpan = 2;
             }
-            else if (iconKind == PackIconBootstrapIconsKind.None.ToString()
+            else if (iconKind == PackIconFontAwesomeKind.None.ToString()
                 && buttonContent != "")
             {
                 ContentColumnSpan = 2;
             }
-            else if (iconKind != PackIconBootstrapIconsKind.None.ToString()
+            else if (iconKind != PackIconFontAwesomeKind.None.ToString()
                  && buttonContent != "")
             {
                 ContentColumn = 1;

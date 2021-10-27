@@ -5,7 +5,6 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Shapes;
 using System.Windows.Markup;
-using System.Diagnostics;
 using Microsoft.Win32;
 using System;
 using System.Windows.Input;
@@ -15,6 +14,8 @@ using System.Windows.Documents;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
+using System.IO;
+using System.Drawing.Printing;
 
 namespace VectorMaker.Pages
 {
@@ -29,7 +30,6 @@ namespace VectorMaker.Pages
         private bool m_wasFirstDown = false;
         private Drawable m_drawableObject;
         private PathSettings m_pathSettings;
-        private XDocument m_xamlElements = null;
         private bool m_isSaved = true;
         private string m_filePath;
         private ObservableCollection<ResizingAdorner> m_selectedObjects;
@@ -52,13 +52,34 @@ namespace VectorMaker.Pages
         {
             InitializeComponent();
             SetProperties();
-            XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(fileName);
             m_filePath = fileName;
-            if (document != null)
+            if (System.IO.Path.GetExtension(fileName) == ".svg")
             {
-                m_xamlElements = document;
-                object path = XamlReader.Parse(m_xamlElements.ToString());
-                m_mainCanvas.Children.Add(path as UIElement);
+                XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(fileName);
+                
+                if (document != null)
+                {
+                    object path = XamlReader.Parse(document.ToString());
+                    m_mainCanvas.Children.Add(path as UIElement);
+                    m_isSaved = false;
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (FileStream fileStream = File.Open(fileName, FileMode.Open))
+                    {
+                        object loadedFile = XamlReader.Load(fileStream);
+                        //object path = XamlReader.Parse(loadedFile.ToString());
+                        m_mainCanvas.Children.Add(loadedFile as UIElement);
+                    }
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                
             }
         }
 
@@ -69,7 +90,6 @@ namespace VectorMaker.Pages
             m_positionInCanvas = new Point(0, 0);
             m_listOfShapes = new List<Shape>();
             m_pathSettings = new PathSettings();
-            m_xamlElements = new XDocument();
             ViewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
             m_selectedObjects = new ObservableCollection<ResizingAdorner>();
             m_selectedObjects.CollectionChanged += MainWindow.Instance.ObjectTransforms.SelectedObjectsChanged;
@@ -93,6 +113,7 @@ namespace VectorMaker.Pages
                         var path = m_drawableObject.SetStartPoint(m_positionInCanvas);
                         m_listOfShapes.Add(path);
                         m_mainCanvas.Children.Add(path);
+                        m_isSaved = false;
                         //Trace.WriteLine(m_positionInCanvas);
                     }
                 }
@@ -195,12 +216,11 @@ namespace VectorMaker.Pages
                     {
                         if(Keyboard.Modifiers == ModifierKeys.Control)
                         {
-                            //toDo Save
+                            SaveFile();
                         }
                         break;
                     }
             }
-
         }
 
         private void DeleteSelectedObjects()
@@ -293,7 +313,7 @@ namespace VectorMaker.Pages
             return HitTestResultBehavior.Continue;
         }
 
-        public bool SaveToFile()
+        public bool SaveFile()
         {
             if (!m_isSaved)
             {
@@ -301,23 +321,80 @@ namespace VectorMaker.Pages
                 {
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                    saveFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Microsoft XAML File (*.xaml) | *.xaml";
+                    saveFileDialog.Filter = "Microsoft XAML File (*.xaml) | *.xaml";
                     saveFileDialog.FileName = "untilted.xaml";
                     Nullable<bool> result = saveFileDialog.ShowDialog();
                     if (result == true)
                     {
-                        m_xamlElements.Save(saveFileDialog.OpenFile());
                         m_filePath = saveFileDialog.FileName;
                         m_isSaved = true;
-                        return true;
+                        return SaveStreamToXAML(m_filePath);
                     }
-                    else
-                        return false;
+                    return false;
                 }
-                m_xamlElements.Save(m_filePath);
-                return true;
+                return SaveStreamToXAML(m_filePath);
             }
             return true;
+        }
+
+        private bool SaveStreamToXAML(string filePath)
+        {
+            try
+            {
+                using (FileStream fileStream = File.OpenWrite(filePath))
+                {
+                   XamlWriter.Save(MainCanvas,fileStream);
+                }
+                return true;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        public bool SaveAsPDF()
+        {
+            try
+            {
+                PrintDialog printDialog = new PrintDialog();
+                //Nullable<bool> result = printDialog.ShowDialog();
+                PrinterSettings printerSettings = new PrinterSettings();
+                printerSettings.PrinterName = "Microsoft Print to PDF";
+
+                printDialog.PrintVisual(MainCanvas, "Save graphics as PDF");
+                return true;
+            }
+            catch(PrintDialogException e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        public bool SaveAsPNG()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            saveFileDialog.Filter = "Portable Network Graphics (*.png) | *.png";
+            saveFileDialog.FileName = "untilted.png";
+            Nullable<bool> result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)Page.Width, (int)Page.Height, 96d, 96d, PixelFormats.Pbgra32);
+                renderBitmap.Render(MainCanvas);
+                using (FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    // Use png encoder for our data
+                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                    // push the rendered bitmap to it
+                    encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                    // save the data to the stream
+                    encoder.Save(fileStream);
+                }
+            }
+            return false;
         }
     }
 }
