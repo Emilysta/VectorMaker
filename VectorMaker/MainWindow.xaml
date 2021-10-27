@@ -58,6 +58,7 @@
                         <MenuItem Header="Transform Tool" Click="TransformToolMenuItem_Click"/>
                         <MenuItem Header="Fill &amp; Stroke Properties Tool" Click="PropertiesToolMenuItem_Click"/>
                         <MenuItem Header="Color Picker" Click="ColorPickerMenuItem_Click"/>
+                        <MenuItem Header="Alignment Tool" Click="AlignmentToolMenuItem_Click"/>
                     </MenuItem>
                     <MenuItem Header="Help" />
                     <MenuItem Header="" />
@@ -197,6 +198,14 @@
                                         <StackPanel>
                                             <Viewbox>
                                                 <properties:ObjectProperties x:Name="ObjectProperties"/>
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </LayoutAnchorable>
+                                    <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Object Alignment Tool" 
+                                                      ContentId="Object Alignment Tool"  x:Name="AlignmentTool" >
+                                        <StackPanel>
+                                            <Viewbox>
+                                                <properties:ObjectAlignment x:Name="ObjectAlignment"/>
                                             </Viewbox>
                                         </StackPanel>
                                     </LayoutAnchorable>

@@ -18,7 +18,6 @@ namespace VectorMaker
     {
         private DrawableTypes m_drawableType;
         private bool m_ignoreDrawingGeometries = true;
-        private Observable<Path> m_selectedObject = null;
         private DrawingCanvas m_drawingCanvas;
         
         public DrawableTypes DrawableType
@@ -31,19 +30,6 @@ namespace VectorMaker
         }
 
         public bool IgnoreDrawingGrometries => m_ignoreDrawingGeometries;
-        public Path SelectedObejct
-        {
-            get
-            {
-                return m_selectedObject.ObserwableObject;
-            }
-            set
-            {
-                m_selectedObject.ObserwableObject = value;
-            }
-        }
-
-        public string SelectedObjectString { get; set; } = "No selected Obejct";
 
         public static MainWindow Instance { get; private set; }
 
@@ -125,12 +111,14 @@ namespace VectorMaker
         {
             //m_drawingCanvas.SaveAsPDF();
         }
+
         private void SaveAsPNGDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             Frame frame = DockingManager.ActiveContent as Frame;
             DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
             drawingCanvas.SaveAsPNG();
         }
+
         private void SaveAsBMPDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             //m_drawingCanvas.SaveAsPDF();
@@ -175,11 +163,14 @@ namespace VectorMaker
                 ColorPicker.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
-        public void ChangeColor()
+        private void AlignmentToolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
-            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
-            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
+            if (AlignmentTool.IsHidden)
+                AlignmentTool.Show();
+            else if (AlignmentTool.IsVisible)
+                AlignmentTool.IsActive = true;
+            else
+                AlignmentTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
         private void MinimizeApplicationButton_Click(object sender, RoutedEventArgs e)
@@ -204,6 +195,13 @@ namespace VectorMaker
         private void ExitApplicationButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        public void ChangeColor()
+        {
+            System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
+            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
+            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
         }
     }
 }
