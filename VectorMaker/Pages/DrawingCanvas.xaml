@@ -19,33 +19,28 @@
                       VerticalScrollBarVisibility="Visible" 
                       x:Name="ZoomScrollViewer"
                       ScrollChanged="ZoomScrollViewer_ScrollChanged"
-                      PreviewMouseWheel="ZoomScrollViewer_MouseWheel">
-            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
-
-                <Canvas x:Name="MainCanvas"
-                                MouseLeave="MainCanvas_MouseLeave" 
+                      PreviewMouseWheel="ZoomScrollViewer_MouseWheel"
+                      AllowDrop="True" Drop="File_Drop" KeyDown="MainCanvas_KeyDown">
+            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5"                                 MouseLeave="MainCanvas_MouseLeave" 
                                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                                 MouseMove="MainCanvas_MouseMove" 
-                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
-                          >
-                    <Canvas.Background>
-                        <DrawingBrush TileMode="None" Stretch="None">
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing>
-                                    <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="0,0,300,300"/>
-                                    </GeometryDrawing.Geometry>
-                                    <GeometryDrawing.Pen>
-                                        <Pen Brush="AliceBlue"/>
-                                    </GeometryDrawing.Pen>
-                                    <GeometryDrawing.Brush>
-                                        <VisualBrush></VisualBrush>
-                                    </GeometryDrawing.Brush>
-                                </GeometryDrawing>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Canvas.Background>
-                </Canvas>
+                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp">
+                <Grid.Background>
+                <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="#202020"/>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+                </Grid.Background>
+                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="3"/>
+                    </Border.Effect>
+                    <Canvas x:Name="MainCanvas" Background="Transparent">
+                        <Rectangle Width="50" Height="50" Fill="Blue" />
+                    </Canvas>
+                </Border>
+
             </Grid>
         </ScrollViewer>
     </Grid>

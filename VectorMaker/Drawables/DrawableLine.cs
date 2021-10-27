@@ -13,15 +13,15 @@ namespace VectorMaker.Drawables
 
         public override void AddPointToList(Point point)
         {
-            m_lineGeometry.EndPoint = point;
+            m_lineGeometry.EndPoint = m_path.RenderTransform.Inverse.Transform(point);
             m_endPoint = point;
         }
 
         protected override void CreateGeometry()
         {
             m_lineGeometry = new LineGeometry();
-            m_lineGeometry.StartPoint = m_startPoint;
-            m_lineGeometry.EndPoint = m_startPoint;
+            m_lineGeometry.StartPoint = new Point(0, 0);
+            m_lineGeometry.EndPoint = m_lineGeometry.StartPoint;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace VectorMaker.Drawables
 
         public override void AddPointToList(Point point)
         {
-            m_rectangleGeometry.Rect = new Rect(m_startPoint, point);
+            Rect rect = new Rect(m_startPoint, point);
+            m_rectangleGeometry.Rect = new Rect(0,0,rect.Width,rect.Height);
             m_endPoint = point;
             m_size = m_rectangleGeometry.Rect.Size;
         }
@@ -22,7 +23,8 @@ namespace VectorMaker.Drawables
         protected override void CreateGeometry()
         {
             m_rectangleGeometry = new RectangleGeometry();
-            m_rectangleGeometry.Rect = new Rect(m_startPoint,m_startPoint);
+            Rect rect = new Rect(m_startPoint, m_startPoint);
+            m_rectangleGeometry.Rect = new Rect(0, 0, rect.Width, rect.Height);
             m_size = m_rectangleGeometry.Rect.Size;
         }
 

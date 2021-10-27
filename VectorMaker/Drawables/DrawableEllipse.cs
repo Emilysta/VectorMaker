@@ -20,8 +20,8 @@ namespace VectorMaker.Drawables
         public override void AddPointToList(Point point)
         {
             Rect rect = new Rect(m_startPoint, point);
-            m_ellipseGeometry.RadiusX = rect.Width / 2.0f;
-            m_ellipseGeometry.RadiusY = rect.Height / 2.0f;
+            m_ellipseGeometry.RadiusX = (rect.Width / 2d);
+            m_ellipseGeometry.RadiusY = (rect.Height / 2d);
             m_endPoint = point;
             m_radiusX = m_ellipseGeometry.RadiusX;
             m_radiusY = m_ellipseGeometry.RadiusY;
@@ -29,7 +29,8 @@ namespace VectorMaker.Drawables
 
         protected override void CreateGeometry()
         {
-            m_ellipseGeometry = new EllipseGeometry(new Rect(m_startPoint, m_startPoint));
+            Rect rect = new Rect(m_startPoint, m_startPoint);
+            m_ellipseGeometry = new EllipseGeometry(new Rect(0,0,rect.Width,rect.Height));
             m_radiusX = m_ellipseGeometry.RadiusX;
             m_radiusY = m_ellipseGeometry.RadiusY;
         }

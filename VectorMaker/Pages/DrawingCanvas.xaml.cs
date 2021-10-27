@@ -15,6 +15,7 @@ using System.Windows.Documents;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using VectorMaker.PropertiesPanel;
+using System.Windows.Media.Imaging;
 
 namespace VectorMaker.Pages
 {
@@ -35,7 +36,7 @@ namespace VectorMaker.Pages
         private Drawable m_selectionObject;
         private Path m_selectionObjectPath;
         private ObservableCollection<ResizingAdorner> m_selectedObjects;
-        public ViewportController viewportController;
+        public ViewportController ViewportController;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,7 +73,7 @@ namespace VectorMaker.Pages
             m_listOfPaths = new List<Path>();
             m_pathSettings = new PathSettings();
             m_xamlElements = new XDocument();
-            viewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
+            ViewportController = new ViewportController(ScaleParent, ZoomScrollViewer);
             m_selectionObjectPath = new Path();
             m_selectedObjects = new ObservableCollection<ResizingAdorner>();
             m_selectedObjects.CollectionChanged += MainWindow.Instance.ObjectTransforms.SelectedObjectsChanged;
@@ -201,7 +202,7 @@ namespace VectorMaker.Pages
             if ((testResult.VisualHit as FrameworkElement).Parent != ScaleParent)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer,MainCanvas);
+                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer, MainCanvas);
                 adornerLayer.Add(adorner);
                 m_selectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;
@@ -238,19 +239,78 @@ namespace VectorMaker.Pages
 
         private void ZoomScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            viewportController.ScrollViewerChanged(e);
+            ViewportController.ScrollViewerChanged(e);
         }
 
         private void ZoomScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            viewportController.MouseWheel(e);
+            ViewportController.MouseWheel(e);
         }
 
         private void NotifyPropertyChanged(string propertyName)
         {
-            if(this.PropertyChanged != null)
+            if (this.PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void File_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                Image image = new Image();
+                BitmapImage bitmapImage = new BitmapImage();
+                try
+                {
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri(files[0]);
+                    bitmapImage.EndInit();
+
+                    if (bitmapImage != null)
+                    {
+                        Point point = e.GetPosition(MainCanvas);
+                        image.Source = bitmapImage;
+                        image.Stretch = Stretch.Fill;
+                        image.Width = 200;
+                        image.RenderTransform = new TranslateTransform(point.X, point.Y);
+                        MainCanvas.Children.Add(image);
+                        MainCanvas.InvalidateVisual();
+                    }
+                }
+                catch(Exception exp)
+                {
+                    MessageBox.Show(exp.Message);
+                }
+
+            }
+        }
+
+        private void MainCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Delete:
+                    {
+                        DeleteSelectedObjects();
+                        break;
+                    }
+            }
+
+        }
+
+        private void DeleteSelectedObjects()
+        {
+            if (m_selectedObjects.Count > 0)
+            {
+                foreach(ResizingAdorner resizingAdorner in m_selectedObjects)
+                {
+                    resizingAdorner.RemoveFromAdornerLayer();
+                    MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
+                }
+                m_selectedObjects.Clear();
             }
         }
     }

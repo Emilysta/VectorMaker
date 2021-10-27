@@ -53,6 +53,7 @@ namespace VectorMaker.Drawables
             m_startPoint = startPoint;
             m_path = new Path();
             CreateGeometryBase();
+            m_path.RenderTransform = new TranslateTransform(m_startPoint.X, m_startPoint.Y);
             m_path.Data = m_geometryToDraw;
             SetPathSettings();
             return m_path;
