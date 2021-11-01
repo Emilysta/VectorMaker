@@ -40,6 +40,7 @@ namespace VectorMaker.Drawables
         protected Shape m_shape;
         private PathSettings m_pathSettings;
         protected TranslateTransform m_translateTransform;
+        public bool IsControlKey = false;
         protected GeneralTransform m_inverseTranslateTransform => m_translateTransform.Inverse;
 
         public PathSettings Settings => m_pathSettings;

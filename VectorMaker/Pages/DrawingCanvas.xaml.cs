@@ -14,8 +14,11 @@ using System.Windows.Documents;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
-using System.IO;
 using System.Drawing.Printing;
+using System.Linq;
+using FileStream = System.IO.FileStream;
+using File = System.IO.File;
+using FileMode = System.IO.FileMode;
 
 namespace VectorMaker.Pages
 {
@@ -56,7 +59,7 @@ namespace VectorMaker.Pages
             if (System.IO.Path.GetExtension(fileName) == ".svg")
             {
                 XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(fileName);
-                
+
                 if (document != null)
                 {
                     object path = XamlReader.Parse(document.ToString());
@@ -75,11 +78,11 @@ namespace VectorMaker.Pages
                         m_mainCanvas.Children.Add(loadedFile as UIElement);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
                 }
-                
+
             }
         }
 
@@ -214,10 +217,41 @@ namespace VectorMaker.Pages
                     }
                 case Key.S:
                     {
-                        if(Keyboard.Modifiers == ModifierKeys.Control)
+                        if (Keyboard.Modifiers == ModifierKeys.Control)
                         {
                             SaveFile();
                         }
+                        break;
+                    }
+                case Key.LeftCtrl:
+                case Key.RightCtrl:
+                    {
+                        if (m_drawableObject != null)
+                            m_drawableObject.IsControlKey = true;
+                        break;
+                    }
+                case Key.PageDown:
+                    {
+                        ChangeZIndex(true);
+                        break;
+                    }
+                case Key.PageUp:
+                    {
+                        ChangeZIndex(false);
+                        break;
+                    }
+
+            }
+        }
+        private void MainCanvas_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.LeftCtrl:
+                case Key.RightCtrl:
+                    {
+                        if (m_drawableObject != null)
+                            m_drawableObject.IsControlKey = false;
                         break;
                     }
             }
@@ -233,6 +267,19 @@ namespace VectorMaker.Pages
                     MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
                 }
                 m_selectedObjects.Clear();
+            }
+        }
+        private void ChangeZIndex(bool isIncreasing)
+        {
+            if (m_selectedObjects.Count > 0)
+            {
+                foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
+                {
+                    if (isIncreasing)
+                        Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) + 1);
+                    else
+                        Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) - 1);
+                }
             }
         }
 
@@ -319,14 +366,10 @@ namespace VectorMaker.Pages
             {
                 if (m_filePath == "")
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog();
-                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                    saveFileDialog.Filter = "Microsoft XAML File (*.xaml) | *.xaml";
-                    saveFileDialog.FileName = "untilted.xaml";
-                    Nullable<bool> result = saveFileDialog.ShowDialog();
+                    bool result = OpenSaveDialog("Microsoft XAML File (*.xaml) | *.xaml", "untilted.xaml", out string filePath);
                     if (result == true)
                     {
-                        m_filePath = saveFileDialog.FileName;
+                        m_filePath = filePath;
                         m_isSaved = true;
                         return SaveStreamToXAML(m_filePath);
                     }
@@ -343,11 +386,11 @@ namespace VectorMaker.Pages
             {
                 using (FileStream fileStream = File.OpenWrite(filePath))
                 {
-                   XamlWriter.Save(MainCanvas,fileStream);
+                    XamlWriter.Save(MainCanvas, fileStream);
                 }
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
                 return false;
@@ -366,7 +409,7 @@ namespace VectorMaker.Pages
                 printDialog.PrintVisual(MainCanvas, "Save graphics as PDF");
                 return true;
             }
-            catch(PrintDialogException e)
+            catch (PrintDialogException e)
             {
                 MessageBox.Show(e.Message);
                 return false;
@@ -375,26 +418,125 @@ namespace VectorMaker.Pages
 
         public bool SaveAsPNG()
         {
+            bool result = OpenSaveDialog("Portable Network Graphics (*.png) | *.png", "untilted.png", out string filePath);
+            if (result == true)
+            {
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                SaveWithSpecialBitmap(encoder, filePath);
+
+            }
+            return false;
+        }
+
+        public bool SaveAsBMP()
+        {
+            bool result = OpenSaveDialog("Bitmap file (*.bmp) | *.bmp", "untilted.bmp", out string filePath);
+            if (result == true)
+            {
+                BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                SaveWithSpecialBitmap(encoder, filePath);
+            }
+            return false;
+        }
+
+        public bool SaveAsJPG()
+        {
+            bool result = OpenSaveDialog("JPEG (*.jpeg) | *.jpeg", "untilted.jpeg", out string filePath);
+            if (result == true)
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                SaveWithSpecialBitmap(encoder, filePath);
+            }
+            return false;
+        }
+
+        public bool SaveAsTIFF()
+        {
+            bool result = OpenSaveDialog("TIFF (*.tiff) | *.tiff", "untilted.tiff", out string filePath);
+            if (result == true)
+            {
+                TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+                SaveWithSpecialBitmap(encoder, filePath);
+            }
+            return false;
+        }
+
+        private bool OpenSaveDialog(string filter, string fileName, out string filePath)
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            saveFileDialog.Filter = "Portable Network Graphics (*.png) | *.png";
-            saveFileDialog.FileName = "untilted.png";
+            saveFileDialog.Filter = filter;
+            saveFileDialog.FileName = fileName;
             Nullable<bool> result = saveFileDialog.ShowDialog();
             if (result == true)
             {
-                RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)Page.Width, (int)Page.Height, 96d, 96d, PixelFormats.Pbgra32);
-                renderBitmap.Render(MainCanvas);
-                using (FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                filePath = saveFileDialog.FileName;
+                return true;
+            }
+            filePath = "";
+            return false;
+        }
+
+        private void SaveWithSpecialBitmap(BitmapEncoder bitmapEncoder, string filePath)
+        {
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)Page.Width, (int)Page.Height, 96d, 96d, PixelFormats.Pbgra32);
+            renderBitmap.Render(MainCanvas);
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                bitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                // save the data to the stream
+                bitmapEncoder.Save(fileStream);
+            }
+        }
+
+        public void Union()
+        {
+            GeometryGroup geometryGroup = new GeometryGroup();
+            foreach(ResizingAdorner adorner in  m_selectedObjects)
+            {
+                Shape shape = adorner.AdornedElement as Shape;
+                Geometry geometry = shape?.RenderedGeometry;
+                geometry.Transform = shape.RenderTransform;
+                if(geometry !=null)
                 {
-                    // Use png encoder for our data
-                    PngBitmapEncoder encoder = new PngBitmapEncoder();
-                    // push the rendered bitmap to it
-                    encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                    // save the data to the stream
-                    encoder.Save(fileStream);
+                    geometryGroup.Children.Add(geometry);
+                }
+                else
+                {
+                    MessageBox.Show("One of selected objects is a group, please ungroup first. Operation terminated");
+                    return;
                 }
             }
-            return false;
+            Path path = new Path();
+            path.Data = geometryGroup;
+            geometryGroup.FillRule = FillRule.EvenOdd;
+            Shape lastShape = m_selectedObjects.Last().AdornedElement as Shape;
+            
+            path.Style = lastShape.Style;
+            path.Fill = lastShape.Fill;
+            path.Stroke = lastShape.Stroke;
+            //path.RenderTransform = lastShape.RenderTransform;
+            MainCanvas.Children.Add(path);
+            DeleteSelectedObjects();
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
+            ResizingAdorner newAdorner = new ResizingAdorner(path, adornerLayer, MainCanvas);
+            adornerLayer.Add(newAdorner);
+            m_selectedObjects.Add(newAdorner);
+        }
+
+        public void Exclude()
+        {
+
+        }
+
+        public void Xor()
+        {
+
+        }
+
+        public void Intersect()
+        {
+
         }
     }
 }

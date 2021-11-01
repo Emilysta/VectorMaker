@@ -11,7 +11,10 @@ namespace VectorMaker.Drawables
         {
             Rect rect = new Rect(m_startPoint, point);
             m_shape.Width = rect.Width;
-            m_shape.Height = rect.Height;
+            if (IsControlKey)
+                m_shape.Height = rect.Width;
+            else
+                m_shape.Height = rect.Height;
             m_endPoint = point;
         }
 

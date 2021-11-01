@@ -84,6 +84,13 @@ namespace VectorMaker
             m_drawableType = DrawableTypes.Polygon;
         }
 
+        private void UnionButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame frame = DockingManager.ActiveContent as Frame;
+            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            drawingCanvas.Union();
+        }
+
         private void NewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             DocumentManager.OpenNewDocumentTab();

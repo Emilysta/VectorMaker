@@ -141,7 +141,7 @@
                     <MenuItem Click="SelectItemButton_Click" Header="{iconPacks:BootstrapIcons Kind=BoundingBox, Height=15, Width=10}"/>
                     <MenuItem Click="DrawPolylineButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
                     <MenuItem Click="DrawPolygonButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
-                    <MenuItem Header="3" Foreground="#FFC3C3C3"/>
+                    <MenuItem Click="UnionButton_Click" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
                     <MenuItem Header="1" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="3" Foreground="#FFC3C3C3"/>
@@ -169,11 +169,13 @@
                                 <LayoutDocumentPane x:Name="DocumentPaneGroup">
                                     <!--<LayoutDocument CanClose="False" CanFloat="False" CanMove="False" ContentId="New Document" Title="New Document" IsSelected="True"  IsActive="True">
                                         <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame"/>
-                                        --><!--<pages:NewDocumentPage x:Name="NewDocumentFrame"/>--><!--
+                                        -->
+                                    <!--<pages:NewDocumentPage x:Name="NewDocumentFrame"/>-->
+                                    <!--
                                     </LayoutDocument>-->
                                 </LayoutDocumentPane>
                             </LayoutDocumentPaneGroup>
-                            
+
                             <LayoutAnchorablePaneGroup DockMinWidth="300" >
                                 <LayoutAnchorablePane>
                                     <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Color Picker" 

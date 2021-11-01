@@ -20,11 +20,12 @@
                       x:Name="ZoomScrollViewer"
                       ScrollChanged="ZoomScrollViewer_ScrollChanged"
                       PreviewMouseWheel="ZoomScrollViewer_MouseWheel"
-                      AllowDrop="True" Drop="File_Drop" KeyDown="MainCanvas_KeyDown">
-            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5"                                 MouseLeave="MainCanvas_MouseLeave" 
-                                MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
-                                MouseMove="MainCanvas_MouseMove" 
-                                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp">
+                      AllowDrop="True" Drop="File_Drop" KeyDown="MainCanvas_KeyDown" KeyUp="MainCanvas_KeyUp">
+            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5"                                 
+                  MouseLeave="MainCanvas_MouseLeave" 
+                  MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+                  MouseMove="MainCanvas_MouseMove" 
+                  MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp">
                 <Grid.Background>
                 <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
                     <DrawingBrush.Drawing>
