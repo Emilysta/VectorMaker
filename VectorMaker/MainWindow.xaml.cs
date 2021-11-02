@@ -8,6 +8,9 @@ using AvalonDock.Layout;
 using System.Windows.Controls;
 using VectorMaker.Pages;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using System.Linq;
 
 namespace VectorMaker
 {
@@ -16,29 +19,27 @@ namespace VectorMaker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DrawableTypes m_drawableType;
-        private bool m_ignoreDrawingGeometries = true;
-        private DrawingCanvas m_drawingCanvas;
-        
-        public DrawableTypes DrawableType
-        {
-            get
-            {
-                return m_drawableType;
-            }
-            set => m_drawableType = value;
-        }
 
-        public bool IgnoreDrawingGrometries => m_ignoreDrawingGeometries;
+        public ObservableCollection<DrawingCanvas> Documents { get; set; }
+        
+        public void SetDrawableType(DrawableTypes type)
+        {
+            foreach (DrawingCanvas canvas in Documents)
+            {
+                canvas.ViewModel.DrawableType = type;
+            }
+        }
 
         public static MainWindow Instance { get; private set; }
 
         public MainWindow()
         {
-            this.DataContext = this;
             InitializeComponent();
             Instance = this;
-            DocumentManager.RunOpenVisibilityCheck();
+            Documents = new ObservableCollection<DrawingCanvas>();
+            Documents.Add(new DrawingCanvas());
+            this.DataContext = this;
+            //DocumentManager.RunOpenVisibilityCheck();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -50,63 +51,57 @@ namespace VectorMaker
 
         private void DrawRectangleButton_Click(object sender, RoutedEventArgs e)
         {
-            m_ignoreDrawingGeometries = false;
-            m_drawableType = DrawableTypes.Rectangle;
+            SetDrawableType(DrawableTypes.Rectangle);
         }
 
         private void DrawEllipseButton_Click(object sender, RoutedEventArgs e)
         {
-            m_ignoreDrawingGeometries = false;
-            m_drawableType = DrawableTypes.Ellipse;
+            SetDrawableType(DrawableTypes.Ellipse);
         }
 
         private void DrawLineButton_Click(object sender, RoutedEventArgs e)
         {
-            m_ignoreDrawingGeometries = false;
-            m_drawableType = DrawableTypes.Line;
+            SetDrawableType(DrawableTypes.Line);
         }
 
         private void SelectItemButton_Click(object sender, RoutedEventArgs e)
         {
-            DrawableType = DrawableTypes.SelectionTool;
-            m_ignoreDrawingGeometries = true;
+            SetDrawableType(DrawableTypes.None);
         }
 
         private void DrawPolylineButton_Click(object sender, RoutedEventArgs e)
         {
-            m_ignoreDrawingGeometries = false;
-            m_drawableType = DrawableTypes.PolyLine;
+            SetDrawableType(DrawableTypes.PolyLine);
         }
 
         private void DrawPolygonButton_Click(object sender, RoutedEventArgs e)
         {
-            m_ignoreDrawingGeometries = false;
-            m_drawableType = DrawableTypes.Polygon;
+            SetDrawableType(DrawableTypes.Polygon);
         }
 
         private void UnionButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame frame = DockingManager.ActiveContent as Frame;
-            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            drawingCanvas.Union();
+            //Frame frame = DockingManager.ActiveContent as Frame;
+            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            //drawingCanvas.Union();
         }
 
         private void NewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            DocumentManager.OpenNewDocumentTab();
+            Documents.Add(new DrawingCanvas());
         }
 
         private void OpenDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!DocumentManager.OpenExistingDocumentTab())
-            {
-                //toDo info
-            }
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
+            if (openFileDialog.ShowDialog() == true)
+                Documents.Add(new DrawingCanvas(openFileDialog.FileName));
         }
 
         private void SaveDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            m_drawingCanvas.SaveFile();
+           // m_drawingCanvas.SaveFile();
         }
 
         private void SaveAllDocumentsButton_Click(object sender, RoutedEventArgs e)
@@ -121,9 +116,9 @@ namespace VectorMaker
 
         private void SaveAsPNGDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame frame = DockingManager.ActiveContent as Frame;
-            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            drawingCanvas.SaveAsPNG();
+            //Frame frame = DockingManager.ActiveContent as Frame;
+            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            //drawingCanvas.SaveAsPNG();
         }
 
         private void SaveAsBMPDocumentButton_Click(object sender, RoutedEventArgs e)
@@ -135,49 +130,49 @@ namespace VectorMaker
 
         private void SaveAsPDFDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame frame = DockingManager.ActiveContent as Frame;
-            DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            drawingCanvas.SaveAsPDF();
+            //Frame frame = DockingManager.ActiveContent as Frame;
+            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
+            //drawingCanvas.SaveAsPDF();
         }
 
         private void TransformToolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (TransformTool.IsHidden)
-                TransformTool.Show();
-            else if (TransformTool.IsVisible)
-                TransformTool.IsActive = true;
-            else
-                TransformTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            //if (TransformTool.IsHidden)
+            //    TransformTool.Show();
+            //else if (TransformTool.IsVisible)
+            //    TransformTool.IsActive = true;
+            //else
+            //    TransformTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
         private void PropertiesToolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (PropertiesTool.IsHidden)
-                PropertiesTool.Show();
-            else if (PropertiesTool.IsVisible)
-                PropertiesTool.IsActive = true;
-            else
-                PropertiesTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            //if (PropertiesTool.IsHidden)
+            //    PropertiesTool.Show();
+            //else if (PropertiesTool.IsVisible)
+            //    PropertiesTool.IsActive = true;
+            //else
+            //    PropertiesTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
         private void ColorPickerMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (ColorPicker.IsHidden)
-                ColorPicker.Show();
-            else if (ColorPicker.IsVisible)
-                ColorPicker.IsActive = true;
-            else
-                ColorPicker.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            //if (ColorPicker.IsHidden)
+            //    ColorPicker.Show();
+            //else if (ColorPicker.IsVisible)
+            //    ColorPicker.IsActive = true;
+            //else
+            //    ColorPicker.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
         private void AlignmentToolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (AlignmentTool.IsHidden)
-                AlignmentTool.Show();
-            else if (AlignmentTool.IsVisible)
-                AlignmentTool.IsActive = true;
-            else
-                AlignmentTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            //if (AlignmentTool.IsHidden)
+            //    AlignmentTool.Show();
+            //else if (AlignmentTool.IsVisible)
+            //    AlignmentTool.IsActive = true;
+            //else
+            //    AlignmentTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
         private void MinimizeApplicationButton_Click(object sender, RoutedEventArgs e)

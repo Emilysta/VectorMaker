@@ -17,16 +17,16 @@ namespace VectorMaker.Pages
 
         private void OpenDocument_Click(object sender, RoutedEventArgs e)
         {
-            if (!DocumentManager.OpenExistingDocumentTab())
-            {
-                Trace.WriteLine("brlbelr");
-                //toDo warning with file error or path
-            }
+            //if (!DocumentManager.OpenExistingDocumentTab())
+            //{
+            //    Trace.WriteLine("brlbelr");
+            //    //toDo warning with file error or path
+            //}
         }
 
         private void NewDocument_Click(object sender, RoutedEventArgs e)
         {
-            DocumentManager.OpenNewDocumentTab();
+            //DocumentManager.OpenNewDocumentTab();
         }
     }
 }

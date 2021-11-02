@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace VectorMaker.Drawables
@@ -22,8 +18,6 @@ namespace VectorMaker.Drawables
     public enum DrawableTypes
     {
         None,
-        SelectionTool,
-        EditPointSelectionTool,
         Rectangle,
         Geometry,
         Ellipse,

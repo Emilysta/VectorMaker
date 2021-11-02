@@ -8,7 +8,7 @@
         xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:docks="https://github.com/Dirkster99/AvalonDock"
-        xmlns:pages="clr-namespace:VectorMaker.Pages"
+        xmlns:pages="clr-namespace:VectorMaker.Pages" xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
     x:Class="VectorMaker.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440" >
@@ -80,49 +80,16 @@
                     <Button Content="File" Foreground="#FFBAC3C3" />
                 </ToolBar>-->
             </Grid>
-            <Grid DockPanel.Dock="Top" x:Name="FileSettingsDockPanel" Height="30" Background="Transparent">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="{Binding ActualHeight, ElementName=FileSettingsDockPanel}"/>
-                    <ColumnDefinition Width="66*"/>
-                    <ColumnDefinition Width="65*"/>
-                    <ColumnDefinition Width="409*"/>
-                </Grid.ColumnDefinitions>
-                <controls:ButtonWithIcon Grid.Column="0" IconKind="FileEarmarkPlus" Margin="3,3,3,3" ButtonCornerRadius="2" Click="NewDocumentButton_Click"/>
-                <controls:ButtonWithIcon Grid.Column="1" IconKind="FileArrowDown" Margin="3,3,3,3" ButtonCornerRadius="2" Click="OpenDocumentButton_Click"/>
-                <controls:ButtonWithIcon Grid.Column="2" IconKind="FileEarmarkArrowDown" Margin="3,3,3,3" ButtonCornerRadius="2" Click="SaveDocumentButton_Click"/>
-                <controls:ButtonWithIcon Grid.Column="3" IconKind="Files" Margin="3,3,3,3" ButtonCornerRadius="2" Click="SaveAllDocumentsButton_Click"/>
+            <Grid DockPanel.Dock="Top" x:Name="FileSettingsDockPanel" Height="20" Background="Transparent">
+                <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
+                    <MenuItem Click="NewDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
+                    <MenuItem Click="OpenDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
+                    <MenuItem Click="SaveDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
+                    <MenuItem Click="SaveAllDocumentsButton_Click" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
+                </Menu>
             </Grid>
-            <Grid DockPanel.Dock="Top" x:Name="PaintSettingsDockPanel" Height="30" Background="Transparent">
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
+            <Grid DockPanel.Dock="Top" x:Name="PaintSettingsDockPanel" Height="20" Background="Transparent">
+                <!--<Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
                        Content="{Binding SelectedObjectString}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{DynamicResource SeparatorColor}"/>
@@ -130,7 +97,7 @@
                 <Label x:Name="StrokeLabel" Grid.Column="1" Content="{x:Static languages:EN.StrokeLabel}" 
                        Foreground="{DynamicResource LightText}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <TextBox x:Name="StrokeTextBox" Grid.Column="2" Margin="3"/>
-                <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>
+                <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>-->
             </Grid>
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
@@ -142,9 +109,6 @@
                     <MenuItem Click="DrawPolylineButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
                     <MenuItem Click="DrawPolygonButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
                     <MenuItem Click="UnionButton_Click" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
-                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
-                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
-                    <MenuItem Header="3" Foreground="#FFC3C3C3"/>
                 </Menu>
             </Grid>
             <!-- Bottom Dock-->
@@ -157,25 +121,27 @@
             </Grid>
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch">
-                <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Visible"/>
-                <docks:DockingManager HorizontalAlignment="Stretch" x:Name="DockingManager" Visibility="Hidden" AutoWindowSizeWhenOpened="True" 
-                                      ActiveContent="{Binding DocumentManager.ActiveDocument,Mode=TwoWay}">
+                <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Hidden"/>
+                <docks:DockingManager HorizontalAlignment="Stretch" Visibility="Visible" AutoWindowSizeWhenOpened="True" 
+                                      DocumentsSource="{Binding Documents}">
+                    <!--<docks:DockingManager.LayoutItemTemplateSelector>
+                        <templateselectors:LayoutPaneTemplateSelector>
+                            <templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
+                                <DataTemplate>
+                                    <Frame Content="{Binding Path={}}"/>
+                                </DataTemplate>
+                            </templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
+                        </templateselectors:LayoutPaneTemplateSelector>
+                    </docks:DockingManager.LayoutItemTemplateSelector>-->
                     <DockingManager.Theme>
                         <Vs2013DarkTheme/>
                     </DockingManager.Theme>
                     <docks:LayoutRoot>
                         <LayoutPanel>
-                            <LayoutDocumentPaneGroup>
-                                <LayoutDocumentPane x:Name="DocumentPaneGroup">
-                                    <!--<LayoutDocument CanClose="False" CanFloat="False" CanMove="False" ContentId="New Document" Title="New Document" IsSelected="True"  IsActive="True">
-                                        <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame"/>
-                                        -->
-                                    <!--<pages:NewDocumentPage x:Name="NewDocumentFrame"/>-->
-                                    <!--
-                                    </LayoutDocument>-->
+                            <LayoutDocumentPaneGroup >
+                                <LayoutDocumentPane  x:Name="DocumentPaneGroup">
                                 </LayoutDocumentPane>
                             </LayoutDocumentPaneGroup>
-
                             <LayoutAnchorablePaneGroup DockMinWidth="300" >
                                 <LayoutAnchorablePane>
                                     <LayoutAnchorable CanDockAsTabbedDocument="False" Title="Color Picker" 
