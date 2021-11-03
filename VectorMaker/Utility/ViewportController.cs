@@ -1,12 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using VectorMaker.Commands;
 
 namespace VectorMaker.Utility
 {
-    public class ViewportController
+    public class ViewportController : Control
     {
+
         private const float DefaultScale = 1;
         private const float ScaleStep = 0.1f;
         private const float MinimumScale = 0.5f;
@@ -30,24 +33,37 @@ namespace VectorMaker.Utility
         public RotateTransform ObjectsRotateTransform = new RotateTransform();
         public TransformGroup ObjectsTransformGroup = new TransformGroup();
         public TransformGroup ObjectsTransformGroup2 = new TransformGroup();
-        public FrameworkElement ObjectToControl;
-        public ScrollViewer viewer;
 
+        public ICommand ScrollChangedCommand { get; set; }
+        public ICommand PreviewMouseWheelCommand { get; set; }
 
-        public ViewportController(FrameworkElement objectToControl, ScrollViewer scrollViewer)
+        private static DependencyProperty m_scrollViewerProperty =
+DependencyProperty.Register("ScrollViewerProperty", typeof(ScrollViewer), typeof(ViewportController), new PropertyMetadata(null));
+
+        private static DependencyProperty m_objectToControlProperty =
+DependencyProperty.Register("ObjectToControlProperty", typeof(UIElement), typeof(ViewportController), new PropertyMetadata(null));
+
+        public ScrollViewer ScrollViewerProperty
         {
-            ObjectToControl = objectToControl;
-            ObjectsTransformGroup.Children.Add(ObjectsScaleTransform);
-            ObjectsTransformGroup2.Children.Add(ObjectsRotateTransform);
-            ObjectsTransformGroup.Children.Add(ObjectsTranslateTransform);
+            get { return (ScrollViewer)GetValue(m_scrollViewerProperty); }
+            set { SetValue(m_scrollViewerProperty, value); }
+        }
 
-            objectToControl.LayoutTransform = ObjectsTransformGroup;
+        public UIElement ObjectToControlProperty
+        {
+            get { return (UIElement)GetValue(m_objectToControlProperty); }
+            set { SetValue(m_objectToControlProperty, value); }
+        }
 
-            objectToControl.RenderTransform = ObjectsTransformGroup2;
+        static ViewportController()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ViewportController), new FrameworkPropertyMetadata(typeof(ViewportController)));
+        }
 
-            ObjectsRotateTransform.CenterX = (ObjectToControl.Parent as FrameworkElement).ActualWidth / 2;
-            ObjectsRotateTransform.CenterY = (ObjectToControl.Parent as FrameworkElement).ActualHeight / 2;
-            viewer = scrollViewer;
+        private void SetCommands()
+        {
+            ScrollChangedCommand = new CommandBase((obj) => ScrollViewerChangedHandler(obj as ScrollChangedEventArgs));
+            PreviewMouseWheelCommand = new CommandBase((obj) => PreviewMouseWheelHandler(obj as MouseWheelEventArgs));
         }
 
         private void ZoomIn()
@@ -88,7 +104,7 @@ namespace VectorMaker.Utility
         }
 
 
-        public void MouseWheel(MouseWheelEventArgs e)
+        public void PreviewMouseWheelHandler(MouseWheelEventArgs e)
         {
             
             switch (Keyboard.Modifiers)
@@ -112,10 +128,22 @@ namespace VectorMaker.Utility
             }
         }
 
-        public void ScrollViewerChanged(ScrollChangedEventArgs e)
+        public void ScrollViewerChangedHandler(ScrollChangedEventArgs e)
         {
             
         }
 
+        protected override void OnInitialized(EventArgs e) //override On Initialized Event Rised after initialization of Parent
+        {
+            base.OnInitialized(e);
+            ObjectsTransformGroup.Children.Add(ObjectsScaleTransform);
+            ObjectsTransformGroup.Children.Add(ObjectsRotateTransform);
+            ObjectsTransformGroup.Children.Add(ObjectsTranslateTransform);
+
+            ObjectToControlProperty.RenderTransform = ObjectsTransformGroup;
+
+            ObjectsRotateTransform.CenterX = ScrollViewerProperty.ActualWidth / 2;
+            ObjectsRotateTransform.CenterY = ScrollViewerProperty.ActualHeight / 2;
+        }
     }
 }

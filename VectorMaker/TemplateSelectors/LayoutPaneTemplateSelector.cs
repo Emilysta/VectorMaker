@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using VectorMaker.Pages;
+using VectorMaker.ViewModel;
 
 namespace VectorMaker.TemplateSelectors
 {
@@ -8,9 +8,9 @@ namespace VectorMaker.TemplateSelectors
     {
         public DataTemplate FileViewTemplate { get; set; }
 
-        public override DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is DrawingCanvas)
+            if (item is DrawingCanvasViewModel)
                 return FileViewTemplate;
             return base.SelectTemplate(item, container);
         }

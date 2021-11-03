@@ -1,17 +1,20 @@
-﻿<Window
+﻿<Window x:Class="VectorMaker.Views.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
-        xmlns:languages ="clr-namespace:VectorMaker.Languages" 
         xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:docks="https://github.com/Dirkster99/AvalonDock"
-        xmlns:pages="clr-namespace:VectorMaker.Pages" xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
-    x:Class="VectorMaker.MainWindow"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="810" Width="1440" >
+        xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
+        xmlns:utility="clr-namespace:VectorMaker.Utility"
+        xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
+        xmlns:views="clr-namespace:VectorMaker.Views" 
+        mc:Ignorable="d">
+    <Window.Resources>
+        <utility:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
+    </Window.Resources>
     <Grid Background="#FF2D2D30">
         <!--xmlns:icons = "http://metro.mahapps.com/winfx/xaml/iconpacks"-->
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
@@ -29,18 +32,18 @@
                     </Menu.ItemsPanel>
                     <MenuItem Header="VectorMaker" IsEnabled="False" />
                     <MenuItem Header="File">
-                        <MenuItem Header="New Document" Click="NewDocumentButton_Click"/>
-                        <MenuItem Header="Open Document" Click="OpenDocumentButton_Click"/>
+                        <MenuItem Header="New Document" Command="{Binding NewDocumentCommand}"/>
+                        <MenuItem Header="Open Document" Command="{Binding OpenDocumentCommand}"/>
                         <Separator/>
                         <MenuItem Header="Export as">
-                            <MenuItem Header="SVG File" Click="SaveAsSVGDocumentButton_Click"/>
-                            <MenuItem Header="PNG File" Click="SaveAsPNGDocumentButton_Click"/>
-                            <MenuItem Header="BMP File" Click="SaveAsBMPDocumentButton_Click"/>
-                            <MenuItem Header="PDF File" Click="SaveAsPDFDocumentButton_Click"/>
+                            <MenuItem Header="SVG File" Command="{Binding ActiveCanvas.SaveAsSVGCommand}"/>
+                            <MenuItem Header="PNG File" Command="{Binding ActiveCanvas.SaveAsPNGCommand}"/>
+                            <MenuItem Header="BMP File" Command="{Binding ActiveCanvas.SaveAsBMPCommand}"/>
+                            <MenuItem Header="PDF File" Command="{Binding ActiveCanvas.SaveAsPDFCommand}"/>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Header="Save Current File" Click="SaveDocumentButton_Click"/>
-                        <MenuItem Header="Save All Files" Click="SaveAllDocumentsButton_Click"/>
+                        <MenuItem Header="Save Current File" Command="{Binding ActiveCanvas.SaveCommand}"/>
+                        <MenuItem Header="Save All Files" Command="{Binding SaveAllCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Edit" IsEnabled="False"/>
                     <MenuItem Header="Object" >
@@ -55,10 +58,10 @@
                     <MenuItem Header="Filter" />
                     <MenuItem Header="Select" />
                     <MenuItem Header="Tools" >
-                        <MenuItem Header="Transform Tool" Click="TransformToolMenuItem_Click"/>
-                        <MenuItem Header="Fill &amp; Stroke Properties Tool" Click="PropertiesToolMenuItem_Click"/>
-                        <MenuItem Header="Color Picker" Click="ColorPickerMenuItem_Click"/>
-                        <MenuItem Header="Alignment Tool" Click="AlignmentToolMenuItem_Click"/>
+                        <MenuItem Header="Transform Tool" Command="{Binding OpenTransformToolCommand}"/>
+                        <MenuItem Header="Fill &amp; Stroke Properties Tool" Command="{Binding OpenPropertiesToolCommand}"/>
+                        <MenuItem Header="Color Picker" Command="{Binding OpenColorPickerToolCommand}"/>
+                        <MenuItem Header="Alignment Tool" Command="{Binding OpenAlignmentToolCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Help" />
                     <MenuItem Header="" />
@@ -70,25 +73,26 @@
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <controls:ButtonWithIcon x:Name="MinimizeApplicationButton" Grid.Column="1" ToolTip="Minimize" IconKind="Dash" Click="MinimizeApplicationButton_Click" />
-                    <controls:ToggleButtonWithIcon x:Name="MaximizeApplicationButton" Grid.Column="2" ToolTip="Maximize" IconKind="WindowMaximizeRegular"
-                                                   Click="MaximizeRestoreApplicationButton_Click"/>
-                    <controls:ButtonWithIcon x:Name="ExitApplicationButton" Grid.Column="3" ToolTip="Exit" IconKind="X" Click="ExitApplicationButton_Click"/>
+                    <controls:ButtonWithIcon Grid.Column="1" ToolTip="Minimize" IconKind="Dash" Background="Transparent" Click="MinimizeApplicationButton_Click" />
+                    <controls:ToggleButtonWithIcon Grid.Column="2" ToolTip="Maximize" IconKind="WindowMaximizeRegular"
+                                                   Click="MaximizeRestoreApplicationButton_Click" Background="Transparent" />
+                    <controls:ButtonWithIcon Grid.Column="3" ToolTip="Exit" IconKind="X" Click="ExitApplicationButton_Click"
+                                             Background="Transparent" />
+                    
 
                 </Grid>
-                <!--<ToolBar HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="800" Background="#FF1A1A1A">
-                    <Button Content="File" Foreground="#FFBAC3C3" />
-                </ToolBar>-->
             </Grid>
-            <Grid DockPanel.Dock="Top" x:Name="FileSettingsDockPanel" Height="20" Background="Transparent">
+            
+            <Grid DockPanel.Dock="Top" Height="20" Background="Transparent">
                 <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
-                    <MenuItem Click="NewDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
-                    <MenuItem Click="OpenDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
-                    <MenuItem Click="SaveDocumentButton_Click" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
-                    <MenuItem Click="SaveAllDocumentsButton_Click" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding NewDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding OpenDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding ActiveCanvas.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding SaveAllCommand}" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
                 </Menu>
             </Grid>
-            <Grid DockPanel.Dock="Top" x:Name="PaintSettingsDockPanel" Height="20" Background="Transparent">
+            
+            <Grid DockPanel.Dock="Top" Height="20" Background="Transparent">
                 <!--<Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
                        Content="{Binding SelectedObjectString}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
@@ -99,47 +103,54 @@
                 <TextBox x:Name="StrokeTextBox" Grid.Column="2" Margin="3"/>
                 <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>-->
             </Grid>
+            
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="23">
                 <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
-                    <MenuItem Click="DrawRectangleButton_Click" Header="{iconPacks:BootstrapIcons SquareHalf, Height=15, Width=10}"/>
-                    <MenuItem Click="DrawEllipseButton_Click" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
-                    <MenuItem Click="DrawLineButton_Click" Header="{iconPacks:BootstrapIcons Slash, Height=15, Width=10}"/>
-                    <MenuItem Click="SelectItemButton_Click" Header="{iconPacks:BootstrapIcons Kind=BoundingBox, Height=15, Width=10}"/>
-                    <MenuItem Click="DrawPolylineButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
-                    <MenuItem Click="DrawPolygonButton_Click" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
-                    <MenuItem Click="UnionButton_Click" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding DrawRectangleCommand}" Header="{iconPacks:BootstrapIcons SquareHalf, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding DrawEllipseCommand}" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding DrawLineCommand}" Header="{iconPacks:BootstrapIcons Slash, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding SelectionToolCommand}" Header="{iconPacks:BootstrapIcons Kind=BoundingBox, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding DrawPolylineCommand}" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding DrawPolygonCommand}" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding UnionCommand}" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
                 </Menu>
             </Grid>
+            
             <!-- Bottom Dock-->
             <Grid DockPanel.Dock="Bottom" Height="25">
-
                 <Menu Background="#FF1A1A1D" FontSize="11">
                     <MenuItem Header="1" Foreground="#FFC3C3C3"/>
                     <MenuItem Header="2" Foreground="#FFC3C3C3"/>
                 </Menu>
             </Grid>
+            
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch">
-                <Frame Source="Pages/NewDocumentPage.xaml" x:Name="NewDocumentFrame" Visibility="Hidden"/>
+                <!--<Frame Source="Pages/NewDocumentPage.xaml" Visibility="Hidden"/>-->
                 <docks:DockingManager HorizontalAlignment="Stretch" Visibility="Visible" AutoWindowSizeWhenOpened="True" 
-                                      DocumentsSource="{Binding Documents}">
-                    <!--<docks:DockingManager.LayoutItemTemplateSelector>
+                                      DocumentsSource="{Binding Documents}" ActiveContent="{Binding ActiveCanvas, Mode=TwoWay, Converter={StaticResource DockingDocumentConverter}}">
+                    <docks:DockingManager.LayoutItemTemplateSelector>
                         <templateselectors:LayoutPaneTemplateSelector>
                             <templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
-                                <DataTemplate>
-                                    <Frame Content="{Binding Path={}}"/>
+                                <DataTemplate DataType="{x:Type viewModels:DrawingCanvasViewModel}">
+                                    <views:DrawingCanvasView/>
                                 </DataTemplate>
                             </templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
                         </templateselectors:LayoutPaneTemplateSelector>
-                    </docks:DockingManager.LayoutItemTemplateSelector>-->
+                    </docks:DockingManager.LayoutItemTemplateSelector>
+                    <docks:DockingManager.DocumentHeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content.Model.FileName}" TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </docks:DockingManager.DocumentHeaderTemplate>
                     <DockingManager.Theme>
                         <Vs2013DarkTheme/>
                     </DockingManager.Theme>
                     <docks:LayoutRoot>
                         <LayoutPanel>
                             <LayoutDocumentPaneGroup >
-                                <LayoutDocumentPane  x:Name="DocumentPaneGroup">
+                                <LayoutDocumentPane >
                                 </LayoutDocumentPane>
                             </LayoutDocumentPaneGroup>
                             <LayoutAnchorablePaneGroup DockMinWidth="300" >
@@ -182,6 +193,8 @@
                         </LayoutPanel>
                     </docks:LayoutRoot>
                 </docks:DockingManager>
+                <!--<Rectangle Width="100" Height="100" Fill="red">
+                </Rectangle>-->
             </Grid>
         </DockPanel>
     </Grid>

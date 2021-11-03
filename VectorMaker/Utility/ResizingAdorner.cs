@@ -6,12 +6,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Xaml.Behaviors;
+using Microsoft.Xaml.Behaviors.Layout;
 
 namespace VectorMaker.Utility
 {
     public class ResizingAdorner : Adorner
     {
-        private const double ScaleStepValue = 0.01d;
+        private const double ScaleStepValue = 0.007d;
         private Thumb m_scaleThumb;
         private Thumb m_dragThumb;
         private Thumb m_rotateThumb;
@@ -23,10 +25,12 @@ namespace VectorMaker.Utility
         private RotateTransform m_rotateTransform;
         private ScaleTransform m_scaleTransform;
         private ScaleTransform m_startScale;
+        private Transform m_transform;
         private Point m_startPoint;
         private Style m_scaleThumbStyleDuringDrag;
         private Style m_scaleThumbStyle;
         private Canvas m_canvas;
+        private MouseDragElementBehavior mouseDrag = new();
 
         public ResizingAdorner(UIElement adornedElement, AdornerLayer myLayer, Canvas canvas) : base(adornedElement)
         {
@@ -34,6 +38,8 @@ namespace VectorMaker.Utility
             m_myLayer = myLayer;
             SetClassElements();
             m_canvas = canvas;
+            m_transform = m_adornedElement.RenderTransform;
+            mouseDrag.Attach(AdornedElement);
         }
         public void RemoveFromAdornerLayer()
         {
@@ -78,12 +84,14 @@ namespace VectorMaker.Utility
         }
         private void SetTransformGroup()
         {
-            m_transformGroup = new TransformGroup();
-            if (m_adornedElement.RenderTransform != null)
-                m_transformGroup.Children.Add(m_adornedElement.RenderTransform);
-            m_translateTransform = new TranslateTransform();
-            m_transformGroup.Children.Add(m_translateTransform);
-            m_adornedElement.RenderTransform = m_transformGroup;
+            //m_transformGroup = new TransformGroup();
+            //if (m_adornedElement.RenderTransform != null)
+            //{
+            //    m_transformGroup.Children.Add(m_adornedElement.RenderTransform);
+            //}
+            //m_translateTransform = new TranslateTransform();
+            //m_transformGroup.Children.Add(m_translateTransform);
+            //m_adornedElement.RenderTransform = m_transformGroup;
 
         }
         private void CreateScaleThumb()
@@ -120,46 +128,66 @@ namespace VectorMaker.Utility
         }
         private void SetStartCompletedDragEvent()
         {
+            m_dragThumb.MouseDown += (a, b) =>
+            {
+                //mouseDrag.Attach(AdornedElement);
+                m_dragThumb.CancelDrag();
+            };
+
+            m_dragThumb.MouseUp += (a, b) =>
+            {
+                //mouseDrag.Detach();
+            };
             m_scaleThumb.DragStarted += (a, b) =>
             {
                 m_scaleThumb.Style = m_scaleThumbStyleDuringDrag;
                 m_dragThumb.Visibility = Visibility.Hidden;
                 m_rotateThumb.Visibility = Visibility.Hidden;
-                m_scaleTransform = new ScaleTransform();
+                //m_scaleTransform = new ScaleTransform();
                 m_startPoint = m_adornedElement.TranslatePoint(new Point(0, 0), m_canvas);
-                m_startScale = new ScaleTransform(m_scaleTransform.ScaleX, m_scaleTransform.ScaleY);
-                m_scaleTransform.CenterX = m_startPoint.X;
-                m_scaleTransform.CenterY = m_startPoint.Y;
-                m_transformGroup.Children.Add(m_scaleTransform);
+                //m_startScale = new ScaleTransform(m_scaleTransform.ScaleX, m_scaleTransform.ScaleY);
+                //m_scaleTransform.CenterX = m_startPoint.X;
+                //m_scaleTransform.CenterY = m_startPoint.Y;
+                //m_transformGroup.Children.Add(m_scaleTransform);
             };
             m_scaleThumb.DragCompleted += (a, b) =>
             {
+                
                 m_scaleThumb.Style = m_scaleThumbStyle;
                 m_dragThumb.Visibility = Visibility.Visible;
                 m_rotateThumb.Visibility = Visibility.Visible;
+                //Size size = new Size(AdornedElement.RenderSize.Width * m_scaleTransform.ScaleX, AdornedElement.RenderSize.Height * m_scaleTransform.ScaleY);
+                //m_adornedElement.Width = size.Width;
+                //m_adornedElement.Height = size.Height;
+                
+                //m_scaleTransform.ScaleX = 1;
+                //m_scaleTransform.ScaleY = 1;
                 this.InvalidateVisual();
             };
 
-            m_dragThumb.DragStarted += (a, b) =>
-            {
-                m_scaleThumb.Visibility = Visibility.Hidden;
-                m_rotateThumb.Visibility = Visibility.Hidden;
-
-            };
-            m_dragThumb.DragCompleted += (a, b) =>
-            {
-                m_scaleThumb.Visibility = Visibility.Visible;
-                m_rotateThumb.Visibility = Visibility.Visible;
-            };
+            //m_dragThumb.DragStarted += (a, b) =>
+            //{
+            //    m_scaleThumb.Visibility = Visibility.Hidden;
+            //    m_rotateThumb.Visibility = Visibility.Hidden;
+            //    //Interaction.GetBehaviors(AdornedElement).Add(mouseDrag);
+            //    mouseDrag.Attach(AdornedElement);
+            //};
+            //m_dragThumb.DragCompleted += (a, b) =>
+            //{
+            //    m_scaleThumb.Visibility = Visibility.Visible;
+            //    m_rotateThumb.Visibility = Visibility.Visible;
+            //    //Interaction.GetBehaviors(AdornedElement).Remove(mouseDrag);
+            //    mouseDrag.Detach();
+            //};
 
             m_rotateThumb.DragStarted += (a, b) =>
             {
                 Point point = new Point(m_adornedElement.Width / 2, m_adornedElement.Height / 2);
                 m_startPoint = m_adornedElement.TranslatePoint(point, m_canvas);
-                m_rotateTransform = new RotateTransform();
-                m_rotateTransform.CenterX = m_startPoint.X;
-                m_rotateTransform.CenterY = m_startPoint.Y;
-                m_transformGroup.Children.Add(m_rotateTransform);
+                //m_rotateTransform = new RotateTransform();
+                //m_rotateTransform.CenterX = m_startPoint.X;
+                //m_rotateTransform.CenterY = m_startPoint.Y;
+                //m_transformGroup.Children.Add(m_rotateTransform);
                 m_scaleThumb.Visibility = Visibility.Hidden;
                 m_dragThumb.Visibility = Visibility.Hidden;
             };
@@ -171,35 +199,54 @@ namespace VectorMaker.Utility
         }
         private void ScaleThumbDrag(object sender, DragDeltaEventArgs args)
         {
-            if (Double.IsNormal(args.HorizontalChange) && Double.IsNormal(args.VerticalChange))
+            Matrix matrix = m_transform.Value;
+            Point CurrentPoint = Mouse.GetPosition(m_canvas);
+            Point test = new Point(CurrentPoint.X - m_startPoint.X,CurrentPoint.Y - m_startPoint.Y);
+            double scaleX = test.X / (AdornedElement.RenderSize.Width *matrix.M11);
+            double scaleY = test.Y / (AdornedElement.RenderSize.Height * matrix.M22);
+            if (double.IsNormal(scaleX) && double.IsNormal(scaleY))
             {
-                m_scaleTransform.ScaleX = m_startScale.ScaleX + (args.HorizontalChange * ScaleStepValue);
-                m_scaleTransform.ScaleY = m_startScale.ScaleY + (args.VerticalChange * ScaleStepValue);
+                Trace.WriteLine($"{test} {scaleX} {scaleY}");
+                matrix.ScaleAt(scaleX, scaleY, m_startPoint.X, m_startPoint.Y);
+                m_adornedElement.RenderTransform = new MatrixTransform(matrix);
+                m_transform = m_adornedElement.RenderTransform;
             }
-            else
-                Trace.WriteLine($"Not a normal");
+            AdornedElement.InvalidateVisual();
         }
         private void TranslateThumbDrag(object sender, DragDeltaEventArgs args)
         {
-            m_translateTransform.X += args.HorizontalChange;
-            m_translateTransform.Y += args.VerticalChange;
-            this.InvalidateVisual();
+            //m_translateTransform.X += args.HorizontalChange;
+            //m_translateTransform.Y += args.VerticalChange;
+            //Matrix matrix = m_transform.Value;
+            //matrix.Translate(args.HorizontalChange, args.VerticalChange);
+            //m_adornedElement.RenderTransform = new MatrixTransform(matrix);
+            //m_transform = m_adornedElement.RenderTransform;
+           // AdornedElement.InvalidateVisual();
+            //Interaction.GetBehaviors(AdornedElement).Add(new MouseDragElementBehavior());
+
+            Trace.WriteLine(m_transform.Value.ToString());
+            //this.InvalidateVisual();
         }
         private void RotateThumbMouseWheel(object sender, MouseWheelEventArgs args)
         {
             if (m_rotateThumb.IsDragging)
             {
-                m_rotateTransform.CenterX = m_startPoint.X;
-                m_rotateTransform.CenterY = m_startPoint.Y;
-                m_rotateTransform.Angle += args.Delta > 0 ? 1 : -1; //todo SetByUser
-                if (m_rotateTransform.Angle > 360)
-                {
-                    m_rotateTransform.Angle -= 360;
-                }
-                else if (m_rotateTransform.Angle < -360)
-                {
-                    m_rotateTransform.Angle += 360;
-                }
+                //m_rotateTransform.CenterX = m_startPoint.X;
+                //m_rotateTransform.CenterY = m_startPoint.Y;
+                //m_rotateTransform.Angle += args.Delta > 0 ? 1 : -1; //todo SetByUser
+                //if (m_rotateTransform.Angle > 360)
+                //{
+                //    m_rotateTransform.Angle -= 360;
+                //}
+                //else if (m_rotateTransform.Angle < -360)
+                //{
+                //    m_rotateTransform.Angle += 360;
+                //}
+                Matrix matrix = m_transform.Value;
+                matrix.RotateAt(args.Delta > 0 ? 1 : -1,m_startPoint.X,m_startPoint.Y);
+                m_adornedElement.RenderTransform = new MatrixTransform(matrix);
+                m_transform = m_adornedElement.RenderTransform;
+                AdornedElement.InvalidateVisual();
             }
             this.InvalidateVisual();
         }

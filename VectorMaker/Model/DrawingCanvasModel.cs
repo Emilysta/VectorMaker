@@ -8,7 +8,7 @@ using VectorMaker.Utility;
 
 namespace VectorMaker.Model
 {
-    class DrawingCanvasModel : NotifyPropertyChangedBase
+    public class DrawingCanvasModel : NotifyPropertyChangedBase
     {
         private bool m_isSaved = true;
         private string m_filePath;
@@ -21,6 +21,7 @@ namespace VectorMaker.Model
             {
                 m_isSaved = value;
                 OnPropertyChanged("IsSaved");
+                OnPropertyChanged("FileName");
             }
         }
 

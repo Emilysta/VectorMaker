@@ -23,121 +23,121 @@ namespace VectorMaker.PropertiesPanel
 
         private void ApplyTranslationButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Transform transform = m_adorner.AdornedElement.RenderTransform;
-                TranslateTransform translateTransform = new TranslateTransform();
-                translateTransform.X = (double)TranslationXTextBox.Value;
-                translateTransform.Y = (double)TranslationYTextBox.Value;
-                TransformGroup transformGroup = transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(transform);
-                    transformGroup.Children.Add(translateTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(translateTransform);
-                }
+            //if (IsOneObjectSelected && m_adorner != null)
+            //{
+            //    Transform transform = m_adorner.AdornedElement.RenderTransform;
+            //    TranslateTransform translateTransform = new TranslateTransform();
+            //    translateTransform.X = (double)TranslationXTextBox.Value;
+            //    translateTransform.Y = (double)TranslationYTextBox.Value;
+            //    TransformGroup transformGroup = transform as TransformGroup;
+            //    if (transformGroup == null)
+            //    {
+            //        transformGroup = new TransformGroup();
+            //        transformGroup.Children.Add(transform);
+            //        transformGroup.Children.Add(translateTransform);
+            //        m_adorner.AdornedElement.RenderTransform = transformGroup;
+            //    }
+            //    else
+            //    {
+            //        transformGroup.Children.Add(translateTransform);
+            //    }
 
-                m_adorner.AdornedElement.InvalidateVisual();
-            }
+            //    m_adorner.AdornedElement.InvalidateVisual();
+            //}
         }
 
         private void ApplyRotationButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Transform transform = m_adorner.AdornedElement.RenderTransform;
-                RotateTransform rotateTransform = new RotateTransform();
+            //if (IsOneObjectSelected && m_adorner != null)
+            //{
+            //    Transform transform = m_adorner.AdornedElement.RenderTransform;
+            //    RotateTransform rotateTransform = new RotateTransform();
 
-                Point toTranslate = new Point((double)RotateCenterXBox.Value * m_adorner.ActualWidth
-                    , (double)RotateCenterYBox.Value * m_adorner.ActualHeight);
-                Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
-                rotateTransform.Angle = (double)RotateAngleBox.Value;
-                rotateTransform.CenterX = center.X;
-                rotateTransform.CenterY = center.Y;
+            //    Point toTranslate = new Point((double)RotateCenterXBox.Value * m_adorner.ActualWidth
+            //        , (double)RotateCenterYBox.Value * m_adorner.ActualHeight);
+            //    Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
+            //    rotateTransform.Angle = (double)RotateAngleBox.Value;
+            //    rotateTransform.CenterX = center.X;
+            //    rotateTransform.CenterY = center.Y;
 
-                TransformGroup transformGroup = transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(transform);
-                    transformGroup.Children.Add(rotateTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(rotateTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
-            }
+            //    TransformGroup transformGroup = transform as TransformGroup;
+            //    if (transformGroup == null)
+            //    {
+            //        transformGroup = new TransformGroup();
+            //        transformGroup.Children.Add(transform);
+            //        transformGroup.Children.Add(rotateTransform);
+            //        m_adorner.AdornedElement.RenderTransform = transformGroup;
+            //    }
+            //    else
+            //    {
+            //        transformGroup.Children.Add(rotateTransform);
+            //    }
+            //    m_adorner.AdornedElement.InvalidateVisual();
+            //}
         }
 
         private void ApplyScaleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Transform transform = m_adorner.AdornedElement.RenderTransform;
-                ScaleTransform scaleTransform = new ScaleTransform();
+            //if (IsOneObjectSelected && m_adorner != null)
+            //{
+            //    Transform transform = m_adorner.AdornedElement.RenderTransform;
+            //    ScaleTransform scaleTransform = new ScaleTransform();
 
-                Point toTranslate = new Point((double)ScaleCenterXBox.Value * m_adorner.ActualWidth,
-                    (double)ScaleCenterYBox.Value * m_adorner.ActualHeight);
+            //    Point toTranslate = new Point((double)ScaleCenterXBox.Value * m_adorner.ActualWidth,
+            //        (double)ScaleCenterYBox.Value * m_adorner.ActualHeight);
 
-                Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
-                scaleTransform.ScaleX = (double)ScaleXBox.Value;
-                scaleTransform.ScaleY = (double)ScaleYBox.Value;
-                scaleTransform.CenterX = center.X;
-                scaleTransform.CenterY = center.Y;
+            //    Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
+            //    scaleTransform.ScaleX = (double)ScaleXBox.Value;
+            //    scaleTransform.ScaleY = (double)ScaleYBox.Value;
+            //    scaleTransform.CenterX = center.X;
+            //    scaleTransform.CenterY = center.Y;
 
-                TransformGroup transformGroup = transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(transform);
-                    transformGroup.Children.Add(scaleTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(scaleTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
-            }
+            //    TransformGroup transformGroup = transform as TransformGroup;
+            //    if (transformGroup == null)
+            //    {
+            //        transformGroup = new TransformGroup();
+            //        transformGroup.Children.Add(transform);
+            //        transformGroup.Children.Add(scaleTransform);
+            //        m_adorner.AdornedElement.RenderTransform = transformGroup;
+            //    }
+            //    else
+            //    {
+            //        transformGroup.Children.Add(scaleTransform);
+            //    }
+            //    m_adorner.AdornedElement.InvalidateVisual();
+            //}
         }
 
         private void ApplySkewButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Transform transform = m_adorner.AdornedElement.RenderTransform;
-                SkewTransform skewTransform = new SkewTransform();
+        //    if (IsOneObjectSelected && m_adorner != null)
+        //    {
+        //        Transform transform = m_adorner.AdornedElement.RenderTransform;
+        //        SkewTransform skewTransform = new SkewTransform();
 
-                Point toTranslate = new Point((double)ScaleCenterXBox.Value * m_adorner.ActualWidth,
-                    (double)ScaleCenterYBox.Value * m_adorner.ActualHeight);
+        //        Point toTranslate = new Point((double)ScaleCenterXBox.Value * m_adorner.ActualWidth,
+        //            (double)ScaleCenterYBox.Value * m_adorner.ActualHeight);
 
-                Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
-                skewTransform.AngleX = (double)SkewAngleXBox.Value;
-                skewTransform.AngleY = (double)SkewAngleYBox.Value;
-                skewTransform.CenterX = center.X;
-                skewTransform.CenterY = center.Y;
+        //        Point center = m_adorner.TranslatePoint(toTranslate, (frame.Content as DrawingCanvas).MainCanvas);
+        //        skewTransform.AngleX = (double)SkewAngleXBox.Value;
+        //        skewTransform.AngleY = (double)SkewAngleYBox.Value;
+        //        skewTransform.CenterX = center.X;
+        //        skewTransform.CenterY = center.Y;
 
-                TransformGroup transformGroup = transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(transform);
-                    transformGroup.Children.Add(skewTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(skewTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
-            }
+        //        TransformGroup transformGroup = transform as TransformGroup;
+        //        if (transformGroup == null)
+        //        {
+        //            transformGroup = new TransformGroup();
+        //            transformGroup.Children.Add(transform);
+        //            transformGroup.Children.Add(skewTransform);
+        //            m_adorner.AdornedElement.RenderTransform = transformGroup;
+        //        }
+        //        else
+        //        {
+        //            transformGroup.Children.Add(skewTransform);
+        //        }
+        //        m_adorner.AdornedElement.InvalidateVisual();
+        //    }
         }
 
         private void CheckSelection()

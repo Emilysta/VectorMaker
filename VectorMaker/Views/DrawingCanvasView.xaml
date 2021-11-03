@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="VectorMaker.Views.DrawingCanvasView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+      xmlns:utility="clr-namespace:VectorMaker.Utility" 
+      mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="1400">
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
+    </UserControl.Resources>
+    <Grid ClipToBounds="True">
+        <Grid.Resources>
+            <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
+            <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
+        </Grid.Resources>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible" 
+                      AllowDrop="True" x:Name="ScrollViewer" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewKeyDown">
+                    <i:InvokeCommandAction Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewKeyUp">
+                    <i:InvokeCommandAction Command="{Binding  PreviewKeyUpCommand}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Drop">
+                    <i:InvokeCommandAction Command="{Binding  DropCommand}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="ScrollChanged">
+                    <i:InvokeCommandAction Command="{Binding ScrollChangedCommand,ElementName=ViewportControllerObject}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewMouseWheel">
+                    <i:InvokeCommandAction Command="{Binding PreviewMouseWheelCommand, ElementName=ViewportControllerObject}" PassEventArgsToCommand="True" CommandParameter=""/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction Command="{Binding MouseLeftUpCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding MouseLeftDownCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseMove">
+                        <i:InvokeCommandAction Command="{Binding MouseMoveCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid.Background>
+                    <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="#202020"/>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+                </Grid.Background>
+                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="3"/>
+                    </Border.Effect>
+                    <Canvas x:Name="CanvasObject"/>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+        <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
+    </Grid>
+</UserControl>
