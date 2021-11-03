@@ -51,10 +51,10 @@
                 </i:Interaction.Triggers>
                 <Grid.Background>
                     <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
-                    <DrawingBrush.Drawing>
-                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="#202020"/>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="#202020"/>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
                 </Grid.Background>
                 <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page">
                     <Border.Effect>
@@ -62,6 +62,17 @@
                     </Border.Effect>
                     <Canvas x:Name="CanvasObject"/>
                 </Border>
+                <Rectangle Width="50" Height="50" Fill="red" RenderTransformOrigin="0.5,0.5">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="3" ScaleY="2"/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-2680.907"/>
+                            <TranslateTransform X="214.484" Y="58.1539"/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+
+                </Rectangle>
             </Grid>
         </ScrollViewer>
         <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />

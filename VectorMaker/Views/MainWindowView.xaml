@@ -11,6 +11,7 @@
         xmlns:utility="clr-namespace:VectorMaker.Utility"
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
+        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d">
     <Window.Resources>
         <utility:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
@@ -193,8 +194,11 @@
                         </LayoutPanel>
                     </docks:LayoutRoot>
                 </docks:DockingManager>
-                <!--<Rectangle Width="100" Height="100" Fill="red">
-                </Rectangle>-->
+                <Rectangle Width="100" Height="100" Fill="red">
+                    <beh:Interaction.Behaviors>
+                        <beh:MouseDragElementBehavior/>
+                    </beh:Interaction.Behaviors>
+                </Rectangle>
             </Grid>
         </DockPanel>
     </Grid>

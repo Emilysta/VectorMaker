@@ -233,16 +233,10 @@ namespace VectorMaker.ViewModel
             PointHitTestResult testResult = result as PointHitTestResult;
             if ((testResult.VisualHit as FrameworkElement).Parent == m_mainCanvas)
             {
-                //AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                //ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer,m_mainCanvas);
-                //adornerLayer.Add(adorner);
-                //Model.SelectedObjects.Add(adorner);
-                //MouseDragElementBehavior behavior = new MouseDragElementBehavior();
-                //behavior.Attach(testResult.VisualHit as DependencyObject);
-
-                TranslateZoomRotateBehavior behavior1 = new TranslateZoomRotateBehavior();
-                behavior1.SupportedGestures = ManipulationModes.Scale;
-                behavior1.Attach(testResult.VisualHit as DependencyObject);
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
+                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
+                adornerLayer.Add(adorner);
+                Model.SelectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
