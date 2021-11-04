@@ -12,7 +12,6 @@ namespace VectorMaker.Model
     {
         private bool m_isSaved = true;
         private string m_filePath;
-        private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
 
         public bool IsSaved
         {
@@ -47,22 +46,7 @@ namespace VectorMaker.Model
             }
         }
 
-        public bool IsOneObjectSelected
-        {
-            get
-            {
-                return SelectedObjects.Count == 1 ? true : false; 
-            }
-        }
 
-        public ObservableCollection<ResizingAdorner> SelectedObjects
-        {
-            get => m_selectedObjects;
-            set{
-                m_selectedObjects = value;
-                OnPropertyChanged("SelectedObjects");
-            }
-        }
 
     }
 

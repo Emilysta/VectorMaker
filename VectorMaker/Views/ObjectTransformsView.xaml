@@ -1,11 +1,9 @@
-﻿<UserControl x:Class="VectorMaker.PropertiesPanel.ObjectTransforms"
+﻿<UserControl x:Class="VectorMaker.Views.ObjectTransformsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:VectorMaker.PropertiesPanel"
     xmlns:controls ="clr-namespace:VectorMaker.ControlsResources"
-    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
     mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="300" FontSize="13" FontWeight="Light">
     <UserControl.Resources>
@@ -16,7 +14,7 @@
             <Setter Property="Margin" Value="0,0,3,0"/>
         </Style>
     </UserControl.Resources>
-    <Border BorderThickness="0.4" BorderBrush="#CC5F5F62" Width="{Binding Width, RelativeSource={RelativeSource Self}}" Height="{Binding Height,RelativeSource={RelativeSource Self}}">
+    <Border BorderThickness="0.4" BorderBrush="#CC5F5F62" Width="{Binding Width, RelativeSource={RelativeSource Self}}" Height="{Binding Height,RelativeSource={RelativeSource Self}}" >
         <Grid Background="#FF252525">
             <mahControls:MetroTabControl x:Name="TransformPropertiesTabControl" mahControls:HeaderedControlHelper.HeaderFontSize="13" mahControls:HeaderedControlHelper.HeaderFontWeight="Light" Grid.Row="1" Margin="1" Background="#FF1A1A1A" BorderBrush="{StaticResource TabControlBorderColor}" BorderThickness="0,1,0,0">
                 <mahControls:MetroTabItem Header="Translate" CloseButtonEnabled="False" Background="#19FFFFFF" x:Name="TranslateTabItem">
@@ -40,7 +38,7 @@
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="TranslationYTextBox"/>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyTranslationButton" Click="ApplyTranslationButton_Click"/>
+                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyTranslationButton" Command="{Binding ApplyTranslationCommand}"/>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -76,7 +74,7 @@
                             <mahControls:NumericUpDown Grid.Column="1"  x:Name="RotateAngleBox"/>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyRotationButton" Click="ApplyRotationButton_Click" VerticalContentAlignment="Center"/>
+                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyRotationButton" Command="{Binding ApplyRotationCommand}" VerticalContentAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -116,7 +114,7 @@
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="ScaleYBox" />
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" Width="80" ButtonCornerRadius="1" ButtonContent="Apply" x:Name="ApplyScaleButton" Click="ApplyScaleButton_Click" VerticalContentAlignment="Center"/>
+                            <controls:ButtonWithIcon Margin="4" Width="80" ButtonCornerRadius="1" ButtonContent="Apply" x:Name="ApplyScaleButton" Command="{Binding ApplyScaleCommand}" VerticalContentAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -157,13 +155,13 @@
                         </Grid>
                         <Grid Grid.Row="2">
                             <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" 
-                                                     Width="80" x:Name="ApplySkewButton" Click="ApplySkewButton_Click" VerticalContentAlignment="Center"/>
+                                                     Width="80" x:Name="ApplySkewButton" Command="{Binding ApplySkewCommand}" VerticalContentAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
             </mahControls:MetroTabControl>
             <Border Grid.Row="1" Margin="0,23,0,0" Background="{StaticResource LightGreyBrush}" 
-                    Opacity="0.2" Visibility="Hidden" x:Name="BlockingBlend"/>
+                    Opacity="0.2" x:Name="BlockingBlend" Visibility="{Binding BlendVisibility}"/>
         </Grid>
     </Border>
 </UserControl>

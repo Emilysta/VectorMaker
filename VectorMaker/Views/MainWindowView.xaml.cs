@@ -13,7 +13,6 @@ namespace VectorMaker.Views
         public MainWindowView()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
         }
 
         protected override void OnClosed(EventArgs e) //toDo (?)

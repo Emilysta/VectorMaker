@@ -19,22 +19,20 @@ using System.Drawing.Printing;
 using System.Linq;
 using VectorMaker.Commands;
 using System.Collections.ObjectModel;
-using Microsoft.Xaml.Behaviors.Layout;
-using Microsoft.Xaml.Behaviors.Input;
+using System.ComponentModel;
 
 namespace VectorMaker.ViewModel
 {
     public class DrawingCanvasViewModel : NotifyPropertyChangedBase
     {
         public string Title => Model.FileName;
-
         public DrawingCanvasModel Model { get; set; } = new DrawingCanvasModel();
         private Point m_positionInCanvas;
         private bool m_wasFirstDown = false;
         private Drawable m_drawableObject;
         private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
-
+        private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
 
         public Canvas MainCanvas
         {
@@ -43,7 +41,23 @@ namespace VectorMaker.ViewModel
         }
         public bool IgnoreDrawing => DrawableType == DrawableTypes.None;
 
+        public bool IsOneObjectSelected
+        {
+            get
+            {
+                return SelectedObjects.Count == 1 ? true : false;
+            }
+        }
 
+        public ObservableCollection<ResizingAdorner> SelectedObjects
+        {
+            get => m_selectedObjects;
+            set
+            {
+                m_selectedObjects = value;
+                OnPropertyChanged("SelectedObjects");
+            }
+        }
 
         public DrawableTypes DrawableType { get; set; }
 
@@ -217,11 +231,11 @@ namespace VectorMaker.ViewModel
         {
             if (!(Keyboard.Modifiers == ModifierKeys.Shift))
             {
-                foreach (ResizingAdorner adorner in Model.SelectedObjects)
+                foreach (ResizingAdorner adorner in SelectedObjects)
                 {
                     adorner.RemoveFromAdornerLayer();
                 }
-                Model.SelectedObjects.Clear();
+                SelectedObjects.Clear();
             }
 
             VisualTreeHelper.HitTest(m_mainCanvas, null,
@@ -236,7 +250,7 @@ namespace VectorMaker.ViewModel
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
                 ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
                 adornerLayer.Add(adorner);
-                Model.SelectedObjects.Add(adorner);
+                SelectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
@@ -365,7 +379,7 @@ namespace VectorMaker.ViewModel
         private void Union()
         {
             GeometryGroup geometryGroup = new GeometryGroup();
-            foreach (ResizingAdorner adorner in Model.SelectedObjects)
+            foreach (ResizingAdorner adorner in SelectedObjects)
             {
                 Shape shape = adorner.AdornedElement as Shape;
                 Geometry geometry = shape?.RenderedGeometry;
@@ -383,7 +397,7 @@ namespace VectorMaker.ViewModel
             System.Windows.Shapes.Path path = new ();
             path.Data = geometryGroup;
             geometryGroup.FillRule = FillRule.EvenOdd;
-            Shape lastShape = Model.SelectedObjects.Last().AdornedElement as Shape;
+            Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
 
             path.Style = lastShape.Style;
             path.Fill = lastShape.Fill;
@@ -394,7 +408,7 @@ namespace VectorMaker.ViewModel
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
             ResizingAdorner newAdorner = new ResizingAdorner(path, adornerLayer, m_mainCanvas);
             adornerLayer.Add(newAdorner);
-            Model.SelectedObjects.Add(newAdorner);
+            SelectedObjects.Add(newAdorner);
         }
         private void Exclude()
         {
