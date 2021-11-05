@@ -1,40 +1,43 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using VectorMaker.Commands;
 using VectorMaker.Intefaces;
 using VectorMaker.Utility;
-using VectorMaker.Views;
 
 namespace VectorMaker.ViewModel
 {
-    internal class ObjectTransformsViewModel : ToolBaseViewModel, INotifyPropertyChanged
+    internal class ObjectTransformsViewModel : ToolBaseViewModel
     {
+        #region Fields
         private Visibility m_blendVisibiity;
-        private DrawingCanvasViewModel m_activeContent;
-        private ObservableCollection<ResizingAdorner> m_selectedObjects => m_activeContent?.SelectedObjects;
-        private Adorner m_adorner => m_selectedObjects[0];
-        private Transform m_transform => m_adorner.AdornedElement.RenderTransform;
-        private bool IsOneObjectSelected => m_selectedObjects.Count == 1;
+        private ObservableCollection<ResizingAdorner> m_selectedObjects = null;
+        private Adorner m_adorner = null;
         private readonly IMainWindowViewModel m_interfaceMainWindowVM;
+        #endregion
 
-        public ICommand ApplyTranslationCommand { get; set; }
-        public ICommand ApplyRotationCommand { get; set; }
-        public ICommand ApplyScaleCommand { get; set; }
-        public ICommand ApplySkewCommand { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
+        #region Properties
+        private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;
+        private Transform m_transform
         {
-            if (PropertyChanged != null)
+            get => m_adorner?.AdornedElement.RenderTransform;
+            set
             {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                if (m_adorner != null)
+                {
+                    m_adorner.AdornedElement.RenderTransform = value;
+                    m_adorner.AdornedElement.InvalidateVisual();
+                }
             }
+        }
+        private Size m_adornedElementSize
+        {
+            get => (Size)m_adorner?.AdornedElement.RenderSize; 
         }
         public Visibility BlendVisibility
         {
@@ -45,6 +48,18 @@ namespace VectorMaker.ViewModel
                 OnPropertyChanged("BlendVisibility");
             }
         }
+        #endregion
+
+        #region Commands
+
+        public ICommand ApplyTranslationCommand { get; set; }
+        public ICommand ApplyRotationCommand { get; set; }
+        public ICommand ApplyScaleCommand { get; set; }
+        public ICommand ApplySkewCommand { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public ObjectTransformsViewModel(IMainWindowViewModel interfaceMainWindowVM) : base()
         {
@@ -53,151 +68,92 @@ namespace VectorMaker.ViewModel
             ApplyTranslationCommand = new CommandBase((obj) => ApplyTranslation(obj));
             ApplyRotationCommand = new CommandBase((obj) => ApplyRotation(obj));
             ApplyScaleCommand = new CommandBase((obj) => ApplyScale(obj));
-            ApplySkewCommand = new CommandBase((obj) => ApplySkew(obj)); 
+            ApplySkewCommand = new CommandBase((obj) => ApplySkew(obj));
         }
 
-        private void OnActiveCanvasChanged(object sender, System.EventArgs e)
-        {
-            //throw new System.NotImplementedException();
-        }
+        protected ObjectTransformsViewModel() : base() { }
 
-        protected ObjectTransformsViewModel(): base()
-        {
+        #endregion Constructors
 
+        #region EventHandlers
+        private void OnActiveCanvasChanged(object sender, EventArgs e)
+        {
+            DrawingCanvasViewModel drawingCanvasViewModel = m_interfaceMainWindowVM.ActiveDocument as DrawingCanvasViewModel;
+            if (drawingCanvasViewModel != null)
+            {
+                m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
+                m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
+            }
         }
 
         private void SelectedObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (m_selectedObjects.Count > 1)
-            {
-                BlendVisibility = Visibility.Visible;
-            }
-            else if (IsOneObjectSelected)
-            {
+            if (IsOneObjectSelected)
                 BlendVisibility = Visibility.Hidden;
-            }
             else
-            {
                 BlendVisibility = Visibility.Visible;
-            }
+
+            if (m_selectedObjects.Count > 0)
+                m_adorner = m_selectedObjects[0];
+            else
+                m_adorner = null;
+            m_transform = m_adorner?.AdornedElement.RenderTransform;
         }
 
+        #endregion
+
+        #region Methods
         private void ApplyTranslation(object values)
         {
-            var valArray = (object[])values;
+            var valArray = (Tuple<double, double>)values;
             if (IsOneObjectSelected && m_adorner != null)
             {
-                TranslateTransform translateTransform = new TranslateTransform();
-                translateTransform.X = (double)valArray[0];
-                translateTransform.Y = (double)valArray[1];
-                TransformGroup transformGroup = m_transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(m_transform);
-                    transformGroup.Children.Add(translateTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(translateTransform);
-                }
-
-                m_adorner.AdornedElement.InvalidateVisual();
+                Matrix matrix = m_transform.Value;
+                matrix.Translate(valArray.Item1, valArray.Item2);
+                m_transform = new MatrixTransform(matrix);
+                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
             }
         }
 
         private void ApplyRotation(object values)
         {
-            var valArray = (object[])values;//RotateCenterX,RotateCenterY,RotateAngle
+            var valArray = (Tuple<double, double, double>)values;//RotateCenterX,RotateCenterY,RotateAngle
             if (IsOneObjectSelected && m_adorner != null)
             {
-                RotateTransform rotateTransform = new RotateTransform();
-
-                Point toTranslate = new Point((double)valArray[0] * m_adorner.ActualWidth, (double)valArray[1] * m_adorner.ActualHeight);
-                Point center = m_adorner.TranslatePoint(toTranslate, m_activeContent.MainCanvas);
-                rotateTransform.Angle = (double)valArray[2];
-                rotateTransform.CenterX = center.X;
-                rotateTransform.CenterY = center.Y;
-
-                TransformGroup transformGroup = m_transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(m_transform);
-                    transformGroup.Children.Add(rotateTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(rotateTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
+                Matrix matrix = m_transform.Value;
+                matrix.RotateAtPrepend(valArray.Item3,
+                    valArray.Item1* m_adornedElementSize.Width, 
+                    valArray.Item2* m_adornedElementSize.Width);
+                m_transform = new MatrixTransform(matrix);
+                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
             }
         }
 
         private void ApplyScale(object values)
         {
-            var valArray = (object[])values;//ScaleCenterX,ScaleCenterY,ScaleX,ScaleY
+            var valArray = (Tuple<double, double, double, double>)values;//ScaleCenterX,ScaleCenterY,ScaleX,ScaleY
             if (IsOneObjectSelected && m_adorner != null)
             {
-                ScaleTransform scaleTransform = new ScaleTransform();
-
-                Point toTranslate = new Point((double)valArray[0] * m_adorner.ActualWidth,
-                    (double)valArray[1] * m_adorner.ActualHeight);
-
-                Point center = m_adorner.TranslatePoint(toTranslate, m_activeContent.MainCanvas);
-                scaleTransform.ScaleX = (double)valArray[2];
-                scaleTransform.ScaleY = (double)valArray[3];
-                scaleTransform.CenterX = center.X;
-                scaleTransform.CenterY = center.Y;
-
-                TransformGroup transformGroup = m_transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(m_transform);
-                    transformGroup.Children.Add(scaleTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(scaleTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
+                Matrix matrix = m_transform.Value;
+                matrix.ScaleAtPrepend(valArray.Item3, valArray.Item4, 
+                    valArray.Item1*m_adornedElementSize.Width, 
+                    valArray.Item2* m_adornedElementSize.Height);
+                m_transform = new MatrixTransform(matrix);
+                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
             }
         }
 
         private void ApplySkew(object values)
         {
-            var valArray = (object[])values;//SkewCenterX,SkewCenterY,SkewX,SkewY
+            var valArray = (Tuple<double, double>)values;//SkewX,SkewY
             if (IsOneObjectSelected && m_adorner != null)
             {
-                SkewTransform skewTransform = new SkewTransform();
-
-                Point toTranslate = new Point((double)valArray[0] * m_adorner.ActualWidth,
-                    (double)valArray[1] * m_adorner.ActualHeight);
-
-                Point center = m_adorner.TranslatePoint(toTranslate, m_activeContent.MainCanvas);
-                skewTransform.AngleX = (double)valArray[2];
-                skewTransform.AngleY = (double)valArray[3];
-                skewTransform.CenterX = center.X;
-                skewTransform.CenterY = center.Y;
-
-                TransformGroup transformGroup = m_transform as TransformGroup;
-                if (transformGroup == null)
-                {
-                    transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(m_transform);
-                    transformGroup.Children.Add(skewTransform);
-                    m_adorner.AdornedElement.RenderTransform = transformGroup;
-                }
-                else
-                {
-                    transformGroup.Children.Add(skewTransform);
-                }
-                m_adorner.AdornedElement.InvalidateVisual();
+                Matrix matrix = m_transform.Value;
+                matrix.SkewPrepend(valArray.Item1, valArray.Item2);
+                m_transform = new MatrixTransform(matrix);
+                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
             }
         }
+        #endregion
     }
 }

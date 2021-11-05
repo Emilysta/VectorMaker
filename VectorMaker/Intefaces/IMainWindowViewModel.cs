@@ -9,19 +9,19 @@ namespace VectorMaker.Intefaces
     {
         event EventHandler ActiveCanvasChanged;
 
-        DrawingCanvasViewModel ActiveCanvas { get; set; }
+        DocumentViewModelBase ActiveDocument { get; set; }
 
         IEnumerable<ToolBaseViewModel> Tools { get; }
 
-        IEnumerable<DrawingCanvasViewModel> Documents { get; }
+        IEnumerable<DocumentViewModelBase> Documents { get; }
 
-        void Close(DrawingCanvasViewModel fileToClose);
+        void Close(DocumentViewModelBase fileToClose);
 
-        void AddFile(DrawingCanvasViewModel fileToAdd);
+        void AddFile(DocumentViewModelBase fileToAdd);
 
-        void Save(DrawingCanvasViewModel fileToSave);
+        void Save(DocumentViewModelBase fileToSave);
 
-        Task<DrawingCanvasViewModel> OpenAsync(string filepath);
+        Task<DocumentViewModelBase> OpenAsync(string filepath);
 
         void CloseAllDocuments();
     }

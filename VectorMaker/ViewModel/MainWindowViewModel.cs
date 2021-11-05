@@ -1,7 +1,5 @@
 ﻿using System.Windows.Media;
 using VectorMaker.Drawables;
-using AvalonDock.Layout;
-using VectorMaker.Pages;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.Windows;
@@ -21,6 +19,7 @@ namespace VectorMaker.ViewModel
         public ICommand NewDocumentCommand { get; set; }
         public ICommand OpenDocumentCommand { get; set; }
         public ICommand SaveAllCommand { get; set; }
+        public ICommand CloseAllCommand { get; set; }
 
         public ICommand OpenTransformToolCommand { get; set; }
         public ICommand OpenPropertiesToolCommand { get; set; }
@@ -33,18 +32,16 @@ namespace VectorMaker.ViewModel
         public ICommand DrawPolylineCommand { get; set; }
         public ICommand DrawPolygonCommand { get; set; }
         public ICommand SelectionToolCommand { get; set; }
-
         public ICommand UnionCommand { get; set; }
-
         #endregion
 
         #region Fields
-        private ObservableCollection<DrawingCanvasViewModel> m_documents { get; set; }
+        private ObservableCollection<DocumentViewModelBase> m_documents { get; set; }
         private ToolBaseViewModel[] m_tools = null;
-        private DrawingCanvasViewModel m_activeCanvas;
+        private DocumentViewModelBase m_activeDocument;
 
         private ObjectTransformsViewModel m_objectTransformsVMTool = null;
-        //private ObjectAlignmentViewModel m_objectAlignmentVMTool;
+        private ObjectAlignmentViewModel m_objectAlignmentVMTool = null;
         //private ObjectPropertiesViewModel m_objectPropertiesVMTool;
         #endregion
 
@@ -59,43 +56,52 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        public ObjectAlignmentViewModel ObjectAlignmentVMTool
+        {
+            get
+            {
+                if (m_objectAlignmentVMTool == null)
+                    m_objectAlignmentVMTool = new ObjectAlignmentViewModel(this as IMainWindowViewModel);
+                return m_objectAlignmentVMTool;
+            }
+        }
+
         public IEnumerable<ToolBaseViewModel> Tools
         {
             get
             {
                 if (m_tools == null)
-                    m_tools = new ToolBaseViewModel[] { ObjectTransformsVMTool };
+                    m_tools = new ToolBaseViewModel[] { ObjectTransformsVMTool, ObjectAlignmentVMTool };
                 return m_tools;
             }
         }
 
-        public IEnumerable<DrawingCanvasViewModel> Documents => m_documents;
-        public DrawingCanvasViewModel ActiveCanvas
+        public IEnumerable<DocumentViewModelBase> Documents => m_documents;
+        public DocumentViewModelBase ActiveDocument
         {
-            get => m_activeCanvas;
+            get => m_activeDocument;
             set
             {
-                m_activeCanvas = value;
-                OnPropertyChanged("ActiveCanvas");
+                m_activeDocument = value;
+                OnPropertyChanged("ActiveDocument");
                 ActiveCanvasChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         #endregion
-
         public MainWindowViewModel()
         {
             SetCommands();
-            m_documents = new ObservableCollection<DrawingCanvasViewModel>();
-            m_documents.Add(new DrawingCanvasViewModel());
+            m_documents = new ObservableCollection<DocumentViewModelBase>();
+            m_documents.Add(new DrawingCanvasViewModel(this as IMainWindowViewModel));
         }
 
         #region Interface methods
-        public void Close(DrawingCanvasViewModel fileToClose)
+        public void Close(DocumentViewModelBase fileToClose)
         {
-            if (!fileToClose.Model.IsSaved)
+            if (!fileToClose.IsSaved)
             {
                 var result = MessageBox.Show(string.Format("Do you want to save changes " +
-                    "for file '{0}'?", fileToClose.Model.FileName), "VectorMaker",
+                    "for file '{0}'?", fileToClose.FileName), "VectorMaker",
                     MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Cancel)
                     return;
@@ -108,19 +114,19 @@ namespace VectorMaker.ViewModel
             m_documents.Remove(fileToClose);
         }
 
-        public void AddFile(DrawingCanvasViewModel fileToAdd)
+        public void AddFile(DocumentViewModelBase fileToAdd)
         {
             if (fileToAdd == null) return;
             if (m_documents.Contains(fileToAdd)) return;
             m_documents.Add(fileToAdd);
         }
 
-        public void Save(DrawingCanvasViewModel fileToSave)
+        public void Save(DocumentViewModelBase fileToSave)
         {
             fileToSave.SaveCommand.Execute(null);
         }
 
-        public Task<DrawingCanvasViewModel> OpenAsync(string filepath)
+        public Task<DocumentViewModelBase> OpenAsync(string filepath)
         {
             //DrawingCanvasViewModel drawingCanvasViewModel = Documents.FirstOrDefault(fm => fm.Model.FilePath == filepath);
             //if (drawingCanvasViewModel != null)
@@ -140,7 +146,7 @@ namespace VectorMaker.ViewModel
 
         public void CloseAllDocuments()
         {
-            ActiveCanvas = null;
+            ActiveDocument = null;
             m_documents.Clear();
         }
         #endregion
@@ -161,6 +167,7 @@ namespace VectorMaker.ViewModel
             NewDocumentCommand = new CommandBase((obj) => NewDocument());
             OpenDocumentCommand = new CommandBase((obj) => OpenDocument());
             SaveAllCommand = new CommandBase((obj) => SaveAllDocuments());
+            CloseAllCommand = new CommandBase((obj) => CloseAllDocuments());
 
             OpenTransformToolCommand = new CommandBase((obj) => TransformTool());
             OpenPropertiesToolCommand = new CommandBase((obj) => PropertiesTool());
@@ -217,7 +224,7 @@ namespace VectorMaker.ViewModel
 
         private void NewDocument()
         {
-            m_documents.Add(new DrawingCanvasViewModel());
+            m_documents.Add(new DrawingCanvasViewModel(this as IMainWindowViewModel));
         }
 
         private void OpenDocument()
@@ -225,7 +232,7 @@ namespace VectorMaker.ViewModel
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
             if (openFileDialog.ShowDialog() == true)
-                m_documents.Add(new DrawingCanvasViewModel(openFileDialog.FileName));
+                m_documents.Add(new DrawingCanvasViewModel(openFileDialog.FileName,this as IMainWindowViewModel));
         }
 
         private void SaveAllDocuments()

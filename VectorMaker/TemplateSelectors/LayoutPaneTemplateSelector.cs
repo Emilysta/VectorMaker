@@ -22,8 +22,8 @@ namespace VectorMaker.TemplateSelectors
             //if (item is ObjectPropertiesViewModel)
             //    return ObjectPropertiesViewTemplate;
 
-            //if (item is ObjectAlignmentViewModel)
-            //    return ObjectAlignmentViewTemplate;
+            if (item is ObjectAlignmentViewModel)
+                return ObjectAlignmentViewTemplate;
 
             return base.SelectTemplate(item, container);
         }

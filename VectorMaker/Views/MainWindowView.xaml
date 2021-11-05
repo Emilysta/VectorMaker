@@ -4,17 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
-        xmlns:properties ="clr-namespace:VectorMaker.PropertiesPanel" 
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:docks="https://github.com/Dirkster99/AvalonDock"
         xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
-        xmlns:utility="clr-namespace:VectorMaker.Utility"
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
-        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:converters="clr-namespace:VectorMaker.Converters"
         mc:Ignorable="d">
     <Window.Resources>
-        <utility:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
+        <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
     </Window.Resources>
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
@@ -40,13 +38,15 @@
                         <MenuItem Header="Open Document" Command="{Binding OpenDocumentCommand}"/>
                         <Separator/>
                         <MenuItem Header="Export as">
-                            <MenuItem Header="SVG File" Command="{Binding ActiveCanvas.SaveAsSVGCommand}"/>
-                            <MenuItem Header="PNG File" Command="{Binding ActiveCanvas.SaveAsPNGCommand}"/>
-                            <MenuItem Header="BMP File" Command="{Binding ActiveCanvas.SaveAsBMPCommand}"/>
-                            <MenuItem Header="PDF File" Command="{Binding ActiveCanvas.SaveAsPDFCommand}"/>
+                            <MenuItem Header="SVG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="svg"/>
+                            <MenuItem Header="PNG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="png"/>
+                            <MenuItem Header="BMP File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="bmp"/>
+                            <MenuItem Header="PDF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="pdf"/>
+                            <MenuItem Header="TIFF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="tiff"/>
+                            <MenuItem Header="JPEG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="jpeg"/>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Header="Save Current File" Command="{Binding ActiveCanvas.SaveCommand}"/>
+                        <MenuItem Header="Save Current File" Command="{Binding ActiveDocument.SaveCommand}"/>
                         <MenuItem Header="Save All Files" Command="{Binding SaveAllCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Edit" IsEnabled="False"/>
@@ -82,8 +82,6 @@
                                                    Click="MaximizeRestoreApplicationButton_Click" Background="Transparent" />
                     <controls:ButtonWithIcon Grid.Column="3" ToolTip="Exit" IconKind="X" Click="ExitApplicationButton_Click"
                                              Background="Transparent" />
-
-
                 </Grid>
             </Grid>
 
@@ -91,7 +89,7 @@
                 <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
                     <MenuItem Command="{Binding NewDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding OpenDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding ActiveCanvas.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
+                    <MenuItem Command="{Binding ActiveDocument.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding SaveAllCommand}" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
                 </Menu>
             </Grid>
@@ -120,25 +118,17 @@
                     <MenuItem Command="{Binding UnionCommand}" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
                 </Menu>
             </Grid>
-
-            <!-- Bottom Dock-->
-            <Grid DockPanel.Dock="Bottom" Height="25">
-                <Menu Background="#FF1A1A1D" FontSize="11">
-                    <MenuItem Header="1" Foreground="#FFC3C3C3"/>
-                    <MenuItem Header="2" Foreground="#FFC3C3C3"/>
-                </Menu>
-            </Grid>
-
+            
             <!-- Center Dock-->
-            <Grid HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" >
                 <!--<Frame Source="Pages/NewDocumentPage.xaml" Visibility="Hidden"/>-->
                 <docks:DockingManager HorizontalAlignment="Stretch" 
                                       Visibility="Visible" 
                                       AutoWindowSizeWhenOpened="True" 
                                       DocumentsSource="{Binding Documents}" 
-                                      ActiveContent="{Binding ActiveCanvas, Mode=TwoWay, Converter={StaticResource DockingDocumentConverter}}" 
+                                      ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource DockingDocumentConverter}}" 
                                       AnchorablesSource="{Binding Tools}"
-                                      x:Name="DockManager">
+                                      x:Name="DockManager" Background="#303030">
                     <docks:DockingManager.LayoutItemTemplateSelector>
                         <templateselectors:LayoutPaneTemplateSelector>
                             <templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
@@ -155,21 +145,28 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </templateselectors:LayoutPaneTemplateSelector.ObjectTransformsViewTemplate>
+                            <templateselectors:LayoutPaneTemplateSelector.ObjectAlignmentViewTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ObjectAlignmentViewModel}">
+                                    <StackPanel>
+                                        <Viewbox>
+                                            <views:ObjectAlignmentView/>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </templateselectors:LayoutPaneTemplateSelector.ObjectAlignmentViewTemplate>
                         </templateselectors:LayoutPaneTemplateSelector>
                     </docks:DockingManager.LayoutItemTemplateSelector>
                     <docks:DockingManager.LayoutItemContainerStyleSelector>
                         <templateselectors:LayoutPaneStyleSelector>
-                            <!--<templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>
+                            <templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>
                                 <Style TargetType="{x:Type LayoutDocumentItem}">
                                     <Setter Property="Title" Value="{Binding Model.FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    -->
-                            <!--<Setter Property="ToolTip" Value="{Binding Model.FilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-                                    <Setter Property="IconSource" Value="{Binding Model.IconSource, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <Setter Property="ContentId" Value="{Binding Model.ContentId, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />-->
-                            <!--
+                                    
+                            <Setter Property="ToolTip" Value="{Binding Model.FilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                                    <Setter Property="ContentId" Value="{Binding Model.FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Style>
-                            </templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>-->
+                            </templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>
                         </templateselectors:LayoutPaneStyleSelector>
                     </docks:DockingManager.LayoutItemContainerStyleSelector>
                     <DockingManager.Theme>

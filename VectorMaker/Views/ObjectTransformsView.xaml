@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls ="clr-namespace:VectorMaker.ControlsResources"
     xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+    xmlns:converters="clr-namespace:VectorMaker.Converters"
     mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="300" FontSize="13" FontWeight="Light">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
@@ -13,6 +14,10 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Margin" Value="0,0,3,0"/>
         </Style>
+        <converters:TranslationConverter x:Key="TranslationConverter"/>
+        <converters:RotationConverter x:Key="RotationConverter"/>
+        <converters:ScaleConverter x:Key="ScaleConverter"/>
+        <converters:SkewConverter x:Key="SkewConverter"/>
     </UserControl.Resources>
     <Border BorderThickness="0.4" BorderBrush="#CC5F5F62" Width="{Binding Width, RelativeSource={RelativeSource Self}}" Height="{Binding Height,RelativeSource={RelativeSource Self}}" >
         <Grid Background="#FF252525">
@@ -38,7 +43,14 @@
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="TranslationYTextBox"/>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyTranslationButton" Command="{Binding ApplyTranslationCommand}"/>
+                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyTranslationButton" Command="{Binding ApplyTranslationCommand}">
+                                <controls:ButtonWithIcon.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource TranslationConverter}">
+                                        <Binding Path="Value" ElementName="TranslationXTextBox"/>
+                                        <Binding Path="Value" ElementName="TranslationYTextBox"/>
+                                    </MultiBinding>
+                                </controls:ButtonWithIcon.CommandParameter>
+                            </controls:ButtonWithIcon>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -59,10 +71,10 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="CenterX"/>
                             <mahControls:NumericUpDown Grid.Column="1"  x:Name="RotateCenterXBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
+                                                       Minimum="0" Maximum="1" Interval="0.01" Value="0.5"/>
                             <TextBlock Text="CenterY" Grid.Column="2"/>
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="RotateCenterYBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
+                                                       Minimum="0" Maximum="1" Interval="0.01" Value="0.5"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -74,7 +86,15 @@
                             <mahControls:NumericUpDown Grid.Column="1"  x:Name="RotateAngleBox"/>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyRotationButton" Command="{Binding ApplyRotationCommand}" VerticalContentAlignment="Center"/>
+                            <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" Width="80" x:Name="ApplyRotationButton" Command="{Binding ApplyRotationCommand}" VerticalContentAlignment="Center">
+                                <controls:ButtonWithIcon.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource RotationConverter}">
+                                        <Binding Path="Value" ElementName="RotateCenterXBox"/>
+                                        <Binding Path="Value" ElementName="RotateCenterYBox"/>
+                                        <Binding Path="Value" ElementName="RotateAngleBox"/>
+                                    </MultiBinding>
+                                </controls:ButtonWithIcon.CommandParameter>
+                            </controls:ButtonWithIcon>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -95,10 +115,10 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="CenterX" />
                             <mahControls:NumericUpDown Grid.Column="1"  x:Name="ScaleCenterXBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
+                                                       Minimum="0" Maximum="1" Interval="0.01" Value="0.5"/>
                             <TextBlock Text="CenterY" Grid.Column="2"/>
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="ScaleCenterYBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
+                                                       Minimum="0" Maximum="1" Interval="0.01" Value="0.5"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -114,7 +134,16 @@
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="ScaleYBox" />
                         </Grid>
                         <Grid Grid.Row="2">
-                            <controls:ButtonWithIcon Margin="4" Width="80" ButtonCornerRadius="1" ButtonContent="Apply" x:Name="ApplyScaleButton" Command="{Binding ApplyScaleCommand}" VerticalContentAlignment="Center"/>
+                            <controls:ButtonWithIcon Margin="4" Width="80" ButtonCornerRadius="1" ButtonContent="Apply" x:Name="ApplyScaleButton" Command="{Binding ApplyScaleCommand}" VerticalContentAlignment="Center">
+                                <controls:ButtonWithIcon.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource ScaleConverter}">
+                                        <Binding Path="Value" ElementName="ScaleCenterXBox"/>
+                                        <Binding Path="Value" ElementName="ScaleCenterYBox"/>
+                                        <Binding Path="Value" ElementName="ScaleXBox"/>
+                                        <Binding Path="Value" ElementName="ScaleYBox"/>
+                                    </MultiBinding>
+                                </controls:ButtonWithIcon.CommandParameter>
+                            </controls:ButtonWithIcon>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>
@@ -133,29 +162,21 @@
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="CenterX" />
-                            <mahControls:NumericUpDown Grid.Column="1"  x:Name="SkewCenterXBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
-                            <TextBlock Text="CenterY" Grid.Column="2"/>
-                            <mahControls:NumericUpDown Grid.Column="3"  x:Name="SkewCenterYBox" 
-                                                       Minimum="0" Maximum="1" Interval="0.01"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="65"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="65"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
                             <TextBlock Text="AngleX" />
                             <mahControls:NumericUpDown Grid.Column="1" x:Name="SkewAngleXBox"/>
                             <TextBlock Text="AngleY" Grid.Column="2"/>
                             <mahControls:NumericUpDown Grid.Column="3"  x:Name="SkewAngleYBox"/>
                         </Grid>
-                        <Grid Grid.Row="2">
+                         <Grid Grid.Row="2">
                             <controls:ButtonWithIcon Margin="4" ButtonCornerRadius="1" ButtonContent="Apply" 
-                                                     Width="80" x:Name="ApplySkewButton" Command="{Binding ApplySkewCommand}" VerticalContentAlignment="Center"/>
+                                                     Width="80" x:Name="ApplySkewButton" Command="{Binding ApplySkewCommand}" VerticalContentAlignment="Center">
+                                <controls:ButtonWithIcon.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource SkewConverter}">
+                                        <Binding Path="Value" ElementName="SkewAngleXBox"/>
+                                        <Binding Path="Value" ElementName="SkewAngleYBox"/>
+                                    </MultiBinding>
+                                </controls:ButtonWithIcon.CommandParameter>
+                            </controls:ButtonWithIcon>
                         </Grid>
                     </Grid>
                 </mahControls:MetroTabItem>

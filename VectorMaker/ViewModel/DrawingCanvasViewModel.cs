@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Xml.Linq;
 using VectorMaker.Drawables;
-using VectorMaker.Model;
 using FileStream = System.IO.FileStream;
 using File = System.IO.File;
 using FileMode = System.IO.FileMode;
@@ -20,27 +19,39 @@ using System.Linq;
 using VectorMaker.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using VectorMaker.Intefaces;
+using System.Xml;
 
 namespace VectorMaker.ViewModel
 {
-    public class DrawingCanvasViewModel : NotifyPropertyChangedBase
+    internal class DrawingCanvasViewModel : DocumentViewModelBase
     {
-        public string Title => Model.FileName;
-        public DrawingCanvasModel Model { get; set; } = new DrawingCanvasModel();
+        #region Fields
         private Point m_positionInCanvas;
+        private Point m_startPositionInCanvas;
+        private bool m_isFileToBeLoaded = false;
         private bool m_wasFirstDown = false;
+        private FileType[] m_filters = new FileType[] { FileType.SVG, FileType.PNG,FileType.PDF,FileType.BMP,FileType.JPEG,FileType.TIFF };
+        private string m_defaultExtension = "xaml";
         private Drawable m_drawableObject;
+        private Shape m_drawableObjectShape;
         private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
+        private IMainWindowViewModel m_interfaceMainWindowVM;
 
+        #endregion
+
+        #region Properties
         public Canvas MainCanvas
         {
             get => m_mainCanvas;
-            set { m_mainCanvas = value; }
+            set { m_mainCanvas = value;
+                if(m_isFileToBeLoaded)
+                    LoadFile();
+            }
         }
         public bool IgnoreDrawing => DrawableType == DrawableTypes.None;
-
         public bool IsOneObjectSelected
         {
             get
@@ -48,7 +59,6 @@ namespace VectorMaker.ViewModel
                 return SelectedObjects.Count == 1 ? true : false;
             }
         }
-
         public ObservableCollection<ResizingAdorner> SelectedObjects
         {
             get => m_selectedObjects;
@@ -58,28 +68,21 @@ namespace VectorMaker.ViewModel
                 OnPropertyChanged("SelectedObjects");
             }
         }
-
         public DrawableTypes DrawableType { get; set; }
+        protected override FileType[] Filters { get => m_filters; set => m_filters = value; }
+        protected override string DefaultExtension { get => m_defaultExtension; set => m_defaultExtension = value; }
+        #endregion
 
         #region Commands
 
-        #region SaveCommands
-        public ICommand SaveCommand { get; set; }
-        public ICommand SaveAsBMPCommand { get; set; }
-        public ICommand SaveAsPDFCommand { get; set; }
-        public ICommand SaveAsJPEGCommand { get; set; }
-        public ICommand SaveAsSVGCommand { get; set; }
-        public ICommand SaveAsPNGCommand { get; set; }
-        public ICommand SaveAsTIFFCommand { get; set; }
-
-        #endregion
-
+        #region Actions Commands
         public ICommand UnionCommand { get; set; }
         public ICommand ExcludeCommand { get; set; }
         public ICommand XorCommand { get; set; }
         public ICommand IntersectCommand { get; set; }
+        #endregion
 
-        #region Events
+        #region Eventc Commands
         public ICommand MouseLeftUpCommand { get; set; }
         public ICommand MouseLeftDownCommand { get; set; }
         public ICommand MouseMoveCommand { get; set; }
@@ -87,33 +90,31 @@ namespace VectorMaker.ViewModel
         public ICommand PreviewKeyDownCommand { get; set; }
         public ICommand PreviewKeyUpCommand { get; set; }
         public ICommand DropCommand { get; set; }
+
         #endregion
 
         #endregion
 
         #region Constructors
-        public DrawingCanvasViewModel()
+        public DrawingCanvasViewModel(IMainWindowViewModel mainWindowViewModel)
         {
+            m_interfaceMainWindowVM = mainWindowViewModel;
             SetCommands();
+            IsSaved = false;
         }
 
-        public DrawingCanvasViewModel(string filePath)
+        public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel)
         {
-            Model.FilePath = filePath;
-            LoadFile(filePath);
+            m_interfaceMainWindowVM = mainWindowViewModel;
+            FilePath = filePath;
+            m_isFileToBeLoaded = true;
             SetCommands();
         }
         #endregion
+
+        #region Methods
         private void SetCommands()
         {
-            SaveCommand = new CommandBase((obj) => SaveAsBMP());
-            SaveAsBMPCommand = new CommandBase((obj) => SaveAsBMP());
-            SaveAsPDFCommand = new CommandBase((obj) => SaveAsPDF());
-            SaveAsJPEGCommand = new CommandBase((obj) => SaveAsJPG());
-            //SaveAsSVGCommand = new CommandBase((obj) => SaveAsBMP());
-            SaveAsPNGCommand = new CommandBase((obj) => SaveAsPNG());
-            SaveAsTIFFCommand = new CommandBase((obj) => SaveAsTIFF());
-
             UnionCommand = new CommandBase((obj) => Union());
             ExcludeCommand = new CommandBase((obj) => Exclude());
             XorCommand = new CommandBase((obj) => Xor());
@@ -127,24 +128,24 @@ namespace VectorMaker.ViewModel
             PreviewKeyUpCommand = new CommandBase((obj) => KeyUpHandler(obj as KeyEventArgs));
             DropCommand = new CommandBase((obj) => FileDropHandler(obj as DragEventArgs));
         }
-        private void LoadFile(string filePath)
+        private void LoadFile()
         {
             try
             {
-                if (System.IO.Path.GetExtension(filePath) == ".svg")
+                if (System.IO.Path.GetExtension(FilePath) == ".svg")
                 {
-                    XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(filePath);
+                    XDocument document = SVG_XAML_Converter_Lib.SVG_To_XAML.ConvertSVGToXamlCode(FilePath);
 
                     if (document != null)
                     {
                         object path = XamlReader.Parse(document.ToString());
                         MainCanvas.Children.Add(path as UIElement);
-                        Model.IsSaved = false;
+                        IsSaved = false;
                     }
                 }
                 else
                 {
-                    using (FileStream fileStream = File.Open(filePath, FileMode.Open))
+                    using (FileStream fileStream = File.Open(FilePath, FileMode.Open))
                     {
                         object loadedFile = XamlReader.Load(fileStream);
                         MainCanvas.Children.Add(loadedFile as UIElement);
@@ -159,28 +160,29 @@ namespace VectorMaker.ViewModel
         }
         private void DeleteSelectedObjects()
         {
-            //if (m_selectedObjects.Count > 0)
-            //{
-            //    foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
-            //    {
-            //        resizingAdorner.RemoveFromAdornerLayer();
-            //        MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
-            //    }
-            //    m_selectedObjects.Clear();
-            //}
+            if (m_selectedObjects.Count > 0)
+            {
+                foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
+                {
+                    resizingAdorner.RemoveFromAdornerLayer();
+                    MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
+                }
+                m_selectedObjects.Clear();
+            }
         }
         private void ChangeZIndex(bool isIncreasing)
         {
-            //if (m_selectedObjects.Count > 0)
-            //{
-            //    foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
-            //    {
-            //        if (isIncreasing)
-            //            Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) + 1);
-            //        else
-            //            Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) - 1);
-            //    }
-            //}
+            if (m_selectedObjects.Count > 0)
+            {
+                foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
+                {
+                    if (isIncreasing)
+                        Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) + 1);
+                    else
+                        Canvas.SetZIndex(resizingAdorner.AdornedElement, Canvas.GetZIndex(resizingAdorner.AdornedElement) - 1);
+                }
+                IsSaved = false;
+            }
         }
         public void EndDrawing()
         {
@@ -255,127 +257,7 @@ namespace VectorMaker.ViewModel
             }
             return HitTestResultBehavior.Continue;
         }
-        private bool SaveFile()
-        {
-            if (!Model.IsSaved)
-            {
-                if (string.IsNullOrEmpty(Model.FilePath))
-                {
-                    bool result = OpenSaveDialog("Microsoft XAML File (*.xaml) | *.xaml", "untilted.xaml", out string filePath);
-                    if (result == true)
-                    {
-                        Model.FilePath = filePath;
-                        Model.IsSaved = true;
-                        return SaveStreamToXAML(Model.FilePath);
-                    }
-                    return false;
-                }
-                return SaveStreamToXAML(Model.FilePath);
-            }
-            return true;
-        }
-        private bool SaveStreamToXAML(string filePath)
-        {
-            try
-            {
-                using (FileStream fileStream = File.OpenWrite(filePath))
-                {
-                    XamlWriter.Save(m_mainCanvas, fileStream);
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-        }
-        private bool SaveAsPDF()
-        {
-            try
-            {
-                PrintDialog printDialog = new PrintDialog();
-                //Nullable<bool> result = printDialog.ShowDialog();
-                PrinterSettings printerSettings = new PrinterSettings();
-                printerSettings.PrinterName = "Microsoft Print to PDF";
 
-                printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF");
-                return true;
-            }
-            catch (PrintDialogException e)
-            {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-        }
-        private bool SaveAsPNG()
-        {
-            bool result = OpenSaveDialog("Portable Network Graphics (*.png) | *.png", "untilted.png", out string filePath);
-            if (result == true)
-            {
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                SaveWithSpecialBitmap(encoder, filePath);
-
-            }
-            return false;
-        }
-        private bool SaveAsBMP()
-        {
-            bool result = OpenSaveDialog("Bitmap file (*.bmp) | *.bmp", "untilted.bmp", out string filePath);
-            if (result == true)
-            {
-                BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                SaveWithSpecialBitmap(encoder, filePath);
-            }
-            return false;
-        }
-        private bool SaveAsJPG()
-        {
-            bool result = OpenSaveDialog("JPEG (*.jpeg) | *.jpeg", "untilted.jpeg", out string filePath);
-            if (result == true)
-            {
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                SaveWithSpecialBitmap(encoder, filePath);
-            }
-            return false;
-        }
-        private bool SaveAsTIFF()
-        {
-            bool result = OpenSaveDialog("TIFF (*.tiff) | *.tiff", "untilted.tiff", out string filePath);
-            if (result == true)
-            {
-                TiffBitmapEncoder encoder = new TiffBitmapEncoder();
-                SaveWithSpecialBitmap(encoder, filePath);
-            }
-            return false;
-        }
-        private bool OpenSaveDialog(string filter, string fileName, out string filePath)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            saveFileDialog.Filter = filter;
-            saveFileDialog.FileName = fileName;
-            Nullable<bool> result = saveFileDialog.ShowDialog();
-            if (result == true)
-            {
-                filePath = saveFileDialog.FileName;
-                return true;
-            }
-            filePath = "";
-            return false;
-        }
-        private void SaveWithSpecialBitmap(BitmapEncoder bitmapEncoder, string filePath)
-        {
-            //toDo values of width ang height 
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(300, 300, 96d, 96d, PixelFormats.Pbgra32);
-            renderBitmap.Render(m_mainCanvas);
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                bitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                // save the data to the stream
-                bitmapEncoder.Save(fileStream);
-            }
-        }
         private void Union()
         {
             GeometryGroup geometryGroup = new GeometryGroup();
@@ -394,7 +276,7 @@ namespace VectorMaker.ViewModel
                     return;
                 }
             }
-            System.Windows.Shapes.Path path = new ();
+            System.Windows.Shapes.Path path = new();
             path.Data = geometryGroup;
             geometryGroup.FillRule = FillRule.EvenOdd;
             Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
@@ -412,15 +294,15 @@ namespace VectorMaker.ViewModel
         }
         private void Exclude()
         {
-
+            throw new NotImplementedException();
         }
         private void Xor()
         {
-
+            throw new NotImplementedException();
         }
         private void Intersect()
         {
-
+            throw new NotImplementedException();
         }
         private void MouseLeftButtonDownHandler(MouseButtonEventArgs e)
         {
@@ -429,13 +311,14 @@ namespace VectorMaker.ViewModel
                 if (!m_wasFirstDown)
                 {
                     m_wasFirstDown = true;
+                    m_startPositionInCanvas = m_positionInCanvas;
                     SetDrawableObject();
                     if (m_drawableObject != null)
                     {
-                        var path = m_drawableObject.SetStartPoint(m_positionInCanvas);
-                        MainCanvas.Children.Add(path);
+                        m_drawableObjectShape = m_drawableObject.SetStartPoint(m_positionInCanvas);
+                        MainCanvas.Children.Add(m_drawableObjectShape);
                         OnPropertyChanged("Children");
-                        Model.IsSaved = false;
+                        IsSaved = false;
                         //Trace.WriteLine(m_positionInCanvas);
                     }
                 }
@@ -451,9 +334,17 @@ namespace VectorMaker.ViewModel
             {
                 if (DrawableType != DrawableTypes.Polygon &&
                     DrawableType != DrawableTypes.PolyLine)
+                {
                     EndDrawing();
+                    if (m_startPositionInCanvas.Equals(m_positionInCanvas))
+                    {
+                        MainCanvas.Children.Remove(m_drawableObjectShape);
+                        IsSaved = true;
+                    }
+                }
+
             }
-            else 
+            else
                 SelectionTest(e.GetPosition(m_mainCanvas));
         }
         private void MouseMoveHandler(MouseEventArgs e)
@@ -545,6 +436,7 @@ namespace VectorMaker.ViewModel
                         image.Width = 200;
                         image.RenderTransform = new TranslateTransform(point.X, point.Y);
                         MainCanvas.Children.Add(image);
+                        IsSaved = false;
                     }
                 }
                 catch (Exception exp)
@@ -554,5 +446,127 @@ namespace VectorMaker.ViewModel
 
             }
         }
+
+        protected override void SaveFile()
+        {
+            if (!IsSaved)
+            {
+                if (string.IsNullOrEmpty(FilePath))
+                {
+                    bool result = OpenSaveDialog("Microsoft XAML File (*.xaml) | *.xaml", "untilted.xaml", out string filePath);
+                    if (result == true)
+                    {
+                        FilePath = filePath;
+                        IsSaved = true;
+                        SaveStreamToXAML(FilePath);
+                    }
+                    return;
+                }
+                bool saved = SaveStreamToXAML(FilePath);
+                if (saved)
+                    IsSaved = true;
+            }
+            return;
+        }
+        protected override void CloseFile()
+        {
+            if (!IsSaved)
+            {
+                var result = MessageBox.Show(string.Format("Do you want to save changes " +
+                    "for file '{0}'?", FileName), "VectorMaker",
+                    MessageBoxButton.YesNoCancel);
+                if (result == MessageBoxResult.Cancel)
+                    return;
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    SaveFile();
+                }
+            }
+            m_interfaceMainWindowVM.Close(this);
+        }
+        protected override void SaveFileAsPDF(string fullFilePath)
+        {
+            try
+            {
+                PrintDialog printDialog = new PrintDialog();
+                //Nullable<bool> result = printDialog.ShowDialog();
+                PrinterSettings printerSettings = new PrinterSettings();
+                printerSettings.PrinterName = "Microsoft Print to PDF";
+                printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF");
+
+            }
+            catch (PrintDialogException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+        protected override void SaveFileAsPNG(string fullFilePath)
+        {
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            SaveWithSpecialBitmap(encoder, fullFilePath);
+        }
+        protected override void SaveFileAsBMP(string fullFilePath)
+        {
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            SaveWithSpecialBitmap(encoder, fullFilePath);
+        }
+        protected override void SaveFileAsJPEG(string fullFilePath)
+        {
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            SaveWithSpecialBitmap(encoder, fullFilePath);
+        }
+        protected override void SaveFileAsTIFF(string fullFilePath)
+        {
+            TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+            SaveWithSpecialBitmap(encoder, fullFilePath);
+        }
+        private bool OpenSaveDialog(string filter, string fileName, out string filePath)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            saveFileDialog.Filter = filter;
+            saveFileDialog.FileName = fileName;
+            Nullable<bool> result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                filePath = saveFileDialog.FileName;
+                return true;
+            }
+            filePath = "";
+            return false;
+        }
+        private void SaveWithSpecialBitmap(BitmapEncoder bitmapEncoder, string filePath)
+        {
+            //toDo values of width ang height 
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(300, 300, 96d, 96d, PixelFormats.Pbgra32);
+            renderBitmap.Render(m_mainCanvas);
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                bitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                // save the data to the stream
+                bitmapEncoder.Save(fileStream);
+            }
+        }
+        private bool SaveStreamToXAML(string filePath)
+        {
+            try
+            {
+                using (FileStream fileStream = File.OpenWrite(filePath))
+                {
+                    fileStream.SetLength(0);
+                    XmlTextWriter xmlTextWriter = new XmlTextWriter(fileStream, System.Text.Encoding.UTF8);
+                    xmlTextWriter.Formatting = Formatting.Indented;
+                    XamlWriter.Save(m_mainCanvas, xmlTextWriter);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        #endregion
     }
 }

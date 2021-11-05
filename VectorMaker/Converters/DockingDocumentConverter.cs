@@ -3,13 +3,13 @@ using System.Globalization;
 using System.Windows.Data;
 using VectorMaker.ViewModel;
 
-namespace VectorMaker.Utility
+namespace VectorMaker.Converters
 {
     public class DockingDocumentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is DrawingCanvasViewModel)
+            if (value is DocumentViewModelBase)
                 return value;
 
             return Binding.DoNothing;
@@ -17,7 +17,7 @@ namespace VectorMaker.Utility
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is DrawingCanvasViewModel)
+            if (value is DocumentViewModelBase)
                 return value;
 
             return Binding.DoNothing;
