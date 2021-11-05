@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using VectorMaker.Utility;
 using VectorMaker.ViewModel;
 
 namespace VectorMaker.Views
@@ -13,6 +12,7 @@ namespace VectorMaker.Views
         public DrawingCanvasView()
         {
             InitializeComponent();
+            var conf = Configuration.Instance;
             DataContextChanged += DrawingCanvasView_DataContextChanged;
         }
 

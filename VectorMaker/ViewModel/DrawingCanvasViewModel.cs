@@ -390,13 +390,13 @@ namespace VectorMaker.ViewModel
                         break;
                     }
                 case Key.PageDown:
-                    {
-                        ChangeZIndex(true);
+                    { 
+                        ChangeZIndex(false);
                         break;
                     }
                 case Key.PageUp:
                     {
-                        ChangeZIndex(false);
+                        ChangeZIndex(true);
                         break;
                     }
             }

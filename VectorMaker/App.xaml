@@ -42,7 +42,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}" >
-                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="Transparent" Stroke="#28C2E0" StrokeThickness="2" StrokeDashArray="2 2"/>
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" Fill="Transparent" Stroke="#28C2E0" StrokeThickness="1" StrokeDashArray="2 2"/>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
