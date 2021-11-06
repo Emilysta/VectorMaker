@@ -2,6 +2,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
+using System.Windows.Media;
 using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Utility
@@ -17,10 +19,9 @@ namespace VectorMaker.Utility
         private bool m_isBorderVisible = true;
         private bool m_isBorderShadow = true;
         private bool m_isBackgroundCheckered = true;
-        private ColorDef m_borderColor = ColorDef.FromRgb(96, 96, 96);
-        private ColorDef m_backgroundColor = ColorDef.FromRgb(48, 48, 48);
-        private ColorDef m_checkColor = ColorDef.FromRgb(20, 20, 20);
-
+        private Brush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
+        private Brush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
+        private Brush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
         [JsonIgnore]
         private const string CONFIG_FILE_PATH = "/VectorMaker.config";
         [JsonIgnore]
@@ -80,6 +81,7 @@ namespace VectorMaker.Utility
             {
                 m_isBorderVisible = value;
                 OnPropertyChanged(nameof(IsBorderVisible));
+                OnPropertyChanged(nameof(BorderVisibility));
             }
         }
         public bool IsBorderShadow
@@ -89,6 +91,7 @@ namespace VectorMaker.Utility
             {
                 m_isBorderShadow = value;
                 OnPropertyChanged(nameof(IsBorderShadow));
+                OnPropertyChanged(nameof(CheckColorVisibility));
             }
         }
         public bool IsBackgroundCheckered
@@ -100,7 +103,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(IsBackgroundCheckered));
             }
         }
-        public ColorDef BorderColor
+        public Brush BorderColor
         {
             get => m_borderColor;
             set
@@ -109,7 +112,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BorderColor));
             }
         }
-        public ColorDef BackgroundColor
+        public Brush BackgroundColor
         {
             get => m_backgroundColor;
             set
@@ -118,7 +121,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BackgroundColor));
             }
         }
-        public ColorDef CheckColor
+        public Brush CheckColor
         {
             get => m_checkColor;
             set
@@ -127,6 +130,9 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(CheckColor));
             }
         }
+        public Visibility BorderVisibility => IsBorderVisible ? Visibility.Visible : Visibility.Hidden;
+        public Visibility CheckColorVisibility => IsBackgroundCheckered ? Visibility.Visible : Visibility.Hidden;
+        public Visibility BorderShadowVisibility => IsBorderShadow ? Visibility.Visible : Visibility.Hidden;
         #endregion
 
         private static Configuration m_instance;
@@ -174,7 +180,6 @@ namespace VectorMaker.Utility
                 JsonConvert.PopulateObject(fileContents, this);
             }
         }
-
         public void ResetToDefault()
         {
             Author = "";
@@ -185,11 +190,10 @@ namespace VectorMaker.Utility
             IsBorderVisible = true;
             IsBorderShadow = true;
             IsBackgroundCheckered = true;
-            BorderColor = ColorDef.FromRgb(96, 96, 96);
-            BackgroundColor = ColorDef.FromRgb(48, 48, 48);
-            CheckColor = ColorDef.FromRgb(20, 20, 20);
+            BorderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
+            BackgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
+            CheckColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
         }
-
         private void CreateFile()
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);

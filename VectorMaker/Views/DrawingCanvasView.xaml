@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
     </UserControl.Resources>
-    <Grid ClipToBounds="True">
+    <Grid ClipToBounds="True" Background="{Binding AppConfiguration.BackgroundColor}">
         <Grid.Resources>
             <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
             <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
@@ -49,19 +49,19 @@
                         <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Grid.Background>
-                    <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute">
+                <Grid.Background >
+                    <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" >
                         <DrawingBrush.Drawing>
-                            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="#202020"/>
+                            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="{Binding AppConfiguration.CheckColor}" />
                         </DrawingBrush.Drawing>
                     </DrawingBrush>
                 </Grid.Background>
-                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page">
+                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="3"/>
+                        <DropShadowEffect BlurRadius="3" />
                     </Border.Effect>
-                    <Canvas x:Name="CanvasObject"/>
                 </Border>
+                <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
             </Grid>
         </ScrollViewer>
         <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />

@@ -14,8 +14,7 @@ namespace VectorMaker.ViewModel
 
         #region Properties
         public Configuration Model => Configuration.Instance;
-        public Visibility BorderVisibility => Model.IsBorderVisible ? Visibility.Visible : Visibility.Hidden;
-        public Visibility CheckColorVisibility => Model.IsBackgroundCheckered ? Visibility.Visible : Visibility.Hidden;
+
         #endregion
 
         #region Commands
@@ -38,7 +37,6 @@ namespace VectorMaker.ViewModel
         #region Constructors
         public AppSettingsViewModel()
         {
-            Model.PropertyChanged += ModelPropertyChanged;
             SetCommand();
         }
         #endregion
@@ -88,17 +86,6 @@ namespace VectorMaker.ViewModel
             Model.ResetToDefault();
         }
 
-        private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Model.IsBorderVisible))
-            {
-                OnPropertyChanged(nameof(BorderVisibility));
-            }
-            if (e.PropertyName == nameof(Model.IsBackgroundCheckered))
-            {
-                OnPropertyChanged(nameof(CheckColorVisibility));
-            }
-        }
         #endregion
     }
 }

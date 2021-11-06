@@ -38,7 +38,6 @@ namespace VectorMaker.ViewModel
         private Canvas m_mainCanvas;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
         private IMainWindowViewModel m_interfaceMainWindowVM;
-
         #endregion
 
         #region Properties
@@ -68,6 +67,7 @@ namespace VectorMaker.ViewModel
             }
         }
         public DrawableTypes DrawableType { get; set; }
+        public Configuration AppConfiguration => Configuration.Instance;
         protected override FileType[] Filters { get => m_filters; set => m_filters = value; }
         protected override string DefaultExtension { get => m_defaultExtension; set => m_defaultExtension = value; }
         #endregion
