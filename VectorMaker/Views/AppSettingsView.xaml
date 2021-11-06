@@ -1,0 +1,224 @@
+﻿<Window x:Class="VectorMaker.Views.AppSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
+        xmlns:viewmodel="clr-namespace:VectorMaker.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Application Settings" Height="300" Width="260" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        x:Name="ApplicationSettingsWindow"
+        BorderThickness="0" Foreground="{StaticResource LightText}"
+        FontSize="13" FontWeight="Light" 
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewmodel:AppSettingsViewModel/>
+    </Window.DataContext>
+    <Border CornerRadius="2" BorderThickness="2" Background="#171717" BorderBrush="#171717">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <DockPanel HorizontalAlignment="Stretch" 
+                   LastChildFill="True" 
+                   VerticalAlignment="Stretch">
+            <Grid DockPanel.Dock="Top" Height="30" >
+                <Menu Background="Transparent" 
+                      Grid.Column="0" 
+                      VerticalAlignment="Center" 
+                      FontSize="18" 
+                      FontWeight="Light" 
+                      Foreground="{DynamicResource LightText}">
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <DockPanel HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+                    <MenuItem Header="{iconPacks:BootstrapIcons Kind=GearWideConnected, Height=25, Width=20}" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                    <MenuItem Header="Application Settings" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                    <MenuItem Header="{iconPacks:BootstrapIcons Kind=X, Height=25, Width=15}" HorizontalAlignment="Right" Command="{Binding CloseSettingsWindowCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}"/>
+                </Menu>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Height="30" Background="#252525">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="92" Margin="5" 
+                                                  ButtonContent="Reset to default" 
+                                                  ButtonCornerRadius="1" 
+                                                  FontSize="13"
+                                                  Grid.Column="1"
+                                                  Command="{Binding ResetToDefaultSettingsCommand}"/>
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="73" Margin="0,5" 
+                                                  ButtonContent="Reset" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="2"
+                                                  Command="{Binding ResetSettingsCommand}"/>
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="71" 
+                                                  Margin="5" 
+                                                  ButtonContent="Save" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="3" 
+                                                  Command="{Binding SaveSettingsCommand}"/>
+
+            </Grid>
+            <Grid HorizontalAlignment="Stretch">
+                <mahControls:MetroTabControl mahControls:HeaderedControlHelper.HeaderFontSize="13"
+                                             mahControls:HeaderedControlHelper.HeaderFontWeight="Light" BorderThickness="0,1,0,0" BorderBrush="{StaticResource MagentaBaseBrush}">
+                    <mahControls:MetroTabItem Header="Background settings" >
+                        <Grid Margin="0,10,0,0">
+                            <Grid.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{StaticResource LightText}"/>
+                                    <Setter Property="FontSize" Value="10"/>
+                                    <Setter Property="Margin" Value="0,0,1,0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <mahControls:ToggleSwitch Header="Border visibility" 
+                                                      HorizontalAlignment="Center"
+                                                      mahControls:HeaderedControlHelper.HeaderForeground="#AAAAAA" 
+                                                      mahControls:HeaderedControlHelper.HeaderFontSize="10" 
+                                                      IsOn="{Binding Model.IsBorderVisible}"  
+                                                      FontSize="10"                                       
+                                                      Foreground="{StaticResource LightGreyBrush}"/>
+                            <mahControls:ToggleSwitch Header="Border shadow" Grid.Column="1"
+                                                      HorizontalAlignment="Center" 
+                                                      mahControls:HeaderedControlHelper.HeaderForeground="#AAAAAA"
+                                                      mahControls:HeaderedControlHelper.HeaderFontSize="10" 
+                                                      IsOn="{Binding Model.IsBorderShadow}" 
+                                                      FontSize="10"
+                                                      Visibility="{Binding BorderVisibility}"
+                                                      Foreground="{StaticResource LightGreyBrush}"/>
+                            <mahControls:ToggleSwitch Header="Checkered background" Grid.Row="1"                                          Grid.ColumnSpan="2"
+                                                      HorizontalAlignment="Center"
+                                                      mahControls:HeaderedControlHelper.HeaderForeground="#AAAAAA" 
+                                                      mahControls:HeaderedControlHelper.HeaderFontSize="10" 
+                                                      IsOn="{Binding Model.IsBackgroundCheckered}"  
+                                                      FontSize="10"                                       
+                                                      Foreground="{StaticResource LightGreyBrush}"/>
+                            <Rectangle Width="25" 
+                                       Height="25" 
+                                       Grid.Row="2" 
+                                       Fill="{Binding Model.BackgroundColor}" 
+                                       Stroke="{StaticResource LightGreyBrush}" 
+                                       RadiusX="1" 
+                                       RadiusY="1"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,20,0"/>
+                            <Label Grid.Row="2" Grid.Column="1" Content="Background color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0"/>
+
+                            <Rectangle Width="25" 
+                                       Height="25" 
+                                       Grid.Row="3" 
+                                       Fill="{Binding Model.BorderColor}" 
+                                       Stroke="{StaticResource LightGreyBrush}" 
+                                       RadiusX="1" 
+                                       RadiusY="1"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,20,0" Visibility="{Binding BorderVisibility}"/>
+                            <Label Grid.Row="3" Grid.Column="1" Content="Border color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0" Visibility="{Binding BorderVisibility}"/>
+                            
+
+
+                            <Rectangle Width="25" 
+                                       Height="25" 
+                                       Grid.Row="4" 
+                                       Fill="{Binding Model.CheckColor}" 
+                                       Stroke="{StaticResource LightGreyBrush}" 
+                                       RadiusX="1" 
+                                       RadiusY="1"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,20,0"  Visibility="{Binding CheckColorVisibility}"/>
+                            <Label Grid.Row="4" Grid.Column="1" Content="Check color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0"  Visibility="{Binding CheckColorVisibility}"/>
+                        </Grid>
+                    </mahControls:MetroTabItem>
+                    <mahControls:MetroTabItem Header="Metadata" Foreground="{StaticResource LightText}">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{StaticResource LightText}"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                    <Setter Property="Margin" Value="0,0,1,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                </Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxClassic}">
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Width" Value="150"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.45*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Author" />
+                            <TextBox Text="{Binding Model.Author}"  />
+
+                            <Label Content="Rights" 
+                                   Grid.Row="1"/>
+                            <TextBox Text="{Binding Model.Rights}" 
+                                     Grid.Row="1"/>
+
+                            <Label Content="Publisher" 
+                                   Grid.Row="2"/>
+                            <TextBox Text="{Binding Model.Publisher}"
+                                     Grid.Row="2"/>
+
+                            <Label Content="Language" 
+                                   Grid.Row="3"/>
+                            <TextBox Text="{Binding Model.Language}" 
+                                     Grid.Row="3"/>
+
+                            <Label Content="Identifier" 
+                                   Grid.Row="4"/>
+                            <TextBox Text="{Binding Model.Identifier}" 
+                                     Grid.Row="4"/>
+                        </Grid>
+                    </mahControls:MetroTabItem>
+                    <mahControls:MetroTabItem Header="Licenses" Foreground="{StaticResource LightText}"/>
+                </mahControls:MetroTabControl>
+            </Grid>
+
+        </DockPanel>
+    </Border>
+</Window>

@@ -112,7 +112,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_filePath = value;
-                OnPropertyChanged("FileName");
+                OnPropertyChanged(nameof(FileName));
             }
         }
 
@@ -122,8 +122,8 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_isSaved = value;
-                OnPropertyChanged("IsSaved");
-                OnPropertyChanged("FileName");
+                OnPropertyChanged(nameof(IsSaved));
+                OnPropertyChanged(nameof(FileName));
             }
         }
 

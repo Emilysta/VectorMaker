@@ -17,7 +17,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Magenta.xaml" />
-                
+
             </ResourceDictionary.MergedDictionaries>
             
             <Style x:Key="RotateThumb" TargetType="{x:Type Thumb}">

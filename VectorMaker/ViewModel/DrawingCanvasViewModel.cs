@@ -18,7 +18,6 @@ using System.Drawing.Printing;
 using System.Linq;
 using VectorMaker.Commands;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using VectorMaker.Intefaces;
 using System.Xml;
 
@@ -65,7 +64,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_selectedObjects = value;
-                OnPropertyChanged("SelectedObjects");
+                OnPropertyChanged(nameof(SelectedObjects));
             }
         }
         public DrawableTypes DrawableType { get; set; }
@@ -317,7 +316,7 @@ namespace VectorMaker.ViewModel
                     {
                         m_drawableObjectShape = m_drawableObject.SetStartPoint(m_positionInCanvas);
                         MainCanvas.Children.Add(m_drawableObjectShape);
-                        OnPropertyChanged("Children");
+                        //OnPropertyChanged("Children");
                         IsSaved = false;
                         //Trace.WriteLine(m_positionInCanvas);
                     }

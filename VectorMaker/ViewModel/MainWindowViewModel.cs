@@ -10,12 +10,15 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using VectorMaker.Utility;
+using VectorMaker.Views;
 
 namespace VectorMaker.ViewModel
 {
     internal class MainWindowViewModel : NotifyPropertyChangedBase, IMainWindowViewModel
     {
         #region Commands
+        public ICommand OpenApplicationSettingsCommand { get; set; }
+
         public ICommand NewDocumentCommand { get; set; }
         public ICommand OpenDocumentCommand { get; set; }
         public ICommand SaveAllCommand { get; set; }
@@ -83,7 +86,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_activeDocument = value;
-                OnPropertyChanged("ActiveDocument");
+                OnPropertyChanged(nameof(ActiveDocument));
                 ActiveCanvasChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -164,6 +167,8 @@ namespace VectorMaker.ViewModel
 
         private void SetCommands()
         {
+            OpenApplicationSettingsCommand = new CommandBase((obj) => OpenAppSettings());
+
             NewDocumentCommand = new CommandBase((obj) => NewDocument());
             OpenDocumentCommand = new CommandBase((obj) => OpenDocument());
             SaveAllCommand = new CommandBase((obj) => SaveAllDocuments());
@@ -222,6 +227,12 @@ namespace VectorMaker.ViewModel
             //drawingCanvas.Union();
         }
 
+        private void OpenAppSettings()
+        {
+            Window appSettingWindow = new AppSettingsView();
+            appSettingWindow.Show();
+        }
+
         private void NewDocument()
         {
             m_documents.Add(new DrawingCanvasViewModel(this as IMainWindowViewModel));
@@ -232,7 +243,7 @@ namespace VectorMaker.ViewModel
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
             if (openFileDialog.ShowDialog() == true)
-                m_documents.Add(new DrawingCanvasViewModel(openFileDialog.FileName,this as IMainWindowViewModel));
+                m_documents.Add(new DrawingCanvasViewModel(openFileDialog.FileName, this as IMainWindowViewModel));
         }
 
         private void SaveAllDocuments()
@@ -306,7 +317,7 @@ namespace VectorMaker.ViewModel
             //    AlignmentTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
         }
 
-        public void ChangeColor()
+        private void ChangeColor()
         {
             System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
             Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;

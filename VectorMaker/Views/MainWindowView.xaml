@@ -32,7 +32,7 @@
                             <DockPanel HorizontalAlignment="Stretch"/>
                         </ItemsPanelTemplate>
                     </Menu.ItemsPanel>
-                    <MenuItem Header="VectorMaker" IsEnabled="False" />
+                    <MenuItem Header="VectorMaker" IsCheckable="False" />
                     <MenuItem Header="File">
                         <MenuItem Header="New Document" Command="{Binding NewDocumentCommand}"/>
                         <MenuItem Header="Open Document" Command="{Binding OpenDocumentCommand}"/>
@@ -48,6 +48,9 @@
                         <Separator/>
                         <MenuItem Header="Save Current File" Command="{Binding ActiveDocument.SaveCommand}"/>
                         <MenuItem Header="Save All Files" Command="{Binding SaveAllCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="View" >
+                        <MenuItem Header="Application Settings" Command="{Binding OpenApplicationSettingsCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Edit" IsEnabled="False"/>
                     <MenuItem Header="Object" >
@@ -161,8 +164,7 @@
                             <templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>
                                 <Style TargetType="{x:Type LayoutDocumentItem}">
                                     <Setter Property="Title" Value="{Binding Model.FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    
-                            <Setter Property="ToolTip" Value="{Binding Model.FilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Setter Property="ToolTip" Value="{Binding Model.FilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
                                     <Setter Property="ContentId" Value="{Binding Model.FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Style>
