@@ -4,7 +4,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <Win32Resource />
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="logo.ico" />
+    <None Remove="logo.png" />
+    <None Remove="logo2.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <Page Remove="ControlsResources\Buttons.xaml" />
@@ -17,6 +25,7 @@
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
@@ -27,6 +36,15 @@
   <ItemGroup>
     <Resource Include="ControlsResources\Buttons.xaml">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
+    </Resource>
+    <Resource Include="logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="logo2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

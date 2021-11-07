@@ -7,7 +7,7 @@
         xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks" 
         xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
         xmlns:viewmodel="clr-namespace:VectorMaker.ViewModel"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:converters="clr-namespace:VectorMaker.Converters"
         mc:Ignorable="d"
         Title="Application Settings" Height="300" Width="260" 
         WindowStyle="None"
@@ -17,15 +17,15 @@
         BorderThickness="0" Foreground="{StaticResource LightText}"
         FontSize="13" FontWeight="Light" 
         WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <viewmodel:AppSettingsViewModel/>
-    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" PassEventArgsToCommand="True">
+            </i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+    </Window.Resources>
     <Border CornerRadius="2" BorderThickness="2" Background="#171717" BorderBrush="#171717">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseLeftButtonDown">
-                <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
         <DockPanel HorizontalAlignment="Stretch" 
                    LastChildFill="True" 
                    VerticalAlignment="Stretch">
@@ -134,7 +134,13 @@
                                        RadiusX="1" 
                                        RadiusY="1"
                                        HorizontalAlignment="Right"
-                                       Margin="0,0,20,0"/>
+                                       Margin="0,0,20,0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding BackgroundColorPickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Rectangle>
                             <Label Grid.Row="2" Grid.Column="1" Content="Background color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0"/>
 
                             <Rectangle Width="25" 
@@ -145,9 +151,15 @@
                                        RadiusX="1" 
                                        RadiusY="1"
                                        HorizontalAlignment="Right"
-                                       Margin="0,0,20,0" Visibility="{Binding Model.BorderVisibility}"/>
+                                       Margin="0,0,20,0" Visibility="{Binding Model.BorderVisibility}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding BorderColorPickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Rectangle>
                             <Label Grid.Row="3" Grid.Column="1" Content="Border color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0" Visibility="{Binding Model.BorderVisibility}"/>
-                            
+
 
 
                             <Rectangle Width="25" 
@@ -158,7 +170,13 @@
                                        RadiusX="1" 
                                        RadiusY="1"
                                        HorizontalAlignment="Right"
-                                       Margin="0,0,20,0"  Visibility="{Binding Model.CheckColorVisibility}"/>
+                                       Margin="0,0,20,0"  Visibility="{Binding Model.CheckColorVisibility}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding CheckColorPickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Rectangle>
                             <Label Grid.Row="4" Grid.Column="1" Content="Check color" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-10,0"  Visibility="{Binding Model.CheckColorVisibility}"/>
                         </Grid>
                     </mahControls:MetroTabItem>

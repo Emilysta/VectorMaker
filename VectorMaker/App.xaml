@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views/MainWindowView.xaml"
              ShutdownMode="OnExplicitShutdown"
-              xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks">
+             xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks" 
+             xmlns:Views="clr-namespace:VectorMaker.Views"
+             xmlns:ViewModel="clr-namespace:VectorMaker.ViewModel">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -72,6 +74,12 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <DataTemplate DataType="{x:Type ViewModel:ColorPickerViewModel}">
+                <Views:ColorPickerView />
+            </DataTemplate>
+
+            <Image x:Key="VectorMakerIcon" Source="logo2.png" />
 
         </ResourceDictionary>
         

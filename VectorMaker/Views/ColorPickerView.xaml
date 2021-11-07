@@ -1,0 +1,150 @@
+﻿<Window x:Class="VectorMaker.Views.ColorPickerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+        xmlns:local="clr-namespace:VectorMaker.Views" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:viewModel="clr-namespace:VectorMaker.ViewModel"
+        xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
+        xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="ColorPickerView" Height="500" Width="320"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        x:Name="ColorPickerWindow"
+        BorderThickness="0" Foreground="{StaticResource LightText}"
+        FontSize="13" FontWeight="Light" 
+        WindowStartupLocation="CenterScreen"
+    xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ColorPicker;component/Styles/DefaultColorPickerStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPalette.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="MyColorPaletteItemTemplate">
+                <Rectangle Fill="{Binding Converter={x:Static converters:ColorToSolidColorBrushConverter.DefaultInstance}}" Width="24" Height="24" RadiusX="1" RadiusY="1" StrokeThickness="0.5" Stroke="{StaticResource LightGreyBrush}"/>
+            </DataTemplate>
+            <Style TargetType="{x:Type ListBoxItem}" x:Key="ColorPaletteListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <ContentPresenter Margin="1"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border CornerRadius="1" Background="#151515">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" CommandParameter="{Binding ElementName=ColorPickerWindow}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <Menu Background="Transparent" 
+                  Grid.Column="0" 
+                  VerticalAlignment="Center" 
+                  FontSize="20" 
+                  FontWeight="Light" 
+                  Foreground="{DynamicResource LightText}">
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+                <MenuItem Header="{iconPacks:Material Kind=Eyedropper, Height=25, Width=20}" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                <MenuItem Header="Color Picker" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                <MenuItem Header="{iconPacks:BootstrapIcons Kind=X, Height=25, Width=15}" HorizontalAlignment="Right" Command="{Binding CloseColorPickerWindowCommand}" CommandParameter="{Binding ElementName=ColorPickerWindow}"/>
+            </Menu>
+            <Grid Grid.Row="1">
+                <mahControls:MetroTabControl mahControls:HeaderedControlHelper.HeaderFontSize="15"
+                                             mahControls:HeaderedControlHelper.HeaderFontWeight="Light" BorderThickness="0,1,0,0" BorderBrush="{StaticResource MagentaBaseBrush}">
+                    <mahControls:MetroTabItem Header="Color picker" >
+                        <Grid>
+                            <colorpicker:StandardColorPicker Style="{StaticResource DefaultColorPickerStyle}"
+                                             SelectedColor="{Binding SelectedColor,Mode=TwoWay}" SmallChange="1"/>
+                        </Grid>
+                    </mahControls:MetroTabItem>
+                    <mahControls:MetroTabItem Header="Color palette">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controlsresources:ToggleButtonWithIcon ButtonContent="Default palette" Margin="5,5,0,5" ButtonCornerRadius="2,0,0,2" IsChecked="True" Command="{Binding DefaultPaletteCheckedCommand}"/>
+                                <controlsresources:ToggleButtonWithIcon ButtonContent="Custom palette" Grid.Column="1" Margin="0,5,5,5" ButtonCornerRadius="0,2,2,0" Command="{Binding CustomPaletteCheckedCommand}"/>
+                            </Grid>
+                            <mahControls:ColorPalette ItemTemplate="{DynamicResource MyColorPaletteItemTemplate}" 
+                                                      Header="Default color palette" 
+                                                      Margin="5,1,5,5" 
+                                                      Grid.Row="1"
+                                                      ItemsSource="{x:Static mahControls:BuildInColorPalettes.WpfColorsPalette}" 
+                                                      BorderThickness="0.3" 
+                                                      BorderBrush="{StaticResource LightGreyBrush}"
+                                                      ItemContainerStyle="{StaticResource ColorPaletteListBoxItem}" 
+                                                      Visibility="{Binding DefaultPaletteVisibility}"/>
+
+                            <mahControls:ColorPalette ItemTemplate="{DynamicResource MyColorPaletteItemTemplate}" 
+                                                      Header="Custom color palette" 
+                                                      Margin="5,1,5,5"  
+                                                      Grid.Row="1"
+                                                      ItemsSource="{x:Static mahControls:BuildInColorPalettes.StandardColorsPalette}" 
+                                                      BorderThickness="0.3" 
+                                                      BorderBrush="{StaticResource LightGreyBrush}"
+                                                      ItemContainerStyle="{StaticResource ColorPaletteListBoxItem}" 
+                                                      Visibility="{Binding CustomPaletteVisibility}"/>
+                        </Grid>
+                    </mahControls:MetroTabItem>
+                </mahControls:MetroTabControl>
+            </Grid>
+            <Grid Grid.Row="2" Background="#202020">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="80" 
+                                                  Margin="0,2" 
+                                                  ButtonContent="Reset" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="1" 
+                                                  Command="{Binding ResetColorCommand}"
+                                                  CommandParameter="{Binding ElementName=ColorPickerWindow}"/>
+
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="80" 
+                                                  Margin="2" 
+                                                  ButtonContent="Apply" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="2" 
+                                                  Command="{Binding ApplyColorCommand}"
+                                                  CommandParameter="{Binding ElementName=ColorPickerWindow}"/>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

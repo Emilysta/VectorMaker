@@ -56,7 +56,7 @@
                         </DrawingBrush.Drawing>
                     </DrawingBrush>
                 </Grid.Background>
-                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{StaticResource LightGreyBrush}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
+                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="3" />
                     </Border.Effect>

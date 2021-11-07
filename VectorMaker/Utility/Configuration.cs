@@ -19,9 +19,9 @@ namespace VectorMaker.Utility
         private bool m_isBorderVisible = true;
         private bool m_isBorderShadow = true;
         private bool m_isBackgroundCheckered = true;
-        private Brush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
-        private Brush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
-        private Brush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
+        private SolidColorBrush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
+        private SolidColorBrush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
+        private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
         [JsonIgnore]
         private const string CONFIG_FILE_PATH = "/VectorMaker.config";
         [JsonIgnore]
@@ -103,7 +103,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(IsBackgroundCheckered));
             }
         }
-        public Brush BorderColor
+        public SolidColorBrush BorderColor
         {
             get => m_borderColor;
             set
@@ -112,7 +112,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BorderColor));
             }
         }
-        public Brush BackgroundColor
+        public SolidColorBrush BackgroundColor
         {
             get => m_backgroundColor;
             set
@@ -121,7 +121,7 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BackgroundColor));
             }
         }
-        public Brush CheckColor
+        public SolidColorBrush CheckColor
         {
             get => m_checkColor;
             set

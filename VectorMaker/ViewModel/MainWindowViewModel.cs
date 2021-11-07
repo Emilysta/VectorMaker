@@ -229,8 +229,7 @@ namespace VectorMaker.ViewModel
 
         private void OpenAppSettings()
         {
-            Window appSettingWindow = new AppSettingsView();
-            appSettingWindow.Show();
+            AppSettingsViewModel appSettingsViewModel = new AppSettingsViewModel();
         }
 
         private void NewDocument()

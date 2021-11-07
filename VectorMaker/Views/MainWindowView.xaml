@@ -21,17 +21,20 @@
         <!--xmlns:icons = "http://metro.mahapps.com/winfx/xaml/iconpacks"-->
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
             <!-- Top Dock-->
-            <Grid DockPanel.Dock="Top" Height="30">
+            <Grid DockPanel.Dock="Top" Height="40">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Menu  Background="Transparent" Grid.Column="0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource LightText}">
+                <Image Source="{Binding Source, Source={StaticResource VectorMakerIcon}}" Margin="3"/>
+                <Menu  Background="Transparent" Grid.Column="1" VerticalAlignment="Center" FontSize="15" Foreground="{DynamicResource LightText}">
                     <Menu.ItemsPanel>
                         <ItemsPanelTemplate>
                             <DockPanel HorizontalAlignment="Stretch"/>
                         </ItemsPanelTemplate>
                     </Menu.ItemsPanel>
+                    <MenuItem Header="VectorMaker" IsCheckable="False" />
                     <MenuItem Header="VectorMaker" IsCheckable="False" />
                     <MenuItem Header="File">
                         <MenuItem Header="New Document" Command="{Binding NewDocumentCommand}"/>
@@ -73,7 +76,7 @@
                     <MenuItem Header="Help" />
                     <MenuItem Header="" />
                 </Menu>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="40"/>
