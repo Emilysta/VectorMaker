@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="VectorMaker.ControlsResources.GradientColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:VectorMaker.ControlsResources"
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="200" Height="70" Width="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <local:MultiThumbSlider VerticalAlignment="Top" x:Name="MultiThumbSliderObject" SelectedThumbChanged="MultiThumbSliderObject_SelectedThumbChanged">
+            <local:MultiThumbSlider.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" GradientStops="{Binding GradientStops}"/>
+            </local:MultiThumbSlider.Background>
+        </local:MultiThumbSlider>
+        <Label Content="{Binding OffsetValue}" Grid.Row="1"/>
+    </Grid>
+</UserControl>

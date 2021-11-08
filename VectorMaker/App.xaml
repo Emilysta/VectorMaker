@@ -63,6 +63,18 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="MultiThumbSliderStyle" TargetType="{x:Type Thumb}">
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Polygon Fill="#707070" Points="3,0 6,3 6,10 0,10 0,3"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style x:Key="ScaleThumbDuringDrag" TargetType="{x:Type Thumb}">
                 <Setter Property="SnapsToDevicePixels" Value="true" />
                 <Setter Property="OverridesDefaultStyle" Value="true" />

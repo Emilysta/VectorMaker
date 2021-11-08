@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-      xmlns:utility="clr-namespace:VectorMaker.Utility" 
-      mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="1400">
+      xmlns:utility="clr-namespace:VectorMaker.Utility" xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
+             mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="1400">
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
     </UserControl.Resources>
@@ -62,6 +62,7 @@
                     </Border.Effect>
                 </Border>
                 <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
+                <controlsresources:GradientColorPicker />
             </Grid>
         </ScrollViewer>
         <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
