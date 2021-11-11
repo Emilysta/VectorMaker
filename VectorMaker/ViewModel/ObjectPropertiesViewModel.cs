@@ -21,6 +21,16 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Properties
+        public Visibility BlendVisibility
+        {
+            get => m_blendVisibiity;
+            set
+            {
+                m_blendVisibiity = value;
+                OnPropertyChanged("BlendVisibility");
+            }
+        }
+        protected override string m_title { get; set; } = "Fill & stroke";
         private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;
         private Transform m_transform
         {
@@ -38,15 +48,7 @@ namespace VectorMaker.ViewModel
         {
             get => (Size)m_adorner?.AdornedElement.RenderSize;
         }
-        public Visibility BlendVisibility
-        {
-            get => m_blendVisibiity;
-            set
-            {
-                m_blendVisibiity = value;
-                OnPropertyChanged("BlendVisibility");
-            }
-        }
+
         #endregion
 
         #region Commands

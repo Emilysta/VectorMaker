@@ -41,12 +41,15 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        protected override string m_title { get; set; } = "Layers";
+
         #endregion
 
         #region Commands
 
         public ICommand AddLayerCommand { get; set; }
         public ICommand DeleteLayerCommand { get; set; }
+
 
         #endregion
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using VectorMaker.ViewModel;
 
@@ -11,7 +12,7 @@ namespace VectorMaker.Intefaces
 
         DocumentViewModelBase ActiveDocument { get; set; }
 
-        IEnumerable<ToolBaseViewModel> Tools { get; }
+        ObservableCollection<ToolBaseViewModel> Tools { get; }
 
         IEnumerable<DocumentViewModelBase> Documents { get; }
 
@@ -20,8 +21,6 @@ namespace VectorMaker.Intefaces
         void AddFile(DocumentViewModelBase fileToAdd);
 
         void Save(DocumentViewModelBase fileToSave);
-
-        Task<DocumentViewModelBase> OpenAsync(string filepath);
 
         void CloseAllDocuments();
     }

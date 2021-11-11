@@ -54,6 +54,7 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        protected override string m_title { get; set; } = "Alignment";
         #endregion
 
         #region Commands

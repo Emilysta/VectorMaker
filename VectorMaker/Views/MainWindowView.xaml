@@ -72,6 +72,7 @@
                         <MenuItem Header="Fill &amp; Stroke Properties Tool" Command="{Binding OpenPropertiesToolCommand}"/>
                         <MenuItem Header="Color Picker" Command="{Binding OpenColorPickerToolCommand}"/>
                         <MenuItem Header="Alignment Tool" Command="{Binding OpenAlignmentToolCommand}"/>
+                        <MenuItem Header="Layer Tool" Command="{Binding OpenLayersToolCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Help" />
                     <MenuItem Header="" />
@@ -182,6 +183,13 @@
                                     <Setter Property="ContentId" Value="{Binding Model.FileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Style>
                             </templateselectors:LayoutPaneStyleSelector.DrawingCanvasStyle>
+                            <templateselectors:LayoutPaneStyleSelector.ToolStyle>
+                                <Style TargetType="{x:Type LayoutAnchorableItem}">
+                                    <Setter Property="Title" Value="{Binding Model.Title}" />
+                                    <Setter Property="CanClose" Value="True" />
+                                    <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                                </Style>
+                            </templateselectors:LayoutPaneStyleSelector.ToolStyle>
                         </templateselectors:LayoutPaneStyleSelector>
                     </docks:DockingManager.LayoutItemContainerStyleSelector>
                     <DockingManager.Theme>

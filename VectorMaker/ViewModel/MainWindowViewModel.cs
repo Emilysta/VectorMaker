@@ -28,6 +28,7 @@ namespace VectorMaker.ViewModel
         public ICommand OpenPropertiesToolCommand { get; set; }
         public ICommand OpenColorPickerToolCommand { get; set; }
         public ICommand OpenAlignmentToolCommand { get; set; }
+        public ICommand OpenLayersToolCommand { get; set; }
 
         public ICommand DrawRectangleCommand { get; set; }
         public ICommand DrawEllipseCommand { get; set; }
@@ -40,7 +41,7 @@ namespace VectorMaker.ViewModel
 
         #region Fields
         private ObservableCollection<DocumentViewModelBase> m_documents { get; set; }
-        private ToolBaseViewModel[] m_tools = null;
+        private ObservableCollection<ToolBaseViewModel> m_tools = null;
         private DocumentViewModelBase m_activeDocument;
 
         private ObjectTransformsViewModel m_objectTransformsVMTool = null;
@@ -82,12 +83,12 @@ namespace VectorMaker.ViewModel
             }
         }
 
-        public IEnumerable<ToolBaseViewModel> Tools
+        public ObservableCollection<ToolBaseViewModel> Tools
         {
             get
             {
                 if (m_tools == null)
-                    m_tools = new ToolBaseViewModel[] { ObjectTransformsVMTool, ObjectAlignmentVMTool,DrawingLayersVMTool };
+                    m_tools = new ObservableCollection<ToolBaseViewModel>() { ObjectTransformsVMTool, ObjectAlignmentVMTool,DrawingLayersVMTool };
                 return m_tools;
             }
         }
@@ -143,24 +144,6 @@ namespace VectorMaker.ViewModel
             fileToSave.SaveCommand.Execute(null);
         }
 
-        public Task<DocumentViewModelBase> OpenAsync(string filepath)
-        {
-            //DrawingCanvasViewModel drawingCanvasViewModel = Documents.FirstOrDefault(fm => fm.Model.FilePath == filepath);
-            //if (drawingCanvasViewModel != null)
-            //    return drawingCanvasViewModel;
-
-            //drawingCanvasViewModel = new DrawingCanvasViewModel(filepath);
-            //bool result = await drawingCanvasViewModel.OpenFileAsync(filepath);
-
-            //if (result)
-            //{
-            //    Documents.Add(drawingCanvasViewModel);
-            //    return drawingCanvasViewModel;
-            //}
-
-            return null;
-        }
-
         public void CloseAllDocuments()
         {
             ActiveDocument = null;
@@ -192,6 +175,7 @@ namespace VectorMaker.ViewModel
             OpenPropertiesToolCommand = new CommandBase((obj) => PropertiesTool());
             OpenColorPickerToolCommand = new CommandBase((obj) => ColorPickerTool());
             OpenAlignmentToolCommand = new CommandBase((obj) => AlignmentTool());
+            OpenLayersToolCommand = new CommandBase((obj) => LayersTool());
 
             DrawRectangleCommand = new CommandBase((obj) => DrawRectangle());
             DrawEllipseCommand = new CommandBase((obj) => DrawEllipse());
@@ -236,9 +220,7 @@ namespace VectorMaker.ViewModel
 
         private void Union()
         {
-            //Frame frame = DockingManager.ActiveContent as Frame;
-            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            //drawingCanvas.Union();
+            throw new NotImplementedException(); //toDo
         }
 
         private void OpenAppSettings()
@@ -249,7 +231,6 @@ namespace VectorMaker.ViewModel
         private void NewDocument()
         {
             DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(this as IMainWindowViewModel);
-            //DrawingLayersVMTool.SelectedLayerChanged += drawingCanvas.SelectedLayerChanged;
             m_documents.Add(drawingCanvas);
         }
 
@@ -260,80 +241,42 @@ namespace VectorMaker.ViewModel
             if (openFileDialog.ShowDialog() == true)
             {
                 DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(openFileDialog.FileName, this as IMainWindowViewModel);
-                //DrawingLayersVMTool.SelectedLayerChanged += drawingCanvas.SelectedLayerChanged;
                 m_documents.Add(drawingCanvas);
             }
         }
 
         private void SaveAllDocuments()
         {
-            //foreach(DrawingCanvas drawingCanvas in Documents)
-            //drawingCanvas.ViewModel.SaveFile();
-        }
-
-        private void SaveAsSVGDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-            //m_drawingCanvas.SaveAsPDF();
-        }
-
-        private void SaveAsPNGDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Frame frame = DockingManager.ActiveContent as Frame;
-            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            //drawingCanvas.SaveAsPNG();
-        }
-
-        private void SaveAsBMPDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-            //m_drawingCanvas.SaveAsPDF();
-            //DocumentPaneGroup.Active
-        }
-
-        private void SaveAsPDFDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Frame frame = DockingManager.ActiveContent as Frame;
-            //DrawingCanvas drawingCanvas = frame.Content as DrawingCanvas;
-            //drawingCanvas.SaveAsPDF();
+            throw new NotImplementedException();
         }
 
         private void TransformTool()
         {
-            //if (TransformTool.IsHidden)
-            //    TransformTool.Show();
-            //else if (TransformTool.IsVisible)
-            //    TransformTool.IsActive = true;
-            //else
-            //    TransformTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            if (!Tools.Contains(ObjectTransformsVMTool))
+                Tools.Add(ObjectTransformsVMTool);
         }
 
         private void PropertiesTool()
         {
-            //if (PropertiesTool.IsHidden)
-            //    PropertiesTool.Show();
-            //else if (PropertiesTool.IsVisible)
-            //    PropertiesTool.IsActive = true;
-            //else
-            //    PropertiesTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            //Tools.Add(Obje);
+            throw new NotImplementedException();  //toDo
         }
 
         private void ColorPickerTool()
         {
-            //if (ColorPicker.IsHidden)
-            //    ColorPicker.Show();
-            //else if (ColorPicker.IsVisible)
-            //    ColorPicker.IsActive = true;
-            //else
-            //    ColorPicker.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            throw new NotImplementedException();  //toDo
         }
 
         private void AlignmentTool()
         {
-            //if (AlignmentTool.IsHidden)
-            //    AlignmentTool.Show();
-            //else if (AlignmentTool.IsVisible)
-            //    AlignmentTool.IsActive = true;
-            //else
-            //    AlignmentTool.AddToLayout(DockingManager, AnchorableShowStrategy.Right | AnchorableShowStrategy.Most);
+            if(!Tools.Contains(ObjectAlignmentVMTool))
+                Tools.Add(ObjectAlignmentVMTool);
+        }
+
+        private void LayersTool()
+        {
+            if (!Tools.Contains(DrawingLayersVMTool))
+                Tools.Add(DrawingLayersVMTool);
         }
 
         private void ChangeColor()
