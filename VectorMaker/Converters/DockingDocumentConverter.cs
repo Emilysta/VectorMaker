@@ -7,10 +7,18 @@ namespace VectorMaker.Converters
 {
     public class DockingDocumentConverter : IValueConverter
     {
+        private object m_earlierValue;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
             if (value is DocumentViewModelBase)
-                return value;
+            {
+                if(value!= m_earlierValue)
+                {
+                    m_earlierValue = value;
+                    return value;
+                }
+            }
 
             return Binding.DoNothing;
         }
@@ -18,7 +26,13 @@ namespace VectorMaker.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is DocumentViewModelBase)
-                return value;
+            {
+                if (value != m_earlierValue)
+                {
+                    m_earlierValue = value;
+                    return value;
+                }
+            }
 
             return Binding.DoNothing;
         }

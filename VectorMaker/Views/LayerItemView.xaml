@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="VectorMaker.Views.LayerItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VectorMaker.Views" xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" Foreground="{StaticResource LightGreyBrush}"
+             FontSize="15" Height="40" Width="273"
+             d:DesignHeight="40" d:DesignWidth="273">
+    <Border Margin="5" BorderBrush="{StaticResource LightGreyBrush}" BorderThickness="1" CornerRadius="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Cursor="Hand">
+                <controlsresources:ButtonWithIcon Background="Transparent" IconKind="ChevronUp" VerticalAlignment="Top" Margin="0,0,0,13" Command="{Binding MoveUpCommand}" 
+                                                  IsEnabled="{Binding IsUpVisible}"/>
+                <controlsresources:ButtonWithIcon Background="Transparent" IconKind="ChevronDown" VerticalAlignment="Bottom" Margin="0,13,0,0" Command="{Binding MoveDownCommand}"
+                  IsEnabled="{Binding IsDownVisible}"/>
+            </Grid>
+
+            <Label Content="{Binding LayerNumber}" VerticalAlignment="Center" Grid.Column="1"
+               Foreground="{StaticResource LightGreyBrush}"/>
+
+            <TextBox Text="{Binding LayerName}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TextBoxTransparent}"
+               Foreground="{StaticResource LightGreyBrush}" Grid.Column="1" />
+
+            <controlsresources:ToggleButtonWithIcon HorizontalAlignment="Center" x:Name="VisibilityToggle" ButtonCornerRadius="1" VerticalAlignment="Center" Width="30" Height="30" 
+                         Grid.Column="2" IconKind="EyeRegular" Background="Transparent" Command="{Binding ChangeVisibilityCommand}" CommandParameter="{Binding ElementName=VisibilityToggle}"/>
+
+            <controlsresources:ButtonWithIcon ButtonCornerRadius="1" Grid.Column="3" Background="Transparent" VerticalAlignment="Center" Width="30" Height="30" IconKind="Trash2" Command="{Binding DeleteCommand}"/>
+        </Grid>
+    </Border>
+</UserControl>

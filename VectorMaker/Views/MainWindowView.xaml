@@ -151,6 +151,16 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </templateselectors:LayoutPaneTemplateSelector.ObjectTransformsViewTemplate>
+                            <templateselectors:LayoutPaneTemplateSelector.DrawingLayersToolViewTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:DrawingLayersToolViewModel}">
+                                    <StackPanel>
+                                        <Viewbox>
+                                            <views:DrawingLayersToolView/>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </templateselectors:LayoutPaneTemplateSelector.DrawingLayersToolViewTemplate>
+
                             <templateselectors:LayoutPaneTemplateSelector.ObjectAlignmentViewTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ObjectAlignmentViewModel}">
                                     <StackPanel>

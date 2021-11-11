@@ -20,6 +20,7 @@ using VectorMaker.Commands;
 using System.Collections.ObjectModel;
 using VectorMaker.Intefaces;
 using System.Xml;
+using System.Collections.Specialized;
 
 namespace VectorMaker.ViewModel
 {
@@ -30,7 +31,7 @@ namespace VectorMaker.ViewModel
         private Point m_startPositionInCanvas;
         private bool m_isFileToBeLoaded = false;
         private bool m_wasFirstDown = false;
-        private FileType[] m_filters = new FileType[] { FileType.SVG, FileType.PNG,FileType.PDF,FileType.BMP,FileType.JPEG,FileType.TIFF };
+        private FileType[] m_filters = new FileType[] { FileType.SVG, FileType.PNG, FileType.PDF, FileType.BMP, FileType.JPEG, FileType.TIFF };
         private string m_defaultExtension = "xaml";
         private Drawable m_drawableObject;
         private Shape m_drawableObjectShape;
@@ -38,17 +39,59 @@ namespace VectorMaker.ViewModel
         private Canvas m_mainCanvas;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
         private IMainWindowViewModel m_interfaceMainWindowVM;
+        private ObservableCollection<LayerItemViewModel> m_layers;
+        private int m_layersCount = 1;
+        private LayerItemViewModel m_selectedLayer;
         #endregion
 
         #region Properties
         public Canvas MainCanvas
         {
             get => m_mainCanvas;
-            set { m_mainCanvas = value;
-                if(m_isFileToBeLoaded)
+            set
+            {
+                m_mainCanvas = value;
+                if (m_isFileToBeLoaded)
                     LoadFile();
+                else
+                {
+                    m_mainCanvas.Children.Add(SelectedLayer.Layer);
+                }
             }
         }
+        public ObservableCollection<LayerItemViewModel> Layers
+        {
+            get => m_layers;
+            set
+            {
+                if (m_layers != null)
+                    m_layers.CollectionChanged -= LayersCollectionChanged;
+                m_layers = value;
+                m_layers.CollectionChanged += LayersCollectionChanged;
+                OnPropertyChanged(nameof(Layers));
+            }
+        }
+
+        public int LayersNumber
+        {
+            get => m_layersCount;
+            set
+            {
+                m_layersCount = value;
+                OnPropertyChanged(nameof(LayersNumber));
+            }
+        }
+
+        public LayerItemViewModel SelectedLayer
+        {
+            get => m_selectedLayer;
+            set
+            {
+                m_selectedLayer = value;
+                OnPropertyChanged(nameof(SelectedLayer));
+            }
+        }
+
         public bool IgnoreDrawing => DrawableType == DrawableTypes.None;
         public bool IsOneObjectSelected
         {
@@ -100,6 +143,8 @@ namespace VectorMaker.ViewModel
             m_interfaceMainWindowVM = mainWindowViewModel;
             SetCommands();
             IsSaved = false;
+            Layers = new ObservableCollection<LayerItemViewModel>() { new LayerItemViewModel(new Canvas(), 1, "Layer_1") };
+            SelectedLayer = Layers[0];
         }
 
         public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel)
@@ -109,9 +154,19 @@ namespace VectorMaker.ViewModel
             m_isFileToBeLoaded = true;
             SetCommands();
         }
+
+        private void LayersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+                m_layersCount++;
+        }
         #endregion
 
         #region Methods
+        public void SelectedLayerChanged(LayerItemViewModel layerItemViewModel)
+        {
+            
+        }
         private void SetCommands()
         {
             UnionCommand = new CommandBase((obj) => Union());
@@ -183,7 +238,7 @@ namespace VectorMaker.ViewModel
                 IsSaved = false;
             }
         }
-        public void EndDrawing()
+        private void EndDrawing()
         {
             if (m_drawableObject != null)
             {
@@ -315,7 +370,7 @@ namespace VectorMaker.ViewModel
                     if (m_drawableObject != null)
                     {
                         m_drawableObjectShape = m_drawableObject.SetStartPoint(m_positionInCanvas);
-                        MainCanvas.Children.Add(m_drawableObjectShape);
+                        SelectedLayer.Layer.Children.Add(m_drawableObjectShape);
                         //OnPropertyChanged("Children");
                         IsSaved = false;
                         //Trace.WriteLine(m_positionInCanvas);
@@ -337,7 +392,7 @@ namespace VectorMaker.ViewModel
                     EndDrawing();
                     if (m_startPositionInCanvas.Equals(m_positionInCanvas))
                     {
-                        MainCanvas.Children.Remove(m_drawableObjectShape);
+                        SelectedLayer.Layer.Children.Remove(m_drawableObjectShape);
                         IsSaved = true;
                     }
                 }
@@ -389,7 +444,7 @@ namespace VectorMaker.ViewModel
                         break;
                     }
                 case Key.PageDown:
-                    { 
+                    {
                         ChangeZIndex(false);
                         break;
                     }
@@ -434,7 +489,7 @@ namespace VectorMaker.ViewModel
                         image.Stretch = Stretch.Fill;
                         image.Width = 200;
                         image.RenderTransform = new TranslateTransform(point.X, point.Y);
-                        MainCanvas.Children.Add(image);
+                        SelectedLayer.Layer.Children.Add(image);
                         IsSaved = false;
                     }
                 }

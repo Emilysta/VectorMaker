@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="200" Height="25" Width="200">
     <Grid>
+        <AdornerDecorator>
         <Rectangle Fill="{Binding Background, ElementName=userControl}" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="1" RadiusX="1" RadiusY="1" MouseDown="Rectangle_MouseDown"/>
+        </AdornerDecorator>
     </Grid>
 </UserControl>

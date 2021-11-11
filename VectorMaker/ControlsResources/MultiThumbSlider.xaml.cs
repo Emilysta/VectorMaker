@@ -18,9 +18,20 @@ using VectorMaker.Utility;
 
 namespace VectorMaker.ControlsResources
 {
+    public class ThumbEventArgs : RoutedEventArgs
+    {
+        public ThumbSliderAdorner NewThumb { get; set; }
+
+        public ThumbEventArgs(ThumbSliderAdorner thumbSlider)
+        {
+            NewThumb = thumbSlider;
+        }
+    }
+
     /// <summary>
     /// Interaction logic for MultiThumbSlider.xaml
     /// </summary>
+    /// 
     public partial class MultiThumbSlider : UserControl
     {
         private List<ThumbSliderAdorner> m_adorners = new();
@@ -30,18 +41,30 @@ namespace VectorMaker.ControlsResources
         public ThumbSliderAdorner SelectedThumb { get; set; }
 
         public event EventHandler SelectedThumbChanged;
+        public event EventHandler AddedThumb;
 
         public MultiThumbSlider()
         {
             InitializeComponent();
         }
 
+        public ThumbSliderAdorner CreateThumb(double offset)
+        {
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            ThumbSliderAdorner adorner = new ThumbSliderAdorner(this, offset, HandleSelectionChanged);
+            adornerLayer.Add(adorner);
+            m_adorners.Add(adorner);
+            AddedThumb?.Invoke(this, new ThumbEventArgs(adorner));
+            return adorner;
+        }
+
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
-            ThumbSliderAdorner adorner = new ThumbSliderAdorner(this, 0,HandleSelectionChanged);
+            ThumbSliderAdorner adorner = new ThumbSliderAdorner(this, 0, HandleSelectionChanged);
             adornerLayer.Add(adorner);
             m_adorners.Add(adorner);
+            AddedThumb?.Invoke(this, new ThumbEventArgs(adorner));
         }
 
         private void HandleSelectionChanged(ThumbSliderAdorner adorner)

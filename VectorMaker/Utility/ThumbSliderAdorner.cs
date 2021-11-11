@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -9,6 +10,8 @@ namespace VectorMaker.Utility
 {
     public class ThumbSliderAdorner : Adorner
     {
+        public event Action<double> OnValueChanged;
+
         private Thumb m_thumb;
         private const int m_thumbWidth = 6;
         private const int m_thumbHeight = 10;
@@ -52,6 +55,7 @@ namespace VectorMaker.Utility
                 m_pixelOffset = 0;
             else
                 m_pixelOffset = AdornedElement.DesiredSize.Width;
+            OnValueChanged?.Invoke(Offset);
             this.InvalidateVisual();
         }
 
@@ -59,6 +63,7 @@ namespace VectorMaker.Utility
         {
             return m_visualCollection[index];
         }
+
         protected override int VisualChildrenCount
         {
             get { return m_visualCollection.Count; }

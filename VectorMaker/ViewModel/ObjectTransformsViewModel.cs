@@ -18,7 +18,6 @@ namespace VectorMaker.ViewModel
         private Visibility m_blendVisibiity;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = null;
         private Adorner m_adorner = null;
-        private readonly IMainWindowViewModel m_interfaceMainWindowVM;
         #endregion
 
         #region Properties
@@ -61,22 +60,18 @@ namespace VectorMaker.ViewModel
 
         #region Constructors
 
-        public ObjectTransformsViewModel(IMainWindowViewModel interfaceMainWindowVM) : base()
+        public ObjectTransformsViewModel(IMainWindowViewModel interfaceMainWindowVM) : base(interfaceMainWindowVM)
         {
-            m_interfaceMainWindowVM = interfaceMainWindowVM;
-            m_interfaceMainWindowVM.ActiveCanvasChanged += OnActiveCanvasChanged;
             ApplyTranslationCommand = new CommandBase((obj) => ApplyTranslation(obj));
             ApplyRotationCommand = new CommandBase((obj) => ApplyRotation(obj));
             ApplyScaleCommand = new CommandBase((obj) => ApplyScale(obj));
             ApplySkewCommand = new CommandBase((obj) => ApplySkew(obj));
         }
 
-        protected ObjectTransformsViewModel() : base() { }
-
         #endregion Constructors
 
         #region EventHandlers
-        private void OnActiveCanvasChanged(object sender, EventArgs e)
+        public override void OnActiveCanvasChanged(object sender, EventArgs e)
         {
             DrawingCanvasViewModel drawingCanvasViewModel = m_interfaceMainWindowVM.ActiveDocument as DrawingCanvasViewModel;
             if (drawingCanvasViewModel != null)

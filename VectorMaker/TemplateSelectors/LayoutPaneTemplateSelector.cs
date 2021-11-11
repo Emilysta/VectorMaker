@@ -10,6 +10,7 @@ namespace VectorMaker.TemplateSelectors
         public DataTemplate ObjectTransformsViewTemplate { get; set; }
         public DataTemplate ObjectAlignmentViewTemplate { get; set; }
         public DataTemplate ObjectPropertiesViewTemplate { get; set; }
+        public DataTemplate DrawingLayersToolViewTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -24,6 +25,9 @@ namespace VectorMaker.TemplateSelectors
 
             if (item is ObjectAlignmentViewModel)
                 return ObjectAlignmentViewTemplate;
+
+            if (item is DrawingLayersToolViewModel)
+                return DrawingLayersToolViewTemplate;
 
             return base.SelectTemplate(item, container);
         }

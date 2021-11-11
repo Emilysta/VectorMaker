@@ -4,19 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:local="clr-namespace:VectorMaker.ControlsResources"
-             mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="200" Height="70" Width="200">
+             xmlns:local="clr-namespace:VectorMaker.ControlsResources" xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+             mc:Ignorable="d"
+             FontSize="13"
+             d:DesignHeight="85" d:DesignWidth="200" Height="85" Width="200"
+             Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
-        <local:MultiThumbSlider VerticalAlignment="Top" x:Name="MultiThumbSliderObject" SelectedThumbChanged="MultiThumbSliderObject_SelectedThumbChanged">
+        <local:MultiThumbSlider VerticalAlignment="Top" x:Name="MultiThumbSliderObject" 
+                                SelectedThumbChanged="MultiThumbSliderObject_SelectedThumbChanged"
+                                AddedThumb="MultiThumbSliderObject_AddedThumb">
             <local:MultiThumbSlider.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" GradientStops="{Binding GradientStops}"/>
             </local:MultiThumbSlider.Background>
         </local:MultiThumbSlider>
-        <Label Content="{Binding OffsetValue}" Grid.Row="1"/>
+        <Label Content="Offset" Grid.Row="1" VerticalAlignment="Top" Foreground="{StaticResource LightGreyBrush}"/>
+        <Label Content="Color" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" 
+               Foreground="{StaticResource LightGreyBrush}"/>
+        
+        <TextBox Text="{Binding OffsetValue}" Grid.Row="1" Style="{StaticResource TextBoxClassic}"
+                 VerticalAlignment="Bottom" Width="60" HorizontalAlignment="Left"/>
+        <Rectangle Width="40" Fill="AliceBlue" 
+                   Grid.Row="1" 
+                   VerticalAlignment="Bottom" 
+                   Height="18" 
+                   RadiusX="1" 
+                   RadiusY="1" 
+                   HorizontalAlignment="Right"
+                   Stroke="{StaticResource LightGreyBrush}"
+                   StrokeThickness="0.5"
+                   MouseDown="ColorRectangle_MouseDown"
+                   />
     </Grid>
 </UserControl>

@@ -60,22 +60,18 @@ namespace VectorMaker.ViewModel
 
         #region Constructors
 
-        public ObjectPropertiesViewModel(IMainWindowViewModel interfaceMainWindowVM) : base()
+        public ObjectPropertiesViewModel(IMainWindowViewModel interfaceMainWindowVM) : base(interfaceMainWindowVM)
         {
-            m_interfaceMainWindowVM = interfaceMainWindowVM;
-            m_interfaceMainWindowVM.ActiveCanvasChanged += OnActiveCanvasChanged;
             ApplyTranslationCommand = new CommandBase((obj) => ApplyTranslation(obj));
             ApplyRotationCommand = new CommandBase((obj) => ApplyRotation(obj));
             ApplyScaleCommand = new CommandBase((obj) => ApplyScale(obj));
             ApplySkewCommand = new CommandBase((obj) => ApplySkew(obj));
         }
 
-        protected ObjectPropertiesViewModel() : base() { }
-
         #endregion Constructors
 
         #region EventHandlers
-        private void OnActiveCanvasChanged(object sender, EventArgs e)
+        public override void OnActiveCanvasChanged(object sender, EventArgs e)
         {
             DrawingCanvasViewModel drawingCanvasViewModel = m_interfaceMainWindowVM.ActiveDocument as DrawingCanvasViewModel;
             if (drawingCanvasViewModel != null)

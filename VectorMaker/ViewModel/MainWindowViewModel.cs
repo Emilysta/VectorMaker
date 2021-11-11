@@ -46,6 +46,7 @@ namespace VectorMaker.ViewModel
         private ObjectTransformsViewModel m_objectTransformsVMTool = null;
         private ObjectAlignmentViewModel m_objectAlignmentVMTool = null;
         //private ObjectPropertiesViewModel m_objectPropertiesVMTool;
+        private DrawingLayersToolViewModel m_drawingLayersVMTool = null;
         #endregion
 
         #region Properties
@@ -69,12 +70,24 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        public DrawingLayersToolViewModel DrawingLayersVMTool
+        {
+            get
+            {
+                if (m_drawingLayersVMTool == null)
+                {
+                    m_drawingLayersVMTool = new DrawingLayersToolViewModel(this as IMainWindowViewModel);
+                }
+                return m_drawingLayersVMTool;
+            }
+        }
+
         public IEnumerable<ToolBaseViewModel> Tools
         {
             get
             {
                 if (m_tools == null)
-                    m_tools = new ToolBaseViewModel[] { ObjectTransformsVMTool, ObjectAlignmentVMTool };
+                    m_tools = new ToolBaseViewModel[] { ObjectTransformsVMTool, ObjectAlignmentVMTool,DrawingLayersVMTool };
                 return m_tools;
             }
         }
@@ -95,7 +108,8 @@ namespace VectorMaker.ViewModel
         {
             SetCommands();
             m_documents = new ObservableCollection<DocumentViewModelBase>();
-            m_documents.Add(new DrawingCanvasViewModel(this as IMainWindowViewModel));
+            DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(this as IMainWindowViewModel);
+            m_documents.Add(drawingCanvas);
         }
 
         #region Interface methods
@@ -234,7 +248,9 @@ namespace VectorMaker.ViewModel
 
         private void NewDocument()
         {
-            m_documents.Add(new DrawingCanvasViewModel(this as IMainWindowViewModel));
+            DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(this as IMainWindowViewModel);
+            //DrawingLayersVMTool.SelectedLayerChanged += drawingCanvas.SelectedLayerChanged;
+            m_documents.Add(drawingCanvas);
         }
 
         private void OpenDocument()
@@ -242,7 +258,11 @@ namespace VectorMaker.ViewModel
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
             if (openFileDialog.ShowDialog() == true)
-                m_documents.Add(new DrawingCanvasViewModel(openFileDialog.FileName, this as IMainWindowViewModel));
+            {
+                DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(openFileDialog.FileName, this as IMainWindowViewModel);
+                //DrawingLayersVMTool.SelectedLayerChanged += drawingCanvas.SelectedLayerChanged;
+                m_documents.Add(drawingCanvas);
+            }
         }
 
         private void SaveAllDocuments()

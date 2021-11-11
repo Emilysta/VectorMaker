@@ -72,20 +72,16 @@ namespace VectorMaker.ViewModel
 
         #region Constructors
 
-        public ObjectAlignmentViewModel(IMainWindowViewModel interfaceMainWindowVM) : base()
+        public ObjectAlignmentViewModel(IMainWindowViewModel interfaceMainWindowVM) : base(interfaceMainWindowVM)
         {
-            m_interfaceMainWindowVM = interfaceMainWindowVM;
-            m_interfaceMainWindowVM.ActiveCanvasChanged += OnActiveCanvasChanged;
             SetCommands();
         }
-
-        protected ObjectAlignmentViewModel() : base() { }
 
         #endregion Constructors
 
         #region EventHandlers
 
-        private void OnActiveCanvasChanged(object sender, System.EventArgs e)
+        public override void OnActiveCanvasChanged(object sender, System.EventArgs e)
         {
             //m_selectedObjects = m_interfaceMainWindowVM.ActiveCanvas.SelectedObjects;
             //m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
