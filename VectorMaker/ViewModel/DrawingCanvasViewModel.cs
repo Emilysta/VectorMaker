@@ -152,6 +152,7 @@ namespace VectorMaker.ViewModel
             m_interfaceMainWindowVM = mainWindowViewModel;
             FilePath = filePath;
             m_isFileToBeLoaded = true;
+            Layers = new ObservableCollection<LayerItemViewModel>();
             SetCommands();
         }
 
@@ -193,8 +194,9 @@ namespace VectorMaker.ViewModel
                     if (document != null)
                     {
                         object path = XamlReader.Parse(document.ToString());
-                        MainCanvas.Children.Add(path as UIElement);
-                        IsSaved = false;
+                        MainCanvas.Children.Add(path as UIElement); //toDo Check if MainCanvas
+                        IsSaved = false; //toDo load layers
+                        //LoadLayers();
                     }
                 }
                 else
@@ -202,7 +204,9 @@ namespace VectorMaker.ViewModel
                     using (FileStream fileStream = File.Open(FilePath, FileMode.Open))
                     {
                         object loadedFile = XamlReader.Load(fileStream);
+                        Canvas canvas = loadedFile as Canvas;
                         MainCanvas.Children.Add(loadedFile as UIElement);
+                        LoadLayers(canvas);
                     }
                 }
             }
@@ -212,6 +216,30 @@ namespace VectorMaker.ViewModel
             }
 
         }
+
+        private void LoadLayers(Canvas loadedMainCanvas)
+        {
+            int i = 1;
+            foreach(Canvas canvas in loadedMainCanvas.Children.OfType<Canvas>())
+            {
+                if((string)canvas.Tag == "Layer")
+                {
+                    LayerItemViewModel layer = new LayerItemViewModel(canvas,i,canvas.Name);
+                    layer.DeleteAction = (layer) =>
+                    {
+                        Layers.Remove(layer);
+                        SelectedLayer = Layers.Last();
+                        loadedMainCanvas.Children.Remove(layer.Layer);
+                    };
+                    Layers.Add(layer);
+                    i++;
+                }
+            }
+            LayersNumber = Layers.Count;
+            if(Layers.Count!=0)
+                SelectedLayer = Layers[0];
+        }
+
         private void DeleteSelectedObjects()
         {
             if (m_selectedObjects.Count > 0)
@@ -500,7 +528,6 @@ namespace VectorMaker.ViewModel
 
             }
         }
-
         protected override void SaveFile()
         {
             if (!IsSaved)

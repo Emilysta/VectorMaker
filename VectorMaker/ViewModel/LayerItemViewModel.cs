@@ -93,6 +93,7 @@ namespace VectorMaker.ViewModel
             IsVisible = true;
             Layer.Name = LayerName;
             Layer.Visibility = Vis.Visible;
+            Layer.Tag = "Layer";
             SetCommands();
         }
         private void SetCommands()
