@@ -20,8 +20,8 @@ namespace VectorMaker.TemplateSelectors
             if (item is ObjectTransformsViewModel)
                 return ObjectTransformsViewTemplate;
 
-            //if (item is ObjectPropertiesViewModel)
-            //    return ObjectPropertiesViewTemplate;
+            if (item is ObjectPropertiesViewModel)
+                return ObjectPropertiesViewTemplate;
 
             if (item is ObjectAlignmentViewModel)
                 return ObjectAlignmentViewTemplate;

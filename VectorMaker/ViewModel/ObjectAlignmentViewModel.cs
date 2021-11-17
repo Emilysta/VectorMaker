@@ -16,7 +16,6 @@ namespace VectorMaker.ViewModel
         }
 
         #region Fields
-        private readonly IMainWindowViewModel m_interfaceMainWindowVM;
         private AlignRelative m_alignRelative = AlignRelative.Page;
         private bool m_isFirstToggleButtonChecked = false;
         private bool m_isLastToggleButtonChecked = false;
@@ -30,7 +29,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_isFirstToggleButtonChecked = value;
-                OnPropertyChanged("IsFirstToggleButtonChecked");
+                OnPropertyChanged(nameof(IsFirstToggleButtonChecked));
             }
         }
 
@@ -40,7 +39,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_isLastToggleButtonChecked = value;
-                OnPropertyChanged("IsLastToggleButtonChecked");
+                OnPropertyChanged(nameof(IsLastToggleButtonChecked));
             }
         }
 
@@ -50,7 +49,7 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_isPageToggleButtonChecked = value;
-                OnPropertyChanged("IsPageToggleButtonChecked");
+                OnPropertyChanged(nameof(IsPageToggleButtonChecked));
             }
         }
 

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using VectorMaker.Commands;
 using VectorMaker.Intefaces;
 using VectorMaker.Utility;
@@ -16,8 +17,6 @@ namespace VectorMaker.ViewModel
         #region Fields
         private Visibility m_blendVisibiity;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = null;
-        private Adorner m_adorner = null;
-        private readonly IMainWindowViewModel m_interfaceMainWindowVM;
         #endregion
 
         #region Properties
@@ -27,36 +26,38 @@ namespace VectorMaker.ViewModel
             set
             {
                 m_blendVisibiity = value;
-                OnPropertyChanged("BlendVisibility");
+                OnPropertyChanged(nameof(BlendVisibility));
             }
         }
-        protected override string m_title { get; set; } = "Fill & stroke";
-        private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;
-        private Transform m_transform
+
+        public Brush FillBrush
         {
-            get => m_adorner?.AdornedElement.RenderTransform;
+            get => SelectedObject.Fill;
             set
             {
-                if (m_adorner != null)
-                {
-                    m_adorner.AdornedElement.RenderTransform = value;
-                    m_adorner.AdornedElement.InvalidateVisual();
-                }
+                SelectedObject.Fill = value;
             }
         }
-        private Size m_adornedElementSize
+
+        public Brush StrokeBrush
         {
-            get => (Size)m_adorner?.AdornedElement.RenderSize;
+            get => SelectedObject.Stroke; set
+            {
+                SelectedObject.Stroke = value;
+            }
         }
+
+        public Shape SelectedObject { get; set; }
+
+
+        protected override string m_title { get; set; } = "Fill & stroke";
+        private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;
 
         #endregion
 
         #region Commands
 
         public ICommand ApplyTranslationCommand { get; set; }
-        public ICommand ApplyRotationCommand { get; set; }
-        public ICommand ApplyScaleCommand { get; set; }
-        public ICommand ApplySkewCommand { get; set; }
 
         #endregion
 
@@ -64,10 +65,7 @@ namespace VectorMaker.ViewModel
 
         public ObjectPropertiesViewModel(IMainWindowViewModel interfaceMainWindowVM) : base(interfaceMainWindowVM)
         {
-            ApplyTranslationCommand = new CommandBase((obj) => ApplyTranslation(obj));
-            ApplyRotationCommand = new CommandBase((obj) => ApplyRotation(obj));
-            ApplyScaleCommand = new CommandBase((obj) => ApplyScale(obj));
-            ApplySkewCommand = new CommandBase((obj) => ApplySkew(obj));
+            ApplyTranslationCommand = new CommandBase((obj) => ApplyTranslation());
         }
 
         #endregion Constructors
@@ -75,9 +73,11 @@ namespace VectorMaker.ViewModel
         #region EventHandlers
         public override void OnActiveCanvasChanged(object sender, EventArgs e)
         {
-            DrawingCanvasViewModel drawingCanvasViewModel = m_interfaceMainWindowVM.ActiveDocument as DrawingCanvasViewModel;
-            if (drawingCanvasViewModel != null)
+            if (m_interfaceMainWindowVM.ActiveDocument is DrawingCanvasViewModel drawingCanvasViewModel)
             {
+                if (m_selectedObjects != null)
+                    m_selectedObjects.CollectionChanged -= SelectedObjectsCollectionChanged;
+
                 m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
                 m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
             }
@@ -85,101 +85,26 @@ namespace VectorMaker.ViewModel
 
         private void SelectedObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (m_selectedObjects != null && m_selectedObjects.Count > 0)
+                SelectedObject = m_selectedObjects[0].AdornedElement as Shape;
+
             if (IsOneObjectSelected)
                 BlendVisibility = Visibility.Hidden;
             else
                 BlendVisibility = Visibility.Visible;
-
-            if (m_selectedObjects.Count > 0)
-                m_adorner = m_selectedObjects[0];
-            else
-                m_adorner = null;
-            m_transform = m_adorner?.AdornedElement.RenderTransform;
         }
 
         #endregion
 
         #region Methods
-        private void ApplyTranslation(object values)
+        private void ApplyTranslation()
         {
-            var valArray = (Tuple<double, double>)values;
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Matrix matrix = m_transform.Value;
-                matrix.Translate(valArray.Item1, valArray.Item2);
-                m_transform = new MatrixTransform(matrix);
-                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
-            }
+
         }
 
-        private void ApplyRotation(object values)
-        {
-            var valArray = (Tuple<double, double, double>)values;//RotateCenterX,RotateCenterY,RotateAngle
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Matrix matrix = m_transform.Value;
-                matrix.RotateAtPrepend(valArray.Item3,
-                    valArray.Item1 * m_adornedElementSize.Width,
-                    valArray.Item2 * m_adornedElementSize.Width);
-                m_transform = new MatrixTransform(matrix);
-                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
-            }
-        }
-
-        private void ApplyScale(object values)
-        {
-            var valArray = (Tuple<double, double, double, double>)values;//ScaleCenterX,ScaleCenterY,ScaleX,ScaleY
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Matrix matrix = m_transform.Value;
-                matrix.ScaleAtPrepend(valArray.Item3, valArray.Item4,
-                    valArray.Item1 * m_adornedElementSize.Width,
-                    valArray.Item2 * m_adornedElementSize.Height);
-                m_transform = new MatrixTransform(matrix);
-                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
-            }
-        }
-
-        private void ApplySkew(object values)
-        {
-            var valArray = (Tuple<double, double>)values;//SkewX,SkewY
-            if (IsOneObjectSelected && m_adorner != null)
-            {
-                Matrix matrix = m_transform.Value;
-                matrix.SkewPrepend(valArray.Item1, valArray.Item2);
-                m_transform = new MatrixTransform(matrix);
-                m_interfaceMainWindowVM.ActiveDocument.IsSaved = false;
-            }
-        }
         #endregion
 
 
-        //    //var icon = this.IconKind;
-
-        //    //string buttonContent = this.GetValue(m_content).ToString();
-        //    //Trace.WriteLine(iconKind);
-        //    //Trace.WriteLine(buttonContent);
-        //    //if (iconKind != PackIconMaterialDesignKind.None.ToString()
-        //    //    && buttonContent == "")
-        //    //{
-        //    //    IconColumnSpan = 2;
-        //    //}
-        //    //else if (iconKind == PackIconMaterialDesignKind.None.ToString()
-        //    //    && buttonContent != "")
-        //    //{
-        //    //    ContentColumnSpan = 2;
-        //    //}
-        //    //else if (iconKind != PackIconMaterialDesignKind.None.ToString()
-        //    //     && buttonContent != "")
-        //    //{
-        //    //    ContentColumn = 1;
-        //    //    IconHeight = (int)(IconHeight * 0.8f);
-        //    //    IconWidth = (int)(IconWidth * 0.8f);
-        //    //    FontSize = FontSize * 0.8;
-        //    //}
-        //    InitializeComponent();
-
-        //}
 
         //private void ObjectPropertiesTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

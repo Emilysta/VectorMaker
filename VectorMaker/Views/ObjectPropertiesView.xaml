@@ -4,90 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
-      xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
       mc:Ignorable="d" d:DesignHeight="260" d:DesignWidth="300" FontSize="13" FontWeight="Light">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ColorPicker;component/Styles/DefaultColorPickerStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
-        </ResourceDictionary>
-    </UserControl.Resources>
+
     <Border BorderThickness="0.4" BorderBrush="#CC5F5F62">
         <Grid x:Name="PropertiesGrid" Background="#FF262628">
             <mahControls:MetroTabControl x:Name="ObjectPropertiesTabControl" 
                                      mahControls:HeaderedControlHelper.HeaderFontSize="15" mahControls:HeaderedControlHelper.HeaderFontWeight="Light" Grid.Row="1" Margin="1" Background="#FF1A1A1A" BorderBrush="{StaticResource TabControlBorderColor}" BorderThickness="0,1,0,0">
                 <mahControls:MetroTabItem Header="Fill" CloseButtonEnabled="False">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Margin="10,10,10,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.55*"/>
-                                <ColumnDefinition Width="0.7*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <controls:ToggleButtonWithIcon ButtonContent="Solid fill" Grid.Column="0" IsChecked="False" x:Name="SolidColor"/>
-                            <controls:ToggleButtonWithIcon ButtonContent="Gradient fill" Grid.Column="1" IsChecked="True" x:Name="GradientColor"/>
-                            <controls:ToggleButtonWithIcon ButtonContent="Radial gradient fill" Grid.Column="2" IsChecked="False" x:Name="RadialGradientColor"/>
-                        </Grid>
-                        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=SolidColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="140"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <colorpicker:ColorSliders Style="{StaticResource DefaultColorPickerStyle}"
-                                             SelectedColor="{Binding SelectedColor,Mode=TwoWay}" SmallChange="1" 
-                                             ColorState="{Binding ElementName=ColorDisplay, Path=ColorState, Mode=TwoWay, Delay=2}"/>
-                            <colorpicker:ColorDisplay Grid.Row="1" Margin="10,0,0,10" Width="50" HorizontalAlignment="Left" x:Name="ColorDisplay"/>
-                            <Label Grid.Row="2" Content="Color as hex " HorizontalContentAlignment="Right" Margin="2,0"/>
-                            <colorpicker:HexColorTextBox Grid.Row="1" HorizontalAlignment="Right" Margin="10,10" VerticalAlignment="Bottom"
-                                     ColorState="{Binding ElementName=ColorDisplay, Path=ColorState, Mode=TwoWay, Delay=10}"/>
-                        </Grid>
-
-                        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=GradientColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Rectangle Margin="10" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="0.5" RadiusX="2" RadiusY="2">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <LinearGradientBrush.GradientStops>
-                                            <GradientStopCollection >
-                                                <GradientStop Color="AliceBlue"/>
-                                                <GradientStop Color="Magenta" Offset="1"/>
-                                            </GradientStopCollection>
-                                        </LinearGradientBrush.GradientStops>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Grid>
-
-                        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=RadialGradientColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="140"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                        </Grid>
-                    </Grid>
+                    <controls:BrushEditor Brush="{Binding FillBrush}"/>
                 </mahControls:MetroTabItem>
 
-                <mahControls:MetroTabItem Header="Stroke" CloseButtonEnabled="False" 
-                                                  >
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <controls:ToggleButtonWithIcon />
-                    </Grid>
+                <mahControls:MetroTabItem Header="Stroke" CloseButtonEnabled="False" >
+                    <controls:BrushEditor Brush="{Binding StrokeBrush}"/>
                 </mahControls:MetroTabItem>
             </mahControls:MetroTabControl>
         </Grid>

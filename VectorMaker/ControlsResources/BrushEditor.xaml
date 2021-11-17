@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="VectorMaker.ControlsResources.BrushEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VectorMaker.ControlsResources" 
+             xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker" 
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ColorPicker;component/Styles/DefaultColorPickerStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="10,10,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.55*"/>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <local:ToggleButtonWithIcon ButtonContent="Solid fill" Grid.Column="0" IsChecked="False" x:Name="SolidColor"/>
+            <local:ToggleButtonWithIcon ButtonContent="Gradient fill" Grid.Column="1" IsChecked="True" x:Name="GradientColor"/>
+            <local:ToggleButtonWithIcon ButtonContent="Radial gradient fill" Grid.Column="2" IsChecked="False" x:Name="RadialGradientColor"/>
+        </Grid>
+        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=SolidColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <colorpicker:ColorSliders Style="{StaticResource DefaultColorPickerStyle}"
+                                             SelectedColor="{Binding BrushToEdit,Mode=TwoWay}" SmallChange="1" 
+                                             ColorState="{Binding ElementName=ColorDisplay, Path=ColorState, Mode=TwoWay, Delay=2}"/>
+            <colorpicker:ColorDisplay Grid.Row="1" Margin="10,0,0,10" Width="50" HorizontalAlignment="Left" x:Name="ColorDisplay"/>
+            <Label Grid.Row="2" Content="Color as hex " HorizontalContentAlignment="Right" Margin="2,0"/>
+            <colorpicker:HexColorTextBox Grid.Row="1" HorizontalAlignment="Right" Margin="10,10" VerticalAlignment="Bottom"
+                                     ColorState="{Binding ElementName=ColorDisplay, Path=ColorState, Mode=TwoWay, Delay=10}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=GradientColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+            <local:GradientColorPicker BrushToEdit="{Binding BrushToEdit,Mode=TwoWay}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked,ElementName=RadialGradientColor,Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+            <local:GradientColorPicker BrushToEdit="{Binding BrushToEdit,Mode=TwoWay}"/>
+        </Grid>
+    </Grid>
+</UserControl>

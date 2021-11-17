@@ -62,22 +62,6 @@
                     </Border.Effect>
                 </Border>
                 <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
-                <controlsresources:GradientColorPicker />
-                <!--<Rectangle>
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <LinearGradientBrush.GradientStops >
-                                <GradientStopCollection>
-                                    <GradientStop Offset="1" Color="Beige"/>
-                                    <GradientStop Offset="0" Color="Blue"/>
-                                    <GradientStop Offset="0.5" Color="Red"/>
-                                    <GradientStop Offset="0.6" />
-                                    <GradientStop Offset="0.5" Color="Blue"/>
-                                </GradientStopCollection>
-                            </LinearGradientBrush.GradientStops>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>-->
             </Grid>
         </ScrollViewer>
         <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />

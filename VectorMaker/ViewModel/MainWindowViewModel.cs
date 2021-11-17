@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using VectorMaker.Drawables;
+﻿using VectorMaker.Drawables;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.Windows;
@@ -8,9 +7,7 @@ using VectorMaker.Commands;
 using VectorMaker.Intefaces;
 using System.Collections.Generic;
 using System;
-using System.Threading.Tasks;
 using VectorMaker.Utility;
-using VectorMaker.Views;
 
 namespace VectorMaker.ViewModel
 {
@@ -46,7 +43,7 @@ namespace VectorMaker.ViewModel
 
         private ObjectTransformsViewModel m_objectTransformsVMTool = null;
         private ObjectAlignmentViewModel m_objectAlignmentVMTool = null;
-        //private ObjectPropertiesViewModel m_objectPropertiesVMTool;
+        private ObjectPropertiesViewModel m_objectPropertiesVMTool = null;
         private DrawingLayersToolViewModel m_drawingLayersVMTool = null;
         #endregion
 
@@ -71,6 +68,16 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        public ObjectPropertiesViewModel ObjectPropertiesVMTool
+        {
+            get
+            {
+                if (m_objectPropertiesVMTool == null)
+                    m_objectPropertiesVMTool = new ObjectPropertiesViewModel(this as IMainWindowViewModel);
+                return m_objectPropertiesVMTool;
+            }
+        }
+
         public DrawingLayersToolViewModel DrawingLayersVMTool
         {
             get
@@ -88,7 +95,7 @@ namespace VectorMaker.ViewModel
             get
             {
                 if (m_tools == null)
-                    m_tools = new ObservableCollection<ToolBaseViewModel>() { ObjectTransformsVMTool, ObjectAlignmentVMTool,DrawingLayersVMTool };
+                    m_tools = new ObservableCollection<ToolBaseViewModel>() { ObjectTransformsVMTool, ObjectAlignmentVMTool, ObjectPropertiesVMTool, DrawingLayersVMTool };
                 return m_tools;
             }
         }
@@ -109,7 +116,7 @@ namespace VectorMaker.ViewModel
         {
             SetCommands();
             m_documents = new ObservableCollection<DocumentViewModelBase>();
-            DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(this as IMainWindowViewModel);
+            DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
         }
 
@@ -225,22 +232,22 @@ namespace VectorMaker.ViewModel
 
         private void OpenAppSettings()
         {
-            AppSettingsViewModel appSettingsViewModel = new AppSettingsViewModel();
+            AppSettingsViewModel appSettingsViewModel = new();
         }
 
         private void NewDocument()
         {
-            DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(this as IMainWindowViewModel);
+            DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
         }
 
         private void OpenDocument()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new();
             openFileDialog.Filter = "Scalable Vector Graphics (*.svg) | *.svg | Extensible Application Markup Language (*.xaml) | *.xaml";
             if (openFileDialog.ShowDialog() == true)
             {
-                DrawingCanvasViewModel drawingCanvas = new DrawingCanvasViewModel(openFileDialog.FileName, this as IMainWindowViewModel);
+                DrawingCanvasViewModel drawingCanvas = new(openFileDialog.FileName, this as IMainWindowViewModel);
                 m_documents.Add(drawingCanvas);
             }
         }
@@ -258,8 +265,8 @@ namespace VectorMaker.ViewModel
 
         private void PropertiesTool()
         {
-            //Tools.Add(Obje);
-            throw new NotImplementedException();  //toDo
+            if (!Tools.Contains(ObjectPropertiesVMTool))
+                Tools.Add(ObjectPropertiesVMTool);
         }
 
         private void ColorPickerTool()
@@ -269,7 +276,7 @@ namespace VectorMaker.ViewModel
 
         private void AlignmentTool()
         {
-            if(!Tools.Contains(ObjectAlignmentVMTool))
+            if (!Tools.Contains(ObjectAlignmentVMTool))
                 Tools.Add(ObjectAlignmentVMTool);
         }
 
@@ -279,12 +286,12 @@ namespace VectorMaker.ViewModel
                 Tools.Add(DrawingLayersVMTool);
         }
 
-        private void ChangeColor()
-        {
-            System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
-            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
-            Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
-        }
+        //private void ChangeColor()
+        //{
+        //    System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
+        //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
+        //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
+        //}
 
         #endregion
     }

@@ -19,14 +19,12 @@ namespace SVG_XAML_Converter_Lib
             try
             {
                 XDocument document = LoadSVGFile(fileName);
-                if (document == null)
-                    throw new Exception();
-                svgDocument = document;
+                svgDocument = document ?? throw new Exception();
                 XElement svgMainDocument = document.Elements().Where(x => x.Name.LocalName == "svg").First();
-                XDocument xamlDocument = new XDocument();
-                XElement parentElement = new XElement(xNamespace + "Grid");
+                XDocument xamlDocument = new();
+                XElement parentElement = new (xNamespace + "Grid");
                 parentElement.SetAttributeValue(XNamespace.Xmlns + "x", m_xNamespace);
-                XElement parentResourcesElement = new XElement(xNamespace + "Grid.Resources");
+                XElement parentResourcesElement = new (xNamespace + "Grid.Resources");
                 parentElement.Add(parentResourcesElement);
 
                 LoopThroughSVGElement(svgMainDocument, parentElement, parentResourcesElement);
@@ -45,7 +43,7 @@ namespace SVG_XAML_Converter_Lib
             XDocument document = null;
             try
             {
-                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
+                XmlReaderSettings xmlReaderSettings = new();
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/XML/1998/namespace", "./xml.xsd");
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/1999/xlink", "./xlink.xsd");
                 xmlReaderSettings.Schemas.Add("http://www.w3.org/2000/svg", "./SVG.xsd");

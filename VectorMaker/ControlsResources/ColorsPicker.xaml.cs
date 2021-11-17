@@ -14,10 +14,10 @@ namespace VectorMaker.ControlsResources
     /// <summary>
     /// Interaction logic for ColorPicker.xaml
     /// </summary>
-    public partial class ColorPicker : UserControl, INotifyPropertyChanged
+    public partial class ColorsPicker : UserControl, INotifyPropertyChanged
     {
         private WindowsColor m_pickedColor;
-        private Color m_pickedColorClass = new Color(0, 0, 0, 255);
+        private Color m_pickedColorClass = new (0, 0, 0, 255);
         private WindowsColor m_baseColor;
         private Point m_colorPickerMarkerPosition;
 
@@ -43,7 +43,7 @@ namespace VectorMaker.ControlsResources
             get { return m_pickedColor; }
             set { m_pickedColor = value;
                 CalculateAllParametersOfColor();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PickedColor"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PickedColor)));
             }
         }
 
@@ -53,7 +53,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_baseColor = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BaseColor"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BaseColor)));
             }
         }
 
@@ -73,7 +73,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_rColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RColorText)));
             }
         }
 
@@ -83,7 +83,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_gColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GColorText)));
             }
         }
 
@@ -93,7 +93,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_bColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BColorText)));
             }
         }
 
@@ -103,7 +103,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_aColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AColorText)));
             }
         }
 
@@ -113,7 +113,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_hColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HColorText)));
             }
         }
         public string SColorText
@@ -122,7 +122,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_sColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SColorText)));
             }
         }
         public string LColorText
@@ -131,7 +131,7 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_lColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LColorText)));
             }
         }
 
@@ -141,11 +141,11 @@ namespace VectorMaker.ControlsResources
             set
             {
                 m_hexColorText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HexColorText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HexColorText)));
             }
         }
 
-        public ColorPicker()
+        public ColorsPicker()
         {
             InitializeComponent();
             DataContext = this;
@@ -163,7 +163,7 @@ namespace VectorMaker.ControlsResources
 
         private void CalculateBaseColorOnPickedColor()
         {
-            Color tempColor = new Color(m_pickedColorClass.HSLColor.H.IntProperty, 100, 50, 255, true);
+            Color tempColor = new (m_pickedColorClass.HSLColor.H.IntProperty, 100, 50, 255, true);
             SetBaseColor(tempColor.ColorInWindowsFormat); 
         }
 
@@ -192,7 +192,7 @@ namespace VectorMaker.ControlsResources
 
         private static WindowsColor GetColorFromValueGradient(double offset)
         {
-            WindowsColor tempColor = new WindowsColor();
+            WindowsColor tempColor = new();
             WindowsMedia.GradientStop gradientStopBeforeOffsetThreshold;
             WindowsMedia.GradientStop gradientStopAfterOffsetThreshold = 
                 ColorsReference.valueGradientStopListSegregated.FirstOrDefault(x => x.Offset >= offset);
@@ -218,8 +218,7 @@ namespace VectorMaker.ControlsResources
         private void ColorPickerMarker_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Point point = Picker.PointToScreen(new Point(0, 0));
-            System.Drawing.Rectangle rectangle = new System.Drawing
-                .Rectangle((int)point.X, (int)point.Y,
+            System.Drawing.Rectangle rectangle = new((int)point.X, (int)point.Y,
                 (int) (point.X + Picker.ActualWidth),
                 (int) (point.Y + Picker.ActualHeight));
             ClipCursor(ref rectangle);

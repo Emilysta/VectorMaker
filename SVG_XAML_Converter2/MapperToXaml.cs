@@ -15,9 +15,9 @@ namespace SVG_XAML_Converter_Lib
 
     public static class MapperToXaml
     {
-        private static XNamespace m_xmlnsNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
-        private static XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
-        private static XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options";
+        private static readonly XNamespace m_xmlnsNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        private static readonly XNamespace m_xNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
+        private static readonly XNamespace m_presentationNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/options";
 
         public static List<XElement> FindXAMLObjectReference(XElement svgElement)
         {
@@ -42,8 +42,8 @@ namespace SVG_XAML_Converter_Lib
 
         private static (XElement, XElement) ConvertToResource(XElement elementToConvert)
         {
-            XElement resourceElemenet = null;
-            XElement objectElement = null;
+            XElement resourceElemenet;
+            XElement objectElement;
             switch (elementToConvert.Name.LocalName)
             {
                 case "Canvas":
@@ -63,20 +63,20 @@ namespace SVG_XAML_Converter_Lib
                         XElement element;
                         foreach (XAttribute xAttribute in elementToConvert.Attributes())
                         {
-                            element = new XElement("Setter");
+                            element = new ("Setter");
                             resourceElemenet.SetAttributeValue("Property", xAttribute.Name.LocalName);
                             resourceElemenet.SetAttributeValue("Value", xAttribute.Value);
                             resourceElemenet.Add(element);
                         }
 
-                        XElement renderElement = new XElement("Setter");
-                        XElement renderValueElement = new XElement("Setter.Value");
+                        XElement renderElement = new ("Setter");
+                        XElement renderValueElement = new ("Setter.Value");
                         renderElement.SetAttributeValue("Property", "RenderTransform");
                         renderValueElement.Add(GetTransformGroupElement(elementToConvert));
                         renderElement.Add(renderValueElement);
                         resourceElemenet.Add(renderElement);
 
-                        objectElement = new XElement(m_xmlnsNamespace + " elementToConvert.Name.LocalName");
+                        objectElement = new (m_xmlnsNamespace + " elementToConvert.Name.LocalName");
                         objectElement.SetAttributeValue("Style", "{StaticResource " + elementToConvert.Attribute(m_xNamespace + "Name").Value + "}");
                         break;
                     }
@@ -183,7 +183,7 @@ namespace SVG_XAML_Converter_Lib
             return geometryElement;
         }
 
-        private static XElement SearchForElementWithId(XElement element, string id)
+        private static XElement SearchForElementWithId(string id)
         {
             XElement svgMainDocument = SVG_To_XAML.svgDocument.Elements().Where(x => x.Name.LocalName == "svg").First();
             return svgMainDocument.Descendants().Where(x => x.Attribute("id")?.Value == id).FirstOrDefault();
@@ -310,7 +310,7 @@ namespace SVG_XAML_Converter_Lib
                 case "x":
                     {
                         XElement renderTransformElement = GetTransformGroupElement(geometryElement);
-                        XElement element = new XElement(m_xmlnsNamespace + "TranslateTransform");
+                        XElement element = new(m_xmlnsNamespace + "TranslateTransform");
                         element.SetAttributeValue("X", svgAttribute.Value);
                         renderTransformElement.Add(element);
                         break;
@@ -318,7 +318,7 @@ namespace SVG_XAML_Converter_Lib
                 case "y":
                     {
                         XElement renderTransformElement = GetTransformGroupElement(geometryElement);
-                        XElement element = new XElement(m_xmlnsNamespace + "TranslateTransform");
+                        XElement element = new(m_xmlnsNamespace + "TranslateTransform");
                         element.SetAttributeValue("Y", svgAttribute.Value);
                         renderTransformElement.Add(element);
                         break;
@@ -346,7 +346,7 @@ namespace SVG_XAML_Converter_Lib
                 case "cx" when isNotContentPresenter:
                     {
                         XElement renderTransformElement = GetTransformGroupElement(geometryElement);
-                        XElement element = new XElement(m_xmlnsNamespace + "TranslateTransform");
+                        XElement element = new (m_xmlnsNamespace + "TranslateTransform");
                         element.SetAttributeValue("X", svgAttribute.Value);
                         renderTransformElement.Add(element);
                         break;
@@ -354,7 +354,7 @@ namespace SVG_XAML_Converter_Lib
                 case "cy" when isNotContentPresenter:
                     {
                         XElement renderTransformElement = GetTransformGroupElement(geometryElement);
-                        XElement element = new XElement(m_xmlnsNamespace + "TranslateTransform");
+                        XElement element = new (m_xmlnsNamespace + "TranslateTransform");
                         element.SetAttributeValue("Y", svgAttribute.Value);
                         renderTransformElement.Add(element);
                         break;
@@ -580,7 +580,7 @@ namespace SVG_XAML_Converter_Lib
             XElement transformGroupElement = parentElement.Descendants().Where(x => x.Name.LocalName == "TransformGroup").FirstOrDefault();
             if (transformGroupElement == null)
             {
-                XElement renderTransform = new XElement(m_xmlnsNamespace + parentElement.Name.LocalName + ".RenderTransform");
+                XElement renderTransform = new(m_xmlnsNamespace + parentElement.Name.LocalName + ".RenderTransform");
                 transformGroupElement = new XElement(m_xmlnsNamespace + "TransformGroup");
                 renderTransform.Add(transformGroupElement);
                 parentElement.Add(renderTransform);

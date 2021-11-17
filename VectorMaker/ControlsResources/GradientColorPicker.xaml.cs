@@ -15,38 +15,31 @@ namespace VectorMaker.ControlsResources
     /// </summary>
     public partial class GradientColorPicker : UserControl, INotifyPropertyChanged
     {
-
-        private GradientStopCollection m_gradientStops = new GradientStopCollection();
-
         private double m_offsetValue;
-        private Brush m_gradientStopColor;
-        private GradientBrush m_gradientBrushFill;
-        private Dictionary<ThumbSliderAdorner, GradientStop> m_thumbDictionary;
+        private SolidColorBrush m_gradientStopColor = new();
+        private GradientBrush m_gradient;
+        private GradientStop m_selectedGradientStop = new();
+        private static readonly DependencyProperty m_brushToEdit = DependencyProperty.Register("BrushToEdit", typeof(Brush), typeof(GradientColorPicker), new PropertyMetadata(null));
 
-
-        public GradientStopCollection GradientStops
+        public Brush BrushToEdit
         {
-            get => m_gradientStops;
-            set
-            {
-                m_gradientStops = value;
-                OnPropertyChanged(nameof(GradientStops));
-                SetDictionaryAndThumbs();
+            get { return (Brush)GetValue(m_brushToEdit); }
+            set { SetValue(m_brushToEdit, value);
+                OnPropertyChanged(nameof(BrushToEdit));
+                SetThumbs();
             }
         }
 
-
-        public GradientBrush GradientBrushFill
+        public GradientBrush Gradient
         {
-            get => m_gradientBrushFill;
+            get => m_gradient;
             set
             {
-                m_gradientBrushFill = value;
-                OnPropertyChanged(nameof(GradientBrushFill));
-                GradientStops = m_gradientBrushFill.GradientStops;
+                m_gradient = value;
+                OnPropertyChanged(nameof(Gradient));
+                SetThumbs();
             }
         }
-
 
         public double OffsetValue
         {
@@ -55,17 +48,29 @@ namespace VectorMaker.ControlsResources
             {
                 m_offsetValue = value;
                 OnPropertyChanged(nameof(OffsetValue));
-
             }
         }
 
-        public Brush GradientStopColor
+        public GradientStop SelectedGradientStop
+        {
+            get => m_selectedGradientStop;
+            set
+            {
+                m_selectedGradientStop = value;
+                OnPropertyChanged(nameof(SelectedGradientStop));
+                GradientStopBrush.Color = m_selectedGradientStop.Color;
+            }
+        }
+
+
+        public SolidColorBrush GradientStopBrush
         {
             get => m_gradientStopColor;
             set
             {
                 m_gradientStopColor = value;
-                OnPropertyChanged(nameof(GradientStopColor));
+                OnPropertyChanged(nameof(GradientStopBrush));
+                SelectedGradientStop.Color = m_gradientStopColor.Color;
             }
         }
 
@@ -82,39 +87,66 @@ namespace VectorMaker.ControlsResources
         {
             InitializeComponent();
             DataContext = this;
+            Gradient = new LinearGradientBrush(
+                new GradientStopCollection() {
+                    new GradientStop(Colors.Transparent, 0),
+                    new GradientStop(ColorsReference.magentaBaseColor, 1)
+                }
+                );
+            GradientStopBrush = new SolidColorBrush();
+            SelectedGradientStop = Gradient.GradientStops[0];
         }
 
         private void MultiThumbSliderObject_SelectedThumbChanged(object sender, EventArgs e)
         {
-            OffsetValue = MultiThumbSliderObject.SelectedThumb.Offset;
+            GradientSliderAdorner gradient = MultiThumbSliderObject.SelectedThumb as GradientSliderAdorner;
+            SelectedGradientStop = gradient.GradientStopObject;
         }
 
         private void ColorRectangle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ColorPickerViewModel colorPicker = new ColorPickerViewModel(GradientStopColor);
+            ColorPickerViewModel colorPicker = new(GradientStopBrush);
             colorPicker.ShowWindowAndWaitForResult();
+            GradientStopBrush.Color = colorPicker.SelectedColor;
+            SelectedGradientStop.Color = colorPicker.SelectedColor;
         }
 
         private void MultiThumbSliderObject_AddedThumb(object sender, EventArgs e)
         {
             ThumbEventArgs thumbEventArgs = e as ThumbEventArgs;
-            GradientStop gradientStop = new GradientStop(Colors.White, thumbEventArgs.NewThumb.Offset);
-            GradientStops.Add(gradientStop);
-            m_thumbDictionary.Add(thumbEventArgs.NewThumb, gradientStop);
+            GradientSliderAdorner gradient = thumbEventArgs.NewThumb as GradientSliderAdorner;
+            Gradient.GradientStops.Add(gradient.GradientStopObject);
+            //OnPropertyChanged("GradientStops");
         }
 
-        private void SetDictionaryAndThumbs()
-        {
-            //m_thumbDictionary = new Dictionary<ThumbSliderAdorner, GradientStop>();
-            //foreach (GradientStop stop in GradientStops)
-            //{
-            //    m_thumbDictionary.Add(MultiThumbSliderObject.CreateThumb(stop.Offset), stop);
-            //}
-        }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            GradientStops = new GradientStopCollection() { new GradientStop(Colors.Transparent, 0), new GradientStop(ColorsReference.magentaBaseColor, 1) };
+            //Gradient = new LinearGradientBrush(
+            //    new GradientStopCollection() {
+            //        new GradientStop(Colors.Transparent, 0),
+            //        new GradientStop(ColorsReference.magentaBaseColor, 1)
+            //    }
+            //    );
+            //GradientStopBrush = new SolidColorBrush();
+            //if(Gradient!=null)
+            //    SelectedGradientStop = Gradient.GradientStops[0];
+        }
+
+        private void SetThumbs()
+        {
+            MultiThumbSliderObject.DeleteThumbs();
+            foreach (GradientStop stop in Gradient.GradientStops)
+            {
+                MultiThumbSliderObject.CreateThumbWithGradient(stop);
+            }
+        }
+
+        private void MultiThumbSliderObject_DeletedThumb(object sender, EventArgs e)
+        {
+            ThumbEventArgs thumbEventArgs = e as ThumbEventArgs;
+            GradientSliderAdorner gradient = thumbEventArgs.NewThumb as GradientSliderAdorner;
+            Gradient.GradientStops.Remove(gradient.GradientStopObject);
         }
     }
 }

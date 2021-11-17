@@ -37,7 +37,7 @@ namespace VectorMaker.ViewModel
         private Shape m_drawableObjectShape;
         private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
-        private ObservableCollection<ResizingAdorner> m_selectedObjects = new ObservableCollection<ResizingAdorner>();
+        private ObservableCollection<ResizingAdorner> m_selectedObjects = new ();
         private IMainWindowViewModel m_interfaceMainWindowVM;
         private ObservableCollection<LayerItemViewModel> m_layers;
         private int m_layersCount = 1;
@@ -97,7 +97,7 @@ namespace VectorMaker.ViewModel
         {
             get
             {
-                return SelectedObjects.Count == 1 ? true : false;
+                return SelectedObjects.Count == 1;
             }
         }
         public ObservableCollection<ResizingAdorner> SelectedObjects
@@ -110,7 +110,7 @@ namespace VectorMaker.ViewModel
             }
         }
         public DrawableTypes DrawableType { get; set; }
-        public Configuration AppConfiguration => Configuration.Instance;
+        public static Configuration AppConfiguration => Configuration.Instance;
         protected override FileType[] Filters { get => m_filters; set => m_filters = value; }
         protected override string DefaultExtension { get => m_defaultExtension; set => m_defaultExtension = value; }
         #endregion
@@ -164,10 +164,7 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Methods
-        public void SelectedLayerChanged(LayerItemViewModel layerItemViewModel)
-        {
-            
-        }
+
         private void SetCommands()
         {
             UnionCommand = new CommandBase((obj) => Union());
@@ -224,7 +221,7 @@ namespace VectorMaker.ViewModel
             {
                 if((string)canvas.Tag == "Layer")
                 {
-                    LayerItemViewModel layer = new LayerItemViewModel(canvas,i,canvas.Name);
+                    LayerItemViewModel layer = new(canvas,i,canvas.Name);
                     layer.DeleteAction = (layer) =>
                     {
                         Layers.Remove(layer);
@@ -329,10 +326,10 @@ namespace VectorMaker.ViewModel
         private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
         {
             PointHitTestResult testResult = result as PointHitTestResult;
-            if ((testResult.VisualHit as FrameworkElement).Parent == m_mainCanvas)
+            if ((testResult.VisualHit as FrameworkElement).Parent is Canvas)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                ResizingAdorner adorner = new ResizingAdorner(testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
+                ResizingAdorner adorner = new (testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
                 adornerLayer.Add(adorner);
                 SelectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;
@@ -342,7 +339,7 @@ namespace VectorMaker.ViewModel
 
         private void Union()
         {
-            GeometryGroup geometryGroup = new GeometryGroup();
+            GeometryGroup geometryGroup = new();
             foreach (ResizingAdorner adorner in SelectedObjects)
             {
                 Shape shape = adorner.AdornedElement as Shape;
@@ -370,7 +367,7 @@ namespace VectorMaker.ViewModel
             MainCanvas.Children.Add(path);
             DeleteSelectedObjects();
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
-            ResizingAdorner newAdorner = new ResizingAdorner(path, adornerLayer, m_mainCanvas);
+            ResizingAdorner newAdorner = new(path, adornerLayer, m_mainCanvas);
             adornerLayer.Add(newAdorner);
             SelectedObjects.Add(newAdorner);
         }
@@ -502,8 +499,8 @@ namespace VectorMaker.ViewModel
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                Image image = new Image();
-                BitmapImage bitmapImage = new BitmapImage();
+                Image image = new();
+                BitmapImage bitmapImage = new();
                 try
                 {
                     bitmapImage.BeginInit();
@@ -570,9 +567,9 @@ namespace VectorMaker.ViewModel
         {
             try
             {
-                PrintDialog printDialog = new PrintDialog();
+                PrintDialog printDialog = new();
                 //Nullable<bool> result = printDialog.ShowDialog();
-                PrinterSettings printerSettings = new PrinterSettings();
+                PrinterSettings printerSettings = new();
                 printerSettings.PrinterName = "Microsoft Print to PDF";
                 printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF");
 
@@ -584,27 +581,27 @@ namespace VectorMaker.ViewModel
         }
         protected override void SaveFileAsPNG(string fullFilePath)
         {
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            PngBitmapEncoder encoder = new();
             SaveWithSpecialBitmap(encoder, fullFilePath);
         }
         protected override void SaveFileAsBMP(string fullFilePath)
         {
-            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            BmpBitmapEncoder encoder = new();
             SaveWithSpecialBitmap(encoder, fullFilePath);
         }
         protected override void SaveFileAsJPEG(string fullFilePath)
         {
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            JpegBitmapEncoder encoder = new();
             SaveWithSpecialBitmap(encoder, fullFilePath);
         }
         protected override void SaveFileAsTIFF(string fullFilePath)
         {
-            TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+            TiffBitmapEncoder encoder = new();
             SaveWithSpecialBitmap(encoder, fullFilePath);
         }
         private bool OpenSaveDialog(string filter, string fileName, out string filePath)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             saveFileDialog.Filter = filter;
             saveFileDialog.FileName = fileName;
@@ -620,9 +617,9 @@ namespace VectorMaker.ViewModel
         private void SaveWithSpecialBitmap(BitmapEncoder bitmapEncoder, string filePath)
         {
             //toDo values of width ang height 
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(300, 300, 96d, 96d, PixelFormats.Pbgra32);
+            RenderTargetBitmap renderBitmap = new(300, 300, 96d, 96d, PixelFormats.Pbgra32);
             renderBitmap.Render(m_mainCanvas);
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            using (FileStream fileStream = new(filePath, FileMode.Create))
             {
                 bitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
                 // save the data to the stream
@@ -636,7 +633,7 @@ namespace VectorMaker.ViewModel
                 using (FileStream fileStream = File.OpenWrite(filePath))
                 {
                     fileStream.SetLength(0);
-                    XmlTextWriter xmlTextWriter = new XmlTextWriter(fileStream, System.Text.Encoding.UTF8);
+                    XmlTextWriter xmlTextWriter = new(fileStream, System.Text.Encoding.UTF8);
                     xmlTextWriter.Formatting = Formatting.Indented;
                     XamlWriter.Save(m_mainCanvas, xmlTextWriter);
                 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VectorMaker.ControlsResources.ColorPicker"
+﻿<UserControl x:Class="VectorMaker.ControlsResources.ColorsPicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -143,17 +143,17 @@
 
                     <TextBox x:Name="RColorTextBox" Grid.Row="0" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        Text="{Binding RColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding RColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}" />
 
                     <TextBox x:Name="GColorTextBox" Grid.Row="1" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Text="{Binding GColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding GColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}"/>
 
                     <TextBox x:Name="BColorTextBox" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Text="{Binding BColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding BColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
 
@@ -184,17 +184,17 @@
                     
                     <TextBox x:Name="HColorTextBox" Grid.Row="0" Grid.Column="1" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Text="{Binding HColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding HColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}" />
                     
                     <TextBox x:Name="SColorTextBox" Grid.Row="1" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        Text="{Binding SColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding SColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}"/>
                     
                     <TextBox x:Name="LColorTextBox" Grid.Row="2" Grid.Column="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Text="{Binding LColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                        Text="{Binding LColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                         Margin="0,5" Focusable="False" Style="{StaticResource TextBoxClassic}" />
                 </Grid>
             </Grid>
@@ -208,7 +208,7 @@
                         VerticalAlignment="Top" HorizontalAlignment="Right"
                         Margin="0,4,0,0"/>
                 <TextBox x:Name="HexColor" Grid.Column="1" Height="25"
-                     Text="{Binding HexColorText, RelativeSource={RelativeSource AncestorType=local:ColorPicker}}"
+                     Text="{Binding HexColorText, RelativeSource={RelativeSource AncestorType=local:ColorsPicker}}"
                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
                      Focusable="True" Style="{StaticResource TextBoxClassic}"/>
             </Grid>

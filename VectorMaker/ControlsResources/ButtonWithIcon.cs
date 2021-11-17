@@ -9,31 +9,31 @@ namespace VectorMaker.ControlsResources
 {
     public class ButtonWithIcon : Button
     {
-        private static DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ButtonWithIcon), new PropertyMetadata(new CornerRadius(0,0,0,0)));
+        private static readonly DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ButtonWithIcon), new PropertyMetadata(new CornerRadius(0,0,0,0)));
 
-        private static DependencyProperty m_imageWidth = DependencyProperty.Register("IconWidth", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
+        private static readonly DependencyProperty m_imageWidth = DependencyProperty.Register("IconWidth", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
 
-        private static DependencyProperty m_imageHeight = DependencyProperty.Register("IconHeight", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
+        private static readonly DependencyProperty m_imageHeight = DependencyProperty.Register("IconHeight", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(15));
 
-        private static DependencyProperty m_iconRow = DependencyProperty.Register("IconRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static readonly DependencyProperty m_iconRow = DependencyProperty.Register("IconRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_iconColumn = DependencyProperty.Register("IconColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static readonly DependencyProperty m_iconColumn = DependencyProperty.Register("IconColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_iconRowSpan = DependencyProperty.Register("IconRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static readonly DependencyProperty m_iconRowSpan = DependencyProperty.Register("IconRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_iconColumnSpan = DependencyProperty.Register("IconColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static readonly DependencyProperty m_iconColumnSpan = DependencyProperty.Register("IconColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_contentRow = DependencyProperty.Register("ContentRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static readonly DependencyProperty m_contentRow = DependencyProperty.Register("ContentRow", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_contentColumn = DependencyProperty.Register("ContentColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
+        private static readonly DependencyProperty m_contentColumn = DependencyProperty.Register("ContentColumn", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(0));
 
-        private static DependencyProperty m_contentRowSpan = DependencyProperty.Register("ContentRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static readonly DependencyProperty m_contentRowSpan = DependencyProperty.Register("ContentRowSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_contentColumnSpan = DependencyProperty.Register("ContentColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
+        private static readonly DependencyProperty m_contentColumnSpan = DependencyProperty.Register("ContentColumnSpan", typeof(int), typeof(ButtonWithIcon), new PropertyMetadata(1));
 
-        private static DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ButtonWithIcon), new PropertyMetadata(""));
+        private static readonly DependencyProperty m_content = DependencyProperty.Register("ButtonContent", typeof(string), typeof(ButtonWithIcon), new PropertyMetadata(""));
 
-        private static DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
+        private static readonly DependencyProperty m_iconKind = DependencyProperty.Register("IconKind", typeof(PackIconBootstrapIconsKind), typeof(ButtonWithIcon), new PropertyMetadata(PackIconBootstrapIconsKind.None));
 
         static ButtonWithIcon()
         {
@@ -144,7 +144,7 @@ namespace VectorMaker.ControlsResources
                 ContentColumn = 1;
                 IconHeight = (int)(IconHeight * 0.8f);
                 IconWidth = (int)(IconWidth * 0.8f);
-                FontSize = FontSize * 0.8;
+                FontSize *= 0.8;
             }
         }
     }
