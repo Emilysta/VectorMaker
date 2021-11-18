@@ -220,7 +220,7 @@ namespace VectorMaker.ViewModel
 
         private void Union()
         {
-            throw new NotImplementedException(); //toDo
+            (m_activeDocument as DrawingCanvasViewModel).UnionCommand.Execute(null);
         }
 
         private void OpenAppSettings()

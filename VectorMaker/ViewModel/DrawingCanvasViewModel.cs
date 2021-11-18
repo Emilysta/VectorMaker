@@ -37,7 +37,7 @@ namespace VectorMaker.ViewModel
         private Shape m_drawableObjectShape;
         private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
-        private ObservableCollection<ResizingAdorner> m_selectedObjects = new ();
+        private ObservableCollection<ResizingAdorner> m_selectedObjects = new();
         private IMainWindowViewModel m_interfaceMainWindowVM;
         private ObservableCollection<LayerItemViewModel> m_layers;
         private int m_layersCount = 1;
@@ -216,11 +216,11 @@ namespace VectorMaker.ViewModel
         private void LoadLayers(Canvas loadedMainCanvas)
         {
             int i = 1;
-            foreach(Canvas canvas in loadedMainCanvas.Children.OfType<Canvas>())
+            foreach (Canvas canvas in loadedMainCanvas.Children.OfType<Canvas>())
             {
-                if((string)canvas.Tag == "Layer")
+                if ((string)canvas.Tag == "Layer")
                 {
-                    LayerItemViewModel layer = new(canvas,i,canvas.Name);
+                    LayerItemViewModel layer = new(canvas, i, canvas.Name);
                     layer.DeleteAction = (layer) =>
                     {
                         Layers.Remove(layer);
@@ -232,7 +232,7 @@ namespace VectorMaker.ViewModel
                 }
             }
             LayersNumber = Layers.Count;
-            if(Layers.Count!=0)
+            if (Layers.Count != 0)
                 SelectedLayer = Layers[0];
         }
         private void DeleteSelectedObjects()
@@ -242,7 +242,7 @@ namespace VectorMaker.ViewModel
                 foreach (ResizingAdorner resizingAdorner in m_selectedObjects)
                 {
                     resizingAdorner.RemoveFromAdornerLayer();
-                    MainCanvas.Children.Remove(resizingAdorner.AdornedElement);
+                    SelectedLayer.Layer.Children.Remove(resizingAdorner.AdornedElement);
                 }
                 m_selectedObjects.Clear();
             }
@@ -327,7 +327,7 @@ namespace VectorMaker.ViewModel
             if ((testResult.VisualHit as FrameworkElement).Parent is Canvas)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                ResizingAdorner adorner = new (testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
+                ResizingAdorner adorner = new(testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
                 adornerLayer.Add(adorner);
                 SelectedObjects.Add(adorner);
                 return HitTestResultBehavior.Stop;
@@ -336,37 +336,59 @@ namespace VectorMaker.ViewModel
         }
         private void Union()
         {
-            GeometryGroup geometryGroup = new();
-            foreach (ResizingAdorner adorner in SelectedObjects)
+            if (SelectedObjects.Count == 2)
             {
-                Shape shape = adorner.AdornedElement as Shape;
-                Geometry geometry = shape?.RenderedGeometry;
-                geometry.Transform = shape.RenderTransform;
-                if (geometry != null)
+                Path path = new();
+                CombinedGeometry combinedGeometry = new CombinedGeometry();
+                foreach (ResizingAdorner adorner in SelectedObjects)
                 {
-                    geometryGroup.Children.Add(geometry);
+                    Shape shape = adorner.AdornedElement as Shape;
+                    Geometry geometry = shape?.RenderedGeometry;
+                    geometry.Transform = shape.RenderTransform;
+                    if (geometry != null)
+                    {
+                        if (combinedGeometry.Geometry1.IsEmpty())
+                        {
+                            combinedGeometry.Geometry1 = geometry;
+                            continue;
+                        }
+                        if (combinedGeometry.Geometry2.IsEmpty())
+                        {
+                            combinedGeometry.Geometry2 = geometry;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("One of selected objects is a group, please ungroup first. Operation terminated");
+                        return;
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("One of selected objects is a group, please ungroup first. Operation terminated");
-                    return;
-                }
-            }
-            System.Windows.Shapes.Path path = new();
-            path.Data = geometryGroup;
-            geometryGroup.FillRule = FillRule.EvenOdd;
-            Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
+                combinedGeometry.GeometryCombineMode = GeometryCombineMode.Union;
+                Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
+                path.Data = combinedGeometry;
+                path.Style = lastShape.Style;
+                path.Fill = lastShape.Fill;
+                path.Stroke = lastShape.Stroke;
+                TranslateTransform translate = new TranslateTransform();
+                TranslateTransform geoTransform = combinedGeometry.Geometry1.Transform as TranslateTransform;
+                TranslateTransform geoTransform2 = combinedGeometry.Geometry2.Transform as TranslateTransform;
+                translate.X = Math.Min(geoTransform.X, geoTransform2.X);
+                translate.Y = Math.Min(geoTransform.Y, geoTransform2.Y);
+                path.RenderTransform = translate;
+                geoTransform.X = geoTransform.X - translate.X; 
+                geoTransform.Y = geoTransform.Y - translate.Y;
+                geoTransform2.X = geoTransform2.X - translate.X;
+                geoTransform2.Y = geoTransform2.Y - translate.Y;
+                //combinedGeometry.Transform = lastShape.RenderTransform as TranslateTransform;
+                SelectedLayer.Layer.Children.Add(path);
+                DeleteSelectedObjects();
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
+                ResizingAdorner newAdorner = new(path, adornerLayer, m_mainCanvas);
+                adornerLayer.Add(newAdorner);
+                SelectedObjects.Add(newAdorner);
 
-            path.Style = lastShape.Style;
-            path.Fill = lastShape.Fill;
-            path.Stroke = lastShape.Stroke;
-            //path.RenderTransform = lastShape.RenderTransform;
-            MainCanvas.Children.Add(path);
-            DeleteSelectedObjects();
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
-            ResizingAdorner newAdorner = new(path, adornerLayer, m_mainCanvas);
-            adornerLayer.Add(newAdorner);
-            SelectedObjects.Add(newAdorner);
+            }
         }
         private void Exclude()
         {
@@ -555,7 +577,7 @@ namespace VectorMaker.ViewModel
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    if(SaveFile())
+                    if (SaveFile())
                         m_interfaceMainWindowVM.Close(this);
                     return;
                 }
