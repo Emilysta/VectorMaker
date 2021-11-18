@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Linq;
 using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Utility
@@ -16,12 +17,15 @@ namespace VectorMaker.Utility
         private string m_publisher = "";
         private string m_language = "";
         private string m_identifier = "";
+        private string m_title = "";
+        private bool m_isDateToSave = false;
         private bool m_isBorderVisible = true;
         private bool m_isBorderShadow = true;
         private bool m_isBackgroundCheckered = true;
         private SolidColorBrush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
         private SolidColorBrush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
         private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
+        private Metadata m_metadata = new Metadata();
         [JsonIgnore]
         private const string CONFIG_FILE_PATH = "/VectorMaker.config";
         [JsonIgnore]
@@ -36,6 +40,7 @@ namespace VectorMaker.Utility
             {
                 m_author = value;
                 OnPropertyChanged(nameof(Author));
+                m_metadata.Author.Value = value;
             }
         }
         public string Rights
@@ -45,6 +50,7 @@ namespace VectorMaker.Utility
             {
                 m_rights = value;
                 OnPropertyChanged(nameof(Rights));
+                m_metadata.Rights.Value = value;
             }
         }
         public string Publisher
@@ -54,6 +60,7 @@ namespace VectorMaker.Utility
             {
                 m_publisher = value;
                 OnPropertyChanged(nameof(Publisher));
+                m_metadata.Publisher.Value = value;
             }
         }
         public string Language
@@ -63,6 +70,7 @@ namespace VectorMaker.Utility
             {
                 m_language = value;
                 OnPropertyChanged(nameof(Language));
+                m_metadata.Language.Value = value;
             }
         }
         public string Identifier
@@ -72,6 +80,27 @@ namespace VectorMaker.Utility
             {
                 m_identifier = value;
                 OnPropertyChanged(nameof(Identifier));
+                m_metadata.Identifier.Value = value;
+            }
+        }
+        public string Title
+        {
+            get => m_title;
+            set
+            {
+                m_title = value;
+                OnPropertyChanged(nameof(Title));
+                m_metadata.Title.Value = value;
+            }
+        }
+        public bool IsDateToSave
+        {
+            get => m_isDateToSave;
+            set
+            {
+                m_isDateToSave = value;
+                OnPropertyChanged(nameof(IsDateToSave));
+                m_metadata.SetDateInMetadata(value);
             }
         }
         public bool IsBorderVisible
@@ -134,7 +163,6 @@ namespace VectorMaker.Utility
         public Visibility CheckColorVisibility => IsBackgroundCheckered ? Visibility.Visible : Visibility.Hidden;
         public Visibility BorderShadowVisibility => IsBorderShadow ? Visibility.Visible : Visibility.Hidden;
         #endregion
-
         private static Configuration m_instance;
         public static Configuration Instance
         {
@@ -145,7 +173,6 @@ namespace VectorMaker.Utility
                 return m_instance;
             }
         }
-
         private Configuration()
         {
             LoadConfigIfExists();
@@ -187,12 +214,18 @@ namespace VectorMaker.Utility
             Publisher = "";
             Language = "";
             Identifier = "";
+            IsDateToSave = false;
             IsBorderVisible = true;
             IsBorderShadow = true;
             IsBackgroundCheckered = true;
             BorderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
             BackgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
             CheckColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
+        }
+        public string GetMetadataFromConfig()
+        {
+            m_metadata.Date.Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return m_metadata.MetaData.ToString();
         }
         private void CreateFile()
         {

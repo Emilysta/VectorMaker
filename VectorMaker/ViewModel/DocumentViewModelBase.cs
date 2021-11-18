@@ -154,7 +154,7 @@ namespace VectorMaker.ViewModel
             SaveAsCommand = new CommandBase((obj) => SaveAsFile(obj as string));
         }
 
-        protected abstract void SaveFile();
+        protected abstract bool SaveFile();
         protected abstract void CloseFile();
         protected virtual void SaveAsFile(string type)
         {

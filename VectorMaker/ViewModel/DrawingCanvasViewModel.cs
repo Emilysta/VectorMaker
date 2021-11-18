@@ -213,7 +213,6 @@ namespace VectorMaker.ViewModel
             }
 
         }
-
         private void LoadLayers(Canvas loadedMainCanvas)
         {
             int i = 1;
@@ -236,7 +235,6 @@ namespace VectorMaker.ViewModel
             if(Layers.Count!=0)
                 SelectedLayer = Layers[0];
         }
-
         private void DeleteSelectedObjects()
         {
             if (m_selectedObjects.Count > 0)
@@ -336,7 +334,6 @@ namespace VectorMaker.ViewModel
             }
             return HitTestResultBehavior.Continue;
         }
-
         private void Union()
         {
             GeometryGroup geometryGroup = new();
@@ -525,7 +522,7 @@ namespace VectorMaker.ViewModel
 
             }
         }
-        protected override void SaveFile()
+        protected override bool SaveFile()
         {
             if (!IsSaved)
             {
@@ -535,16 +532,16 @@ namespace VectorMaker.ViewModel
                     if (result == true)
                     {
                         FilePath = filePath;
-                        IsSaved = true;
-                        SaveStreamToXAML(FilePath);
+                        bool saved2 = SaveStreamToXAML(FilePath);
+                        IsSaved = saved2;
                     }
-                    return;
+                    return IsSaved;
                 }
                 bool saved = SaveStreamToXAML(FilePath);
                 if (saved)
                     IsSaved = true;
             }
-            return;
+            return IsSaved;
         }
         protected override void CloseFile()
         {
@@ -558,10 +555,13 @@ namespace VectorMaker.ViewModel
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    SaveFile();
+                    if(SaveFile())
+                        m_interfaceMainWindowVM.Close(this);
+                    return;
                 }
             }
             m_interfaceMainWindowVM.Close(this);
+
         }
         protected override void SaveFileAsPDF(string fullFilePath)
         {
@@ -635,6 +635,7 @@ namespace VectorMaker.ViewModel
                     fileStream.SetLength(0);
                     XmlTextWriter xmlTextWriter = new(fileStream, System.Text.Encoding.UTF8);
                     xmlTextWriter.Formatting = Formatting.Indented;
+                    xmlTextWriter.WriteComment(Configuration.Instance.GetMetadataFromConfig());
                     XamlWriter.Save(m_mainCanvas, xmlTextWriter);
                 }
                 return true;

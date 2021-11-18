@@ -78,7 +78,8 @@ namespace VectorMaker.ViewModel
                     m_window.DragMove();
                     e.Handled = true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 //toDo check why exception was before if

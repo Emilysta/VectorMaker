@@ -123,19 +123,6 @@ namespace VectorMaker.ViewModel
         #region Interface methods
         public void Close(DocumentViewModelBase fileToClose)
         {
-            if (!fileToClose.IsSaved)
-            {
-                var result = MessageBox.Show(string.Format("Do you want to save changes " +
-                    "for file '{0}'?", fileToClose.FileName), "VectorMaker",
-                    MessageBoxButton.YesNoCancel);
-                if (result == MessageBoxResult.Cancel)
-                    return;
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    Save(fileToClose);
-                }
-            }
             m_documents.Remove(fileToClose);
         }
 

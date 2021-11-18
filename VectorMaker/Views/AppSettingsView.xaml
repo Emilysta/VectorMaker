@@ -203,11 +203,13 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <Label Content="Author" />
                             <TextBox Text="{Binding Model.Author}"  />
@@ -231,6 +233,34 @@
                                    Grid.Row="4"/>
                             <TextBox Text="{Binding Model.Identifier}" 
                                      Grid.Row="4"/>
+
+                            <Label Content="Save date?" 
+                                   Grid.Row="5"/>
+                            <ToggleButton Grid.Row="5" Grid.Column="1" Width="20" 
+                                          Background="Transparent" IsChecked="{Binding Model.IsDateToSave}"
+                                          BorderThickness="0" HorizontalAlignment="Left" >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <Border BorderThickness="0" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Content" Value="{iconPacks:BootstrapIcons Kind=CheckSquare}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="Content" Value="{iconPacks:BootstrapIcons Kind=Square}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
                         </Grid>
                     </mahControls:MetroTabItem>
                     <mahControls:MetroTabItem Header="Licenses" Foreground="{StaticResource LightText}"/>
