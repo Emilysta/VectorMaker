@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using VectorMaker.Commands;
 using VectorMaker.Utility;
 using VectorMaker.Views;

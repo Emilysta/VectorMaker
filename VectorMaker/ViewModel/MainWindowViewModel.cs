@@ -1,7 +1,6 @@
 ﻿using VectorMaker.Drawables;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
-using System.Windows;
 using System.Windows.Input;
 using VectorMaker.Commands;
 using VectorMaker.Intefaces;

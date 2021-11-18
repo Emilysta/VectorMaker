@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml.Linq;
 using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Utility

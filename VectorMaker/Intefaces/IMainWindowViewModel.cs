@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using VectorMaker.ViewModel;
 
 namespace VectorMaker.Intefaces
