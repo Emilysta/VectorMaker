@@ -19,7 +19,7 @@ namespace VectorMaker.ControlsResources
         private SolidColorBrush m_gradientStopColor = new();
         private GradientBrush m_gradient;
         private GradientStop m_selectedGradientStop = new();
-        private static readonly DependencyProperty m_brushToEdit = DependencyProperty.Register("BrushToEdit", typeof(Brush), typeof(GradientColorPicker), new PropertyMetadata(null));
+        private static DependencyProperty m_brushToEdit = DependencyProperty.Register("BrushToEdit", typeof(Brush), typeof(GradientColorPicker), new PropertyMetadata(new SolidColorBrush()));
 
         public Brush BrushToEdit
         {
@@ -116,7 +116,7 @@ namespace VectorMaker.ControlsResources
             ThumbEventArgs thumbEventArgs = e as ThumbEventArgs;
             GradientSliderAdorner gradient = thumbEventArgs.NewThumb as GradientSliderAdorner;
             Gradient.GradientStops.Add(gradient.GradientStopObject);
-            //OnPropertyChanged("GradientStops");
+            OnPropertyChanged("GradientStops");
         }
 
 

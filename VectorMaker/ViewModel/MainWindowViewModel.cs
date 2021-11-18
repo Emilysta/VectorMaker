@@ -156,6 +156,13 @@ namespace VectorMaker.ViewModel
             ActiveDocument = null;
             m_documents.Clear();
         }
+
+        public void CloseTool(ToolBaseViewModel tool)
+        {
+            if (Tools.Contains(tool))
+                Tools.Remove(tool);
+        }
+
         #endregion
 
         public event EventHandler ActiveCanvasChanged;

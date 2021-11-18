@@ -32,23 +32,25 @@ namespace VectorMaker.ViewModel
 
         public Brush FillBrush
         {
-            get => SelectedObject.Fill;
+            get => SelectedObject?.Fill ?? Brushes.Transparent;
             set
             {
-                SelectedObject.Fill = value;
+                if (SelectedObject != null)
+                    SelectedObject.Fill = value;
             }
         }
 
         public Brush StrokeBrush
         {
-            get => SelectedObject.Stroke; set
+            get => SelectedObject?.Stroke ?? Brushes.Transparent;
+            set
             {
-                SelectedObject.Stroke = value;
+                if (SelectedObject != null)
+                    SelectedObject.Stroke = value;
             }
         }
 
         public Shape SelectedObject { get; set; }
-
 
         protected override string m_title { get; set; } = "Fill & stroke";
         private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;

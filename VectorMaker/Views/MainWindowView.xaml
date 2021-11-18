@@ -198,6 +198,7 @@
                                 <Style TargetType="{x:Type LayoutAnchorableItem}">
                                     <Setter Property="Title" Value="{Binding Model.Title}" />
                                     <Setter Property="CanClose" Value="True" />
+                                    <Setter Property="CloseCommand" Value="{Binding Model.CloseToolCommand}" />
                                     <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                                 </Style>
                             </templateselectors:LayoutPaneStyleSelector.ToolStyle>

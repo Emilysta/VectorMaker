@@ -4,19 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:controls ="clr-namespace:VectorMaker.ControlsResources" 
-      xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      mc:Ignorable="d" d:DesignHeight="260" d:DesignWidth="300" FontSize="13" FontWeight="Light">
+      xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:viewmodel="clr-namespace:VectorMaker.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ObjectPropertiesViewModel}"
+             mc:Ignorable="d" d:DesignHeight="260" d:DesignWidth="300" FontSize="13" FontWeight="Light">
 
     <Border BorderThickness="0.4" BorderBrush="#CC5F5F62">
         <Grid x:Name="PropertiesGrid" Background="#FF262628">
-            <mahControls:MetroTabControl x:Name="ObjectPropertiesTabControl" 
+            <mahControls:MetroTabControl 
                                      mahControls:HeaderedControlHelper.HeaderFontSize="15" mahControls:HeaderedControlHelper.HeaderFontWeight="Light" Grid.Row="1" Margin="1" Background="#FF1A1A1A" BorderBrush="{StaticResource TabControlBorderColor}" BorderThickness="0,1,0,0">
                 <mahControls:MetroTabItem Header="Fill" CloseButtonEnabled="False">
-                    <controls:BrushEditor Brush="{Binding FillBrush}"/>
+                    <controls:BrushEditor EditedBrush="{Binding FillBrush, Mode=TwoWay}"/>
                 </mahControls:MetroTabItem>
 
                 <mahControls:MetroTabItem Header="Stroke" CloseButtonEnabled="False" >
-                    <controls:BrushEditor Brush="{Binding StrokeBrush}"/>
+                    <controls:BrushEditor EditedBrush="{Binding StrokeBrush, Mode=TwoWay}"/>
                 </mahControls:MetroTabItem>
             </mahControls:MetroTabControl>
         </Grid>

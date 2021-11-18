@@ -23,5 +23,7 @@ namespace VectorMaker.Intefaces
         void Save(DocumentViewModelBase fileToSave);
 
         void CloseAllDocuments();
+
+        void CloseTool(ToolBaseViewModel tool);
     }
 }
