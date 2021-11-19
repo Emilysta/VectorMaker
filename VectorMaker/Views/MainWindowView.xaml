@@ -9,6 +9,7 @@
         xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
+        xmlns:utility="clr-namespace:VectorMaker.Utility"
         xmlns:converters="clr-namespace:VectorMaker.Converters"
         mc:Ignorable="d">
     <Window.Resources>
@@ -101,29 +102,21 @@
                 </Menu>
             </Grid>
 
-            <Grid DockPanel.Dock="Top" Height="20" Background="Transparent">
-                <!--<Label x:Name="SelectedObjectsLabel" Foreground="{DynamicResource LightText}" 
-                       Content="{Binding SelectedObjectString}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Right" Width="5" >
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{DynamicResource SeparatorColor}"/>
-                </StackPanel>
-                <Label x:Name="StrokeLabel" Grid.Column="1" Content="{x:Static languages:EN.StrokeLabel}" 
-                       Foreground="{DynamicResource LightText}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox x:Name="StrokeTextBox" Grid.Column="2" Margin="3"/>
-                <TextBox x:Name="XTextBox" Grid.Column="4" Margin="3"/>-->
-            </Grid>
-
             <!-- Left Dock-->
-            <Grid DockPanel.Dock="Left" Width="23">
-                <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
-                    <MenuItem Command="{Binding DrawRectangleCommand}" Header="{iconPacks:BootstrapIcons SquareHalf, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding DrawEllipseCommand}" Header="{iconPacks:BootstrapIcons CircleHalf, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding DrawLineCommand}" Header="{iconPacks:BootstrapIcons Slash, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding SelectionToolCommand}" Header="{iconPacks:BootstrapIcons Kind=BoundingBox, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding DrawPolylineCommand}" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding DrawPolygonCommand}" Header="{iconPacks:FontAwesome Kind=DrawPolygonSolid, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding UnionCommand}" Header="{iconPacks:BootstrapIcons Kind=Union, Height=15, Width=10}"/>
-                </Menu>
+            <Grid DockPanel.Dock="Left" Width="35">
+                <ItemsControl ItemsSource="{Binding LeftMenu.ToggleButtonKinds}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton Command="{Binding ClickCommand}" 
+                                          CommandParameter="{Binding}" 
+                                          IsChecked="{Binding IsChecked,Mode=OneWay}" 
+                                          Style="{StaticResource ToggleButtonForMenu}"
+                                          ToolTip="{Binding ToolTip,Mode=OneTime}">
+                                <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}"/>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
             
             <!-- Center Dock-->

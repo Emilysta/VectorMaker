@@ -7,9 +7,12 @@ using VectorMaker.Intefaces;
 using System.Collections.Generic;
 using System;
 using VectorMaker.Utility;
+using MahApps.Metro.IconPacks;
+using System.Windows.Media;
 
 namespace VectorMaker.ViewModel
 {
+
     internal class MainWindowViewModel : NotifyPropertyChangedBase, IMainWindowViewModel
     {
         #region Commands
@@ -25,14 +28,6 @@ namespace VectorMaker.ViewModel
         public ICommand OpenColorPickerToolCommand { get; set; }
         public ICommand OpenAlignmentToolCommand { get; set; }
         public ICommand OpenLayersToolCommand { get; set; }
-
-        public ICommand DrawRectangleCommand { get; set; }
-        public ICommand DrawEllipseCommand { get; set; }
-        public ICommand DrawLineCommand { get; set; }
-        public ICommand DrawPolylineCommand { get; set; }
-        public ICommand DrawPolygonCommand { get; set; }
-        public ICommand SelectionToolCommand { get; set; }
-        public ICommand UnionCommand { get; set; }
         #endregion
 
         #region Fields
@@ -110,11 +105,14 @@ namespace VectorMaker.ViewModel
                 ActiveCanvasChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public ToggleMenu LeftMenu { get; set; }
         #endregion
+
         public MainWindowViewModel()
         {
             SetCommands();
             m_documents = new ObservableCollection<DocumentViewModelBase>();
+            CreateLeftMenu();
             DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
         }
@@ -161,7 +159,30 @@ namespace VectorMaker.ViewModel
                 canvas.DrawableType = type;
             }
         }
-
+        private void CreateLeftMenu()
+        {
+            LeftMenu = new ToggleMenu();
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.SquareOutline, () => SetDrawableType(DrawableTypes.Rectangle), 
+                toolTip: "Rectangle\nCtrl - Square"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CircleOutline, () => SetDrawableType(DrawableTypes.Ellipse), 
+                toolTip: "Ellipse\nCtrl - Cricle"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorLine, () => SetDrawableType(DrawableTypes.Line), 
+                toolTip: "Line"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorSquare, () => SetDrawableType(DrawableTypes.None), 
+                toolTip: "Selection\nShift - MultiSelection",isChecked: true));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolyline, () => SetDrawableType(DrawableTypes.PolyLine), 
+                toolTip: "Polyline"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolygon, () => SetDrawableType(DrawableTypes.Polygon), 
+                toolTip: "Polygon"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorUnion, () => CombineGeometries(GeometryCombineMode.Union), 
+                isToggleButton: false, toolTip: "Union"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorIntersection, () => CombineGeometries(GeometryCombineMode.Intersect), 
+                isToggleButton: false, toolTip: "Intersect"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifferenceAb, () => CombineGeometries(GeometryCombineMode.Exclude), 
+                isToggleButton: false, toolTip: "Exclude"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifference, () => CombineGeometries(GeometryCombineMode.Xor), 
+                isToggleButton: false, toolTip: "XOR"));
+        }
         private void SetCommands()
         {
             OpenApplicationSettingsCommand = new CommandBase((obj) => OpenAppSettings());
@@ -171,69 +192,25 @@ namespace VectorMaker.ViewModel
             SaveAllCommand = new CommandBase((obj) => SaveAllDocuments());
             CloseAllCommand = new CommandBase((obj) => CloseAllDocuments());
 
-            OpenTransformToolCommand = new CommandBase((obj) => TransformTool());
-            OpenPropertiesToolCommand = new CommandBase((obj) => PropertiesTool());
+            OpenTransformToolCommand = new CommandBase((obj) => CreateTool(ObjectTransformsVMTool));
+            OpenPropertiesToolCommand = new CommandBase((obj) => CreateTool(ObjectPropertiesVMTool));
             OpenColorPickerToolCommand = new CommandBase((obj) => ColorPickerTool());
-            OpenAlignmentToolCommand = new CommandBase((obj) => AlignmentTool());
-            OpenLayersToolCommand = new CommandBase((obj) => LayersTool());
-
-            DrawRectangleCommand = new CommandBase((obj) => DrawRectangle());
-            DrawEllipseCommand = new CommandBase((obj) => DrawEllipse());
-            DrawLineCommand = new CommandBase((obj) => DrawLine());
-            DrawPolylineCommand = new CommandBase((obj) => DrawPolyline());
-            DrawPolygonCommand = new CommandBase((obj) => DrawPolygon());
-            SelectionToolCommand = new CommandBase((obj) => SelectionToolEnable());
-
-            UnionCommand = new CommandBase((obj) => Union());
-
+            OpenAlignmentToolCommand = new CommandBase((obj) => CreateTool(ObjectAlignmentVMTool));
+            OpenLayersToolCommand = new CommandBase((obj) => CreateTool(DrawingLayersVMTool));
         }
-
-        private void DrawRectangle()
+        private void CombineGeometries(GeometryCombineMode mode)
         {
-            SetDrawableType(DrawableTypes.Rectangle);
+            (m_activeDocument as DrawingCanvasViewModel).CombineTwoGeometries(mode);
         }
-
-        private void DrawEllipse()
-        {
-            SetDrawableType(DrawableTypes.Ellipse);
-        }
-
-        private void DrawLine()
-        {
-            SetDrawableType(DrawableTypes.Line);
-        }
-
-        private void DrawPolyline()
-        {
-            SetDrawableType(DrawableTypes.PolyLine);
-        }
-
-        private void DrawPolygon()
-        {
-            SetDrawableType(DrawableTypes.Polygon);
-        }
-
-        private void SelectionToolEnable()
-        {
-            SetDrawableType(DrawableTypes.None);
-        }
-
-        private void Union()
-        {
-            (m_activeDocument as DrawingCanvasViewModel).UnionCommand.Execute(null);
-        }
-
         private void OpenAppSettings()
         {
             AppSettingsViewModel appSettingsViewModel = new();
         }
-
         private void NewDocument()
         {
             DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
         }
-
         private void OpenDocument()
         {
             OpenFileDialog openFileDialog = new();
@@ -244,48 +221,25 @@ namespace VectorMaker.ViewModel
                 m_documents.Add(drawingCanvas);
             }
         }
-
         private void SaveAllDocuments()
         {
             throw new NotImplementedException();
         }
-
-        private void TransformTool()
-        {
-            if (!Tools.Contains(ObjectTransformsVMTool))
-                Tools.Add(ObjectTransformsVMTool);
-        }
-
-        private void PropertiesTool()
-        {
-            if (!Tools.Contains(ObjectPropertiesVMTool))
-                Tools.Add(ObjectPropertiesVMTool);
-        }
-
         private void ColorPickerTool()
         {
             throw new NotImplementedException();  //toDo
         }
-
-        private void AlignmentTool()
+        private void CreateTool(ToolBaseViewModel tool)
         {
-            if (!Tools.Contains(ObjectAlignmentVMTool))
-                Tools.Add(ObjectAlignmentVMTool);
+            if (!Tools.Contains(tool))
+                Tools.Add(tool);
         }
-
-        private void LayersTool()
-        {
-            if (!Tools.Contains(DrawingLayersVMTool))
-                Tools.Add(DrawingLayersVMTool);
-        }
-
         //private void ChangeColor()
         //{
         //    System.Windows.Media.Color accentColor = ColorsReference.magentaBaseColor;
         //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
         //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
         //}
-
         #endregion
     }
 }

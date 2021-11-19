@@ -117,14 +117,6 @@ namespace VectorMaker.ViewModel
 
         #region Commands
 
-        #region Actions Commands
-        public ICommand UnionCommand { get; set; }
-        public ICommand ExcludeCommand { get; set; }
-        public ICommand XorCommand { get; set; }
-        public ICommand IntersectCommand { get; set; }
-        #endregion
-
-        #region Eventc Commands
         public ICommand MouseLeftUpCommand { get; set; }
         public ICommand MouseLeftDownCommand { get; set; }
         public ICommand MouseMoveCommand { get; set; }
@@ -132,8 +124,6 @@ namespace VectorMaker.ViewModel
         public ICommand PreviewKeyDownCommand { get; set; }
         public ICommand PreviewKeyUpCommand { get; set; }
         public ICommand DropCommand { get; set; }
-
-        #endregion
 
         #endregion
 
@@ -164,14 +154,62 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Methods
+        public void CombineTwoGeometries(GeometryCombineMode mode)
+        {
+            if (SelectedObjects.Count == 2)
+            {
+                CombinedGeometry combinedGeometry = new CombinedGeometry();
+                foreach (ResizingAdorner adorner in SelectedObjects)
+                {
+                    Shape shape = adorner.AdornedElement as Shape;
+                    if (shape == null)
+                        continue;
 
+                    Geometry geometry = shape.RenderedGeometry;
+                    if (geometry != null)
+                    {
+                        geometry.Transform = shape.RenderTransform;
+                        if (combinedGeometry.Geometry1.IsEmpty())
+                            combinedGeometry.Geometry1 = geometry;
+                        else if (combinedGeometry.Geometry2.IsEmpty())
+                            combinedGeometry.Geometry2 = geometry;
+                    }
+                    else
+                    {
+                        MessageBox.Show("One of selected objects is a group, please ungroup first. Operation terminated");
+                        return;
+                    }
+                }
+
+                combinedGeometry.GeometryCombineMode = mode;
+                Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
+                Path path = new Path()
+                {
+                    Data = combinedGeometry,
+                    Style = lastShape.Style,
+                    Fill = lastShape.Fill,
+                    Stroke = lastShape.Stroke
+                };
+
+                Matrix geoTransform = combinedGeometry.Geometry1.Transform.Value;
+                Matrix geoTransform2 = combinedGeometry.Geometry2.Transform.Value;
+                Matrix translate = Matrix.Identity;
+
+                translate.OffsetX = Math.Min(geoTransform.OffsetX, geoTransform2.OffsetX);
+                translate.OffsetY = Math.Min(geoTransform.OffsetY, geoTransform2.OffsetY);
+
+
+                combinedGeometry.Geometry1.Transform = new MatrixTransform(RemoveTranslation(geoTransform, translate));
+                combinedGeometry.Geometry2.Transform = new MatrixTransform(RemoveTranslation(geoTransform2, translate));
+                path.RenderTransform = new MatrixTransform(translate);
+
+                DeleteSelectedObjects();
+                SelectedLayer.Layer.Children.Add(path);
+                CreateEditingAdorner(path);
+            }
+        }
         private void SetCommands()
         {
-            UnionCommand = new CommandBase((obj) => Union());
-            ExcludeCommand = new CommandBase((obj) => Exclude());
-            XorCommand = new CommandBase((obj) => Xor());
-            IntersectCommand = new CommandBase((obj) => Intersect());
-
             MouseLeftUpCommand = new CommandBase((obj) => MouseLeftButtonUpHandler(obj as MouseButtonEventArgs));
             MouseLeftDownCommand = new CommandBase((obj) => MouseLeftButtonDownHandler(obj as MouseButtonEventArgs));
             MouseMoveCommand = new CommandBase((obj) => MouseMoveHandler(obj as MouseEventArgs));
@@ -326,81 +364,23 @@ namespace VectorMaker.ViewModel
             PointHitTestResult testResult = result as PointHitTestResult;
             if ((testResult.VisualHit as FrameworkElement).Parent is Canvas)
             {
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(testResult.VisualHit);
-                ResizingAdorner adorner = new(testResult.VisualHit as UIElement, adornerLayer, m_mainCanvas);
-                adornerLayer.Add(adorner);
-                SelectedObjects.Add(adorner);
+                CreateEditingAdorner(testResult.VisualHit as UIElement);
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
         }
-        private void Union()
+        private void CreateEditingAdorner(UIElement uiElement)
         {
-            if (SelectedObjects.Count == 2)
-            {
-                Path path = new();
-                CombinedGeometry combinedGeometry = new CombinedGeometry();
-                foreach (ResizingAdorner adorner in SelectedObjects)
-                {
-                    Shape shape = adorner.AdornedElement as Shape;
-                    Geometry geometry = shape?.RenderedGeometry;
-                    geometry.Transform = shape.RenderTransform;
-                    if (geometry != null)
-                    {
-                        if (combinedGeometry.Geometry1.IsEmpty())
-                        {
-                            combinedGeometry.Geometry1 = geometry;
-                            continue;
-                        }
-                        if (combinedGeometry.Geometry2.IsEmpty())
-                        {
-                            combinedGeometry.Geometry2 = geometry;
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("One of selected objects is a group, please ungroup first. Operation terminated");
-                        return;
-                    }
-                }
-                combinedGeometry.GeometryCombineMode = GeometryCombineMode.Union;
-                Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
-                path.Data = combinedGeometry;
-                path.Style = lastShape.Style;
-                path.Fill = lastShape.Fill;
-                path.Stroke = lastShape.Stroke;
-                TranslateTransform translate = new TranslateTransform();
-                TranslateTransform geoTransform = combinedGeometry.Geometry1.Transform as TranslateTransform;
-                TranslateTransform geoTransform2 = combinedGeometry.Geometry2.Transform as TranslateTransform;
-                translate.X = Math.Min(geoTransform.X, geoTransform2.X);
-                translate.Y = Math.Min(geoTransform.Y, geoTransform2.Y);
-                path.RenderTransform = translate;
-                geoTransform.X = geoTransform.X - translate.X; 
-                geoTransform.Y = geoTransform.Y - translate.Y;
-                geoTransform2.X = geoTransform2.X - translate.X;
-                geoTransform2.Y = geoTransform2.Y - translate.Y;
-                //combinedGeometry.Transform = lastShape.RenderTransform as TranslateTransform;
-                SelectedLayer.Layer.Children.Add(path);
-                DeleteSelectedObjects();
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(path);
-                ResizingAdorner newAdorner = new(path, adornerLayer, m_mainCanvas);
-                adornerLayer.Add(newAdorner);
-                SelectedObjects.Add(newAdorner);
-
-            }
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(uiElement);
+            ResizingAdorner adorner = new(uiElement, adornerLayer, m_mainCanvas);
+            adornerLayer.Add(adorner);
+            SelectedObjects.Add(adorner);
         }
-        private void Exclude()
+        private Matrix RemoveTranslation(Matrix target, Matrix translateToRemove)
         {
-            throw new NotImplementedException();
-        }
-        private void Xor()
-        {
-            throw new NotImplementedException();
-        }
-        private void Intersect()
-        {
-            throw new NotImplementedException();
+            target.OffsetX -= translateToRemove.OffsetX;
+            target.OffsetY -= translateToRemove.OffsetY;
+            return target;
         }
         private void MouseLeftButtonDownHandler(MouseButtonEventArgs e)
         {
@@ -456,7 +436,7 @@ namespace VectorMaker.ViewModel
         }
         private void MouseLeaveHandler(MouseEventArgs e)
         {
-
+            //throw new NotImplementedException();
         }
         private void KeyDownHandler(KeyEventArgs key)
         {

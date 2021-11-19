@@ -81,23 +81,10 @@ namespace VectorMaker.Utility
         private void SetClassElements()
         {
             m_visualCollection = new VisualCollection(this);
-            SetTransformGroup();
             CreateDragThumb();
             CreateScaleThumb();
             CreateRotateThumb();
             SetStartCompletedDragEvent();
-        }
-        private void SetTransformGroup()
-        {
-            //m_transformGroup = new TransformGroup();
-            //if (m_adornedElement.RenderTransform != null)
-            //{
-            //    m_transformGroup.Children.Add(m_adornedElement.RenderTransform);
-            //}
-            //m_translateTransform = new TranslateTransform();
-            //m_transformGroup.Children.Add(m_translateTransform);
-            //m_adornedElement.RenderTransform = m_transformGroup;
-
         }
         private void CreateScaleThumb()
         {
@@ -172,10 +159,6 @@ namespace VectorMaker.Utility
             {
                 Point point = new Point(m_adornedElement.Width / 2, m_adornedElement.Height / 2);
                 m_startPoint = m_adornedElement.TranslatePoint(point, m_canvas);
-                //m_rotateTransform = new RotateTransform();
-                //m_rotateTransform.CenterX = m_startPoint.X;
-                //m_rotateTransform.CenterY = m_startPoint.Y;
-                //m_transformGroup.Children.Add(m_rotateTransform);
                 m_scaleThumb.Visibility = Visibility.Hidden;
                 m_dragThumb.Visibility = Visibility.Hidden;
             };
@@ -187,6 +170,7 @@ namespace VectorMaker.Utility
         }
         private void ScaleThumbDrag(object sender, DragDeltaEventArgs args)
         {
+            m_transform = m_adornedElement.RenderTransform;
             Matrix matrix = m_transform.Value;
             Point CurrentPoint = Mouse.GetPosition(m_canvas);
             Point test = new Point(CurrentPoint.X - m_startPoint.X,CurrentPoint.Y - m_startPoint.Y);
@@ -201,8 +185,9 @@ namespace VectorMaker.Utility
         }
         private void TranslateThumbDrag(object sender, DragDeltaEventArgs args)
         {
+            m_transform = m_adornedElement.RenderTransform;
             Matrix matrix = m_transform.Value;
-            matrix.Translate(args.HorizontalChange, args.VerticalChange);
+            matrix.TranslatePrepend(args.HorizontalChange, args.VerticalChange);
             m_adornedElement.RenderTransform = new MatrixTransform(matrix);
             m_transform = m_adornedElement.RenderTransform;
         }
@@ -210,6 +195,7 @@ namespace VectorMaker.Utility
         {
             if (m_rotateThumb.IsDragging)
             {
+                m_transform = m_adornedElement.RenderTransform;
                 Matrix matrix = m_transform.Value;
                 matrix.RotateAtPrepend(args.Delta > 0 ? 1 : -1,m_adornedElement.Width/2, m_adornedElement.Height / 2);
                 m_adornedElement.RenderTransform = new MatrixTransform(matrix);
