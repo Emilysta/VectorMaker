@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -117,20 +115,6 @@ namespace VectorMaker.ControlsResources
             GradientSliderAdorner gradient = thumbEventArgs.NewThumb as GradientSliderAdorner;
             Gradient.GradientStops.Add(gradient.GradientStopObject);
             OnPropertyChanged("GradientStops");
-        }
-
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Gradient = new LinearGradientBrush(
-            //    new GradientStopCollection() {
-            //        new GradientStop(Colors.Transparent, 0),
-            //        new GradientStop(ColorsReference.magentaBaseColor, 1)
-            //    }
-            //    );
-            //GradientStopBrush = new SolidColorBrush();
-            //if(Gradient!=null)
-            //    SelectedGradientStop = Gradient.GradientStops[0];
         }
 
         private void SetThumbs()

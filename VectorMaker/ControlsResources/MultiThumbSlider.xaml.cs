@@ -35,6 +35,7 @@ namespace VectorMaker.ControlsResources
     {
         private List<ThumbSliderAdorner> m_adorners = new();
         private static readonly DependencyProperty m_thumbType = DependencyProperty.Register("ThumbType", typeof(ThumbTypes), typeof(MultiThumbSlider), new PropertyMetadata(ThumbTypes.SimpleThumbType));
+        private static readonly DependencyProperty m_editorBackground = DependencyProperty.Register("EditorBackground", typeof(Brush), typeof(MultiThumbSlider), new PropertyMetadata(Brushes.Transparent));
         private AdornerLayer m_adornerLayer;
 
         public List<ThumbSliderAdorner> Adorners => m_adorners.OrderBy(x => x.Offset).ToList();
@@ -42,6 +43,12 @@ namespace VectorMaker.ControlsResources
         {
             get { return (ThumbTypes)GetValue(m_thumbType); }
             set { SetValue(m_thumbType, value); }
+        }
+
+        public Brush EditorBackground
+        {
+            get { return (Brush)GetValue(m_editorBackground); }
+            set { SetValue(m_editorBackground, value); }
         }
         public ThumbSliderAdorner SelectedThumb { get; set; }
 
@@ -52,11 +59,11 @@ namespace VectorMaker.ControlsResources
         public MultiThumbSlider()
         {
             InitializeComponent();
+            m_adornerLayer = AdornerLayer.GetAdornerLayer(Rectangle);
         }
 
         public ThumbSliderAdorner CreateThumb(double offset)
         {
-            SetAdornerLayer();
             ThumbSliderAdorner adorner = CreateSpecialType(offset);
             m_adornerLayer.Add(adorner);
             m_adorners.Add(adorner);
@@ -67,7 +74,6 @@ namespace VectorMaker.ControlsResources
 
         public GradientSliderAdorner CreateThumbWithGradient(GradientStop stop)
         {
-            SetAdornerLayer();
             GradientSliderAdorner adorner = adorner = new GradientSliderAdorner(stop, this, stop.Offset, HandleSelectionChanged);
             m_adornerLayer.Add(adorner);
             m_adorners.Add(adorner);
@@ -114,12 +120,6 @@ namespace VectorMaker.ControlsResources
             return adorner;
         }
 
-        private void SetAdornerLayer()
-        {
-            if (m_adornerLayer == null)
-                m_adornerLayer = Adorner.AdornerLayer;
-        }
-
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             UIElement element = sender as UIElement;
@@ -136,7 +136,6 @@ namespace VectorMaker.ControlsResources
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            SetAdornerLayer();
             var window = Window.GetWindow(this);
             if (window != null)
                 window.KeyDown += UserControl_KeyDown;
