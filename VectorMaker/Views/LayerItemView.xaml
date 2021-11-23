@@ -8,7 +8,7 @@
              mc:Ignorable="d" Foreground="{StaticResource LightGreyBrush}"
              FontSize="15" Height="40" Width="273"
              d:DesignHeight="40" d:DesignWidth="273">
-    <Border Margin="5" BorderBrush="{StaticResource LightGreyBrush}" BorderThickness="1" CornerRadius="1">
+    <Border Margin="1" BorderBrush="{StaticResource LightGreyBrush}" BorderThickness="1" CornerRadius="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
@@ -25,7 +25,7 @@
             </Grid>
 
             <Label Content="{Binding LayerNumber}" VerticalAlignment="Center" Grid.Column="1"
-               Foreground="{StaticResource LightGreyBrush}"/>
+               Foreground="#909090"/>
 
             <TextBox Text="{Binding LayerName}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TextBoxTransparent}"
                Foreground="{StaticResource LightGreyBrush}" Grid.Column="1" />
