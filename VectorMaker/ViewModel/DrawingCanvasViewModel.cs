@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using VectorMaker.Intefaces;
 using System.Xml;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace VectorMaker.ViewModel
 {
@@ -393,7 +394,7 @@ namespace VectorMaker.ViewModel
                     SetDrawableObject();
                     if (m_drawableObject != null)
                     {
-                        m_drawableObjectShape = m_drawableObject.SetStartPoint(m_positionInCanvas);
+                        m_drawableObjectShape = m_drawableObject.StartDrawing(m_positionInCanvas);
                         SelectedLayer.Layer.Children.Add(m_drawableObjectShape);
                         //OnPropertyChanged("Children");
                         IsSaved = false;
@@ -460,13 +461,6 @@ namespace VectorMaker.ViewModel
                         }
                         break;
                     }
-                case Key.LeftCtrl:
-                case Key.RightCtrl:
-                    {
-                        if (m_drawableObject != null)
-                            m_drawableObject.IsControlKey = true;
-                        break;
-                    }
                 case Key.PageDown:
                     {
                         ChangeZIndex(false);
@@ -481,16 +475,17 @@ namespace VectorMaker.ViewModel
         }
         private void KeyUpHandler(KeyEventArgs key)
         {
-            switch (key.Key)
-            {
-                case Key.LeftCtrl:
-                case Key.RightCtrl:
-                    {
-                        if (m_drawableObject != null)
-                            m_drawableObject.IsControlKey = false;
-                        break;
-                    }
-            }
+            //switch (key.Key)
+            //{
+            //    case Key.LeftCtrl:
+            //    case Key.RightCtrl:
+            //        {
+            //            if (m_drawableObject != null)
+            //                m_drawableObject.IsControlKey = false;
+            //            break;
+            //        }
+            //}
+            Trace.WriteLine("Not implemented");
         }
         private void FileDropHandler(DragEventArgs e)
         {

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="VectorMaker.Drawables.Drawable">
+    <Position X="9.5" Y="0.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAABAgAAAEQgAAEAAACAAEgEChhAAAAAAAAA=</HashCode>
+      <FileName>Drawables\Drawable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorMaker.Drawables.DrawableEllipse" Collapsed="true">
+    <Position X="7.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAEQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Drawables\DrawableEllipse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorMaker.Drawables.DrawableLine" Collapsed="true">
+    <Position X="9.25" Y="6.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAgAAAAAEQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Drawables\DrawableLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorMaker.Drawables.DrawablePolygon" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAGQAAAAAAAAAAAAAAAgADAAAAAAA=</HashCode>
+      <FileName>Drawables\DrawablePolygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorMaker.Drawables.DrawablePolyline" Collapsed="true">
+    <Position X="12.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAgAAEQAAAAAAAAAAAAAAAgADAAAAAAA=</HashCode>
+      <FileName>Drawables\DrawablePolyline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VectorMaker.Drawables.DrawableRectangle" Collapsed="true">
+    <Position X="14.25" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAEQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Drawables\DrawableRectangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

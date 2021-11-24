@@ -32,9 +32,8 @@ namespace VectorMaker.Drawables
         protected System.Windows.Point m_startPoint;
         protected System.Windows.Point m_endPoint;
         protected Shape m_shape;
-        private PathSettings m_pathSettings;
         protected TranslateTransform m_translateTransform;
-        public bool IsControlKey = false;
+        private PathSettings m_pathSettings;
         protected GeneralTransform m_inverseTranslateTransform => m_translateTransform.Inverse;
 
         public PathSettings Settings => m_pathSettings;
@@ -45,9 +44,7 @@ namespace VectorMaker.Drawables
             m_pathSettings.OnValuesChange += OnSettingsChange;
         }
 
-        public abstract void SetValueOfPoint(System.Windows.Point point);
-
-        public Shape SetStartPoint(System.Windows.Point startPoint)
+        public Shape StartDrawing(System.Windows.Point startPoint)
         {
             m_startPoint = startPoint;
             m_translateTransform = new TranslateTransform(m_startPoint.X, m_startPoint.Y);
@@ -55,21 +52,20 @@ namespace VectorMaker.Drawables
             m_shape.RenderTransform = m_translateTransform;
             return m_shape;
         }
-
-        protected abstract void CreateGeometry();
+ 
         public abstract void EndDrawing();
         public abstract void AddPointToCollection();
+        public abstract void SetValueOfPoint(System.Windows.Point point);
+        protected abstract void CreateGeometry();
 
         private void OnSettingsChange()
         {
             SetPathSettings();
         }
-
         private void CreateGeometryBase()
         {
             CreateGeometry();
         }
-
         protected void SetPathSettings()
         {
             m_shape.Fill = m_pathSettings.Fill;
@@ -79,7 +75,6 @@ namespace VectorMaker.Drawables
             m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
             m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
         }
-
         protected void SetPathSettingsWithoutFill()
         {
             m_shape.Stroke = m_pathSettings.Stroke;
