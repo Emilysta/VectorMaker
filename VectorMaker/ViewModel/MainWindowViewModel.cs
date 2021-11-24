@@ -106,6 +106,7 @@ namespace VectorMaker.ViewModel
             }
         }
         public ToggleMenu LeftMenu { get; set; }
+        public ToggleMenu TopMenu { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -113,9 +114,11 @@ namespace VectorMaker.ViewModel
             SetCommands();
             m_documents = new ObservableCollection<DocumentViewModelBase>();
             CreateLeftMenu();
+            CreateTopMenu();
             DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
         }
+
 
         #region Interface methods
         public void Close(DocumentViewModelBase fileToClose)
@@ -162,27 +165,53 @@ namespace VectorMaker.ViewModel
         private void CreateLeftMenu()
         {
             LeftMenu = new ToggleMenu();
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.SquareOutline, () => SetDrawableType(DrawableTypes.Rectangle), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.SquareOutline, () => SetDrawableType(DrawableTypes.Rectangle),
                 toolTip: "Rectangle\nCtrl - Square"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CircleOutline, () => SetDrawableType(DrawableTypes.Ellipse), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CircleOutline, () => SetDrawableType(DrawableTypes.Ellipse),
                 toolTip: "Ellipse\nCtrl - Cricle"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorLine, () => SetDrawableType(DrawableTypes.Line), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorLine, () => SetDrawableType(DrawableTypes.Line),
                 toolTip: "Line"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorSquare, () => SetDrawableType(DrawableTypes.None), 
-                toolTip: "Selection\nShift - MultiSelection",isChecked: true));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolyline, () => SetDrawableType(DrawableTypes.PolyLine), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorSquare, () => SetDrawableType(DrawableTypes.None),
+                toolTip: "Selection\nShift - MultiSelection", isChecked: true));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolyline, () => SetDrawableType(DrawableTypes.PolyLine),
                 toolTip: "Polyline"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolygon, () => SetDrawableType(DrawableTypes.Polygon), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolygon, () => SetDrawableType(DrawableTypes.Polygon),
                 toolTip: "Polygon"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorUnion, () => CombineGeometries(GeometryCombineMode.Union), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorUnion, () => CombineGeometries(GeometryCombineMode.Union),
                 isToggleButton: false, toolTip: "Union"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorIntersection, () => CombineGeometries(GeometryCombineMode.Intersect), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorIntersection, () => CombineGeometries(GeometryCombineMode.Intersect),
                 isToggleButton: false, toolTip: "Intersect"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifferenceAb, () => CombineGeometries(GeometryCombineMode.Exclude), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifferenceAb, () => CombineGeometries(GeometryCombineMode.Exclude),
                 isToggleButton: false, toolTip: "Exclude"));
-            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifference, () => CombineGeometries(GeometryCombineMode.Xor), 
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifference, () => CombineGeometries(GeometryCombineMode.Xor),
                 isToggleButton: false, toolTip: "XOR"));
         }
+
+        private void CreateTopMenu()
+        {
+            TopMenu = new ToggleMenu();
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.File, () => SetDrawableType(DrawableTypes.Rectangle), isToggleButton: false, toolTip: "New File"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileFind, () => SetDrawableType(DrawableTypes.Ellipse), isToggleButton: false, toolTip: "Open File"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSave, () => SetDrawableType(DrawableTypes.Line), isToggleButton: false, toolTip: "Save Current File"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSaveAll, () => SetDrawableType(DrawableTypes.None),isToggleButton: false, toolTip: "Save All Files"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBox, () => SetDrawableType(DrawableTypes.PolyLine), isToggleButton: false, toolTip: "Close Current File"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBoxMultiple, () => SetDrawableType(DrawableTypes.Polygon), isToggleButton: false, toolTip: "Close All Files"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileExport, () => SetDrawableType(DrawableTypes.Polygon),  isToggleButton: false, toolTip: "Export"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => CombineGeometries(GeometryCombineMode.Union), isToggleButton: false, toolTip: "Print"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => CombineGeometries(GeometryCombineMode.Intersect), isToggleButton: false, toolTip: "Group"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => CombineGeometries(GeometryCombineMode.Exclude), isToggleButton: false, toolTip: "Ungroup"));
+        }
+
         private void SetCommands()
         {
             OpenApplicationSettingsCommand = new CommandBase((obj) => OpenAppSettings());

@@ -10,10 +10,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ControlsResources/Colors.xaml" />
-                <ResourceDictionary Source="/ControlsResources/Buttons.xaml"/>
                 <ResourceDictionary Source="/ControlsResources/MenuItem.xaml"/>
                 <ResourceDictionary Source="/ControlsResources/TextBox.xaml"/>
-                <!--<ResourceDictionary Source="/Languages/EN.xaml"/>-->
+                
 
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />

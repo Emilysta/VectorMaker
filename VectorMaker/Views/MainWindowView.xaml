@@ -10,7 +10,7 @@
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
         xmlns:utility="clr-namespace:VectorMaker.Utility"
-        xmlns:converters="clr-namespace:VectorMaker.Converters"
+        xmlns:converters="clr-namespace:VectorMaker.Converters" xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d">
     <Window.Resources>
         <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
@@ -93,13 +93,31 @@
                 </Grid>
             </Grid>
 
-            <Grid DockPanel.Dock="Top" Height="20" Background="Transparent">
-                <Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
+            <Grid DockPanel.Dock="Top" Margin="3,0,0,0"  Height="35" Background="Transparent">
+                <!--<Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
                     <MenuItem Command="{Binding NewDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding OpenDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding ActiveDocument.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding SaveAllCommand}" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
-                </Menu>
+                </Menu>-->
+                <ItemsControl ItemsSource="{Binding TopMenu.ToggleButtonKinds}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton Command="{Binding ClickCommand}" 
+                                          CommandParameter="{Binding}" 
+                                          IsChecked="{Binding IsChecked,Mode=OneWay}" 
+                                          Style="{StaticResource ToggleButtonForMenu}"
+                                          ToolTip="{Binding ToolTip,Mode=OneTime}">
+                                <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}" Foreground="#CCCCCC"/>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </Grid>
 
             <!-- Left Dock-->
@@ -112,13 +130,26 @@
                                           IsChecked="{Binding IsChecked,Mode=OneWay}" 
                                           Style="{StaticResource ToggleButtonForMenu}"
                                           ToolTip="{Binding ToolTip,Mode=OneTime}">
-                                <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}"/>
+                                <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}" Foreground="#CCCCCC"/>
                             </ToggleButton>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
             
+            <Grid DockPanel.Dock="Bottom" Height="35" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <Label Content="Fill" Foreground="#CCCCCC" Margin="0,2,0,0"/>
+                    <Rectangle Width="40" Height="20" RadiusX="1" RadiusY="1" Fill="Beige" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5"/>
+                    <Label Content="Stroke" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                    <Rectangle Width="40" Height="20" RadiusX="1" RadiusY="1" Fill="Beige" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5"/>
+
+                    <Label Content="Stroke thickness" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                    <mahControls:NumericUpDown />
+                    
+                    <iconPacks:PackIconBootstrapIcons Kind="Alarm" Margin="5,0,5,5"  Width="25" Height="25" Foreground="Black"/>
+                </StackPanel>
+            </Grid>
             <!-- Center Dock-->
             <Grid HorizontalAlignment="Stretch" >
                 <!--<Frame Source="Pages/NewDocumentPage.xaml" Visibility="Hidden"/>-->
@@ -128,7 +159,7 @@
                                       DocumentsSource="{Binding Documents}" 
                                       ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource DockingDocumentConverter}}" 
                                       AnchorablesSource="{Binding Tools}"
-                                      x:Name="DockManager" Background="#303030">
+                                      x:Name="DockManager" Background="#303033">
                     <docks:DockingManager.LayoutItemTemplateSelector>
                         <templateselectors:LayoutPaneTemplateSelector>
                             <templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>
@@ -208,6 +239,7 @@
                     </LayoutRoot>
                 </docks:DockingManager>
             </Grid>
+            
         </DockPanel>
     </Grid>
 </Window>
