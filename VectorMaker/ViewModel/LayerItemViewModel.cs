@@ -105,7 +105,7 @@ namespace VectorMaker.ViewModel
         }
         private void DeleteThisObject()
         {
-            var result = MessageBox.Show("Are you sure you want to delete this layer?",$"Delete Layer+{LayerNumber}",MessageBoxButton.YesNoCancel);
+            var result = MessageBox.Show("Are you sure you want to delete this layer?",$"Delete layer  {LayerName}",MessageBoxButton.YesNoCancel);
             if(result == MessageBoxResult.Yes)
             {
                 DeleteAction?.Invoke(this);
@@ -114,9 +114,9 @@ namespace VectorMaker.ViewModel
         private void ChangeVisibility(ToggleButtonWithIcon toggleButton)
         {
             IsVisible = !IsVisible;
-            Layer.Visibility = IsVisible ? Vis.Visible : Vis.Hidden;
             toggleButton.IsChecked = !toggleButton.IsChecked;
             toggleButton.IconKind = m_iconKind;
+            Layer.Visibility = IsVisible ? Vis.Visible : Vis.Hidden;
         }
         private void MoveUpLayer()
         {

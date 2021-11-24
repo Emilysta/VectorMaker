@@ -13,8 +13,6 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using VectorMaker.Utility;
 using System.Windows.Shapes;
-using System.Windows.Documents;
-using System.Drawing.Printing;
 using System.Linq;
 using VectorMaker.Commands;
 using System.Collections.ObjectModel;
@@ -22,6 +20,9 @@ using VectorMaker.Intefaces;
 using System.Xml;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Windows.Xps.Packaging;
+using System.Windows.Xps;
+using System.Windows.Documents;
 
 namespace VectorMaker.ViewModel
 {
@@ -564,12 +565,25 @@ namespace VectorMaker.ViewModel
         {
             try
             {
-                PrintDialog printDialog = new();
-                //Nullable<bool> result = printDialog.ShowDialog();
-                PrinterSettings printerSettings = new();
-                printerSettings.PrinterName = "Microsoft Print to PDF";
-                printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF");
-
+                //bool result = OpenSaveDialog("XPS (*.xps) | *.xps", "untilted.xps", out string filePath);
+                PrintDialog printDialog = new PrintDialog();
+                //PrinterSettings printerSettings = new();
+                //printerSettings.PrinterName = "Microsoft Print to PDF";
+                //printerSettings.PrintToFile = true;
+                //bool result2 = (bool)printDialog.ShowDialog();
+                //if (result2)
+                //{
+               
+                printDialog.ShowDialog();
+                    printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF - VectorMaker");
+                //}
+                //XpsDocument xpsDocument = new XpsDocument(filePath, System.IO.FileAccess.ReadWrite);
+                //XpsDocumentWriter xpsWriter = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+                //VisualsToXpsDocument visToXps = (VisualsToXpsDocument)xpsWriter.CreateVisualsCollator();
+                //visToXps.BeginBatchWrite();
+                //visToXps.Write(m_mainCanvas);
+                //visToXps.EndBatchWrite();
+                //xpsDocument.Close();
             }
             catch (PrintDialogException e)
             {
@@ -613,13 +627,20 @@ namespace VectorMaker.ViewModel
         }
         private void SaveWithSpecialBitmap(BitmapEncoder bitmapEncoder, string filePath)
         {
-            //toDo values of width ang height 
-            RenderTargetBitmap renderBitmap = new(300, 300, 96d, 96d, PixelFormats.Pbgra32);
+            RenderTargetBitmap renderBitmap = new((int)m_mainCanvas.Width, (int)m_mainCanvas.Height, 96d, 96d, PixelFormats.Pbgra32);
+            Size size = new Size(m_mainCanvas.Width, m_mainCanvas.Height);
+            VisualBrush sourceBrush = new VisualBrush(m_mainCanvas);
+            sourceBrush.Stretch = Stretch.None;
+            DrawingVisual drawingVisual = new();
+            DrawingContext drawingContext = drawingVisual.RenderOpen();
+            using (drawingContext)
+            {
+                drawingContext.DrawRectangle(sourceBrush, null, new Rect(size));
+            }
             renderBitmap.Render(m_mainCanvas);
             using (FileStream fileStream = new(filePath, FileMode.Create))
             {
                 bitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                // save the data to the stream
                 bitmapEncoder.Save(fileStream);
             }
         }
