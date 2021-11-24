@@ -26,7 +26,6 @@ using System.IO.Packaging;
 using System.IO;
 using ShapeDef = System.Windows.Shapes;
 using System.Printing;
-using System.Windows.Documents.Serialization;
 
 namespace VectorMaker.ViewModel
 {
@@ -48,6 +47,7 @@ namespace VectorMaker.ViewModel
         private ObservableCollection<LayerItemViewModel> m_layers;
         private int m_layersCount = 1;
         private LayerItemViewModel m_selectedLayer;
+        private ShapePopupViewModel m_shapePopup;
         #endregion
 
         #region Properties
@@ -119,6 +119,16 @@ namespace VectorMaker.ViewModel
         public static Configuration AppConfiguration => Configuration.Instance;
         protected override FileType[] Filters { get => m_filters; set => m_filters = value; }
         protected override string DefaultExtension { get => m_defaultExtension; set => m_defaultExtension = value; }
+
+        public ShapePopupViewModel ShapePopupObject
+        {
+            get => m_shapePopup;
+            set
+            {
+                m_shapePopup = value;
+                OnPropertyChanged(nameof(ShapePopupObject));
+            }
+        }
         #endregion
 
         #region Commands
@@ -141,6 +151,7 @@ namespace VectorMaker.ViewModel
             IsSaved = false;
             Layers = new ObservableCollection<LayerItemViewModel>() { new LayerItemViewModel(new Canvas(), 1, "Layer_1") };
             SelectedLayer = Layers[0];
+            ShapePopupObject = new ShapePopupViewModel(mainWindowViewModel);
         }
 
         public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel)
@@ -581,7 +592,7 @@ namespace VectorMaker.ViewModel
                 Package package = Package.Open(memoryStream, FileMode.Create);
                 XpsDocument xpsDocument = new XpsDocument(package);
                 XpsDocumentWriter xpsWriter = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-                VisualsToXpsDocument visToXps = (VisualsToXpsDocument)xpsWriter.CreateVisualsCollator(printTicket,printTicket);
+                VisualsToXpsDocument visToXps = (VisualsToXpsDocument)xpsWriter.CreateVisualsCollator(printTicket, printTicket);
                 visToXps.BeginBatchWrite();
                 //visToXps.Write(m_mainCanvas,printTicket);
                 visToXps.Write(m_mainCanvas);

@@ -94,8 +94,8 @@
                             <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundMouseOverButtonColor}" />
                         </Trigger>
 
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundPressedButtonColor}" />
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource ResourceKey=BackgroundButtonColor}" />
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">

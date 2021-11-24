@@ -9,11 +9,16 @@
         xmlns:templateselectors="clr-namespace:VectorMaker.TemplateSelectors"
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
-        xmlns:utility="clr-namespace:VectorMaker.Utility"
-        xmlns:converters="clr-namespace:VectorMaker.Converters" xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d">
+        xmlns:converters="clr-namespace:VectorMaker.Converters" 
+        xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d" d:Width="1280" d:Height="720">
     <Window.Resources>
-        <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
+        <ResourceDictionary>
+            <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
@@ -100,26 +105,41 @@
                     <MenuItem Command="{Binding ActiveDocument.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
                     <MenuItem Command="{Binding SaveAllCommand}" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
                 </Menu>-->
-                <ItemsControl ItemsSource="{Binding TopMenu.ToggleButtonKinds}" >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ToggleButton Command="{Binding ClickCommand}" 
+                <StackPanel Orientation="Horizontal">
+                    <ItemsControl ItemsSource="{Binding TopMenu.ToggleButtonKinds}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton Command="{Binding ClickCommand}" 
                                           CommandParameter="{Binding}" 
                                           IsChecked="{Binding IsChecked,Mode=OneWay}" 
                                           Style="{StaticResource ToggleButtonForMenu}"
                                           ToolTip="{Binding ToolTip,Mode=OneTime}">
-                                <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}" Foreground="#CCCCCC"/>
-                            </ToggleButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </Grid>
+                                    <iconPacks:PackIconMaterial Kind="{Binding ToggleIconKind,Mode=OneWay}" Foreground="#CCCCCC"/>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                        <Label Content="Width" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderSize.Width}"/>
+                        <Label Content="Height" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderSize.Height}"/>
 
+                        <Label Content="X" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderTransform.Value.OffsetX}"/>
+                        <Label Content="Y" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderTransform.Value.OffsetY}"/>
+
+                        <Label Content="Selected object:" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                        <Label Content="/" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
             <!-- Left Dock-->
             <Grid DockPanel.Dock="Left" Width="35">
                 <ItemsControl ItemsSource="{Binding LeftMenu.ToggleButtonKinds}">
@@ -136,18 +156,31 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            
+
             <Grid DockPanel.Dock="Bottom" Height="35" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
                     <Label Content="Fill" Foreground="#CCCCCC" Margin="0,2,0,0"/>
-                    <Rectangle Width="40" Height="20" RadiusX="1" RadiusY="1" Fill="Beige" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5"/>
+                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.FillBrush}" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5" />
                     <Label Content="Stroke" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                    <Rectangle Width="40" Height="20" RadiusX="1" RadiusY="1" Fill="Beige" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5"/>
+                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.StrokeBrush}" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="0.5" />
 
                     <Label Content="Stroke thickness" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                    <mahControls:NumericUpDown />
-                    
-                    <iconPacks:PackIconBootstrapIcons Kind="Alarm" Margin="5,0,5,5"  Width="25" Height="25" Foreground="Black"/>
+                    <mahControls:NumericUpDown Value="{Binding ShapePropertiesModel.StrokeThickness}"/>
+
+                    <!--<iconPacks:PackIconBootstrapIcons Kind="Alarm" Margin="5,0,5,5"  Width="25" Height="25" Foreground="Black"/>-->
+                    <Label Content="Stroke type" Foreground="#CCCCCC" Margin="20,2,0,0"/>
+                    <ComboBox Width="100" Margin="3" IsEditable="False"
+                              ItemsSource="{Binding ShapePropertiesModel.StrokeTypes}" 
+                              SelectedIndex="{Binding ShapePropertiesModel.SelectedStrokeDashArray}" 
+                              Style="{Binding Mode=OneWay, Source={StaticResource MahApps.Styles.ComboBox.Virtualized}}"
+                              ItemContainerStyle="{Binding Mode=OneWay, Source={StaticResource MahApps.Styles.ComboBoxItem}}"
+                              BorderThickness="0.5" BorderBrush="{StaticResource LightGreyBrush}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type DoubleCollection}">
+                                <Line StrokeDashArray="{Binding}" Stroke="White" StrokeThickness="4"  X1="0" X2="60" Fill="White"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
             </Grid>
             <!-- Center Dock-->
@@ -176,7 +209,7 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </templateselectors:LayoutPaneTemplateSelector.ObjectTransformsViewTemplate>
-                            
+
                             <templateselectors:LayoutPaneTemplateSelector.ObjectPropertiesViewTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ObjectPropertiesViewModel}">
                                     <StackPanel>
@@ -186,7 +219,7 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </templateselectors:LayoutPaneTemplateSelector.ObjectPropertiesViewTemplate>
-                            
+
                             <templateselectors:LayoutPaneTemplateSelector.DrawingLayersToolViewTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:DrawingLayersToolViewModel}">
                                     <StackPanel>
@@ -239,7 +272,7 @@
                     </LayoutRoot>
                 </docks:DockingManager>
             </Grid>
-            
+
         </DockPanel>
     </Grid>
 </Window>

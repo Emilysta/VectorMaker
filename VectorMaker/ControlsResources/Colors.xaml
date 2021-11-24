@@ -3,33 +3,33 @@
     <!-- BaseColors -->
     <Color x:Key="MagentaBaseColor">#FFC1125B</Color>
     <SolidColorBrush x:Key="MagentaBaseBrush">#FFC1125B</SolidColorBrush>
-    <SolidColorBrush x:Key="DarkGreyBrush">#373737</SolidColorBrush>
-    <SolidColorBrush x:Key="MediumGreyBrush">#454545</SolidColorBrush>
-    <SolidColorBrush x:Key="LightGreyBrush">#606060</SolidColorBrush>
-    <Color x:Key="DarkGreyColor">#373737</Color>
-    <Color x:Key="LightGreyColor">#606060</Color>
+    <SolidColorBrush x:Key="DarkGreyBrush">#373739</SolidColorBrush>
+    <SolidColorBrush x:Key="MediumGreyBrush">#454548</SolidColorBrush>
+    <SolidColorBrush x:Key="LightGreyBrush">#606063</SolidColorBrush>
+    <Color x:Key="DarkGreyColor">#373739</Color>
+    <Color x:Key="LightGreyColor">#606065</Color>
 
     <!-- Text Colors -->
     <SolidColorBrush x:Key="LightText">#CCCCCC</SolidColorBrush>
-    <SolidColorBrush x:Key="DarkText">#606060</SolidColorBrush>
-    <SolidColorBrush x:Key="DisabledText">#404040</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkText">#606063</SolidColorBrush>
+    <SolidColorBrush x:Key="DisabledText">#404043</SolidColorBrush>
     <SolidColorBrush x:Key="SelectedText">#C1125B</SolidColorBrush>
 
     <!-- Button Colors -->
-    <SolidColorBrush x:Key="BackgroundButtonColor">#373737</SolidColorBrush>
-    <SolidColorBrush x:Key="BackgroundMouseOverButtonColor">#505050</SolidColorBrush>
-    <SolidColorBrush x:Key="BackgroundPressedButtonColor">#707070</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundButtonColor">#373739</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundMouseOverButtonColor">#505053</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundPressedButtonColor">#707073</SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundCheckedButtonColor">#C1125B</SolidColorBrush>
 
     <!-- Menu Control Style-->
-    <SolidColorBrush x:Key="MenuItemPopupBackgroundColor">#303030</SolidColorBrush>
-    <Color x:Key="MenuItemPopupBorderColor">#606060</Color>
-    <SolidColorBrush x:Key="MenuItemMouseOverColor">#505050</SolidColorBrush>
-    <SolidColorBrush x:Key="MenuItemPressedBackgroundColor">#303030</SolidColorBrush>
-    <SolidColorBrush x:Key="SubMenuItemBackgroundColor">#303030</SolidColorBrush>
-    <SolidColorBrush x:Key="SubMenuItemMouseOverColor">#505050</SolidColorBrush>
-    <SolidColorBrush x:Key="SubMenuCheckMarkTrueBackgroundColor">#606060</SolidColorBrush>
-    <SolidColorBrush x:Key="SubMenuCheckMarkColor">#808080</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemPopupBackgroundColor">#303033</SolidColorBrush>
+    <Color x:Key="MenuItemPopupBorderColor">#606063</Color>
+    <SolidColorBrush x:Key="MenuItemMouseOverColor">#505053</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemPressedBackgroundColor">#303033</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuItemBackgroundColor">#303033</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuItemMouseOverColor">#505053</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuCheckMarkTrueBackgroundColor">#606063</SolidColorBrush>
+    <SolidColorBrush x:Key="SubMenuCheckMarkColor">#808083</SolidColorBrush>
 
     <!-- Text Box Style -->
     <SolidColorBrush x:Key="TextBoxBackgroundColor">#262626</SolidColorBrush>

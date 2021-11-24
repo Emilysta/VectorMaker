@@ -5,16 +5,18 @@ using System.Windows.Input;
 using VectorMaker.Commands;
 using System.Windows;
 using VectorMaker.Views;
+using MahApps.Metro.Controls;
 
 namespace VectorMaker.ViewModel
 {
     internal class ColorPickerViewModel : NotifyPropertyChangedBase
     {
         #region Fields
+        private object m_selectedColorItem;
         private ColorDef m_selectedColor = Colors.Black;
         private ColorDef m_startColor = Colors.Black;
         private bool m_isDefaultPaletteChecked = true;
-        private bool m_isCustomPaletteChecked => !m_isDefaultPaletteChecked;
+        private bool m_isCustomPaletteChecked =false;
 
         private SolidColorBrush m_brushToEdit;
         #endregion
@@ -39,9 +41,7 @@ namespace VectorMaker.ViewModel
             {
                 m_isDefaultPaletteChecked = value;
                 OnPropertyChanged(nameof(IsDefaultPaletteChecked));
-                OnPropertyChanged(nameof(IsCustomPaletteChecked));
                 OnPropertyChanged(nameof(DefaultPaletteVisibility));
-                OnPropertyChanged(nameof(CustomPaletteVisibility));
             }
         }
         public bool IsCustomPaletteChecked
@@ -49,11 +49,21 @@ namespace VectorMaker.ViewModel
             get => m_isCustomPaletteChecked;
             set
             {
-                IsDefaultPaletteChecked = !value;
-                OnPropertyChanged(nameof(IsDefaultPaletteChecked));
+                m_isCustomPaletteChecked = value;
                 OnPropertyChanged(nameof(IsCustomPaletteChecked));
-                OnPropertyChanged(nameof(DefaultPaletteVisibility));
                 OnPropertyChanged(nameof(CustomPaletteVisibility));
+            }
+        }
+
+        public object SelectedColorItem
+        {
+            get => m_selectedColorItem;
+            set
+            {
+                m_selectedColorItem = value;
+                ColorDef color = (ColorDef)value;
+                SelectedColor = color;
+                OnPropertyChanged(nameof(SelectedColorItem));
             }
         }
 
@@ -112,11 +122,19 @@ namespace VectorMaker.ViewModel
         }
         private void DefaultPaletteClick()
         {
-            IsDefaultPaletteChecked = !m_isDefaultPaletteChecked;
+            if (!IsDefaultPaletteChecked)
+            {
+                IsDefaultPaletteChecked = !IsDefaultPaletteChecked;
+                IsCustomPaletteChecked = !IsDefaultPaletteChecked;
+            }
         }
         private void CustomPaletteClick()
         {
-            IsCustomPaletteChecked = !m_isCustomPaletteChecked;
+            if (!IsCustomPaletteChecked)
+            {
+                IsCustomPaletteChecked = !IsCustomPaletteChecked;
+                IsDefaultPaletteChecked = !IsCustomPaletteChecked;
+            }
         }
         #endregion
     }

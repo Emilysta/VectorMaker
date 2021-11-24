@@ -13,5 +13,13 @@ namespace VectorMaker.Utility
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void OnAllPropertiesChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(null));
+            }
+        }
     }
 }

@@ -38,7 +38,10 @@ namespace VectorMaker.Utility
             if (isToSave)
                 MetaData.Add(Date);
             else
-                Date.Remove();
+            {
+                if(Date.Parent!=null)
+                    Date.Remove();
+            } 
         }
     }
 }

@@ -41,7 +41,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Border CornerRadius="1" Background="#151515">
+    <Border CornerRadius="1" Background="#202022" BorderBrush="#202022" BorderThickness="2">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseLeftButtonDown">
                 <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" CommandParameter="{Binding ElementName=ColorPickerWindow}"/>
@@ -75,7 +75,7 @@
             </Menu>
             <Grid Grid.Row="1">
                 <mahControls:MetroTabControl mahControls:HeaderedControlHelper.HeaderFontSize="15"
-                                             mahControls:HeaderedControlHelper.HeaderFontWeight="Light" BorderThickness="0,1,0,0" BorderBrush="{StaticResource MagentaBaseBrush}">
+                                             mahControls:HeaderedControlHelper.HeaderFontWeight="Light" BorderThickness="0,1,0,0" BorderBrush="{StaticResource MagentaBaseBrush}"  Background="#272729">
                     <mahControls:MetroTabItem Header="Color picker" >
                         <Grid>
                             <colorpicker:StandardColorPicker Style="{StaticResource DefaultColorPickerStyle}"
@@ -93,33 +93,36 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <controlsresources:ToggleButtonWithIcon ButtonContent="Default palette" Margin="5,5,0,5" ButtonCornerRadius="2,0,0,2" IsChecked="True" Command="{Binding DefaultPaletteCheckedCommand}"/>
-                                <controlsresources:ToggleButtonWithIcon ButtonContent="Custom palette" Grid.Column="1" Margin="0,5,5,5" ButtonCornerRadius="0,2,2,0" Command="{Binding CustomPaletteCheckedCommand}"/>
+                                <controlsresources:ToggleButtonWithIcon ButtonContent="Default palette" Margin="5,5,0,5" ButtonCornerRadius="2,0,0,2" IsChecked="{Binding IsDefaultPaletteChecked, Mode=OneWay}" Command="{Binding DefaultPaletteCheckedCommand}"/>
+                                <controlsresources:ToggleButtonWithIcon ButtonContent="Custom palette" Grid.Column="1" Margin="0,5,5,5" ButtonCornerRadius="0,2,2,0" Command="{Binding CustomPaletteCheckedCommand}" IsChecked="{Binding IsCustomPaletteChecked, Mode=OneWay}"/>
                             </Grid>
                             <mahControls:ColorPalette ItemTemplate="{DynamicResource MyColorPaletteItemTemplate}" 
                                                       Header="Default color palette" 
-                                                      Margin="5,1,5,5" 
+                                                      Margin="4,1,5,4" 
                                                       Grid.Row="1"
                                                       ItemsSource="{x:Static mahControls:BuildInColorPalettes.WpfColorsPalette}" 
                                                       BorderThickness="0.3" 
                                                       BorderBrush="{StaticResource LightGreyBrush}"
                                                       ItemContainerStyle="{StaticResource ColorPaletteListBoxItem}" 
-                                                      Visibility="{Binding DefaultPaletteVisibility}"/>
+                                                      Visibility="{Binding DefaultPaletteVisibility}"                                           SelectedItem="{Binding SelectedColorItem}"
+                                                      SelectionMode="Single"/>
 
                             <mahControls:ColorPalette ItemTemplate="{DynamicResource MyColorPaletteItemTemplate}" 
                                                       Header="Custom color palette" 
-                                                      Margin="5,1,5,5"  
+                                                      Margin="4,1,5,4"  
                                                       Grid.Row="1"
                                                       ItemsSource="{x:Static mahControls:BuildInColorPalettes.StandardColorsPalette}" 
                                                       BorderThickness="0.3" 
                                                       BorderBrush="{StaticResource LightGreyBrush}"
                                                       ItemContainerStyle="{StaticResource ColorPaletteListBoxItem}" 
-                                                      Visibility="{Binding CustomPaletteVisibility}"/>
+                                                      Visibility="{Binding CustomPaletteVisibility}"
+                                                      SelectedItem="{Binding SelectedColorItem}"
+                                                      SelectionMode="Single"/>
                         </Grid>
                     </mahControls:MetroTabItem>
                 </mahControls:MetroTabControl>
             </Grid>
-            <Grid Grid.Row="2" Background="#202020">
+            <Grid Grid.Row="2" Background="#252527">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>

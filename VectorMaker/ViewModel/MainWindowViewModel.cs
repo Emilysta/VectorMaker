@@ -9,6 +9,10 @@ using System;
 using VectorMaker.Utility;
 using MahApps.Metro.IconPacks;
 using System.Windows.Media;
+using VectorMaker.Models;
+using System.Windows;
+using System.Linq;
+using System.Windows.Shapes;
 
 namespace VectorMaker.ViewModel
 {
@@ -39,9 +43,11 @@ namespace VectorMaker.ViewModel
         private ObjectAlignmentViewModel m_objectAlignmentVMTool = null;
         private ObjectPropertiesViewModel m_objectPropertiesVMTool = null;
         private DrawingLayersToolViewModel m_drawingLayersVMTool = null;
+
         #endregion
 
         #region Properties
+
         public ObjectTransformsViewModel ObjectTransformsVMTool
         {
             get
@@ -107,7 +113,15 @@ namespace VectorMaker.ViewModel
         }
         public ToggleMenu LeftMenu { get; set; }
         public ToggleMenu TopMenu { get; set; }
+
+        public ShapeProperties ShapePropertiesModel => ShapeProperties.Instance;
+
+        public UIElement SelectedElement => (m_activeDocument as DrawingCanvasViewModel)?.SelectedObjects.FirstOrDefault()?.AdornedElement;
         #endregion
+
+        private Shape shape;
+        public Shape SelectedShape
+            { get => shape; set => shape = value; }
 
         public MainWindowViewModel()
         {
@@ -117,6 +131,12 @@ namespace VectorMaker.ViewModel
             CreateTopMenu();
             DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
             m_documents.Add(drawingCanvas);
+            UIElement element = new UIElement();
+            Rectangle rectangle = new Rectangle();
+            rectangle.RadiusX = 5;
+            rectangle.RadiusY = 5;
+            rectangle.Fill = Brushes.Blue;
+            shape = rectangle;
         }
 
 

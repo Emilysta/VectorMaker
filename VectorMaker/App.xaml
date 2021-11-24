@@ -90,6 +90,10 @@
                 <Views:ColorPickerView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type ViewModel:ShapePopupViewModel}">
+                <Views:ShapePopup />
+            </DataTemplate>
+
             <Image x:Key="VectorMakerIcon" Source="logo2.png" />
 
             <Style x:Key="ToggleButtonForMenu" TargetType="ToggleButton">

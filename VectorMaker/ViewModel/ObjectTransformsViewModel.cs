@@ -74,9 +74,11 @@ namespace VectorMaker.ViewModel
         #region EventHandlers
         public override void OnActiveCanvasChanged(object sender, EventArgs e)
         {
-            DrawingCanvasViewModel drawingCanvasViewModel = m_interfaceMainWindowVM.ActiveDocument as DrawingCanvasViewModel;
-            if (drawingCanvasViewModel != null)
+            if (m_interfaceMainWindowVM.ActiveDocument is DrawingCanvasViewModel drawingCanvasViewModel)
             {
+                if (m_selectedObjects != null)
+                    m_selectedObjects.CollectionChanged -= SelectedObjectsCollectionChanged;
+
                 m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
                 m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
             }

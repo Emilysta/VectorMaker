@@ -4,66 +4,81 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-      xmlns:utility="clr-namespace:VectorMaker.Utility" xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
-             mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="1400">
+      xmlns:utility="clr-namespace:VectorMaker.Utility" xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources" xmlns:views="clr-namespace:VectorMaker.Views"
+             mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="1400" Background="#303033">
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml" />
     </UserControl.Resources>
-    <Grid ClipToBounds="True" Background="{Binding AppConfiguration.BackgroundColor}">
-        <Grid.Resources>
-            <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
-            <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
-        </Grid.Resources>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+    <Grid>
+        <ContentControl DataContext="{Binding ShapePopupObject}" BorderBrush="Beige" Width="100" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" 
+                        Margin="10"
+                        x:Name="ContentForPopup" 
+                        Panel.ZIndex="2">
+            <StackPanel>
+                <Viewbox>
+                    <views:ShapePopup DataContext="{Binding Path=DataContext,ElementName=ContentForPopup}"/>
+                </Viewbox>
+            </StackPanel>
+        </ContentControl>
+        <Grid ClipToBounds="True" Background="{Binding AppConfiguration.BackgroundColor}">
+            <Grid.Resources>
+                <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
+                <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
+            </Grid.Resources>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" 
                       VerticalScrollBarVisibility="Visible" 
-                      AllowDrop="True" x:Name="ScrollViewer" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewKeyDown">
-                    <i:InvokeCommandAction Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewKeyUp">
-                    <i:InvokeCommandAction Command="{Binding  PreviewKeyUpCommand}" PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="Drop">
-                    <i:InvokeCommandAction Command="{Binding  DropCommand}" PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="ScrollChanged">
-                    <i:InvokeCommandAction Command="{Binding ScrollChangedCommand,ElementName=ViewportControllerObject}" PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseWheel">
-                    <i:InvokeCommandAction Command="{Binding PreviewMouseWheelCommand, ElementName=ViewportControllerObject}" PassEventArgsToCommand="True" CommandParameter=""/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
+                      AllowDrop="True" x:Name="ScrollViewer">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{Binding MouseLeftUpCommand}" PassEventArgsToCommand="True"/>
+                    <i:EventTrigger EventName="PreviewKeyDown">
+                        <i:InvokeCommandAction Command="{Binding PreviewKeyDownCommand}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <i:InvokeCommandAction Command="{Binding MouseLeftDownCommand}" PassEventArgsToCommand="True"/>
+                    <i:EventTrigger EventName="PreviewKeyUp">
+                        <i:InvokeCommandAction Command="{Binding  PreviewKeyUpCommand}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseMove">
-                        <i:InvokeCommandAction Command="{Binding MouseMoveCommand}" PassEventArgsToCommand="True"/>
+                    <i:EventTrigger EventName="Drop">
+                        <i:InvokeCommandAction Command="{Binding  DropCommand}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" PassEventArgsToCommand="True"/>
+                    <i:EventTrigger EventName="ScrollChanged">
+                        <i:InvokeCommandAction Command="{Binding ScrollChangedCommand,ElementName=ViewportControllerObject}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewMouseWheel">
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseWheelCommand, ElementName=ViewportControllerObject}" PassEventArgsToCommand="True" CommandParameter=""/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Grid.Background >
-                    <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" >
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="{Binding AppConfiguration.CheckColor}" />
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Grid.Background>
-                <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="3" />
-                    </Border.Effect>
-                </Border>
-                <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
-            </Grid>
-        </ScrollViewer>
-        <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
+                <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding MouseLeftUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding MouseLeftDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseMove">
+                            <i:InvokeCommandAction Command="{Binding MouseMoveCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid.Background >
+                        <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" >
+                            <DrawingBrush.Drawing>
+                                <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="{Binding AppConfiguration.CheckColor}" />
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Grid.Background>
+                    <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="3" />
+                        </Border.Effect>
+                    </Border>
+                    <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
+                </Grid>
+            </ScrollViewer>
+            <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
+        </Grid>
     </Grid>
 </UserControl>

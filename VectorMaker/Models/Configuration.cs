@@ -21,9 +21,9 @@ namespace VectorMaker.Utility
         private bool m_isBorderVisible = true;
         private bool m_isBorderShadow = true;
         private bool m_isBackgroundCheckered = true;
-        private SolidColorBrush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
-        private SolidColorBrush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
-        private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
+        private SolidColorBrush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 99));
+        private SolidColorBrush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 51));
+        private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 33));
         private Metadata m_metadata = new Metadata();
         [JsonIgnore]
         private const string CONFIG_FILE_PATH = "/VectorMaker.config";
@@ -217,9 +217,9 @@ namespace VectorMaker.Utility
             IsBorderVisible = true;
             IsBorderShadow = true;
             IsBackgroundCheckered = true;
-            BorderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 96));
-            BackgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 48));
-            CheckColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 30));
+            BorderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 99));
+            BackgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 51));
+            CheckColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 33));
         }
         public string GetMetadataFromConfig()
         {

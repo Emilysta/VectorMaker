@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="VectorMaker.Views.ShapePopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:VectorMaker.Converters" 
+             xmlns:viewmodels="clr-namespace:VectorMaker.ViewModel"
+             mc:Ignorable="d" Width="140" 
+             d:DesignHeight="365" d:DesignWidth="140">
+    <Border Background="#202020" CornerRadius="2" BorderThickness="2" BorderBrush="#101010">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="#CCCCCC"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            </Style>
+            <converters:BoolToCollapsedVisConverter x:Key="BoolToCollapsedVis"/>
+        </Grid.Resources>
+        <StackPanel Orientation="Vertical" Margin="0,0,0,5" >
+            <Label Content="{Binding ShapeLabel}" FontWeight="Bold" FontSize="13" Width="120" HorizontalContentAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsEllipseOrRect, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="Rx"/>
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.RadiusX}" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsEllipseOrRect, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="Ry" />
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.RadiusY}" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Cx" Foreground="#CCCCCC"/>
+                <mahControls:NumericUpDown Value="0" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Cy" />
+                <mahControls:NumericUpDown Value="0" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsLine, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="X1" />
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.X1}" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsLine, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="Y1" />
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.Y1}" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsLine, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="X2"/>
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.X2}" 
+                                           Width="90"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=IsLine, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="Y2"/>
+                <mahControls:NumericUpDown Value="{Binding SelectedShape.Y2}" 
+                                           Width="90"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"  Visibility="{Binding Path=IsPoly, Converter={StaticResource BoolToCollapsedVis}}">
+                <Label Content="Points" Width="130"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"  Visibility="{Binding Path=IsPath, Converter={StaticResource BoolToCollapsedVis}}">
+                    <Label Content="Not supported" Width="130"/>
+                </StackPanel>
+        </StackPanel>
+    </Grid>
+    </Border>
+</UserControl>

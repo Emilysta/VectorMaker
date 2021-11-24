@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Windows.Input;
 using VectorMaker.Commands;
 using VectorMaker.Intefaces;
+using VectorMaker.Utility;
 
 namespace VectorMaker.ViewModel
 {
-    internal abstract class ToolBaseViewModel : INotifyPropertyChanged
+    internal abstract class ToolBaseViewModel : NotifyPropertyChangedBase
     {
         #region Fields
         protected IMainWindowViewModel m_interfaceMainWindowVM;
@@ -46,17 +47,6 @@ namespace VectorMaker.ViewModel
         }
 
         public abstract void OnActiveCanvasChanged(object sender, EventArgs e);
-
-        #region Interface
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
 
         #region Methods
         private void CloseTool()
