@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Shapes;
 
 namespace VectorMaker.Drawables
@@ -12,7 +13,7 @@ namespace VectorMaker.Drawables
         {
             Rect rect = new Rect(m_startPoint, point);
             m_shape.Width = rect.Width;
-            if(IsControlKey)
+            if(Keyboard.IsKeyDown(Key.LeftCtrl))
                 m_shape.Height = rect.Width;
             else
                 m_shape.Height = rect.Height;

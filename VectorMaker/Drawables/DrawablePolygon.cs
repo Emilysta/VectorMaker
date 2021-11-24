@@ -21,7 +21,8 @@ namespace VectorMaker.Drawables
             m_pointsCollection.Add(m_tempPoint);
         }
 
-        public override void EndDrawing() {
+        public override void EndDrawing()
+        {
             m_pointsCollection.RemoveAt(m_pointsCollection.Count - 1);
         }
 
@@ -29,13 +30,14 @@ namespace VectorMaker.Drawables
         {
             m_shape = new Polygon();
             m_polygon.Points = m_pointsCollection;
-            m_pointsCollection.Add(new Point(0,0));
+            m_pointsCollection.Add(new Point(0, 0));
             m_tempPoint = new Point(0, 0);
             m_pointsCollection.Add(m_tempPoint);
             SetPathSettings();
         }
 
-        public override void AddPointToCollection() {
+        public override void AddPointToCollection()
+        {
             m_pointsCollection.Add(m_tempPoint);
         }
     }

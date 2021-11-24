@@ -377,7 +377,7 @@ namespace SVG_XAML_Converter_Lib
                         }
                         else
                         {
-                            geometryElement.SetAttributeValue("Width", svgAttribute.Value);
+                            geometryElement.SetAttributeValue("Width", svgAttribute.Value);//toDo
                         }
 
                         break;
