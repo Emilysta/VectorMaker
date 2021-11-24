@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using VectorMaker.Utility;
-using System.Windows.Shapes;
 using System.Linq;
 using VectorMaker.Commands;
 using System.Collections.ObjectModel;
@@ -22,6 +21,11 @@ using System.Collections.Specialized;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
 using System.Windows.Documents;
+using System.IO.Packaging;
+using System.IO;
+using ShapeDef = System.Windows.Shapes;
+using System.Printing;
+using System.Windows.Documents.Serialization;
 
 namespace VectorMaker.ViewModel
 {
@@ -35,7 +39,7 @@ namespace VectorMaker.ViewModel
         private FileType[] m_filters = new FileType[] { FileType.SVG, FileType.PNG, FileType.PDF, FileType.BMP, FileType.JPEG, FileType.TIFF };
         private string m_defaultExtension = "xaml";
         private Drawable m_drawableObject;
-        private Shape m_drawableObjectShape;
+        private ShapeDef.Shape m_drawableObjectShape;
         private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = new();
@@ -162,7 +166,7 @@ namespace VectorMaker.ViewModel
                 CombinedGeometry combinedGeometry = new CombinedGeometry();
                 foreach (ResizingAdorner adorner in SelectedObjects)
                 {
-                    Shape shape = adorner.AdornedElement as Shape;
+                    ShapeDef.Shape shape = adorner.AdornedElement as ShapeDef.Shape;
                     if (shape == null)
                         continue;
 
@@ -183,8 +187,8 @@ namespace VectorMaker.ViewModel
                 }
 
                 combinedGeometry.GeometryCombineMode = mode;
-                Shape lastShape = SelectedObjects.Last().AdornedElement as Shape;
-                Path path = new Path()
+                ShapeDef.Shape lastShape = SelectedObjects.Last().AdornedElement as ShapeDef.Shape;
+                ShapeDef.Path path = new ShapeDef.Path()
                 {
                     Data = combinedGeometry,
                     Style = lastShape.Style,
@@ -568,27 +572,29 @@ namespace VectorMaker.ViewModel
         }
         protected override void SaveFileAsPDF(string fullFilePath)
         {
+            PrintTicket printTicket = new PrintTicket();
+            printTicket.OutputColor = OutputColor.Color;
+            printTicket.PageMediaSize = new PageMediaSize(m_mainCanvas.ActualWidth, m_mainCanvas.ActualHeight);
+            printTicket.PageMediaType = PageMediaType.Photographic;
+            printTicket.PageBorderless = PageBorderless.Borderless;
+            printTicket.PageOrientation = PageOrientation.Portrait;
+            printTicket.CopyCount = 1;
+            printTicket.OutputQuality = OutputQuality.Photographic;
             try
             {
-                //bool result = OpenSaveDialog("XPS (*.xps) | *.xps", "untilted.xps", out string filePath);
-                PrintDialog printDialog = new PrintDialog();
-                //PrinterSettings printerSettings = new();
-                //printerSettings.PrinterName = "Microsoft Print to PDF";
-                //printerSettings.PrintToFile = true;
-                //bool result2 = (bool)printDialog.ShowDialog();
-                //if (result2)
-                //{
-               
-                printDialog.ShowDialog();
-                    printDialog.PrintVisual(m_mainCanvas, "Save graphics as PDF - VectorMaker");
-                //}
-                //XpsDocument xpsDocument = new XpsDocument(filePath, System.IO.FileAccess.ReadWrite);
-                //XpsDocumentWriter xpsWriter = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-                //VisualsToXpsDocument visToXps = (VisualsToXpsDocument)xpsWriter.CreateVisualsCollator();
-                //visToXps.BeginBatchWrite();
-                //visToXps.Write(m_mainCanvas);
-                //visToXps.EndBatchWrite();
-                //xpsDocument.Close();
+                MemoryStream memoryStream = new MemoryStream();
+                Package package = Package.Open(memoryStream, FileMode.Create);
+                XpsDocument xpsDocument = new XpsDocument(package);
+                XpsDocumentWriter xpsWriter = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+                VisualsToXpsDocument visToXps = (VisualsToXpsDocument)xpsWriter.CreateVisualsCollator(printTicket,printTicket);
+                visToXps.BeginBatchWrite();
+                //visToXps.Write(m_mainCanvas,printTicket);
+                visToXps.Write(m_mainCanvas);
+                visToXps.EndBatchWrite();
+                xpsDocument.Close();
+                package.Close();
+                var xpsToPDF = PdfSharp.Xps.XpsModel.XpsDocument.Open(memoryStream);
+                PdfSharp.Xps.XpsConverter.Convert(xpsToPDF, fullFilePath, 0);
             }
             catch (PrintDialogException e)
             {

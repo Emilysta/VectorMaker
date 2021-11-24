@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using VectorMaker.ControlsResources;
 using VectorMaker.ViewModel;
@@ -12,6 +13,7 @@ namespace VectorMaker.Views
     {
         public MainWindowView()
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
         }
 

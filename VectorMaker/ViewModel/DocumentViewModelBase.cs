@@ -158,22 +158,15 @@ namespace VectorMaker.ViewModel
         protected abstract void CloseFile();
         protected virtual void SaveAsFile(string type)
         {
-            if (type.ToUpper() != "PDF")
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = CreateFilterFromArray(type);
+            saveFileDialog.FileName = "untilted";
+            saveFileDialog.DefaultExt = "png";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            bool result = (bool)saveFileDialog.ShowDialog();
+            if (result)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = CreateFilterFromArray(type);
-                saveFileDialog.FileName = "untilted";
-                saveFileDialog.DefaultExt = "png";
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                bool result = (bool)saveFileDialog.ShowDialog();
-                if (result)
-                {
-                    RunSpecialSave(saveFileDialog.FileName);
-                }
-            }
-            else
-            {
-                SaveFileAsPDF("");
+                RunSpecialSave(saveFileDialog.FileName);
             }
         }
         protected virtual void SaveFileAsPNG(string fullFileName) { MessageBox.Show("File format is not supported"); }
