@@ -4,15 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <ApplicationIcon>Others\logo.ico</ApplicationIcon>
     <Win32Resource />
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="logo.ico" />
-    <None Remove="logo.png" />
-    <None Remove="logo2.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <Page Remove="ControlsResources\Buttons.xaml" />
@@ -39,10 +33,10 @@
     <Resource Include="ControlsResources\Buttons.xaml">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
     </Resource>
-    <Resource Include="logo.ico">
+    <Resource Include="Others\logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="logo2.png">
+    <Resource Include="Others\logo2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
