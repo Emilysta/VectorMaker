@@ -253,6 +253,7 @@ namespace VectorMaker.ViewModel
                 canvas.DrawableType = type;
             }
         }
+
         private void CreateLeftMenu()
         {
             LeftMenu = new ToggleMenu();
@@ -352,8 +353,16 @@ namespace VectorMaker.ViewModel
         }
         private void NewDocument()
         {
-            DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
-            m_documents.Add(drawingCanvas);
+            CreateDocumentViewModel createDocumentViewModel = new CreateDocumentViewModel();
+            if (createDocumentViewModel.IsFileToBeCreated)
+            {
+                DrawingCanvasViewModel drawingCanvas; 
+                if (createDocumentViewModel.IsVertical)
+                    drawingCanvas = new(this as IMainWindowViewModel, createDocumentViewModel.Width, createDocumentViewModel.Height);
+                else
+                    drawingCanvas = new(this as IMainWindowViewModel, createDocumentViewModel.Height, createDocumentViewModel.Width);
+                m_documents.Add(drawingCanvas);
+            }
         }
         private void OpenDocument()
         {

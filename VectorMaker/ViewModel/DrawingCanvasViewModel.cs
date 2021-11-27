@@ -88,6 +88,9 @@ namespace VectorMaker.ViewModel
             }
         }
 
+        public double Width { get; set; } = 500;
+        public double Height { get; set; } = 500;
+
         public LayerItemViewModel SelectedLayer
         {
             get => m_selectedLayer;
@@ -144,7 +147,7 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Constructors
-        public DrawingCanvasViewModel(IMainWindowViewModel mainWindowViewModel)
+        public DrawingCanvasViewModel(IMainWindowViewModel mainWindowViewModel, double width, double height)
         {
             m_interfaceMainWindowVM = mainWindowViewModel;
             SetCommands();
@@ -152,6 +155,8 @@ namespace VectorMaker.ViewModel
             Layers = new ObservableCollection<LayerItemViewModel>() { new LayerItemViewModel(new Canvas(), 1, "Layer_1") };
             SelectedLayer = Layers[0];
             ShapePopupObject = new ShapePopupViewModel(mainWindowViewModel);
+            Width = width;
+            Height = height;
         }
 
         public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel)

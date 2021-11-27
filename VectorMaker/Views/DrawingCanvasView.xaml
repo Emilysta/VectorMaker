@@ -70,12 +70,12 @@
                             </DrawingBrush.Drawing>
                         </DrawingBrush>
                     </Grid.Background>
-                    <Border Width="300" Height="300" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
+                    <Border Width="{Binding Width}" Height="{Binding Height}" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="3" />
                         </Border.Effect>
                     </Border>
-                    <Canvas Width="300" Height="300" x:Name="CanvasObject"/>
+                    <Canvas Width="{Binding Width}" Height="{Binding Height}" x:Name="CanvasObject"/>
                 </Grid>
             </ScrollViewer>
             <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
