@@ -26,6 +26,7 @@ namespace VectorMaker.Utility
         private Point m_startPoint;
         private Style m_scaleThumbStyleDuringDrag;
         private Style m_scaleThumbStyle;
+        private ScaleTransform m_scale;
 
         public ResizingAdorner(UIElement adornedElement, AdornerLayer myLayer, Canvas canvas) : base(adornedElement)
         {
@@ -34,7 +35,14 @@ namespace VectorMaker.Utility
             SetClassElements();
             m_canvas = canvas;
             m_transform = m_adornedElement.RenderTransform;
+            m_adornedElement.SizeChanged += M_adornedElement_SizeChanged;
         }
+
+        private void M_adornedElement_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.InvalidateArrange();
+        }
+
         public void RemoveFromAdornerLayer()
         {
             m_myLayer.Remove(this);
@@ -49,35 +57,35 @@ namespace VectorMaker.Utility
         }
         protected override Size ArrangeOverride(Size finalSize)
         {
+            Trace.WriteLine(finalSize);
+            m_dragThumb.Width = m_adornedElement.Width;
+            m_dragThumb.Height = m_adornedElement.Height;
             m_scaleThumb?.Arrange(new Rect(finalSize.Width - 5, finalSize.Height - 5, 10, 10));
-            m_dragThumb?.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+            m_dragThumb?.Arrange(new Rect(-1, -1, finalSize.Width, finalSize.Height));
             m_rotateThumb?.Arrange(new Rect(finalSize.Width / 2 - 10, finalSize.Height / 2 - 10, 20, 20));
             return finalSize;
         }
+
         public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
         {
             if (m_transform != null)
             {
-                //Matrix matrix = m_transform.Value;
-                //ScaleTransform scaleTransform = new ScaleTransform(1 / matrix.M11, 1 / matrix.M22);
-                //if (m_rotateThumb != null)
-                //{
-                //    m_rotateThumb.RenderTransform = scaleTransform;
-                //    m_rotateThumb.RenderTransformOrigin = new Point(0.5, 0.5);
-                //}
-                //if (m_scaleThumb != null)
-                //{
-                //    m_scaleThumb.RenderTransform = scaleTransform;
-                //    m_scaleThumb.RenderTransformOrigin = new Point(0.5, 0.5);
-                //}
-                //if(m_dragThumb != null)
-                //{
-                //    m_dragThumb.RenderTransform = scaleTransform;
-                //    m_dragThumb.RenderTransformOrigin = new Point(0.5, 0.5);
-                //}
+                Matrix matrix = m_transform.Value;
+                ScaleTransform scaleTransform = new ScaleTransform(1 / matrix.M11, 1 / matrix.M22);
+                if (m_rotateThumb != null)
+                {
+                    m_rotateThumb.RenderTransform = scaleTransform;
+                    m_rotateThumb.RenderTransformOrigin = new Point(0.5, 0.5);
+                }
+                if (m_scaleThumb != null)
+                {
+                    m_scaleThumb.RenderTransform = scaleTransform;
+                    m_scaleThumb.RenderTransformOrigin = new Point(0.5, 0.5);
+                }
             }
             return base.GetDesiredTransform(transform);
         }
+
         private void SetClassElements()
         {
             m_visualCollection = new VisualCollection(this);
@@ -111,19 +119,20 @@ namespace VectorMaker.Utility
         {
             m_dragThumb = new Thumb();
             m_dragThumb.Style = (Style)Application.Current.Resources["DragThumb"];
-            m_dragThumb.Width = m_adornedElement.Width;
-            m_dragThumb.Height = m_adornedElement.Height;
             m_dragThumb.ApplyTemplate();
             m_dragThumb.DragDelta += TranslateThumbDrag;
             m_dragThumb.Cursor = Cursors.SizeAll;
             m_visualCollection.Add(m_dragThumb);
         }
 
-        private void RecreateDrugThumb()
+        private void ApplyScale()
         {
-            m_visualCollection.Remove(m_dragThumb);
-            m_dragThumb.DragDelta -= TranslateThumbDrag;
-            CreateDragThumb();
+            double scaleX = m_scale.ScaleX;
+            double scaleY = m_scale.ScaleY;
+            if(scaleX<0)
+            {
+               
+            }
         }
 
         private void SetStartCompletedDragEvent()
@@ -134,13 +143,18 @@ namespace VectorMaker.Utility
                 m_dragThumb.Visibility = Visibility.Hidden;
                 m_rotateThumb.Visibility = Visibility.Hidden;
                 m_startPoint = m_adornedElement.TranslatePoint(new Point(0, 0), m_canvas);
+                m_scale = new ScaleTransform();
+                m_scale.CenterX = 0;
+                m_scale.CenterY = 0;
+                m_scale.ScaleX = 1;
+                m_scale.ScaleY = 1;
             };
             m_scaleThumb.DragCompleted += (a, b) =>
             {
                 m_scaleThumb.Style = m_scaleThumbStyle;
                 m_dragThumb.Visibility = Visibility.Visible;
                 m_rotateThumb.Visibility = Visibility.Visible;
-                RecreateDrugThumb();
+                ApplyScale();
                 this.InvalidateVisual();
             };
 
@@ -176,20 +190,25 @@ namespace VectorMaker.Utility
             Point test = new Point(CurrentPoint.X - m_startPoint.X,CurrentPoint.Y - m_startPoint.Y);
             double scaleX = test.X / (AdornedElement.RenderSize.Width *matrix.M11);
             double scaleY = test.Y / (AdornedElement.RenderSize.Height * matrix.M22);
+            m_scale.ScaleX += scaleX;
+            m_scale.ScaleY += scaleY;
             if (double.IsNormal(scaleX) && double.IsNormal(scaleY))
             {
                 matrix.ScaleAtPrepend(scaleX, scaleY, 0, 0);
                 m_adornedElement.RenderTransform = new MatrixTransform(matrix);
                 m_transform = m_adornedElement.RenderTransform;
+                UIPropertyChanged.Instance.InvokePropertyChanged();
             }
         }
         private void TranslateThumbDrag(object sender, DragDeltaEventArgs args)
         {
             m_transform = m_adornedElement.RenderTransform;
             Matrix matrix = m_transform.Value;
+            Matrix oldmatrix = m_transform.Value;
             matrix.TranslatePrepend(args.HorizontalChange, args.VerticalChange);
             m_adornedElement.RenderTransform = new MatrixTransform(matrix);
             m_transform = m_adornedElement.RenderTransform;
+            UIPropertyChanged.Instance.InvokePropertyChanged();
         }
         private void RotateThumbMouseWheel(object sender, MouseWheelEventArgs args)
         {
@@ -201,6 +220,7 @@ namespace VectorMaker.Utility
                 m_adornedElement.RenderTransform = new MatrixTransform(matrix);
                 m_transform = m_adornedElement.RenderTransform;
                 AdornedElement.InvalidateVisual();
+                UIPropertyChanged.Instance.InvokePropertyChanged();
             }
         }
     }

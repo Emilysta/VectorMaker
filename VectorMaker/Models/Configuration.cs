@@ -26,9 +26,9 @@ namespace VectorMaker.Utility
         private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 33));
         private Metadata m_metadata = new Metadata();
         [JsonIgnore]
-        private const string CONFIG_FILE_PATH = "/VectorMaker.config";
+        private const string CONFIG_FILE_PATH = "\\VectorMaker.config";
         [JsonIgnore]
-        private string m_configFilePath => Environment.SpecialFolder.LocalApplicationData + CONFIG_FILE_PATH;
+        private string m_configFilePath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + CONFIG_FILE_PATH;
         #endregion
 
         #region Properties
@@ -174,6 +174,7 @@ namespace VectorMaker.Utility
         }
         private Configuration()
         {
+            Trace.WriteLine(m_configFilePath);
             LoadConfigIfExists();
         }
 
@@ -182,6 +183,7 @@ namespace VectorMaker.Utility
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);
             Trace.WriteLine(value); //toDo comment out
+            Trace.WriteLine(m_configFilePath);
             FileStream fileStream = new FileStream(m_configFilePath, FileMode.Truncate, FileAccess.ReadWrite, FileShare.ReadWrite);
             using (StreamWriter writer = new StreamWriter(fileStream))
             {

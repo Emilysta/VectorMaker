@@ -10,8 +10,9 @@
         xmlns:viewModels="clr-namespace:VectorMaker.ViewModel"
         xmlns:views="clr-namespace:VectorMaker.Views" 
         xmlns:converters="clr-namespace:VectorMaker.Converters" 
-        xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d" d:Width="1280" d:Height="720">
+        xmlns:mahControls="http://metro.mahapps.com/winfx/xaml/controls" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        WindowStyle="None"
+        mc:Ignorable="d" d:Width="1920" d:Height="1080">
     <Window.Resources>
         <ResourceDictionary>
             <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
@@ -124,19 +125,24 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
+                    <GridSplitter Width="1" Background="{StaticResource LightGreyBrush}"/>
                     <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
-                        <Label Content="Width" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderSize.Width}"/>
+                        <Label Content="Width" Foreground="#CCCCCC" Margin="5,2,0,0"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.Width, Mode=TwoWay}"/>
+
+
                         <Label Content="Height" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderSize.Height}"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedElement.Height, Mode=TwoWay}"/>
 
                         <Label Content="X" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderTransform.Value.OffsetX}"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedObjectTransformX, Mode=TwoWay}"/>
+
+
                         <Label Content="Y" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                        <mahControls:NumericUpDown Value="{Binding SelectedElement.RenderTransform.Value.OffsetY}"/>
+                        <mahControls:NumericUpDown Value="{Binding SelectedObjectTransformY, Mode=TwoWay}"/>
 
                         <Label Content="Selected object:" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                        <Label Content="/" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding SelectedObjectLabel, Mode=OneWay}" HorizontalAlignment="Left"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -160,9 +166,21 @@
             <Grid DockPanel.Dock="Bottom" Height="35" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
                     <Label Content="Fill" Foreground="#CCCCCC" Margin="0,2,0,0"/>
-                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.FillBrush}" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5" />
+                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.FillBrush}" Stroke ="{StaticResource LightGreyBrush}" StrokeThickness="0.5" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding FillBrushPickCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Rectangle>
                     <Label Content="Stroke" Foreground="#CCCCCC" Margin="20,2,0,0"/>
-                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.StrokeBrush}" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="0.5" />
+                    <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.StrokeBrush}" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="0.5"    >
+                        <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding StrokeBrushPickCommand}"/>
+                        </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Rectangle>
 
                     <Label Content="Stroke thickness" Foreground="#CCCCCC" Margin="20,2,0,0"/>
                     <mahControls:NumericUpDown Value="{Binding ShapePropertiesModel.StrokeThickness}"/>
@@ -192,7 +210,7 @@
                                       DocumentsSource="{Binding Documents}" 
                                       ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource DockingDocumentConverter}}" 
                                       AnchorablesSource="{Binding Tools}"
-                                      x:Name="DockManager" Background="#303033">
+                                      x:Name="DockManager" Background="#353538">
                     <docks:DockingManager.LayoutItemTemplateSelector>
                         <templateselectors:LayoutPaneTemplateSelector>
                             <templateselectors:LayoutPaneTemplateSelector.FileViewTemplate>

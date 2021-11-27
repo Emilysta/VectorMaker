@@ -33,7 +33,9 @@ namespace VectorMaker.Views
             ToggleButtonWithIcon maximizeAppButton = sender as ToggleButtonWithIcon;
             if (maximizeAppButton.IsChecked == true)
             {
+                WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
+                WindowStyle = WindowStyle.None;
                 maximizeAppButton.IconKind = MahApps.Metro.IconPacks.PackIconFontAwesomeKind.WindowRestoreRegular;
             }
             else

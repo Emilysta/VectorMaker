@@ -1,61 +1,73 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using VectorMaker.Utility;
+using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Models
 {
-    internal class ShapeProperties
+    internal class ShapeProperties : NotifyPropertyChangedBase
     {
         #region Fields
-        private static SolidColorBrush m_fillBrush = Brushes.Black;
-        private static SolidColorBrush m_strokeBrush = Brushes.Red;
-        private static double m_strokeThickness = 1;
-        private static int m_selectedStrokeDashArray = 0;
-        private static ObservableCollection<DoubleCollection> m_strokeTypes;
+        private SolidColorBrush m_fillBrush = new SolidColorBrush(ColorDef.FromRgb(0, 0, 0));
+        private SolidColorBrush m_strokeBrush = new SolidColorBrush(ColorDef.FromRgb(255, 0, 0));
+        private double m_strokeThickness = 1;
+        private int m_selectedStrokeDashArray = 0;
+        private ObservableCollection<DoubleCollection> m_strokeTypes;
         #endregion
 
         #region Properties
-        public static SolidColorBrush FillBrush
+        public SolidColorBrush FillBrush 
         {
             get => m_fillBrush;
             set
             {
                 m_fillBrush = value;
+                OnPropertyChanged(nameof(FillBrush));
             }
         }
 
-        public static SolidColorBrush StrokeBrush
+        public SolidColorBrush StrokeBrush
         {
             get => m_strokeBrush;
             set
             {
                 m_strokeBrush = value;
+                OnPropertyChanged(nameof(StrokeBrush));
             }
         }
 
-        public static double StrokeThickness
+        public double StrokeThickness
         {
             get => m_strokeThickness;
             set
             {
                 m_strokeThickness = value;
+                OnPropertyChanged(nameof(StrokeThickness));
             }
         }
 
-        public static int SelectedStrokeDashArray
+        public int SelectedStrokeDashArray
         {
             get => m_selectedStrokeDashArray;
             set
             {
                 m_selectedStrokeDashArray = value;
+                OnPropertyChanged(nameof(SelectedStrokeDashArray));
             }
         }
-        public static ObservableCollection<DoubleCollection> StrokeTypes
+        public DoubleCollection StrokeDashArray
+        {
+            get => StrokeTypes?[m_selectedStrokeDashArray] ?? null;
+        }
+
+        public ObservableCollection<DoubleCollection> StrokeTypes
         {
             get => m_strokeTypes;
             set
             {
                 m_strokeTypes = value;
+                OnPropertyChanged(nameof(StrokeTypes));
             }
         }
         #endregion

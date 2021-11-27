@@ -21,7 +21,7 @@ namespace VectorMaker.ViewModel
 
         public bool IsEllipse { get; set; }
 
-        public bool IsEllipseOrRect { get; set; }
+        public bool IsRect { get; set; }
 
         public bool IsLine { get; set; }
 
@@ -65,21 +65,20 @@ namespace VectorMaker.ViewModel
         private void SelectedObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (m_selectedObjects.Count <= 0) return;
-            m_shape = m_selectedObjects[0]?.AdornedElement as Shape;
-            IsEllipseOrRect = false;
+            SelectedShape = m_selectedObjects[0]?.AdornedElement as Shape;
+            IsRect = false;
             IsEllipse = false;
             IsPath = false;
             IsLine = false;
             IsPoly = false;
             if (m_shape is Ellipse)
             {
-                IsEllipseOrRect = true;
                 IsEllipse = true;
                 ShapeLabel = "Ellipse";
             }
             if (m_shape is Rectangle)
             {
-                IsEllipseOrRect = true;
+                IsRect = true;
                 ShapeLabel = "Rectangle";
             }
             if (m_shape is Path)
@@ -92,11 +91,15 @@ namespace VectorMaker.ViewModel
                 IsPoly = true;
                 ShapeLabel = "Polyline";
             }
-
             if (m_shape is Polygon)
             {
                 IsPoly = true;
                 ShapeLabel = "Polygon";
+            }
+            if (m_shape is Line)
+            {
+                IsLine = true;
+                ShapeLabel = "Line";
             }
 
             OnAllPropertiesChanged();

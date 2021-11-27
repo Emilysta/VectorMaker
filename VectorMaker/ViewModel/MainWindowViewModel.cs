@@ -13,6 +13,7 @@ using VectorMaker.Models;
 using System.Windows;
 using System.Linq;
 using System.Windows.Shapes;
+using System.Collections.Specialized;
 
 namespace VectorMaker.ViewModel
 {
@@ -32,12 +33,17 @@ namespace VectorMaker.ViewModel
         public ICommand OpenColorPickerToolCommand { get; set; }
         public ICommand OpenAlignmentToolCommand { get; set; }
         public ICommand OpenLayersToolCommand { get; set; }
+
+        public ICommand FillBrushPickCommand { get; set; }
+        public ICommand StrokeBrushPickCommand { get; set; }
         #endregion
 
         #region Fields
         private ObservableCollection<DocumentViewModelBase> m_documents { get; set; }
         private ObservableCollection<ToolBaseViewModel> m_tools = null;
         private DocumentViewModelBase m_activeDocument;
+        private ObservableCollection<ResizingAdorner> m_selectedObjects = null;
+        private FrameworkElement m_selectedElement = null;
 
         private ObjectTransformsViewModel m_objectTransformsVMTool = null;
         private ObjectAlignmentViewModel m_objectAlignmentVMTool = null;
@@ -116,12 +122,48 @@ namespace VectorMaker.ViewModel
 
         public ShapeProperties ShapePropertiesModel => ShapeProperties.Instance;
 
-        public UIElement SelectedElement => (m_activeDocument as DrawingCanvasViewModel)?.SelectedObjects.FirstOrDefault()?.AdornedElement;
-        #endregion
+        public FrameworkElement SelectedElement
+        {
+            get => m_selectedElement;
+            set
+            {
+                m_selectedElement = value;
+                OnPropertyChanged(nameof(SelectedElement));
+                OnPropertyChanged(nameof(SelectedObjectLabel));
+                OnPropertyChanged(nameof(SelectedObjectTransformX));
+                OnPropertyChanged(nameof(SelectedObjectTransformY));
+            }
+        }
 
-        private Shape shape;
-        public Shape SelectedShape
-            { get => shape; set => shape = value; }
+        public string SelectedObjectLabel
+        {
+            get => SelectedElement?.ToString() ?? "No object selected";
+        }
+
+        public double SelectedObjectTransformX
+        {
+            get => SelectedElement?.RenderTransform.Value.OffsetX ?? 0;
+            set
+            {
+                Matrix matrix = SelectedElement.RenderTransform.Value;
+                matrix.OffsetX = value;
+                SelectedElement.RenderTransform = new MatrixTransform(matrix);
+                OnPropertyChanged(nameof(SelectedObjectTransformX));
+            }
+        }
+        public double SelectedObjectTransformY
+        {
+            get => SelectedElement?.RenderTransform.Value.OffsetY ?? 0;
+            set
+            {
+                Matrix matrix = SelectedElement.RenderTransform.Value;
+                matrix.OffsetY = value;
+                SelectedElement.RenderTransform = new MatrixTransform(matrix);
+                OnPropertyChanged(nameof(SelectedObjectTransformY));
+            }
+        }
+
+        #endregion
 
         public MainWindowViewModel()
         {
@@ -129,16 +171,8 @@ namespace VectorMaker.ViewModel
             m_documents = new ObservableCollection<DocumentViewModelBase>();
             CreateLeftMenu();
             CreateTopMenu();
-            DrawingCanvasViewModel drawingCanvas = new(this as IMainWindowViewModel);
-            m_documents.Add(drawingCanvas);
-            UIElement element = new UIElement();
-            Rectangle rectangle = new Rectangle();
-            rectangle.RadiusX = 5;
-            rectangle.RadiusY = 5;
-            rectangle.Fill = Brushes.Blue;
-            shape = rectangle;
+            ActiveCanvasChanged += OnActiveCanvasChanged;
         }
-
 
         #region Interface methods
         public void Close(DocumentViewModelBase fileToClose)
@@ -173,6 +207,43 @@ namespace VectorMaker.ViewModel
         #endregion
 
         public event EventHandler ActiveCanvasChanged;
+
+        public void OnActiveCanvasChanged(object sender, EventArgs e)
+        {
+            if (ActiveDocument is DrawingCanvasViewModel drawingCanvasViewModel)
+            {
+                if (m_selectedObjects != null)
+                    m_selectedObjects.CollectionChanged -= SelectedObjectsCollectionChanged;
+
+                m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
+                m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
+            }
+        }
+
+        private void SelectedObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (SelectedElement != null)
+            {
+                UIPropertyChanged.Instance.PropertyChanged -= SelectedObjectRenderTransformChanged;
+            }
+            if (m_selectedObjects.Count <= 0)
+            {
+                OnPropertyChanged(nameof(SelectedElement));
+                SelectedElement = null;
+                return;
+            }
+            SelectedElement = m_selectedObjects[0]?.AdornedElement as FrameworkElement;
+            if (SelectedElement != null)
+            {
+                UIPropertyChanged.Instance.PropertyChanged += SelectedObjectRenderTransformChanged;
+            }
+        }
+
+        private void SelectedObjectRenderTransformChanged()
+        {
+            OnPropertyChanged(nameof(SelectedObjectTransformX));
+            OnPropertyChanged(nameof(SelectedObjectTransformY));
+        }
 
         #region Methods
         public void SetDrawableType(DrawableTypes type)
@@ -211,25 +282,33 @@ namespace VectorMaker.ViewModel
         {
             TopMenu = new ToggleMenu();
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.File, () => SetDrawableType(DrawableTypes.Rectangle), isToggleButton: false, toolTip: "New File"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.File, () => NewDocument(), isToggleButton: false, toolTip: "New File"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileFind, () => SetDrawableType(DrawableTypes.Ellipse), isToggleButton: false, toolTip: "Open File"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileFind, () =>OpenDocument(), isToggleButton: false, toolTip: "Open File"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSave, () => SetDrawableType(DrawableTypes.Line), isToggleButton: false, toolTip: "Save Current File"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSave, () => Save(ActiveDocument), isToggleButton: false, toolTip: "Save Current File"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSaveAll, () => SetDrawableType(DrawableTypes.None),isToggleButton: false, toolTip: "Save All Files"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.ContentSaveAll, () => SaveAllDocuments(), isToggleButton: false, toolTip: "Save All Files"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBox, () => SetDrawableType(DrawableTypes.PolyLine), isToggleButton: false, toolTip: "Close Current File"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBox, () => Close(ActiveDocument), isToggleButton: false, toolTip: "Close Current File"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBoxMultiple, () => SetDrawableType(DrawableTypes.Polygon), isToggleButton: false, toolTip: "Close All Files"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBoxMultiple, () => CloseAllDocuments(), isToggleButton: false, toolTip: "Close All Files"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileExport, () => SetDrawableType(DrawableTypes.Polygon),  isToggleButton: false, toolTip: "Export"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileExport, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Export"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => CombineGeometries(GeometryCombineMode.Union), isToggleButton: false, toolTip: "Print"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Print"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => CombineGeometries(GeometryCombineMode.Intersect), isToggleButton: false, toolTip: "Group"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Group"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => CombineGeometries(GeometryCombineMode.Exclude), isToggleButton: false, toolTip: "Ungroup"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Ungroup"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipHorizontal, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Flip horizontal"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipVertical, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Flip vertical"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateLeftVariant, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Rotate left"));
+
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateRightVariant, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Rotate right"));
         }
 
         private void SetCommands()
@@ -246,7 +325,23 @@ namespace VectorMaker.ViewModel
             OpenColorPickerToolCommand = new CommandBase((obj) => ColorPickerTool());
             OpenAlignmentToolCommand = new CommandBase((obj) => CreateTool(ObjectAlignmentVMTool));
             OpenLayersToolCommand = new CommandBase((obj) => CreateTool(DrawingLayersVMTool));
+
+            FillBrushPickCommand = new CommandBase((obj) => FillBrushColorPick());
+            StrokeBrushPickCommand = new CommandBase((obj) => StrokeBrushColorPick());
         }
+
+        private void FillBrushColorPick()
+        {
+            ColorPickerViewModel colorPicker = new ColorPickerViewModel(ShapePropertiesModel.FillBrush);
+            colorPicker.ShowWindowAndWaitForResult();
+        }
+
+        private void StrokeBrushColorPick()
+        {
+            ColorPickerViewModel colorPicker = new ColorPickerViewModel(ShapePropertiesModel.StrokeBrush);
+            colorPicker.ShowWindowAndWaitForResult();
+        }
+
         private void CombineGeometries(GeometryCombineMode mode)
         {
             (m_activeDocument as DrawingCanvasViewModel).CombineTwoGeometries(mode);

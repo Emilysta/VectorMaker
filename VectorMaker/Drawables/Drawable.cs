@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
+using VectorMaker.Models;
 
 namespace VectorMaker.Drawables
 {
@@ -68,17 +69,21 @@ namespace VectorMaker.Drawables
         }
         protected void SetPathSettings()
         {
-            m_shape.Fill = m_pathSettings.Fill;
-            m_shape.Stroke = m_pathSettings.Stroke;
-            m_shape.StrokeThickness = m_pathSettings.StrokeThickness;
+            m_shape.Fill = new SolidColorBrush(ShapeProperties.Instance.FillBrush.Color);
+            m_shape.Stroke = new SolidColorBrush(ShapeProperties.Instance.StrokeBrush.Color);
+            m_shape.StrokeThickness = ShapeProperties.Instance.StrokeThickness;
+            if (ShapeProperties.Instance.StrokeDashArray != null)
+                m_shape.StrokeDashArray = new DoubleCollection(ShapeProperties.Instance.StrokeDashArray);
             m_shape.Visibility = m_pathSettings.Visibility;
             m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
             m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
         }
         protected void SetPathSettingsWithoutFill()
         {
-            m_shape.Stroke = m_pathSettings.Stroke;
-            m_shape.StrokeThickness = m_pathSettings.StrokeThickness;
+            m_shape.Stroke = new SolidColorBrush(ShapeProperties.Instance.StrokeBrush.Color);
+            m_shape.StrokeThickness = ShapeProperties.Instance.StrokeThickness;
+            if(ShapeProperties.Instance.StrokeDashArray!=null)
+                m_shape.StrokeDashArray = new DoubleCollection(ShapeProperties.Instance.StrokeDashArray);
             m_shape.Visibility = m_pathSettings.Visibility;
             m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
             m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;

@@ -601,6 +601,7 @@ namespace VectorMaker.ViewModel
                 package.Close();
                 var xpsToPDF = PdfSharp.Xps.XpsModel.XpsDocument.Open(memoryStream);
                 PdfSharp.Xps.XpsConverter.Convert(xpsToPDF, fullFilePath, 0);
+                memoryStream.Dispose();
             }
             catch (PrintDialogException e)
             {
