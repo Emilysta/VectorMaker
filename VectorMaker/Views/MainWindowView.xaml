@@ -16,6 +16,11 @@
     <Window.Resources>
         <ResourceDictionary>
             <converters:DockingDocumentConverter x:Key="DockingDocumentConverter"/>
+            <LinearGradientBrush x:Key="GreyGradientBrush" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="Transparent" Offset="0.05"/>
+                <GradientStop Color="{StaticResource LightGreyColor}" Offset="0.5"/>
+                <GradientStop Color="Transparent" Offset="0.95"/>
+            </LinearGradientBrush>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -29,74 +34,72 @@
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" VerticalAlignment="Stretch" x:Name="MainDockPanel">
             <!-- Top Dock-->
             <Grid DockPanel.Dock="Top" Height="40">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding Source, Source={StaticResource VectorMakerIcon}}" Margin="3"/>
-                <Menu  Background="Transparent" Grid.Column="1" VerticalAlignment="Center" FontSize="15" Foreground="{DynamicResource LightText}">
-                    <Menu.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <DockPanel HorizontalAlignment="Stretch"/>
-                        </ItemsPanelTemplate>
-                    </Menu.ItemsPanel>
-                    <MenuItem Header="VectorMaker" IsCheckable="False" />
-                    <MenuItem Header="VectorMaker" IsCheckable="False" />
-                    <MenuItem Header="File">
-                        <MenuItem Header="New Document" Command="{Binding NewDocumentCommand}"/>
-                        <MenuItem Header="Open Document" Command="{Binding OpenDocumentCommand}"/>
-                        <Separator/>
-                        <MenuItem Header="Export as">
-                            <MenuItem Header="SVG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="svg"/>
-                            <MenuItem Header="PNG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="png"/>
-                            <MenuItem Header="BMP File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="bmp"/>
-                            <MenuItem Header="PDF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="pdf"/>
-                            <MenuItem Header="TIFF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="tiff"/>
-                            <MenuItem Header="JPEG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="jpeg"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource VectorMakerIcon}" Margin="3" Width="35"/>
+                    <Label Content="VectorMaker" VerticalAlignment="Center" FontWeight="ExtraLight" FontSize="17" Foreground="{StaticResource LightText}"/>
+                    <Separator Background="{StaticResource GreyGradientBrush}" Height="2">
+                        <Separator.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </Separator.LayoutTransform>
+                    </Separator>
+                    <Menu  Background="Transparent" Grid.Column="1" VerticalAlignment="Center" FontSize="17" Foreground="{DynamicResource LightText}">
+                        <Menu.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <DockPanel HorizontalAlignment="Stretch"/>
+                            </ItemsPanelTemplate>
+                        </Menu.ItemsPanel>
+                        <MenuItem Header="File">
+                            <MenuItem Header="New Document" Command="{Binding NewDocumentCommand}"/>
+                            <MenuItem Header="Open Document" Command="{Binding OpenDocumentCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="Export as">
+                                <MenuItem Header="SVG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="svg"/>
+                                <MenuItem Header="PNG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="png"/>
+                                <MenuItem Header="BMP File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="bmp"/>
+                                <MenuItem Header="PDF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="pdf"/>
+                                <MenuItem Header="TIFF File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="tiff"/>
+                                <MenuItem Header="JPEG File" Command="{Binding ActiveDocument.SaveAsCommand}" CommandParameter="jpeg"/>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Save Current File" Command="{Binding ActiveDocument.SaveCommand}"/>
+                            <MenuItem Header="Save All Files" Command="{Binding SaveAllCommand}"/>
                         </MenuItem>
-                        <Separator/>
-                        <MenuItem Header="Save Current File" Command="{Binding ActiveDocument.SaveCommand}"/>
-                        <MenuItem Header="Save All Files" Command="{Binding SaveAllCommand}"/>
-                    </MenuItem>
-                    <MenuItem Header="View" >
-                        <MenuItem Header="Application Settings" Command="{Binding OpenApplicationSettingsCommand}"/>
-                    </MenuItem>
-                    <MenuItem Header="Edit" IsEnabled="False"/>
-                    <MenuItem Header="Object" >
-                        <MenuItem Header="Group"/>
-                        <MenuItem Header="Ungroup"/>
-                        <Separator/>
-                    </MenuItem>
-                    <MenuItem Header="Layer" >
-                        <MenuItem Header="Add layer above current"/>
-                        <MenuItem Header="Add layer below current"/>
-                    </MenuItem>
-                    <MenuItem Header="Filter" />
-                    <MenuItem Header="Select" />
-                    <MenuItem Header="Tools" >
-                        <MenuItem Header="Transform Tool" Command="{Binding OpenTransformToolCommand}"/>
-                        <MenuItem Header="Fill &amp; Stroke Properties Tool" Command="{Binding OpenPropertiesToolCommand}"/>
-                        <MenuItem Header="Color Picker" Command="{Binding OpenColorPickerToolCommand}"/>
-                        <MenuItem Header="Alignment Tool" Command="{Binding OpenAlignmentToolCommand}"/>
-                        <MenuItem Header="Layer Tool" Command="{Binding OpenLayersToolCommand}"/>
-                    </MenuItem>
-                    <MenuItem Header="Help" />
-                    <MenuItem Header="" />
-                </Menu>
-                <Grid Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-                    <controls:ButtonWithIcon Grid.Column="1" ToolTip="Minimize" IconKind="Dash" Background="Transparent" Click="MinimizeApplicationButton_Click" />
-                    <controls:ToggleButtonWithIcon Grid.Column="2" ToolTip="Maximize" IconKind="WindowMaximizeRegular"
+                        <MenuItem Header="View" >
+                            <MenuItem Header="Application Settings" Command="{Binding OpenApplicationSettingsCommand}"/>
+                        </MenuItem>
+                        <MenuItem Header="Edit" IsEnabled="False"/>
+                        <MenuItem Header="Object" >
+                            <MenuItem Header="Group"/>
+                            <MenuItem Header="Ungroup"/>
+                            <Separator/>
+                        </MenuItem>
+                        <MenuItem Header="Layer" >
+                            <MenuItem Header="Add layer above current"/>
+                            <MenuItem Header="Add layer below current"/>
+                        </MenuItem>
+                        <MenuItem Header="Filter" IsEnabled="False"/>
+                        <MenuItem Header="Select" IsEnabled="False"/>
+                        <MenuItem Header="Tools" >
+                            <MenuItem Header="Transform Tool" Command="{Binding OpenTransformToolCommand}"/>
+                            <MenuItem Header="Fill &amp; Stroke Properties Tool" Command="{Binding OpenPropertiesToolCommand}"/>
+                            <MenuItem Header="Color Picker" Command="{Binding OpenColorPickerToolCommand}"/>
+                            <MenuItem Header="Alignment Tool" Command="{Binding OpenAlignmentToolCommand}"/>
+                            <MenuItem Header="Layer Tool" Command="{Binding OpenLayersToolCommand}"/>
+                        </MenuItem>
+                        <MenuItem Header="Help" IsEnabled="False"/>
+                    </Menu>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <controls:ButtonWithIcon ToolTip="Minimize" IconKind="Dash" Background="Transparent" 
+                                                 Click="MinimizeApplicationButton_Click" Width="40"/>
+                    <controls:ToggleButtonWithIcon  ToolTip="Maximize" 
+                                                       IconKind="WindowMaximizeRegular" Width="40"
                                                    Click="MaximizeRestoreApplicationButton_Click" Background="Transparent" />
-                    <controls:ButtonWithIcon Grid.Column="3" ToolTip="Exit" IconKind="X" Click="ExitApplicationButton_Click"
-                                             Background="Transparent" />
-                </Grid>
+                    <controls:ButtonWithIcon ToolTip="Exit" IconKind="X" 
+                                                 Click="ExitApplicationButton_Click"
+                                                Background="Transparent" 
+                                                 Width="40"/>
+                </StackPanel>
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="3,0,0,0"  Height="35" Background="Transparent">
@@ -176,9 +179,9 @@
                     <Label Content="Stroke" Foreground="#CCCCCC" Margin="20,2,0,0"/>
                     <Rectangle Width="45" Height="25" RadiusX="1" RadiusY="1" Fill="{Binding ShapePropertiesModel.StrokeBrush}" Stroke="{StaticResource LightGreyBrush}" StrokeThickness="0.5"    >
                         <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding StrokeBrushPickCommand}"/>
-                        </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding StrokeBrushPickCommand}"/>
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Rectangle>
 

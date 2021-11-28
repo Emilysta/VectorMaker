@@ -12,8 +12,8 @@ namespace VectorMaker.Utility
 
         private const float DefaultScale = 1;
         private const float ScaleStep = 0.1f;
-        private const float MinimumScale = 0.5f;
-        private const float MaximumScale = 4.0f;
+        private const float MinimumScale = 0.1f;
+        private const float MaximumScale = 6.0f;
         private const float RotateStep = 5f;
 
         private float m_scale = DefaultScale;
@@ -36,6 +36,7 @@ namespace VectorMaker.Utility
 
         public ICommand ScrollChangedCommand { get; set; }
         public ICommand PreviewMouseWheelCommand { get; set; }
+        public ICommand ResetViewportControllerCommand { get; set; }
 
         private static DependencyProperty m_scrollViewerProperty =
 DependencyProperty.Register("ScrollViewerProperty", typeof(ScrollViewer), typeof(ViewportController), new PropertyMetadata(null));
@@ -60,10 +61,16 @@ DependencyProperty.Register("ObjectToControlProperty", typeof(UIElement), typeof
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ViewportController), new FrameworkPropertyMetadata(typeof(ViewportController)));
         }
 
+        public ViewportController() { 
+            SetCommands();
+        }
+
+
         private void SetCommands()
         {
             ScrollChangedCommand = new CommandBase((obj) => ScrollViewerChangedHandler(obj as ScrollChangedEventArgs));
             PreviewMouseWheelCommand = new CommandBase((obj) => PreviewMouseWheelHandler(obj as MouseWheelEventArgs));
+            ResetViewportControllerCommand = new CommandBase((_) => ResetController());
         }
 
         private void ZoomIn()
@@ -94,13 +101,17 @@ DependencyProperty.Register("ObjectToControlProperty", typeof(UIElement), typeof
                 ObjectsRotateTransform.Angle += RotateStep;
             else
                 ObjectsRotateTransform.Angle -= RotateStep;
-
-
         }
 
         private void ResetRotate()
         {
             ObjectsRotateTransform.Angle = 0;
+        }
+
+        private void ResetController()
+        {
+            ResetZoom();
+            ResetRotate();
         }
 
 

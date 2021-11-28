@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/ControlsResources/Colors.xaml" />
                 <ResourceDictionary Source="/ControlsResources/MenuItem.xaml"/>
                 <ResourceDictionary Source="/ControlsResources/TextBox.xaml"/>
+                <ResourceDictionary Source="/Others/image.xaml"/>
                 
 
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
@@ -93,8 +94,6 @@
             <DataTemplate DataType="{x:Type ViewModel:ShapePopupViewModel}">
                 <Views:ShapePopup />
             </DataTemplate>
-
-            <Image x:Key="VectorMakerIcon" Source="logo2.png" />
 
             <Style x:Key="ToggleButtonForMenu" TargetType="ToggleButton">
                 <Setter Property="Height" Value="30"/>

@@ -24,8 +24,23 @@
         </ContentControl>
         <Grid ClipToBounds="True" Background="{Binding AppConfiguration.BackgroundColor}">
             <Grid.Resources>
+                <DrawingBrush x:Key="Check" TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" >
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="{Binding AppConfiguration.CheckColor}" />
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
                 <Style TargetType="ScrollBar"  BasedOn="{StaticResource MahApps.Styles.ScrollBar}"/>
-                <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}"/>
+                <Style TargetType="ScrollViewer" BasedOn="{StaticResource MahApps.Styles.ScrollViewer}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding AppConfiguration.IsBackgroundCheckered}" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Check}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding AppConfiguration.IsBackgroundCheckered}" Value="False">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                
             </Grid.Resources>
 
             <ScrollViewer HorizontalScrollBarVisibility="Visible" 
@@ -45,10 +60,10 @@
                         <i:InvokeCommandAction Command="{Binding ScrollChangedCommand,ElementName=ViewportControllerObject}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewMouseWheel">
-                        <i:InvokeCommandAction Command="{Binding PreviewMouseWheelCommand, ElementName=ViewportControllerObject}" PassEventArgsToCommand="True" CommandParameter=""/>
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseWheelCommand, ElementName=ViewportControllerObject}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5">
+                <Grid x:Name="ScaleParent" RenderTransformOrigin="0.5,0.5" Background="Transparent">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonUp">
                             <i:InvokeCommandAction Command="{Binding MouseLeftUpCommand}" PassEventArgsToCommand="True"/>
@@ -63,22 +78,34 @@
                             <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" PassEventArgsToCommand="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Grid.Background >
-                        <DrawingBrush TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" >
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="{Binding AppConfiguration.CheckColor}" />
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Grid.Background>
-                    <Border Width="{Binding Width}" Height="{Binding Height}" BorderThickness="2" BorderBrush="{Binding AppConfiguration.BorderColor}" x:Name="Page" Visibility="{Binding AppConfiguration.BorderVisibility}">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="3" />
-                        </Border.Effect>
+                   
+                    <Border Width="{Binding Width}" Height="{Binding Height}" BorderThickness="4" 
+                            BorderBrush="{Binding AppConfiguration.BorderColor}" 
+                            x:Name="Page" 
+                            Visibility="{Binding AppConfiguration.BorderVisibility}"
+                            Focusable="False">
+                        <Border.Resources>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AppConfiguration.IsBorderShadow}" Value="True">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="3" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Resources>
                     </Border>
-                    <Canvas Width="{Binding Width}" Height="{Binding Height}" x:Name="CanvasObject"/>
+                    <Canvas Width="{Binding Width}" Height="{Binding Height}" x:Name="CanvasObject" Focusable="False"/>
                 </Grid>
             </ScrollViewer>
-            <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" ObjectToControlProperty="{Binding ElementName=ScaleParent}" x:Name="ViewportControllerObject" />
+            <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" 
+                                        ObjectToControlProperty="{Binding ElementName=ScaleParent}" 
+                                        x:Name="ViewportControllerObject" 
+                                        Focusable="False" 
+                                        Panel.ZIndex="-1"/>
         </Grid>
     </Grid>
 </UserControl>
