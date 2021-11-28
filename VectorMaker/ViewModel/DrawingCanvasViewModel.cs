@@ -146,6 +146,11 @@ namespace VectorMaker.ViewModel
         public ICommand GroupCommand { get; set; }
         public ICommand UngroupCommand { get; set; }
 
+        public ICommand FlipVerticalCommand { get; set; }
+        public ICommand FlipHorizontalCommand { get; set; }
+        public ICommand RotateClockwiseCommand { get; set; }
+        public ICommand RotateCounterclockwiseCommand { get; set; }
+
         #endregion
 
         #region Constructors
@@ -306,8 +311,12 @@ namespace VectorMaker.ViewModel
             PreviewKeyDownCommand = new CommandBase((obj) => KeyDownHandler(obj as KeyEventArgs));
             PreviewKeyUpCommand = new CommandBase((obj) => KeyUpHandler(obj as KeyEventArgs));
             DropCommand = new CommandBase((obj) => FileDropHandler(obj as DragEventArgs));
-            GroupCommand = new CommandBase((obj) => GroupObjects());
-            UngroupCommand = new CommandBase((obj) => UngroupObjects());
+            GroupCommand = new CommandBase((_) => GroupObjects());
+            UngroupCommand = new CommandBase((_) => UngroupObjects());
+            FlipHorizontalCommand = new CommandBase((_) => Flip());
+            FlipVerticalCommand = new CommandBase((_) => Flip(true));
+            RotateClockwiseCommand = new CommandBase((_) => Rotate());
+            RotateCounterclockwiseCommand = new CommandBase((_) => Rotate(false));
         }
         private void LoadFile()
         {
@@ -435,6 +444,7 @@ namespace VectorMaker.ViewModel
                     }
             }
         }
+
         private void SelectionTest(Point e)
         {
             if (!(Keyboard.Modifiers == ModifierKeys.Shift))
@@ -450,6 +460,7 @@ namespace VectorMaker.ViewModel
                 HitTestResultCallback,
                 new PointHitTestParameters(e));
         }
+
         private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
         {
             PointHitTestResult testResult = result as PointHitTestResult;
@@ -460,6 +471,7 @@ namespace VectorMaker.ViewModel
             }
             return HitTestResultBehavior.Continue;
         }
+
         private void CreateEditingAdorner(UIElement uiElement)
         {
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(uiElement);
@@ -467,6 +479,7 @@ namespace VectorMaker.ViewModel
             adornerLayer.Add(adorner);
             SelectedObjects.Add(adorner);
         }
+
         private Matrix RemoveTranslation(Matrix target, Matrix translateToRemove)
         {
             target.OffsetX -= translateToRemove.OffsetX;
@@ -479,6 +492,30 @@ namespace VectorMaker.ViewModel
             target.OffsetX += translateToRemove.OffsetX;
             target.OffsetY += translateToRemove.OffsetY;
             return target;
+        }
+
+        private void Flip(bool isVertical = false)
+        {
+            foreach(ResizingAdorner adorner in SelectedObjects)
+            {
+                UIElement element = adorner.AdornedElement;
+                Transform transform = element.RenderTransform;
+                Matrix matrix = transform.Value;
+                matrix.ScaleAtPrepend(isVertical ? 1 : -1, isVertical ? -1 : 1,element.RenderSize.Width/2,element.RenderSize.Height/2);
+                element.RenderTransform = new MatrixTransform(matrix);
+            }
+        }
+
+        private void Rotate(bool isClockwise = true)
+        {
+            foreach (ResizingAdorner adorner in SelectedObjects)
+            {
+                UIElement element = adorner.AdornedElement;
+                Transform transform = element.RenderTransform;
+                Matrix matrix = transform.Value;
+                matrix.RotateAtPrepend(isClockwise ? 90 : -90, element.RenderSize.Width / 2, element.RenderSize.Height / 2);
+                element.RenderTransform = new MatrixTransform(matrix);
+            }
         }
 
         private void MouseLeftButtonDownHandler(MouseButtonEventArgs e)
@@ -657,6 +694,15 @@ namespace VectorMaker.ViewModel
             }
             m_interfaceMainWindowVM.Close(this);
 
+        }
+        protected override void PrintFile()
+        {
+            PrintDialog printDialog = new PrintDialog();
+            bool result = (bool)printDialog.ShowDialog();
+            if(result)
+            {
+                printDialog.PrintVisual(MainCanvas, "VectorMaker print image");
+            }
         }
         protected override void SaveFileAsPDF(string fullFilePath)
         {

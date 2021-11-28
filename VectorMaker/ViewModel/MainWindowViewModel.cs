@@ -30,7 +30,6 @@ namespace VectorMaker.ViewModel
 
         public ICommand OpenTransformToolCommand { get; set; }
         public ICommand OpenPropertiesToolCommand { get; set; }
-        public ICommand OpenColorPickerToolCommand { get; set; }
         public ICommand OpenAlignmentToolCommand { get; set; }
         public ICommand OpenLayersToolCommand { get; set; }
 
@@ -295,21 +294,21 @@ namespace VectorMaker.ViewModel
 
             TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.CloseBoxMultiple, () => CloseAllDocuments(), isToggleButton: false, toolTip: "Close All Files"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileExport, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Export"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FileExport, () => { ActiveDocument.SaveAsCommand.Execute("png"); }, isToggleButton: false, toolTip: "Export"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Print"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => { ActiveDocument.PrintCommand.Execute(null); }, isToggleButton: false, toolTip: "Print"));
 
             TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => GroupObjects(), isToggleButton: false, toolTip: "Group"));
 
             TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => UngroupObjects(), isToggleButton: false, toolTip: "Ungroup"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipHorizontal, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Flip horizontal"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipHorizontal, () => { FlipHorizontalObjects(); }, isToggleButton: false, toolTip: "Flip horizontal"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipVertical, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Flip vertical"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipVertical, () => { FlipVerticalObjects(); }, isToggleButton: false, toolTip: "Flip vertical"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateLeftVariant, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Rotate left"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateLeftVariant, () => { RotateCounterclockwiseObjects(); }, isToggleButton: false, toolTip: "Rotate left"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateRightVariant, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Rotate right"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.RotateRightVariant, () => { RotateClockwiseObjects(); }, isToggleButton: false, toolTip: "Rotate right"));
         }
 
         private void SetCommands()
@@ -323,7 +322,6 @@ namespace VectorMaker.ViewModel
 
             OpenTransformToolCommand = new CommandBase((obj) => CreateTool(ObjectTransformsVMTool));
             OpenPropertiesToolCommand = new CommandBase((obj) => CreateTool(ObjectPropertiesVMTool));
-            OpenColorPickerToolCommand = new CommandBase((obj) => ColorPickerTool());
             OpenAlignmentToolCommand = new CommandBase((obj) => CreateTool(ObjectAlignmentVMTool));
             OpenLayersToolCommand = new CommandBase((obj) => CreateTool(DrawingLayersVMTool));
 
@@ -356,6 +354,23 @@ namespace VectorMaker.ViewModel
         {
             (m_activeDocument as DrawingCanvasViewModel).UngroupObjects();
         }
+        private void FlipVerticalObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).FlipVerticalCommand.Execute(null);
+        }
+        private void FlipHorizontalObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).FlipHorizontalCommand.Execute(null);   
+        }
+        private void RotateClockwiseObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).RotateClockwiseCommand.Execute(null);
+        }
+        private void RotateCounterclockwiseObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).RotateCounterclockwiseCommand.Execute(null);
+        }
+
         private void OpenAppSettings()
         {
             AppSettingsViewModel appSettingsViewModel = new();
@@ -385,11 +400,8 @@ namespace VectorMaker.ViewModel
         }
         private void SaveAllDocuments()
         {
-            throw new NotImplementedException();
-        }
-        private void ColorPickerTool()
-        {
-            throw new NotImplementedException();  //toDo
+            foreach(var document in m_documents)
+                document.SaveCommand.Execute(null);
         }
         private void CreateTool(ToolBaseViewModel tool)
         {

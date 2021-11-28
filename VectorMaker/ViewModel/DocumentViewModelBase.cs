@@ -136,6 +136,7 @@ namespace VectorMaker.ViewModel
         public ICommand CloseCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SaveAsCommand { get; set; }
+        public ICommand PrintCommand { get; set; }
 
         #endregion
 
@@ -152,10 +153,12 @@ namespace VectorMaker.ViewModel
             CloseCommand = new CommandBase((obj) => CloseFile());
             SaveCommand = new CommandBase((obj) => SaveFile());
             SaveAsCommand = new CommandBase((obj) => SaveAsFile(obj as string));
+            PrintCommand = new CommandBase((obj) => PrintFile());
         }
 
         protected abstract bool SaveFile();
         protected abstract void CloseFile();
+        protected abstract void PrintFile();
         protected virtual void SaveAsFile(string type)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();

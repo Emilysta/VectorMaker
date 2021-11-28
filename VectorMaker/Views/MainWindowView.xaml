@@ -71,6 +71,10 @@
                         <MenuItem Header="Object" >
                             <MenuItem Header="Group" Command="{Binding ActiveDocument.GroupCommand}"/>
                             <MenuItem Header="Ungroup" Command="{Binding ActiveDocument.UngroupCommand}"/>
+                            <MenuItem Header="Flip horizontal" Command="{Binding ActiveDocument.FlipHorizontalCommand}"/>
+                            <MenuItem Header="Flip vertical" Command="{Binding ActiveDocument.FlipVerticalCommand}"/>
+                            <MenuItem Header="Rotate 90 clockwise" Command="{Binding ActiveDocument.RotateClockwiseCommand}"/>
+                            <MenuItem Header="Rotate 90 counterclockwise" Command="{Binding ActiveDocument.RotateCounterclockwiseCommand}"/>
                             <Separator/>
                         </MenuItem>
                         <MenuItem Header="Layer" >
@@ -82,7 +86,6 @@
                         <MenuItem Header="Tools" >
                             <MenuItem Header="Transform Tool" Command="{Binding OpenTransformToolCommand}"/>
                             <MenuItem Header="Fill &amp; Stroke Properties Tool" Command="{Binding OpenPropertiesToolCommand}"/>
-                            <MenuItem Header="Color Picker" Command="{Binding OpenColorPickerToolCommand}"/>
                             <MenuItem Header="Alignment Tool" Command="{Binding OpenAlignmentToolCommand}"/>
                             <MenuItem Header="Layer Tool" Command="{Binding OpenLayersToolCommand}"/>
                         </MenuItem>

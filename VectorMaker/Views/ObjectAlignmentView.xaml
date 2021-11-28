@@ -52,15 +52,15 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <controls:ButtonWithIcon Grid.Column="0" Grid.Row="0" IconKind="AlignBottom" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignBottomCommand}" />
-                    <controls:ButtonWithIcon Grid.Column="1" Grid.Row="0" IconKind="AlignTop" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignTopCommand}"/>
-                    <controls:ButtonWithIcon Grid.Column="2" Grid.Row="0" IconKind="AlignStart" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignLeftCommand}"/>
-                    <controls:ButtonWithIcon Grid.Column="3" Grid.Row="0" IconKind="AlignEnd" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignRightCommand}"/>
+                    <controls:ButtonWithIcon Grid.Column="0" Grid.Row="0" IconKind="AlignBottom" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignBottomCommand}" ToolTip="Bottom" />
+                    <controls:ButtonWithIcon Grid.Column="1" Grid.Row="0" IconKind="AlignTop" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignTopCommand}" ToolTip="Top"/>
+                    <controls:ButtonWithIcon Grid.Column="2" Grid.Row="0" IconKind="AlignStart" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignLeftCommand}" ToolTip="Left"/>
+                    <controls:ButtonWithIcon Grid.Column="3" Grid.Row="0" IconKind="AlignEnd" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignRightCommand}" ToolTip="Right"/>
 
-                    <controls:ButtonWithIcon Grid.Column="0" Grid.Row="1" IconKind="AlignMiddle" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignCenterVerticalCommand}"/>
-                    <controls:ButtonWithIcon Grid.Column="1" Grid.Row="1" IconKind="AlignCenter" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignCenterVerticalCommand}"/>
-                    <controls:ButtonWithIcon Grid.Column="2" Grid.Row="1" IconKind="DistributeHorizontal" Margin="2" ButtonCornerRadius="1" Command="{Binding DistributeHorizontalCommand}" />
-                    <controls:ButtonWithIcon Grid.Column="3" Grid.Row="1" IconKind="DistributeVertical" Margin="2" ButtonCornerRadius="1" Command="{Binding DistributeVerticalCommand}"/>
+                    <controls:ButtonWithIcon Grid.Column="0" Grid.Row="1" IconKind="AlignMiddle" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignCenterVerticalCommand}" ToolTip="Vertical"/>
+                    <controls:ButtonWithIcon Grid.Column="1" Grid.Row="1" IconKind="AlignCenter" Margin="2" ButtonCornerRadius="1" Command="{Binding AlignCenterHorizontalCommand}" ToolTip="Horizontal"/>
+                    <controls:ButtonWithIcon Grid.Column="2" Grid.Row="1" IconKind="DistributeHorizontal" Margin="2" ButtonCornerRadius="1" Command="{Binding DistributeHorizontalCommand}" ToolTip="Distribute horizontal"/>
+                    <controls:ButtonWithIcon Grid.Column="3" Grid.Row="1" IconKind="DistributeVertical" Margin="2" ButtonCornerRadius="1" Command="{Binding DistributeVerticalCommand}" ToolTip="Distribute vertical"/>
                 </Grid>
                 <!-- <mahControls:NumericUpDown Grid.Column="1" x:Name="TranslationXTextBox" /> -->
                 <!-- <TextBlock Text="X" /> -->
