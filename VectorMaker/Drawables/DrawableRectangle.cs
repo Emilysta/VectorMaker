@@ -6,8 +6,10 @@ namespace VectorMaker.Drawables
 {
     public class DrawableRectangle : Drawable
     {
-
-        public DrawableRectangle(PathSettings pathSettings) : base(pathSettings) {}
+        private PathSettings m_settings;
+        public DrawableRectangle() : base() {}
+        public DrawableRectangle(PathSettings pathSettings) : base() 
+        { m_settings = pathSettings; }
 
         public override void SetValueOfPoint(Point point)
         {
@@ -31,6 +33,13 @@ namespace VectorMaker.Drawables
             m_shape.Width = rect.Width;
             m_shape.Height = rect.Height;
             SetPathSettings();
+            if (m_settings != null)
+            {
+                m_shape.Fill = m_settings.Fill;
+                m_shape.Stroke = m_settings.Stroke;
+                m_shape.StrokeThickness = m_settings.StrokeThickness;
+                m_shape.StrokeDashArray = null;
+            }
         }
     }
 }

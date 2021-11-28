@@ -26,6 +26,7 @@ namespace VectorMaker.Drawables
         PolyLine,
         Polygon,
         Path,
+        Text
     }
 
     public abstract class Drawable
@@ -34,16 +35,9 @@ namespace VectorMaker.Drawables
         protected System.Windows.Point m_endPoint;
         protected Shape m_shape;
         protected TranslateTransform m_translateTransform;
-        private PathSettings m_pathSettings;
         protected GeneralTransform m_inverseTranslateTransform => m_translateTransform.Inverse;
 
-        public PathSettings Settings => m_pathSettings;
-
-        public Drawable(PathSettings pathSettings)
-        {
-            m_pathSettings = pathSettings;
-            m_pathSettings.OnValuesChange += OnSettingsChange;
-        }
+        public Drawable() { }
 
         public Shape StartDrawing(System.Windows.Point startPoint)
         {
@@ -58,11 +52,6 @@ namespace VectorMaker.Drawables
         public abstract void AddPointToCollection();
         public abstract void SetValueOfPoint(System.Windows.Point point);
         protected abstract void CreateGeometry();
-
-        private void OnSettingsChange()
-        {
-            SetPathSettings();
-        }
         private void CreateGeometryBase()
         {
             CreateGeometry();
@@ -74,9 +63,6 @@ namespace VectorMaker.Drawables
             m_shape.StrokeThickness = ShapeProperties.Instance.StrokeThickness;
             if (ShapeProperties.Instance.StrokeDashArray != null)
                 m_shape.StrokeDashArray = new DoubleCollection(ShapeProperties.Instance.StrokeDashArray);
-            m_shape.Visibility = m_pathSettings.Visibility;
-            m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
-            m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
         }
         protected void SetPathSettingsWithoutFill()
         {
@@ -84,9 +70,7 @@ namespace VectorMaker.Drawables
             m_shape.StrokeThickness = ShapeProperties.Instance.StrokeThickness;
             if(ShapeProperties.Instance.StrokeDashArray!=null)
                 m_shape.StrokeDashArray = new DoubleCollection(ShapeProperties.Instance.StrokeDashArray);
-            m_shape.Visibility = m_pathSettings.Visibility;
-            m_shape.VerticalAlignment = m_pathSettings.VerticalAlignment;
-            m_shape.HorizontalAlignment = m_pathSettings.HorizontalAlignment;
+
         }
     }
 }

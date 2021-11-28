@@ -11,7 +11,7 @@ namespace VectorMaker.Drawables
         private Point m_tempPoint;
         private Polyline m_polyline => (Polyline)m_shape;
 
-        public DrawablePolyline(PathSettings pathSettings) : base(pathSettings) { }
+        public DrawablePolyline() : base() { }
 
         public override void SetValueOfPoint(Point point)
         {

@@ -6,7 +6,7 @@ namespace VectorMaker.Drawables
 {
     public class DrawableEllipse : Drawable
     {
-        public DrawableEllipse(PathSettings pathSettings) : base(pathSettings) { }
+        public DrawableEllipse() : base() { }
 
         public override void SetValueOfPoint(Point point)
         {

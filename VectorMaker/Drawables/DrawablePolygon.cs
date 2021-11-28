@@ -11,7 +11,7 @@ namespace VectorMaker.Drawables
         private Point m_tempPoint;
         private Polygon m_polygon => (Polygon)m_shape;
 
-        public DrawablePolygon(PathSettings pathSettings) : base(pathSettings) { }
+        public DrawablePolygon() : base() { }
 
         public override void SetValueOfPoint(Point point)
         {

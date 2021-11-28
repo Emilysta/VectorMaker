@@ -268,6 +268,8 @@ namespace VectorMaker.ViewModel
                 toolTip: "Polyline"));
             LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorPolygon, () => SetDrawableType(DrawableTypes.Polygon),
                 toolTip: "Polygon"));
+            LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.TextRecognition, () => SetDrawableType(DrawableTypes.Text),
+                 toolTip: "Text"));
             LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorUnion, () => CombineGeometries(GeometryCombineMode.Union),
                 isToggleButton: false, toolTip: "Union"));
             LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorIntersection, () => CombineGeometries(GeometryCombineMode.Intersect),
@@ -276,6 +278,7 @@ namespace VectorMaker.ViewModel
                 isToggleButton: false, toolTip: "Exclude"));
             LeftMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.VectorDifference, () => CombineGeometries(GeometryCombineMode.Xor),
                 isToggleButton: false, toolTip: "XOR"));
+
         }
 
         private void CreateTopMenu()

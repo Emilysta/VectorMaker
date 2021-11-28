@@ -84,22 +84,7 @@ namespace VectorMaker.ViewModel
             }
         }
         private bool IsOneObjectSelected => m_selectedObjects?.Count == 1;
-        private Transform m_transform
-        {
-            get => m_adorner?.AdornedElement.RenderTransform;
-            set
-            {
-                if (m_adorner != null)
-                {
-                    m_adorner.AdornedElement.RenderTransform = value;
-                    m_adorner.AdornedElement.InvalidateVisual();
-                }
-            }
-        }
-        private Size m_adornedElementSize
-        {
-            get => (Size)m_adorner?.AdornedElement.RenderSize;
-        }
+
         #endregion
 
         #region Commands
@@ -153,7 +138,6 @@ namespace VectorMaker.ViewModel
                 m_adorner = m_selectedObjects[0];
             else
                 m_adorner = null;
-            m_transform = m_adorner?.AdornedElement.RenderTransform;
             SetValuesForAlignment();
         }
 

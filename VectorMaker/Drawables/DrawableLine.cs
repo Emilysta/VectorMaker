@@ -6,7 +6,7 @@ namespace VectorMaker.Drawables
     public class DrawableLine : Drawable
     {
         Line m_line => (Line)m_shape;
-        public DrawableLine(PathSettings pathSettings) : base(pathSettings) { }
+        public DrawableLine() : base() { }
 
         public override void SetValueOfPoint(Point point)
         {

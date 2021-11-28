@@ -40,7 +40,6 @@ namespace VectorMaker.ViewModel
         private string m_defaultExtension = "xaml";
         private Drawable m_drawableObject;
         private ShapeDef.Shape m_drawableObjectShape;
-        private PathSettings m_pathSettings = PathSettings.Default();
         private Canvas m_mainCanvas;
         private ObservableCollection<ResizingAdorner> m_selectedObjects = new();
         private IMainWindowViewModel m_interfaceMainWindowVM;
@@ -48,6 +47,7 @@ namespace VectorMaker.ViewModel
         private int m_layersCount = 1;
         private LayerItemViewModel m_selectedLayer;
         private ShapePopupViewModel m_shapePopup;
+        private Style m_textBoxStyle;
         #endregion
 
         #region Properties
@@ -164,6 +164,7 @@ namespace VectorMaker.ViewModel
             ShapePopupObject = new ShapePopupViewModel(mainWindowViewModel);
             Width = width;
             Height = height;
+            m_textBoxStyle = (Style)Application.Current.Resources["TextBoxTransparent"];
         }
 
         public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel)
@@ -173,6 +174,7 @@ namespace VectorMaker.ViewModel
             m_isFileToBeLoaded = true;
             Layers = new ObservableCollection<LayerItemViewModel>();
             SetCommands();
+            m_textBoxStyle = (Style)Application.Current.Resources["TextBoxTransparent"];
         }
 
         private void LayersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -414,17 +416,17 @@ namespace VectorMaker.ViewModel
             {
                 case DrawableTypes.Ellipse:
                     {
-                        m_drawableObject = new DrawableEllipse(m_pathSettings);
+                        m_drawableObject = new DrawableEllipse();
                         break;
                     }
                 case DrawableTypes.Rectangle:
                     {
-                        m_drawableObject = new DrawableRectangle(m_pathSettings);
+                        m_drawableObject = new DrawableRectangle();
                         break;
                     }
                 case DrawableTypes.Line:
                     {
-                        m_drawableObject = new DrawableLine(m_pathSettings);
+                        m_drawableObject = new DrawableLine();
                         break;
                     }
                 case DrawableTypes.None:
@@ -434,12 +436,21 @@ namespace VectorMaker.ViewModel
                     }
                 case DrawableTypes.PolyLine:
                     {
-                        m_drawableObject = new DrawablePolyline(m_pathSettings);
+                        m_drawableObject = new DrawablePolyline();
                         break;
                     }
                 case DrawableTypes.Polygon:
                     {
-                        m_drawableObject = new DrawablePolygon(m_pathSettings);
+                        m_drawableObject = new DrawablePolygon();
+                        break;
+                    }
+                case DrawableTypes.Text:
+                    {
+                        PathSettings pathSettings = new PathSettings();
+                        pathSettings.Fill = Brushes.Transparent;
+                        pathSettings.Stroke = Brushes.White;
+                        pathSettings.StrokeThickness = 1;
+                        m_drawableObject = new DrawableRectangle(pathSettings);
                         break;
                     }
             }
@@ -464,7 +475,7 @@ namespace VectorMaker.ViewModel
         private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
         {
             PointHitTestResult testResult = result as PointHitTestResult;
-            if ((testResult.VisualHit as FrameworkElement).Parent == SelectedLayer.Layer)
+            if ((testResult.VisualHit as FrameworkElement !=null) && (testResult.VisualHit as FrameworkElement).Parent == SelectedLayer.Layer)
             {
                 CreateEditingAdorner(testResult.VisualHit as UIElement);
                 return HitTestResultBehavior.Stop;
@@ -531,9 +542,7 @@ namespace VectorMaker.ViewModel
                     {
                         m_drawableObjectShape = m_drawableObject.StartDrawing(m_positionInCanvas);
                         SelectedLayer.Layer.Children.Add(m_drawableObjectShape);
-                        //OnPropertyChanged("Children");
                         IsSaved = false;
-                        //Trace.WriteLine(m_positionInCanvas);
                     }
                 }
                 else
@@ -555,6 +564,21 @@ namespace VectorMaker.ViewModel
                         SelectedLayer.Layer.Children.Remove(m_drawableObjectShape);
                         IsSaved = true;
                     }
+                }
+                if(DrawableType == DrawableTypes.Text)
+                {
+                    SelectedLayer.Layer.Children.Remove(m_drawableObjectShape);
+                    Matrix matrix = m_drawableObjectShape.RenderTransform.Value;
+                    TextBox textBox = new TextBox();
+                    textBox.RenderTransform = new MatrixTransform(matrix);
+                    textBox.RenderSize = m_drawableObjectShape.RenderSize;
+                    textBox.TextWrapping= TextWrapping.Wrap;
+                    textBox.AcceptsReturn = true;
+                    textBox.AcceptsTab = true;
+                    textBox.UndoLimit = 10;
+                    textBox.Style = m_textBoxStyle;
+                    textBox.Text = "Text";
+                    SelectedLayer.Layer.Children.Add(textBox);
                 }
 
             }
