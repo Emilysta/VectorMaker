@@ -299,9 +299,9 @@ namespace VectorMaker.ViewModel
 
             TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Printer, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Print"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Group"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Group, () => GroupObjects(), isToggleButton: false, toolTip: "Group"));
 
-            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Ungroup"));
+            TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.Ungroup, () => UngroupObjects(), isToggleButton: false, toolTip: "Ungroup"));
 
             TopMenu.AddNewButton(new ToggleButtonForMenu(PackIconMaterialKind.FlipHorizontal, () => { throw new NotImplementedException(); }, isToggleButton: false, toolTip: "Flip horizontal"));
 
@@ -346,6 +346,15 @@ namespace VectorMaker.ViewModel
         private void CombineGeometries(GeometryCombineMode mode)
         {
             (m_activeDocument as DrawingCanvasViewModel).CombineTwoGeometries(mode);
+        }
+        private void GroupObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).GroupObjects();
+        }
+
+        private void UngroupObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).UngroupObjects();
         }
         private void OpenAppSettings()
         {

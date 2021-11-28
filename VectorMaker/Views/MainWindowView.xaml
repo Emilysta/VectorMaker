@@ -69,8 +69,8 @@
                         </MenuItem>
                         <MenuItem Header="Edit" IsEnabled="False"/>
                         <MenuItem Header="Object" >
-                            <MenuItem Header="Group"/>
-                            <MenuItem Header="Ungroup"/>
+                            <MenuItem Header="Group" Command="{Binding ActiveDocument.GroupCommand}"/>
+                            <MenuItem Header="Ungroup" Command="{Binding ActiveDocument.UngroupCommand}"/>
                             <Separator/>
                         </MenuItem>
                         <MenuItem Header="Layer" >
@@ -103,12 +103,6 @@
             </Grid>
 
             <Grid DockPanel.Dock="Top" Margin="3,0,0,0"  Height="35" Background="Transparent">
-                <!--<Menu Background="#FF2D2D30" Foreground="#FFC3C3C3">
-                    <MenuItem Command="{Binding NewDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkPlus, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding OpenDocumentCommand}" Header="{iconPacks:BootstrapIcons Kind=FileArrowDown, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding ActiveDocument.SaveCommand}" Header="{iconPacks:BootstrapIcons Kind=FileEarmarkArrowDown, Height=15, Width=10}"/>
-                    <MenuItem Command="{Binding SaveAllCommand}" Header="{iconPacks:BootstrapIcons Kind=Files, Height=15, Width=10}"/>
-                </Menu>-->
                 <StackPanel Orientation="Horizontal">
                     <ItemsControl ItemsSource="{Binding TopMenu.ToggleButtonKinds}" >
                         <ItemsControl.ItemTemplate>

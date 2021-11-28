@@ -57,7 +57,6 @@ namespace VectorMaker.Utility
         }
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Trace.WriteLine(finalSize);
             m_dragThumb.Width = m_adornedElement.Width;
             m_dragThumb.Height = m_adornedElement.Height;
             m_scaleThumb?.Arrange(new Rect(finalSize.Width - 5, finalSize.Height - 5, 10, 10));

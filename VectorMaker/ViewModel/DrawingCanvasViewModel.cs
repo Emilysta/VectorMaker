@@ -143,6 +143,8 @@ namespace VectorMaker.ViewModel
         public ICommand PreviewKeyDownCommand { get; set; }
         public ICommand PreviewKeyUpCommand { get; set; }
         public ICommand DropCommand { get; set; }
+        public ICommand GroupCommand { get; set; }
+        public ICommand UngroupCommand { get; set; }
 
         #endregion
 
@@ -230,6 +232,71 @@ namespace VectorMaker.ViewModel
                 CreateEditingAdorner(path);
             }
         }
+        public void GroupObjects()
+        {
+            if (SelectedObjects.Count > 1)
+            {
+                Grid grid = new Grid();
+                grid.Tag = "group";
+                double xMin = double.MaxValue;
+                double yMin = double.MaxValue;
+                double xMax = double.MinValue;
+                double yMax = double.MinValue;
+
+                foreach (ResizingAdorner adorner in SelectedObjects)
+                {
+                    UIElement uIElement = adorner.AdornedElement;
+                    xMin = Math.Min(xMin, uIElement.RenderTransform.Value.OffsetX);
+                    yMin = Math.Min(yMin, uIElement.RenderTransform.Value.OffsetY);
+                    xMax = Math.Max(xMax, uIElement.RenderTransform.Value.OffsetX + uIElement.RenderSize.Width);
+                    yMax = Math.Max(yMax, uIElement.RenderTransform.Value.OffsetY + uIElement.RenderSize.Height);
+                    SelectedLayer.Layer.Children.Remove(adorner.AdornedElement);
+                    adorner.RemoveFromAdornerLayer();
+                    grid.Children.Add(adorner.AdornedElement);
+                }
+                SelectedObjects.Clear();
+
+                Rect rect = new Rect(xMin, yMin,xMax-xMin,yMax-yMin);
+                grid.Width = rect.Width;
+                grid.Height = rect.Height;
+                grid.RenderSize = rect.Size;
+                MatrixTransform matrixTransform = new MatrixTransform(1, 0, 0, 1, xMin, yMin);
+                grid.RenderTransform = matrixTransform;
+                foreach(UIElement child in grid.Children)
+                {
+                    child.RenderTransform = new MatrixTransform(RemoveTranslation(child.RenderTransform.Value, matrixTransform.Value));
+                }
+                SelectedLayer.Layer.Children.Add(grid);
+                grid.Background = Brushes.Transparent;
+                CreateEditingAdorner(grid);
+            }
+            else
+            {
+                MessageBox.Show("not enough objects selected");
+            }
+        }
+        public void UngroupObjects()
+        {
+            if (SelectedObjects.Count == 1 && SelectedObjects[0].AdornedElement is Grid)
+            {
+                Grid group = SelectedObjects[0].AdornedElement as Grid;
+                SelectedObjects[0].RemoveFromAdornerLayer();
+                UIElementCollection collection = group.Children;
+                while(collection.Count>0)
+                {
+                    UIElement child = collection[0];
+                    collection.Remove(child);
+                    SelectedLayer.Layer.Children.Add(child);
+                    child.RenderTransform = new MatrixTransform(RestoreTranslation(child.RenderTransform.Value, group.RenderTransform.Value));
+                    CreateEditingAdorner(child);
+                }
+                SelectedLayer.Layer.Children.Remove(group);
+            }
+            else
+            {
+                MessageBox.Show("too many object ora Selected Object is not a group");
+            }
+        }
         private void SetCommands()
         {
             MouseLeftUpCommand = new CommandBase((obj) => MouseLeftButtonUpHandler(obj as MouseButtonEventArgs));
@@ -239,6 +306,8 @@ namespace VectorMaker.ViewModel
             PreviewKeyDownCommand = new CommandBase((obj) => KeyDownHandler(obj as KeyEventArgs));
             PreviewKeyUpCommand = new CommandBase((obj) => KeyUpHandler(obj as KeyEventArgs));
             DropCommand = new CommandBase((obj) => FileDropHandler(obj as DragEventArgs));
+            GroupCommand = new CommandBase((obj) => GroupObjects());
+            UngroupCommand = new CommandBase((obj) => UngroupObjects());
         }
         private void LoadFile()
         {
@@ -384,7 +453,7 @@ namespace VectorMaker.ViewModel
         private HitTestResultBehavior HitTestResultCallback(HitTestResult result)
         {
             PointHitTestResult testResult = result as PointHitTestResult;
-            if ((testResult.VisualHit as FrameworkElement).Parent is Canvas)
+            if ((testResult.VisualHit as FrameworkElement).Parent == SelectedLayer.Layer)
             {
                 CreateEditingAdorner(testResult.VisualHit as UIElement);
                 return HitTestResultBehavior.Stop;
@@ -404,6 +473,14 @@ namespace VectorMaker.ViewModel
             target.OffsetY -= translateToRemove.OffsetY;
             return target;
         }
+
+        private Matrix RestoreTranslation(Matrix target, Matrix translateToRemove)
+        {
+            target.OffsetX += translateToRemove.OffsetX;
+            target.OffsetY += translateToRemove.OffsetY;
+            return target;
+        }
+
         private void MouseLeftButtonDownHandler(MouseButtonEventArgs e)
         {
             if (!IgnoreDrawing)
