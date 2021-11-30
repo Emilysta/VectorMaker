@@ -68,6 +68,9 @@
     <Page Update="ControlsResources\MenuItem.xaml">
       <CustomToolNamespace>VectorMaker.ControlsResources</CustomToolNamespace>
     </Page>
+    <Page Update="Views\MetaFileSettingsView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

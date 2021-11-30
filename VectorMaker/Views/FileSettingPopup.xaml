@@ -58,7 +58,8 @@
                     <controlsresources:ButtonWithIcon Margin="5,3" Width="40" 
                                                       IconKind="FileEarmarkRichtext" 
                                                       ButtonCornerRadius="2" 
-                                                      ToolTip="Metadata"/>
+                                                      ToolTip="Metadata"
+                                                      Command="{Binding MetaWindowOpenCommand}"/>
                 </StackPanel>
             </StackPanel>
             <controlsresources:ToggleButtonWithIcon IconKind="CaretLeftSolid" 

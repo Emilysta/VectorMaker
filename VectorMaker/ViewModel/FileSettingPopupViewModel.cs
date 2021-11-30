@@ -38,13 +38,18 @@ namespace VectorMaker.ViewModel
         private void SetCommands()
         {
             BackgroundPickCommand = new CommandBase((_) => BackgroundPick());
-            MetaWindowOpenCommand = new CommandBase((_) => throw new NotImplementedException());
+            MetaWindowOpenCommand = new CommandBase((_) => MetaWindowOpen());
         }
 
         private void BackgroundPick()
         {
             ColorPickerViewModel colorPicker = new ColorPickerViewModel(Drawing.Data.Background);
             colorPicker.ShowWindowAndWaitForResult();
+        }
+
+        private void MetaWindowOpen()
+        {
+            MetaFileSettingsViewModel metaFileSettingsViewModel = new MetaFileSettingsViewModel(Drawing.Data);
         }
         #endregion
     }

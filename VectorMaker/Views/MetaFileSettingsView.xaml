@@ -1,0 +1,146 @@
+﻿<Window x:Class="VectorMaker.Views.MetaFileSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mahControls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks = "http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:controlsresources="clr-namespace:VectorMaker.ControlsResources"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        mc:Ignorable="d"
+        Height="300" Width="260" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        x:Name="MetaFileSettingsWindow"
+        BorderThickness="0" Foreground="{StaticResource LightText}"
+        FontSize="13" FontWeight="Light" 
+        WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding WindowMouseLeftButtonDownCommand}" PassEventArgsToCommand="True">
+            </i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+    </Window.Resources>
+    <Border CornerRadius="2" BorderThickness="2" Background="#202022" BorderBrush="#202022">
+        <DockPanel HorizontalAlignment="Stretch" 
+                   LastChildFill="True" 
+                   VerticalAlignment="Stretch">
+            <Grid DockPanel.Dock="Top" Height="30" >
+                <Menu Background="Transparent" 
+                      Grid.Column="0" 
+                      VerticalAlignment="Center" 
+                      FontSize="18" 
+                      FontWeight="Light" 
+                      Foreground="{DynamicResource LightText}">
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <DockPanel HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+                    <MenuItem Header="{iconPacks:BootstrapIcons Kind=GearWideConnected, Height=25, Width=20}" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                    <MenuItem Header="Metadata for file" 
+                              IsEnabled="False" 
+                              Foreground="{StaticResource LightText}"/>
+                    <MenuItem Header="{iconPacks:BootstrapIcons Kind=X, Height=25, Width=15}" HorizontalAlignment="Right" 
+                              Command="{Binding CloseSettingsWindowCommand}" 
+                              />
+                </Menu>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Height="30" Background="#252527">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="73" Margin="0,5" 
+                                                  ButtonContent="Reset" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="2"
+                                                  Command="{Binding ResetMetadataCommand}"/>
+                <controlsresources:ButtonWithIcon HorizontalAlignment="Right" 
+                                                  Width="71" 
+                                                  Margin="5" 
+                                                  ButtonContent="Ok" 
+                                                  ButtonCornerRadius="1" 
+                                                  Grid.Column="3" 
+                                                  Command="{Binding OkMetadataCommand}"/>
+
+            </Grid>
+            <Grid HorizontalAlignment="Stretch">
+                <Grid Margin="0,10,0,0">
+                    <Grid.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="Foreground" Value="{StaticResource LightText}"/>
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Margin" Value="0,0,1,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxClassic}">
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Width" Value="150"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                            <Setter Property="Grid.Column" Value="1"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.45*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Title" />
+                    <TextBox Text="{Binding Data.Title}"  />
+
+                    <Label Content="Description" VerticalAlignment="Top" Margin="0,5" 
+                                   Grid.Row="1"/>
+                    <TextBox Text="{Binding Data.Description}"     
+                             Grid.Row="1"
+                             AcceptsReturn="True" 
+                             AcceptsTab="True"
+                             TextWrapping="Wrap"
+                             Height="140"/>
+                    <Label Content="Save date?" 
+                                   Grid.Row="5"/>
+                    <ToggleButton Grid.Row="5" Grid.Column="1" Width="20" 
+                                          Background="Transparent" 
+                                          BorderThickness="0" HorizontalAlignment="Left" >
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderThickness="0" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="{iconPacks:BootstrapIcons Kind=CheckSquare}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Content" Value="{iconPacks:BootstrapIcons Kind=Square}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Grid>
+            </Grid>
+
+        </DockPanel>
+    </Border>
+</Window>
