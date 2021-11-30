@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Shapes;
-using VectorMaker.Intefaces;
 using VectorMaker.Utility;
 
 namespace VectorMaker.ViewModel
 {
-    internal class ShapePopupViewModel : ToolBaseViewModel
+    internal class ShapePopupViewModel :NotifyPropertyChangedBase
     {
         #region Fields
         private ObservableCollection<ResizingAdorner> m_selectedObjects = null;
@@ -17,7 +13,6 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Properties
-        protected override string m_title { get; set; } = "Shape Popup";
 
         public bool IsEllipse { get; set; }
 
@@ -44,23 +39,14 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Constructors
-        public ShapePopupViewModel(IMainWindowViewModel interfaceMainWindowVM) : base(interfaceMainWindowVM)
+        public ShapePopupViewModel(DrawingCanvasViewModel model) 
         {
+            m_selectedObjects = model.SelectedObjects;
+            model.SelectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
         }
         #endregion
 
         #region EventHandlers
-        public override void OnActiveCanvasChanged(object sender, EventArgs e)
-        {
-            if (m_interfaceMainWindowVM.ActiveDocument is DrawingCanvasViewModel drawingCanvasViewModel)
-            {
-                if (m_selectedObjects != null)
-                    m_selectedObjects.CollectionChanged -= SelectedObjectsCollectionChanged;
-
-                m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
-                m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
-            }
-        }
 
         private void SelectedObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

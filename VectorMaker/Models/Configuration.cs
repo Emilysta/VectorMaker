@@ -16,7 +16,6 @@ namespace VectorMaker.Utility
         private string m_publisher = "";
         private string m_language = "";
         private string m_identifier = "";
-        private string m_title = "";
         private bool m_isDateToSave = false;
         private bool m_isBorderVisible = true;
         private bool m_isBorderShadow = true;
@@ -24,7 +23,7 @@ namespace VectorMaker.Utility
         private SolidColorBrush m_borderColor = new SolidColorBrush(ColorDef.FromRgb(96, 96, 99));
         private SolidColorBrush m_backgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 51));
         private SolidColorBrush m_checkColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 33));
-        private Metadata m_metadata = new Metadata();
+        private GeneralMetadata m_metadata = new GeneralMetadata();
         [JsonIgnore]
         private const string CONFIG_FILE_PATH = "\\VectorMaker.config";
         [JsonIgnore]
@@ -80,16 +79,6 @@ namespace VectorMaker.Utility
                 m_identifier = value;
                 OnPropertyChanged(nameof(Identifier));
                 m_metadata.Identifier.Value = value;
-            }
-        }
-        public string Title
-        {
-            get => m_title;
-            set
-            {
-                m_title = value;
-                OnPropertyChanged(nameof(Title));
-                m_metadata.Title.Value = value;
             }
         }
         public bool IsDateToSave

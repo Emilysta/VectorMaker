@@ -112,7 +112,6 @@ namespace VectorMaker.ViewModel
         #endregion Constructors
 
         #region EventHandlers
-
         public override void OnActiveCanvasChanged(object sender, System.EventArgs e)
         {
             if (m_interfaceMainWindowVM.ActiveDocument is DrawingCanvasViewModel drawingCanvasViewModel)
@@ -122,8 +121,8 @@ namespace VectorMaker.ViewModel
 
                 m_selectedObjects = drawingCanvasViewModel.SelectedObjects;
                 m_selectedObjects.CollectionChanged += SelectedObjectsCollectionChanged;
-                m_canvasWidth = drawingCanvasViewModel.Width;
-                m_canvasHeight = drawingCanvasViewModel.Height;
+                m_canvasWidth = drawingCanvasViewModel.Data.Width;
+                m_canvasHeight = drawingCanvasViewModel.Data.Height;
             }
         }
 
@@ -140,9 +139,6 @@ namespace VectorMaker.ViewModel
                 m_adorner = null;
             SetValuesForAlignment();
         }
-
-
-
         #endregion
 
         #region Methods

@@ -14,11 +14,23 @@
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
                         Margin="10"
-                        x:Name="ContentForPopup" 
+                        x:Name="ContentForShapePopup" 
                         Panel.ZIndex="2">
             <StackPanel>
                 <Viewbox>
-                    <views:ShapePopup DataContext="{Binding Path=DataContext,ElementName=ContentForPopup}"/>
+                    <views:ShapePopup DataContext="{Binding Path=DataContext,ElementName=ContentForShapePopup}"/>
+                </Viewbox>
+            </StackPanel>
+        </ContentControl>
+        <ContentControl DataContext="{Binding FileSettingPopupObject}" BorderBrush="Beige" Height="40" Width="480"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom" 
+                        Margin="10"
+                        x:Name="ContentForFileSettingPopup" 
+                        Panel.ZIndex="2">
+            <StackPanel>
+                <Viewbox>
+                    <views:FileSettingPopup DataContext="{Binding Path=DataContext,ElementName=ContentForFileSettingPopup}"/>
                 </Viewbox>
             </StackPanel>
         </ContentControl>
@@ -79,7 +91,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                    
-                    <Border Width="{Binding Width}" Height="{Binding Height}" BorderThickness="4" 
+                    <Border Width="{Binding Data.Width}" Height="{Binding Data.Height}" BorderThickness="4" 
                             BorderBrush="{Binding AppConfiguration.BorderColor}" 
                             x:Name="Page" 
                             Visibility="{Binding AppConfiguration.BorderVisibility}"
@@ -98,7 +110,7 @@
                             </Style>
                         </Border.Resources>
                     </Border>
-                    <Canvas Width="{Binding Width}" Height="{Binding Height}" x:Name="CanvasObject" Focusable="False"/>
+                    <Canvas Width="{Binding Data.Width}" Height="{Binding Data.Height}" x:Name="CanvasObject" Focusable="False" Background="{Binding Data.Background}"/>
                 </Grid>
             </ScrollViewer>
             <utility:ViewportController ScrollViewerProperty="{Binding ElementName=ScrollViewer}" 

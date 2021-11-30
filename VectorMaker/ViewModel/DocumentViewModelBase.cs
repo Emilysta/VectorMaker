@@ -41,7 +41,6 @@ namespace VectorMaker.ViewModel
         #endregion fields
 
         #region Properties
-
         public string Title
         {
             get => m_title;
@@ -54,7 +53,6 @@ namespace VectorMaker.ViewModel
                 }
             }
         }
-
         public string ContentId
         {
             get => m_contentId;
@@ -67,7 +65,6 @@ namespace VectorMaker.ViewModel
                 }
             }
         }
-
         public bool IsSelected
         {
             get => m_isSelected;
@@ -80,7 +77,6 @@ namespace VectorMaker.ViewModel
                 }
             }
         }
-
         public bool IsActive
         {
             get => m_isActive;
@@ -93,7 +89,6 @@ namespace VectorMaker.ViewModel
                 }
             }
         }
-
         public string FileName
         {
             get
@@ -105,7 +100,6 @@ namespace VectorMaker.ViewModel
                 return IsSaved ? System.IO.Path.GetFileName(FilePath) : (System.IO.Path.GetFileName(FilePath) + "*");
             }
         }
-
         public string FilePath
         {
             get => m_filePath;
@@ -115,7 +109,6 @@ namespace VectorMaker.ViewModel
                 OnPropertyChanged(nameof(FileName));
             }
         }
-
         public bool IsSaved
         {
             get => m_isSaved;
@@ -129,15 +122,13 @@ namespace VectorMaker.ViewModel
 
         protected abstract FileType[] Filters { get; set; }
         protected abstract string DefaultExtension { get; set; }
-
-        #endregion Properties
+        #endregion 
 
         #region DocumentCommands
         public ICommand CloseCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SaveAsCommand { get; set; }
         public ICommand PrintCommand { get; set; }
-
         #endregion
 
         #region Constructors
@@ -155,7 +146,6 @@ namespace VectorMaker.ViewModel
             SaveAsCommand = new CommandBase((obj) => SaveAsFile(obj as string));
             PrintCommand = new CommandBase((obj) => PrintFile());
         }
-
         protected abstract bool SaveFile();
         protected abstract void CloseFile();
         protected abstract void PrintFile();
@@ -216,7 +206,6 @@ namespace VectorMaker.ViewModel
                     }
             }
         }
-
         private string CreateFilterFromArray(string firstType)
         {
             string filters = "";
