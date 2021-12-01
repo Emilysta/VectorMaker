@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,12 +34,12 @@ namespace VectorMaker.ControlsResources
     /// 
     public partial class MultiThumbSlider : UserControl
     {
-        private List<ThumbSliderAdorner> m_adorners = new();
+        private ObservableCollection<ThumbSliderAdorner> m_adorners = new();
         private static readonly DependencyProperty m_thumbType = DependencyProperty.Register("ThumbType", typeof(ThumbTypes), typeof(MultiThumbSlider), new PropertyMetadata(ThumbTypes.SimpleThumbType));
         private static readonly DependencyProperty m_editorBackground = DependencyProperty.Register("EditorBackground", typeof(Brush), typeof(MultiThumbSlider), new PropertyMetadata(Brushes.Transparent));
         private AdornerLayer m_adornerLayer;
 
-        public List<ThumbSliderAdorner> Adorners => m_adorners.OrderBy(x => x.Offset).ToList();
+        public ObservableCollection<ThumbSliderAdorner> Adorners => m_adorners;
         public ThumbTypes ThumbType
         {
             get { return (ThumbTypes)GetValue(m_thumbType); }
@@ -67,14 +68,14 @@ namespace VectorMaker.ControlsResources
             ThumbSliderAdorner adorner = CreateSpecialType(offset);
             m_adornerLayer.Add(adorner);
             m_adorners.Add(adorner);
-            AddedThumb?.Invoke(this, new ThumbEventArgs(adorner));
             SetSelectedThumb(adorner);
+            AddedThumb?.Invoke(this, new ThumbEventArgs(adorner));
             return adorner;
         }
 
         public GradientSliderAdorner CreateThumbWithGradient(GradientStop stop)
         {
-            GradientSliderAdorner adorner = adorner = new GradientSliderAdorner(stop, this, stop.Offset, HandleSelectionChanged);
+            GradientSliderAdorner adorner = adorner = new GradientSliderAdorner(stop, Rectangle, stop.Offset, HandleSelectionChanged);
             m_adornerLayer.Add(adorner);
             m_adorners.Add(adorner);
             SetSelectedThumb(adorner);
@@ -108,12 +109,12 @@ namespace VectorMaker.ControlsResources
             {
                 case ThumbTypes.SimpleThumbType:
                     {
-                        adorner = new ThumbSliderAdorner(this, offset, HandleSelectionChanged);
+                        adorner = new ThumbSliderAdorner(Rectangle, offset, HandleSelectionChanged);
                         break;
                     }
                 case ThumbTypes.GradientThumbType:
                     {
-                        adorner = new GradientSliderAdorner(new GradientStop(Colors.White, offset), this, offset, HandleSelectionChanged);
+                        adorner = new GradientSliderAdorner(new GradientStop(Colors.White, offset), Rectangle, offset, HandleSelectionChanged);
                         break;
                     }
             }

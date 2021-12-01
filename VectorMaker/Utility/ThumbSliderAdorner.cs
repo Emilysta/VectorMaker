@@ -18,12 +18,12 @@ namespace VectorMaker.Utility
         private double m_pixelOffset = 0;
         private VisualCollection m_visualCollection;
         private Action<ThumbSliderAdorner> m_action;
-        public double Offset => (double)(m_pixelOffset/AdornedElement.DesiredSize.Width);
+        public double Offset => (double)(m_pixelOffset/AdornedElement.RenderSize.Width);
 
         public ThumbSliderAdorner(UIElement adornedElement,double offset,Action<ThumbSliderAdorner> action) : base(adornedElement)
         {
             m_visualCollection = new VisualCollection(this);
-            m_pixelOffset = offset*adornedElement.DesiredSize.Width;
+            m_pixelOffset = offset*adornedElement.RenderSize.Width;
             m_action = action;
             SetThumb();
         }
@@ -49,12 +49,12 @@ namespace VectorMaker.Utility
         private void ThumbDragDelta(object sender, DragDeltaEventArgs e)
         {
             double sum = m_pixelOffset + e.HorizontalChange;
-            if (sum >= 0 && sum <= AdornedElement.DesiredSize.Width)
+            if (sum >= 0 && sum <= AdornedElement.RenderSize.Width)
                 m_pixelOffset += e.HorizontalChange;
             else if (sum < 0)
                 m_pixelOffset = 0;
             else
-                m_pixelOffset = AdornedElement.DesiredSize.Width;
+                m_pixelOffset = AdornedElement.RenderSize.Width;
             OnValueChanged?.Invoke(Offset);
             this.InvalidateVisual();
         }

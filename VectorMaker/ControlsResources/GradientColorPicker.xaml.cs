@@ -131,6 +131,7 @@ namespace VectorMaker.ControlsResources
             ThumbEventArgs thumbEventArgs = e as ThumbEventArgs;
             GradientSliderAdorner gradient = thumbEventArgs.NewThumb as GradientSliderAdorner;
             Gradient.GradientStops.Remove(gradient.GradientStopObject);
+            OnPropertyChanged("GradientStops");
         }
     }
 }
