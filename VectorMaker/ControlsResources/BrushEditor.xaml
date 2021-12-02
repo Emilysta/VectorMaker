@@ -65,11 +65,11 @@
 
         <Grid Grid.Row="1"
             Visibility="{Binding Path=IsChecked, ElementName=GradientColor, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
-            <local:GradientColorPicker BrushToEdit="{Binding EditedBrush, ElementName=BrushEditorControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <local:GradientColorPicker BrushToEdit="{Binding EditedBrush, ElementName=BrushEditorControl, Mode=TwoWay}"/>
         </Grid>
 
         <Grid Grid.Row="1" Visibility="{Binding Path=IsChecked, ElementName=RadialGradientColor, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
-            <local:GradientColorPicker BrushToEdit="{Binding EditedBrush, ElementName=BrushEditorControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <local:GradientColorPicker BrushToEdit="{Binding EditedBrush, ElementName=BrushEditorControl, Mode=TwoWay}"/>
         </Grid>
     </Grid>
 </UserControl>

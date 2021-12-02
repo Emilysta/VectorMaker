@@ -15,7 +15,6 @@ namespace VectorMaker.ControlsResources
     {
         private double m_offsetValue;
         private SolidColorBrush m_gradientStopColor = new();
-        private GradientBrush m_gradient;
         private GradientStop m_selectedGradientStop = new();
         private static DependencyProperty m_brushToEdit = DependencyProperty.Register("BrushToEdit", typeof(Brush), typeof(GradientColorPicker), new PropertyMetadata(new SolidColorBrush()));
 
@@ -24,17 +23,19 @@ namespace VectorMaker.ControlsResources
             get { return (Brush)GetValue(m_brushToEdit); }
             set { SetValue(m_brushToEdit, value);
                 OnPropertyChanged(nameof(BrushToEdit));
+                OnPropertyChanged(nameof(Gradient));
                 SetThumbs();
             }
         }
 
         public GradientBrush Gradient
         {
-            get => m_gradient;
+            get => (BrushToEdit as GradientBrush);
             set
             {
-                m_gradient = value;
+                BrushToEdit = value;
                 OnPropertyChanged(nameof(Gradient));
+                OnPropertyChanged(nameof(BrushToEdit));
                 SetThumbs();
             }
         }

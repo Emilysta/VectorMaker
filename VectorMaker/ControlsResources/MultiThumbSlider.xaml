@@ -7,13 +7,14 @@
              d:DesignHeight="28" d:DesignWidth="200" Height="28" Width="200"
              Loaded="UserControl_Loaded" >
     <AdornerDecorator x:Name="Adorner">
-        <Rectangle Fill="{Binding   EditorBackground,ElementName=userControl, Mode=TwoWay}" Stroke="{StaticResource LightGreyBrush}" 
+        <Rectangle Fill="{Binding EditorBackground,ElementName=userControl, Mode=OneWay}" Stroke="{StaticResource LightGreyBrush}" 
                    x:Name="Rectangle"
                        StrokeThickness="1" 
                        RadiusX="1" 
                        RadiusY="1" 
                        MouseDown="Rectangle_MouseDown" 
                        Height="20" 
+                       Width="200"
                        VerticalAlignment="Top"/>
     </AdornerDecorator>
 </UserControl>

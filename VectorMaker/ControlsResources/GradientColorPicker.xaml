@@ -18,7 +18,7 @@
                                SelectedThumbChanged="MultiThumbSliderObject_SelectedThumbChanged"
                                 AddedThumb="MultiThumbSliderObject_AddedThumb"
                                 DeletedThumb="MultiThumbSliderObject_DeletedThumb"
-                                ThumbType="GradientThumbType" EditorBackground="{Binding Gradient}"/>
+                                ThumbType="GradientThumbType" EditorBackground="{Binding BrushToEdit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Offset" Grid.Row="1" VerticalAlignment="Top" Foreground="{StaticResource LightGreyBrush}"/>
         <Label Content="Color" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" 
                Foreground="{StaticResource LightGreyBrush}"/>
