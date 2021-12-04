@@ -207,8 +207,8 @@ namespace VectorMaker.ViewModel
         {
             if (SelectedObjects.Count > 1)
             {
-                Grid grid = new Grid();
-                grid.Tag = "group";
+                Canvas canvas = new Canvas();
+                canvas.Tag = "group";
                 double xMin = double.MaxValue;
                 double yMin = double.MaxValue;
                 double xMax = double.MinValue;
@@ -223,23 +223,23 @@ namespace VectorMaker.ViewModel
                     yMax = Math.Max(yMax, uIElement.RenderTransform.Value.OffsetY + uIElement.RenderSize.Height);
                     SelectedLayer.Layer.Children.Remove(adorner.AdornedElement);
                     adorner.RemoveFromAdornerLayer();
-                    grid.Children.Add(adorner.AdornedElement);
+                    canvas.Children.Add(adorner.AdornedElement);
                 }
                 SelectedObjects.Clear();
 
                 Rect rect = new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
-                grid.Width = rect.Width;
-                grid.Height = rect.Height;
-                grid.RenderSize = rect.Size;
+                canvas.Width = rect.Width;
+                canvas.Height = rect.Height;
+                canvas.RenderSize = rect.Size;
                 MatrixTransform matrixTransform = new MatrixTransform(1, 0, 0, 1, xMin, yMin);
-                grid.RenderTransform = matrixTransform;
-                foreach (UIElement child in grid.Children)
+                canvas.RenderTransform = matrixTransform;
+                foreach (UIElement child in canvas.Children)
                 {
                     child.RenderTransform = new MatrixTransform(RemoveTranslation(child.RenderTransform.Value, matrixTransform.Value));
                 }
-                SelectedLayer.Layer.Children.Add(grid);
-                grid.Background = Brushes.Transparent;
-                CreateEditingAdorner(grid);
+                SelectedLayer.Layer.Children.Add(canvas);
+                canvas.Background = Brushes.Transparent;
+                CreateEditingAdorner(canvas);
             }
             else
             {
@@ -248,9 +248,9 @@ namespace VectorMaker.ViewModel
         }
         public void UngroupObjects()
         {
-            if (SelectedObjects.Count == 1 && SelectedObjects[0].AdornedElement is Grid)
+            if (SelectedObjects.Count == 1 && SelectedObjects[0].AdornedElement is Canvas)
             {
-                Grid group = SelectedObjects[0].AdornedElement as Grid;
+                Canvas group = SelectedObjects[0].AdornedElement as Canvas;
                 SelectedObjects[0].RemoveFromAdornerLayer();
                 UIElementCollection collection = group.Children;
                 while (collection.Count > 0)
