@@ -50,6 +50,7 @@ namespace VectorMaker.ViewModel
         private void MetaWindowOpen()
         {
             MetaFileSettingsViewModel metaFileSettingsViewModel = new MetaFileSettingsViewModel(Drawing.Data);
+            Drawing.IsMetadataToSave = metaFileSettingsViewModel.SaveMetadata;
         }
         #endregion
     }

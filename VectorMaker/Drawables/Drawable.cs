@@ -34,17 +34,17 @@ namespace VectorMaker.Drawables
         protected System.Windows.Point m_startPoint;
         protected System.Windows.Point m_endPoint;
         protected Shape m_shape;
-        protected TranslateTransform m_translateTransform;
-        protected GeneralTransform m_inverseTranslateTransform => m_translateTransform.Inverse;
+        protected MatrixTransform m_matrixTransform;
+        protected GeneralTransform m_inverseTranslateTransform => m_matrixTransform.Inverse;
 
         public Drawable() { }
 
         public Shape StartDrawing(System.Windows.Point startPoint)
         {
             m_startPoint = startPoint;
-            m_translateTransform = new TranslateTransform(m_startPoint.X, m_startPoint.Y);
+            m_matrixTransform = new MatrixTransform(1,0,0,1,m_startPoint.X, m_startPoint.Y);
             CreateGeometryBase();
-            m_shape.RenderTransform = m_translateTransform;
+            m_shape.RenderTransform = m_matrixTransform;
             return m_shape;
         }
  

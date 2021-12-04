@@ -92,7 +92,7 @@
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.45*"/>
+                        <ColumnDefinition Width="0.6*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -111,11 +111,12 @@
                              AcceptsTab="True"
                              TextWrapping="Wrap"
                              Height="140"/>
-                    <Label Content="Save date?" 
+                    <Label Content="Save metadata?" 
                                    Grid.Row="5"/>
                     <ToggleButton Grid.Row="5" Grid.Column="1" Width="20" 
                                           Background="Transparent" 
-                                          BorderThickness="0" HorizontalAlignment="Left" >
+                                          BorderThickness="0" HorizontalAlignment="Left"
+                                  IsChecked="{Binding SaveMetadata}">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
                                 <Setter Property="Template">

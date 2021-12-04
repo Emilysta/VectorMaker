@@ -3,19 +3,30 @@ using System.Windows;
 using System.Windows.Input;
 using VectorMaker.Commands;
 using VectorMaker.Models;
+using VectorMaker.Utility;
 using VectorMaker.Views;
 
 namespace VectorMaker.ViewModel
 {
-    internal class MetaFileSettingsViewModel
+    internal class MetaFileSettingsViewModel : NotifyPropertyChangedBase
     {
         #region Fields
         private MetaFileSettingsView m_window;
         private DrawingDocumentData m_data;
+        private bool m_saveMetadata = true;
         #endregion
 
         #region Properties
         public DrawingDocumentData Data { get { return m_data; } }
+        public bool SaveMetadata
+        {
+            get { return m_saveMetadata; }
+            set
+            {
+                m_saveMetadata = value;
+                OnPropertyChanged(nameof(SaveMetadata));
+            }
+        }
         #endregion
 
         #region Commands
@@ -34,7 +45,7 @@ namespace VectorMaker.ViewModel
             m_window = new MetaFileSettingsView();
             m_window.Owner = Application.Current.MainWindow;
             m_window.DataContext = this;
-            m_window.Show();
+            m_window.ShowDialog();
 
         }
         #endregion
@@ -79,6 +90,7 @@ namespace VectorMaker.ViewModel
         {
             Data.Description = "";
             Data.Title = "";
+            SaveMetadata = true;
         }
         #endregion
     }

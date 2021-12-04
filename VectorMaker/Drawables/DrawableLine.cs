@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace VectorMaker.Drawables
@@ -37,8 +38,11 @@ namespace VectorMaker.Drawables
             {
                 m_line.X2 = vector.X;
                 m_line.Y2 = vector.Y;
-                m_translateTransform.X -= vector.X;
-                m_translateTransform.Y -= vector.Y;
+                Matrix matrix = m_matrixTransform.Value;
+                matrix.OffsetX -= vector.X;
+                matrix.OffsetY -= vector.Y;
+                m_matrixTransform.Matrix = matrix;
+
             }
 
         }

@@ -58,6 +58,7 @@ namespace VectorMaker.ViewModel
                 OnPropertyChanged(nameof(SelectedLayer));
             }
         }
+        public override bool IsMetadataToSave { get => base.IsMetadataToSave; set => base.IsMetadataToSave = value; }
         /*Drawing*/
         public bool IgnoreDrawing => DrawableType == DrawableTypes.None;
         public DrawableTypes DrawableType { get; set; }

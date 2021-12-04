@@ -81,6 +81,7 @@ namespace VectorMaker.ViewModel
         }
         public DrawingDocumentData Data { get => m_data; }
         public virtual LayerItemViewModel SelectedLayer { get; set; }
+        public virtual bool IsMetadataToSave { get; set; } = true;
 
         /*Base class and reference*/
         public static Configuration AppConfiguration => Configuration.Instance;
@@ -304,7 +305,8 @@ namespace VectorMaker.ViewModel
                     fileStream.SetLength(0);
                     XmlTextWriter xmlTextWriter = new(fileStream, System.Text.Encoding.UTF8);
                     xmlTextWriter.Formatting = Formatting.Indented;
-                    xmlTextWriter.WriteComment(Configuration.Instance.GetMetadataFromConfig());
+                    if(IsMetadataToSave)
+                        xmlTextWriter.WriteComment(Configuration.Instance.GetMetadataFromConfig());
                     XamlWriter.Save(m_mainCanvas, xmlTextWriter);
                 }
                 return true;
