@@ -7,6 +7,28 @@ using MahApps.Metro.IconPacks;
 
 namespace VectorMaker.ControlsResources
 {
+    /// <summary>
+    /// Defines code for button with option of modification by end user.
+    /// ButtonWithIcon derives from classic Button
+    /// This class is used mainly in XAML documents. 
+    /// Contains text and MahApps.Metro.IconPacks icons inside. 
+    /// It automaticlly places elements inside control.
+    /// <list type="bullet">
+    /// <item> ButtonCornerRadius -<description> Sets CornerRadius of control in standard way</description></item>
+    /// <item> IconWidth -<description> Sets icon width </description></item>
+    /// <item> IconHeight -<description> Sets icon height </description></item>
+    /// <item> IconRow -<description> Sets a row number for Icon</description></item>
+    /// <item> IconColumn -<description> Sets a column number for Icon</description></item>
+    /// <item> IconRowSpan -<description> Sets a row span number for Icon</description></item>
+    /// <item> IconColumnSpan -<description> Sets a column span number for Icon</description></item>
+    /// <item> ContentRow -<description> Sets a row number for text content</description></item>
+    /// <item> ContentColumn -<description> Sets a column number for text content</description></item>
+    /// <item> ContentRowSpan -<description> Sets a row span number for text content</description></item>
+    /// <item> ContentColumnSpan -<description> Sets a column span number for text content</description></item>
+    /// <item> ButtonContent -<description> Sets a text content</description></item>
+    /// <item> IconKind -<description> A PackIconBootstrapIconsKind from MahApps.Metro.IconPacks</description></item>
+    /// </list>
+    /// </summary>
     public class ButtonWithIcon : Button
     {
         private static readonly DependencyProperty m_buttonCornerRadius = DependencyProperty.Register("ButtonCornerRadius", typeof(CornerRadius), typeof(ButtonWithIcon), new PropertyMetadata(new CornerRadius(0,0,0,0)));

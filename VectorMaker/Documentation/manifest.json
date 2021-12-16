@@ -1,0 +1,834 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/Emilia/Documents/VectorMaker/VectorMaker",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.App.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.App.html",
+          "hash": "tPK4CL17e2xR2KIK4+KAaTkulCWfCwoVQCX5vRBIfec="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Color.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Color.html",
+          "hash": "mR9yXfPnn7IjKf6aVc15ONGU21KsRcA3/300kDbWMWE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ColorPropertyPair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ColorPropertyPair.html",
+          "hash": "LVFMwYCQwQIn3SixO7TIIpNX76rBMdmXRkSXlO+ejJ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ColorsReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ColorsReference.html",
+          "hash": "lKWkscM8kIMu4CszQKfQvvOK9QW7ll+guLW6wcUNs0s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.BrushEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.BrushEditor.html",
+          "hash": "tmoS0blVVewbpv59wAmfhKW7IWpgXdnuQgX+OlRGti0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ButtonWithIcon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ButtonWithIcon.html",
+          "hash": "fhVVfR9OJq5LCrxtc+3g++DyV6h5bh5DhJ9dZVdYeyA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ColorsPicker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ColorsPicker.html",
+          "hash": "kMXoz5pVB9jtUAlYfLbnqkH+bq2DZieIMEv9QutMyQ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.GradientColorPicker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.GradientColorPicker.html",
+          "hash": "1a5jHpqz1+U/B0rIj0RHC1tc9T4NE13gLT62XLJQ720="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ModifiableSlider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ModifiableSlider.html",
+          "hash": "UdTZ7uyQN6ASF91kn00B6Di1acqo3ho+0b73/KH5Rec="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.MultiThumbSlider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.MultiThumbSlider.html",
+          "hash": "mc6Beo9EWUhCJcmjfcgGeByHV4VebH4ypAVULod/FTA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ThumbEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ThumbEventArgs.html",
+          "hash": "BkrjK4nze6gZrLTsDTsmc/XkyWHoJNn4a/iqPmro4TU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ThumbTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ThumbTypes.html",
+          "hash": "aen53YEvSFuObaibHtqpvZZNCt+oIgSVltxuCnDJx28="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.ToggleButtonWithIcon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.ToggleButtonWithIcon.html",
+          "hash": "Es4FnB8CveJkJkqeGWit2mDQuJPWPFO1fLG1RS6AxVM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.html",
+          "hash": "DZHiV3qekKwRvHQxajXA18CWe30TL+qvuNDxnMBVqOc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.BoolToCollapsedVisConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.BoolToCollapsedVisConverter.html",
+          "hash": "xeiUDWTtqx1GznZO/WxeVi3SzFbJWZHCeqYsscRbJ9Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.DockingDocumentConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.DockingDocumentConverter.html",
+          "hash": "mjK0BxxuVE9brTLtp7+zlfi4Z4py4A4q+qIczCGAQPw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.RotationConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.RotationConverter.html",
+          "hash": "Hl5gYr+E88Wm/yzi0iAUhMn80KmdqZk86tWBa+4T1UA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.ScaleConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.ScaleConverter.html",
+          "hash": "12xEUbY3zMPC/8KNQsapRAmxjnGKCniwtvY3ZKHJC+Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.SkewConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.SkewConverter.html",
+          "hash": "dEAbhyb4TyqkFW0t3w7Qw/ZRflVXvuo10+pkVakG5dY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.TranslationConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.TranslationConverter.html",
+          "hash": "4KvaUFAlwwQ0XeNMUo26rWIlUV9yaJP2Wx1Zh0aH54E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Converters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Converters.html",
+          "hash": "mLWEljEGuVc9h6SOcrrym6vA1Lqk8h8Y4GII3f912+4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.Drawable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.Drawable.html",
+          "hash": "HCKx7JXVqZbxzClVkr9t03xsStGUCwVIK+tbSAZt93Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawableEllipse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawableEllipse.html",
+          "hash": "QnPkCrbUbB1WWkscKbbNC4023cieiWLxXF+tOiIu3TY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawableLine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawableLine.html",
+          "hash": "e2ArV+UH0sMRjlIdgz+cT0Id0vZ/qoTP3sWefH/Im68="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawablePolygon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawablePolygon.html",
+          "hash": "6ZfldfKIRg3hrPIOq97Spfn4Hsa4D8A2SXAIrHz28Dg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawablePolyline.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawablePolyline.html",
+          "hash": "FqWQk8OVgm1wF1z/owahhqPk2yvolwTdLR8miuonuYY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawableRectangle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawableRectangle.html",
+          "hash": "n/rz3ANKWuK5a0DKp+BhJsFexQfrrAh9/XKwZPiywEE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.DrawableTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.DrawableTypes.html",
+          "hash": "e2Ge3JLV5flMxPMdZGjXY5Q/dla3kyGlqI5stiWayak="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.PathSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.PathSettings.html",
+          "hash": "nvxUbo6jrRdZScDo4E2FOoCI9kPcmYTMAG+MWy43Q2U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.PathTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.PathTypes.html",
+          "hash": "Xqo2LMOPcmwLs5hWQLZ4GbFKWKUYXxFwAkn/QY8XZiE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Drawables.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Drawables.html",
+          "hash": "z2MQuZkjjwVWPM7GRCgExGVNeOEVQTTdGBfMvgBxvKA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.HSLColorDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.HSLColorDefinition.html",
+          "hash": "hxw3+AiRWV42BbCj5i+tlsZUBO8e0m6Aiv/Hd+tcQqQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.RGBColorDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.RGBColorDefinition.html",
+          "hash": "xFJrvPlp+3Q8wHRWuHG41DuWvAthmgt1snjB/9RIrDA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneStyleSelector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneStyleSelector.html",
+          "hash": "BQmK6mmP2lH3j7F2QRzH9oRFWe1AKqVwWUX/B6IMs2M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneTemplateSelector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneTemplateSelector.html",
+          "hash": "94ticSc8+k6O2gUVpNk7L9TJ1TqC6Pc9VTtCoDYtaX8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.TemplateSelectors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.TemplateSelectors.html",
+          "hash": "rs7Hmcchqm8kYOvE0BDxxdIbYklJHwztet5lwGsejaE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.EnumStringValueAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.EnumStringValueAttribute.html",
+          "hash": "BWa5YtVsWfkxVeZrgMdhQHorAVftoLc30aTJJp9dgsE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.Extensions.html",
+          "hash": "CU++u1Ri9wzoI14aaQ5FBQlgg1jBdVWdy11jRL1Hdto="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.GradientSliderAdorner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.GradientSliderAdorner.html",
+          "hash": "5RzQksOLQ4e8Y6imAm8PlCoUY77FaU++U+nFkuldQ1Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.NotifyPropertyChangedBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.NotifyPropertyChangedBase.html",
+          "hash": "qivYtnb+XrjLDcREyDPjY/6kL43eBC/2UehgYPNrySQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.ResizingAdorner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.ResizingAdorner.html",
+          "hash": "OXaCSOO0ZvTwUgtjBu0FC0CAUxNlXSgZy5N8R6xCyHc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.ThumbSliderAdorner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.ThumbSliderAdorner.html",
+          "hash": "hLwU9dZsgpjEwu2me7sRySc1prCD4xo93lbr1aHYwG0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.ToggleButtonForMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.ToggleButtonForMenu.html",
+          "hash": "Ti9YgrKRahzYmrXh/5+g2BU7ZltcUIZRDdrtsnqdYkQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.ViewportController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.ViewportController.html",
+          "hash": "3Vtw++jpUTldT7jHSlB6cXUFO1ZNRfPn5Yr9sfcUc4Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Utility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Utility.html",
+          "hash": "T63l9MxsU1iAnM74exhFJ5xDtSL7E52eajTPvj7hbmQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ViewModel.FileType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ViewModel.FileType.html",
+          "hash": "U46OjvtcqT0NHFpEDmSl9Y9yCZI3FaZrOIf2RBMrrjg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ViewModel.html",
+          "hash": "5wbPONul9gFu1pPIU/7BrrxWFpNuoHY/einpIE7ZQT0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.AppSettingsView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.AppSettingsView.html",
+          "hash": "404wofFmcWTJP+m0nJqfoF/B87jSlbdEGR616YWqOEI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.ColorPickerView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.ColorPickerView.html",
+          "hash": "4lckO+e/28kM7HTZozZEK3brOpdH9xozaFjvXI3EWp8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.CreateDocumentView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.CreateDocumentView.html",
+          "hash": "YMn93KUlBJI7ZNscJSpLQHvuiwy9QrLUBnLi5HWXQ+o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.DrawingCanvasView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.DrawingCanvasView.html",
+          "hash": "roPSEgNhDyk3/be+BisegMs3ncr9Y9kkywQAgs5v0yA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.DrawingLayersToolView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.DrawingLayersToolView.html",
+          "hash": "Zob7Lh52dh9gnYw4NUQIUluVLppoEBjzOO+qGEbFwNk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.FileSettingPopup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.FileSettingPopup.html",
+          "hash": "8NCD7/QetKkpZhAXskSBBc/0kN8qCZP1aMJlAJuVXWs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.LayerItemView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.LayerItemView.html",
+          "hash": "B1VwIcrezP0A0K3v6FL4LoM8XoKSe9ry3vQRmPSqma0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.MainWindowView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.MainWindowView.html",
+          "hash": "iG0X5tKvK6fNrZVJT8TqdmVcTP8y3PKY0yVBb1YoFuw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.MetaFileSettingsView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.MetaFileSettingsView.html",
+          "hash": "JThKbSuv2UI+9f7FbFhgmgfxheDmH+JY8JMljORvWag="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.ObjectAlignmentView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.ObjectAlignmentView.html",
+          "hash": "quGXWR9uEfh2rHmOau+sdPGib+pQE1ZcnXSb1/xB1Qw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.ObjectPropertiesView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.ObjectPropertiesView.html",
+          "hash": "rCuu1bTQkNbHRB6yESThcQQr6bHYlqaYN5Jd26tEWg8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.ObjectTransformsView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.ObjectTransformsView.html",
+          "hash": "fs4LUlutuHLIsDFgKJcGH6dAqnqWkpYOQHNxcno2HLM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.ShapePopup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.ShapePopup.html",
+          "hash": "yNnGxjLgHIjOFiDlt//T4qWDmFV7pPnkn0Z20cVuJbk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.Views.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.Views.html",
+          "hash": "1Sva9apGhPiROUfppgv0ME1sUGCTXw8gqlS3fvZqNaA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.html",
+          "hash": "lUJmPy9C+Kcm67Wl6Rj+LKl9Fmt+d9j4+r3B4wlTOFA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "ptd4/ohFRuHcA/6+hWnzoB6ZBDHq5rzPx0C7Bmfh8NQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "rQX++o5mXDyzH2XVuV/gBbJoaZgwDgS3c4SNhIIuJgo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "hfKHn7UDyF39/9FYnU8YyxS9sWpiugQKRLmW+NoMBGs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 62,
+          "skipped_file_count": 62
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

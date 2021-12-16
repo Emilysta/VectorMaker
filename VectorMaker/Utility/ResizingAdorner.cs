@@ -1,16 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Xaml.Behaviors;
-using Microsoft.Xaml.Behaviors.Layout;
 
 namespace VectorMaker.Utility
 {
+    /// <summary>
+    /// This class defines adorner that allows user to edit drawn object.
+    /// </summary>
     public class ResizingAdorner : Adorner
     {
         private VisualCollection m_visualCollection;
@@ -28,6 +27,12 @@ namespace VectorMaker.Utility
         private Style m_scaleThumbStyle;
         private ScaleTransform m_scale;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="adornedElement"></param>
+        /// <param name="myLayer"></param>
+        /// <param name="canvas"></param>
         public ResizingAdorner(UIElement adornedElement, AdornerLayer myLayer, Canvas canvas) : base(adornedElement)
         {
             m_adornedElement = (FrameworkElement)adornedElement;
@@ -38,23 +43,46 @@ namespace VectorMaker.Utility
             m_adornedElement.SizeChanged += M_adornedElement_SizeChanged;
         }
 
+        /// <summary>
+        /// Adorned element size changed event hanlder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void M_adornedElement_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.InvalidateArrange();
         }
 
+        /// <summary>
+        /// Method that allows to remove adorner from it's layer.
+        /// </summary>
         public void RemoveFromAdornerLayer()
         {
             m_myLayer.Remove(this);
         }
+        /// <summary>
+        /// Overridden method of <see cref="Visual.GetVisualChild(int)"/>.
+        /// </summary>
+        /// <param name="index">Index of Child.</param>
+        /// <returns>Returns Visual childed of Adorner, like thumbs etc.</returns>
         protected override Visual GetVisualChild(int index)
         {
             return m_visualCollection[index];
         }
+
+        /// <summary>
+        /// Overridden property of <see cref="Visual.VisualChildrenCount"/>.
+        /// </summary>
         protected override int VisualChildrenCount
         {
             get { return m_visualCollection.Count; }
         }
+        /// <summary>
+        /// Overriden method of <see cref="FrameworkElement.ArrangeOverride(Size)"/>.<br/>
+        /// Allows to set placement of VisualChildren.
+        /// </summary>
+        /// <param name="finalSize"></param>
+        /// <returns></returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
             m_dragThumb.Width = m_adornedElement.Width;
@@ -64,7 +92,12 @@ namespace VectorMaker.Utility
             m_rotateThumb?.Arrange(new Rect(finalSize.Width / 2 - 10, finalSize.Height / 2 - 10, 20, 20));
             return finalSize;
         }
-
+        /// <summary>
+        /// Overriden method of <see cref="Adorner.GetDesiredTransform(GeneralTransform)"/>.<br/>
+        /// Allows to removes transforms of adorned element from visualChildren like Thumbs.
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <returns></returns>
         public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
         {
             if (m_transform != null)
@@ -85,6 +118,9 @@ namespace VectorMaker.Utility
             return base.GetDesiredTransform(transform);
         }
 
+        /// <summary>
+        /// Setting necessary parameters.
+        /// </summary>
         private void SetClassElements()
         {
             m_visualCollection = new VisualCollection(this);
@@ -93,6 +129,9 @@ namespace VectorMaker.Utility
             CreateRotateThumb();
             SetStartCompletedDragEvent();
         }
+        /// <summary>
+        /// Creates thumb that allows scaling object.
+        /// </summary>
         private void CreateScaleThumb()
         {
             m_scaleThumb = new Thumb();
@@ -104,6 +143,9 @@ namespace VectorMaker.Utility
             m_scaleThumb.Cursor = Cursors.SizeNWSE;
             m_visualCollection.Add(m_scaleThumb);
         }
+        /// <summary>
+        /// Creates thumb that allows rotating object.
+        /// </summary>
         private void CreateRotateThumb()
         {
             m_rotateThumb = new Thumb();
@@ -114,6 +156,9 @@ namespace VectorMaker.Utility
             m_rotateThumb.Cursor = Cursors.SizeNWSE;
             m_visualCollection.Add(m_rotateThumb);
         }
+        /// <summary>
+        /// Creates thumb that allows dragging object.
+        /// </summary>
         private void CreateDragThumb()
         {
             m_dragThumb = new Thumb();
@@ -123,7 +168,9 @@ namespace VectorMaker.Utility
             m_dragThumb.Cursor = Cursors.SizeAll;
             m_visualCollection.Add(m_dragThumb);
         }
-
+        /// <summary>
+        /// Methods that applies scale to object.
+        /// </summary>
         private void ApplyScale()
         {
             double scaleX = m_scale.ScaleX;
@@ -133,7 +180,9 @@ namespace VectorMaker.Utility
                
             }
         }
-
+        /// <summary>
+        /// Methods that sets <see cref="Thumb.DragStarted"/> and <see cref="Thumb.DragCompleted"/> event handlers for <see cref="Thumb"/>.
+        /// </summary>
         private void SetStartCompletedDragEvent()
         {
             m_scaleThumb.DragStarted += (a, b) =>
@@ -181,6 +230,11 @@ namespace VectorMaker.Utility
                 m_dragThumb.Visibility = Visibility.Visible;
             };
         }
+        /// <summary>
+        /// DragEvent handler for <see cref="m_scaleThumb"/>.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void ScaleThumbDrag(object sender, DragDeltaEventArgs args)
         {
             m_transform = m_adornedElement.RenderTransform;
@@ -199,6 +253,11 @@ namespace VectorMaker.Utility
                 UIPropertyChanged.Instance.InvokePropertyChanged();
             }
         }
+        /// <summary>
+        /// DragEvent handler for <see cref="m_dragThumb"/>.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void TranslateThumbDrag(object sender, DragDeltaEventArgs args)
         {
             m_transform = m_adornedElement.RenderTransform;
@@ -209,6 +268,12 @@ namespace VectorMaker.Utility
             m_transform = m_adornedElement.RenderTransform;
             UIPropertyChanged.Instance.InvokePropertyChanged();
         }
+
+        /// <summary>
+        /// MouseWheelEvent handler for <see cref="m_rotateThumb"/>.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void RotateThumbMouseWheel(object sender, MouseWheelEventArgs args)
         {
             if (m_rotateThumb.IsDragging)

@@ -7,6 +7,24 @@ using System.Windows.Shapes;
 
 namespace VectorMaker.ControlsResources
 {
+    /// <summary>
+    /// Defines code for slider with option of modification by end user.
+    /// Derives from standard Slider.
+    /// Properties:
+    /// <list type="bullet">
+    /// <item> BackgroundRadius -<description> Sets CornerRadius of control's background</description></item>
+    /// <item> BackgroundStrokeThickness -<description> Sets stroke thickness of control's background</description></item>
+    /// <item> BackgroundStrokeColor -<description> Sets stroke color of control's background </description></item>
+    /// <item> ThumbStrokeThickness -<description> Sets stroke thickness of thumbs's background</description></item>
+    /// <item> ThumbHeight -<description> Sets thumb height</description></item>
+    /// <item> ThumbWidth -<description> Sets thumb width</description></item>
+    /// <item> ThumbStrokeColor -<description> Sets stroke color of thumbs's background</description></item>
+    /// <item> ThumbColor -<description> Sets color of thumbs's background</description></item>
+    /// <item> SelectionColor -<description> Sets color of selected part</description></item>
+    /// <item> IsTextEnabled -<description> Defines if text of slider's value is enabled</description></item>
+    /// <item> TextVisibility -<description> Defines text visibility</description></item>
+    /// </list>
+    /// </summary>
     public class ModifiableSlider : Slider
     {
         static ModifiableSlider()

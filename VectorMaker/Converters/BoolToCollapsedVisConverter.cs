@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace VectorMaker.Converters
 {
+    /// <summary>
+    /// This class defines converter from bool to Visibility.Collapsed type and vice versa
+    /// </summary>
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToCollapsedVisConverter : IValueConverter
     {

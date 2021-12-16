@@ -6,6 +6,9 @@ using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Models
 {
+    /// <summary>
+    /// This class holds visual specification of <see cref="System.Windows.Shapes.Shape"/>.
+    /// </summary>
     internal class ShapeProperties : NotifyPropertyChangedBase
     {
         #region Fields
@@ -17,6 +20,9 @@ namespace VectorMaker.Models
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Holds fill color.
+        /// </summary>
         public SolidColorBrush FillBrush 
         {
             get => m_fillBrush;
@@ -27,6 +33,9 @@ namespace VectorMaker.Models
             }
         }
 
+        /// <summary>
+        /// Holds stroke color.
+        /// </summary>
         public SolidColorBrush StrokeBrush
         {
             get => m_strokeBrush;
@@ -37,6 +46,9 @@ namespace VectorMaker.Models
             }
         }
 
+        /// <summary>
+        /// Holds stroke thickness.
+        /// </summary>
         public double StrokeThickness
         {
             get => m_strokeThickness;
@@ -47,6 +59,9 @@ namespace VectorMaker.Models
             }
         }
 
+        /// <summary>
+        /// Holds index of selected StrokeDashArray.
+        /// </summary>
         public int SelectedStrokeDashArray
         {
             get => m_selectedStrokeDashArray;
@@ -56,11 +71,18 @@ namespace VectorMaker.Models
                 OnPropertyChanged(nameof(SelectedStrokeDashArray));
             }
         }
+
+        /// <summary>
+        /// Returs selected StrokeDashArray or null.
+        /// </summary>
         public DoubleCollection StrokeDashArray
         {
             get => StrokeTypes?[m_selectedStrokeDashArray] ?? null;
         }
 
+        /// <summary>
+        /// Observable Collection that defines options of StrokeDashArray.
+        /// </summary>
         public ObservableCollection<DoubleCollection> StrokeTypes
         {
             get => m_strokeTypes;
@@ -74,6 +96,9 @@ namespace VectorMaker.Models
 
         #region Singleton
         private static ShapeProperties m_instance;
+        /// <summary>
+        /// Implements singleton property.
+        /// </summary>
         public static ShapeProperties Instance
         {
             get
@@ -84,7 +109,9 @@ namespace VectorMaker.Models
             }
         }
         #endregion
-
+        /// <summary>
+        /// Contructor.
+        /// </summary>
         public ShapeProperties()
         {
             m_strokeTypes = new ObservableCollection<DoubleCollection>()

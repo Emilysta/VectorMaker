@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace VectorMaker { 
+    /// <summary>
+    /// This class holds references to color resources for whole app.
+    /// </summary>
     public static class ColorsReference
     {
         public static SolidColorBrush selectedTabItemBackground = (SolidColorBrush)Application.Current.FindResource("TabItemBackgroundSelectedColor");

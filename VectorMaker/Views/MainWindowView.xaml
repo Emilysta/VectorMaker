@@ -161,6 +161,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <controls:ButtonWithIcon Width="25" Height="25" VerticalAlignment="Bottom" IconKind="Alarm" Command="{Binding TestObjectsCountCommand}"/>
             </Grid>
 
             <Grid DockPanel.Dock="Bottom" Height="35" HorizontalAlignment="Left">

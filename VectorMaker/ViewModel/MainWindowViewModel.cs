@@ -35,6 +35,8 @@ namespace VectorMaker.ViewModel
 
         public ICommand FillBrushPickCommand { get; set; }
         public ICommand StrokeBrushPickCommand { get; set; }
+
+        public ICommand TestObjectsCountCommand { get; set; }
         #endregion
 
         #region Fields
@@ -330,6 +332,7 @@ namespace VectorMaker.ViewModel
 
             FillBrushPickCommand = new CommandBase((obj) => FillBrushColorPick());
             StrokeBrushPickCommand = new CommandBase((obj) => StrokeBrushColorPick());
+            TestObjectsCountCommand = new CommandBase((_) => TestCountOfObjects());
         }
 
         private void FillBrushColorPick()
@@ -417,6 +420,13 @@ namespace VectorMaker.ViewModel
         //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentColorKey] = accentColor;
         //    Application.Current.Resources[AvalonDock.Themes.VS2013.Themes.ResourceKeys.ControlAccentBrushKey] = new SolidColorBrush(accentColor);
         //}
+        #endregion
+
+        #region TestMethods
+        private void TestCountOfObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).TestCountOfObjects();
+        }
         #endregion
     }
 }

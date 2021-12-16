@@ -13,6 +13,10 @@ using VectorMaker.Intefaces;
 using System.Diagnostics;
 using System.Windows.Documents;
 using ShapeDef = System.Windows.Shapes;
+using System.Windows.Shapes;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace VectorMaker.ViewModel
 {
@@ -33,6 +37,7 @@ namespace VectorMaker.ViewModel
 
         /*Layers*/
         private LayerItemViewModel m_selectedLayer;
+        private long m_countOfObjectsInLayer = 0;
 
         /*Aditional popups*/
         private ShapePopupViewModel m_shapePopup;
@@ -58,6 +63,16 @@ namespace VectorMaker.ViewModel
                 OnPropertyChanged(nameof(SelectedLayer));
             }
         }
+        public long TestCount
+        {
+            get => m_countOfObjectsInLayer;
+            set
+            {
+                m_countOfObjectsInLayer = value;
+                OnPropertyChanged(nameof(TestCount));
+            }
+        }
+
         public override bool IsMetadataToSave { get => base.IsMetadataToSave; set => base.IsMetadataToSave = value; }
         /*Drawing*/
         public bool IgnoreDrawing => DrawableType == DrawableTypes.None;
@@ -104,16 +119,16 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Constructors
-        public DrawingCanvasViewModel(IMainWindowViewModel mainWindowViewModel, double width, double height) : base(mainWindowViewModel,width,height)
+        public DrawingCanvasViewModel(IMainWindowViewModel mainWindowViewModel, double width, double height) : base(mainWindowViewModel, width, height)
         {
             SetNecessaryData();
-            
+
             IsSaved = false;
             Layers = new ObservableCollection<LayerItemViewModel>() { new LayerItemViewModel(new Canvas(), 1, "Layer_1") };
             SelectedLayer = Layers[0];
         }
 
-        public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel) :base(mainWindowViewModel)
+        public DrawingCanvasViewModel(string filePath, IMainWindowViewModel mainWindowViewModel) : base(mainWindowViewModel)
         {
             SetNecessaryData();
 
@@ -207,6 +222,9 @@ namespace VectorMaker.ViewModel
         {
             if (SelectedObjects.Count > 1)
             {
+                Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
                 Canvas canvas = new Canvas();
                 canvas.Tag = "group";
                 double xMin = double.MaxValue;
@@ -240,6 +258,8 @@ namespace VectorMaker.ViewModel
                 SelectedLayer.Layer.Children.Add(canvas);
                 canvas.Background = Brushes.Transparent;
                 CreateEditingAdorner(canvas);
+                stopWatch.Stop();
+                Trace.WriteLine($"grouping Time: {stopWatch.Elapsed.TotalMilliseconds}");
             }
             else
             {
@@ -250,6 +270,9 @@ namespace VectorMaker.ViewModel
         {
             if (SelectedObjects.Count == 1 && SelectedObjects[0].AdornedElement is Canvas)
             {
+                Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
                 Canvas group = SelectedObjects[0].AdornedElement as Canvas;
                 SelectedObjects[0].RemoveFromAdornerLayer();
                 UIElementCollection collection = group.Children;
@@ -262,6 +285,8 @@ namespace VectorMaker.ViewModel
                     CreateEditingAdorner(child);
                 }
                 SelectedLayer.Layer.Children.Remove(group);
+                stopWatch.Stop();
+                Trace.WriteLine($"ungrouping time: {stopWatch.ElapsedMilliseconds}");
             }
             else
             {
@@ -563,6 +588,90 @@ namespace VectorMaker.ViewModel
                     MessageBox.Show(exp.Message);
                 }
 
+            }
+        }
+        #endregion
+
+        #region TestMethod
+        public void TestCountOfObjects()
+        {
+            Task.Run(() =>
+            {
+                long i = 0;
+                TestCount = i;
+                try
+                {
+                    while (true)
+                    {
+                        SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                        {
+                            Rectangle rect = new Rectangle();
+                            rect.Width = 50;
+                            rect.Height = 50;
+                            rect.Fill = Brushes.White;
+                            rect.StrokeThickness = 2;
+                            rect.Stroke = Brushes.Black;
+                            Canvas.SetLeft(rect, i);
+                            SelectedLayer.Layer.Children.Add(rect);
+                        });
+                        i++;
+                        if (i % 1000 == 0)
+                        {
+                            SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                            {
+                                TestCount = i;
+                                SelectedLayer.Layer.InvalidateVisual();
+                                Trace.WriteLine($"CountOfObjects: {i}");
+                            });
+                            Thread.Sleep(100);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                        TestCount = i;
+                        Trace.WriteLine($"CountOfObjects: {i}");
+                        Trace.WriteLine(e.Message);
+                    });
+                }
+            });
+
+        }
+
+        public void TestGroupingOfObjects()
+        {
+            long[] testarray = new long[] { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
+            try
+            {
+                for (int i = 0; i < testarray.Length; i++)
+                {
+                    TestCount = testarray[i];
+                    for (int j = 0; j < testarray[i]; j++)
+                    {
+                        Rectangle rect = new Rectangle();
+                        rect.Width = 50;
+                        rect.Height = 50;
+                        rect.Fill = Brushes.White;
+                        rect.StrokeThickness = 2;
+                        rect.Stroke = Brushes.Black;
+                        Canvas.SetLeft(rect, i + 10);
+                        SelectedLayer.Layer.Children.Add(rect);
+                        CreateEditingAdorner(rect);
+                    }
+                    GroupObjects();
+                    Thread.Sleep(1000);
+                    UngroupObjects();
+                    DeleteSelectedObjects();
+                    Thread.Sleep(500);
+                }
+            }
+            catch (Exception e)
+            {
+                SelectedLayer.Layer.Children.Clear();
+                Trace.WriteLine(e.Message);
             }
         }
         #endregion

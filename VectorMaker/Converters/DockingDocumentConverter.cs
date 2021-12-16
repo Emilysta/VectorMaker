@@ -5,6 +5,10 @@ using VectorMaker.ViewModel;
 
 namespace VectorMaker.Converters
 {
+    /// <summary>
+    /// This class defines special converter with option of Binding.Nothing. <br/><br/>
+    /// If object is DocumentVieModelBase type it returns itself <br/> else it returns Binding.Nothing type.
+    /// </summary>
     public class DockingDocumentConverter : IValueConverter
     {
         private object m_earlierValue;

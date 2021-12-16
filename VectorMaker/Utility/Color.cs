@@ -1,6 +1,10 @@
 ﻿using System;
 namespace VectorMaker
 {
+    /// <summary>
+    /// This clas defines color in HSL model.
+    /// Currently not used in app build.
+    /// </summary>
     public class HSLColorDefinition
     {
         public ColorPropertyPair H = new ColorPropertyPair(0, 360);
@@ -24,6 +28,10 @@ namespace VectorMaker
         public HSLColorDefinition() { }
     }
 
+    /// <summary>
+    /// This clas defines color in RGB model.
+    /// Currently not used in app build.
+    /// </summary>
     public class RGBColorDefinition
     {
         public ColorPropertyPair R = new ColorPropertyPair(0, 255);
@@ -47,6 +55,10 @@ namespace VectorMaker
         public RGBColorDefinition() { }
     }
 
+    /// <summary>
+    /// This clas defines color as RGB and HSL at once. Used in <see cref="ControlsResources.ColorsPicker"/>
+    /// Currently not used in app build.
+    /// </summary>
     public class Color
     {
         private HSLColorDefinition m_hslColor;

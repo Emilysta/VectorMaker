@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace VectorMaker.Utility
 {
+    /// <summary>
+    /// Defines Extension for enum.
+    /// </summary>
     public static class Extensions
     {
         public static string GetStringValueForEnum(this Enum value)

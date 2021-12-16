@@ -4,8 +4,14 @@ using System.Windows.Media;
 
 namespace VectorMaker.Drawables
 {
+    /// <summary>
+    /// This is class set of visual attributes of object.
+    /// </summary>
     public class PathSettings
     {
+        /// <summary>
+        /// Action. Invoked when one of properties changes.
+        /// </summary>
         public event Action OnValuesChange;
 
         private Brush m_fill = Brushes.Black;
@@ -15,6 +21,9 @@ namespace VectorMaker.Drawables
         private VerticalAlignment m_verticalAlignment;
         private HorizontalAlignment m_horizontalAlignment;
 
+        /// <summary>
+        /// Color of object's fill - <see cref="Brush"/>.
+        /// </summary>
         public Brush Fill
         {
             get { return m_fill; }
@@ -24,6 +33,10 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Color of object's stroke - <see cref="Brush"/>.
+        /// </summary>
         public Brush Stroke
         {
             get { return m_stroke; }
@@ -34,6 +47,10 @@ namespace VectorMaker.Drawables
             }
         }
 
+
+        /// <summary>
+        /// Thickness of object's stroke
+        /// </summary>
         public float StrokeThickness
         {
             get { return m_strokeThickness; }
@@ -43,6 +60,10 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Object visibility - <see cref="Visibility"/>.
+        /// </summary>
         public Visibility Visibility
         {
             get { return m_visibility; }
@@ -52,6 +73,10 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Object vertical alignement - <see cref="VerticalAlignment"/>.
+        /// </summary>
         public VerticalAlignment VerticalAlignment
         {
             get { return m_verticalAlignment; }
@@ -61,6 +86,10 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Object horizontal alignement - <see cref="HorizontalAlignment"/>.
+        /// </summary>
         public HorizontalAlignment HorizontalAlignment
         {
             get { return m_horizontalAlignment; }
@@ -70,11 +99,19 @@ namespace VectorMaker.Drawables
                 OnValuesChange?.Invoke();
             }
         }
+        /// <summary>
+        /// Static method with default object settings.
+        /// </summary>
+        /// <returns>new <see cref="PathSettings"/></returns>
         public static PathSettings Default()
         {
             return new PathSettings();
         }
 
+        /// <summary>
+        /// Static method with settings that are needed to visualize selection box
+        /// </summary>
+        /// <returns> <see cref="PathSettings"/></returns>
         public static PathSettings SelectionSettings()
         {
             PathSettings pathSettings = new PathSettings();

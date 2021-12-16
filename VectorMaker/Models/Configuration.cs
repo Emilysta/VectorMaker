@@ -8,6 +8,10 @@ using ColorDef = System.Windows.Media.Color;
 
 namespace VectorMaker.Utility
 {
+    /// <summary>
+    /// Class in singleton pattern. Hold configuration of whole app. Derives from <see cref="NotifyPropertyChangedBase"/>.
+    /// It loads config file if it exists else it creates one.
+    /// </summary>
     internal class Configuration : NotifyPropertyChangedBase
     {
         #region Fields
@@ -31,6 +35,9 @@ namespace VectorMaker.Utility
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Author name property
+        /// </summary>
         public string Author
         {
             get => m_author;
@@ -41,6 +48,9 @@ namespace VectorMaker.Utility
                 m_metadata.Author.Value = value;
             }
         }
+        /// <summary>
+        /// Rights string value property
+        /// </summary>
         public string Rights
         {
             get => m_rights;
@@ -51,6 +61,9 @@ namespace VectorMaker.Utility
                 m_metadata.Rights.Value = value;
             }
         }
+        /// <summary>
+        /// Publisher string value property
+        /// </summary>
         public string Publisher
         {
             get => m_publisher;
@@ -61,6 +74,9 @@ namespace VectorMaker.Utility
                 m_metadata.Publisher.Value = value;
             }
         }
+        /// <summary>
+        /// Language string value property
+        /// </summary>
         public string Language
         {
             get => m_language;
@@ -71,6 +87,9 @@ namespace VectorMaker.Utility
                 m_metadata.Language.Value = value;
             }
         }
+        /// <summary>
+        /// Identifier string value property
+        /// </summary>
         public string Identifier
         {
             get => m_identifier;
@@ -81,6 +100,9 @@ namespace VectorMaker.Utility
                 m_metadata.Identifier.Value = value;
             }
         }
+        /// <summary>
+        /// IsDateToSave bool value property
+        /// </summary>
         public bool IsDateToSave
         {
             get => m_isDateToSave;
@@ -91,6 +113,10 @@ namespace VectorMaker.Utility
                 m_metadata.SetDateInMetadata(value);
             }
         }
+
+        /// <summary>
+        /// IsBorderVisible bool value property
+        /// </summary>
         public bool IsBorderVisible
         {
             get => m_isBorderVisible;
@@ -101,6 +127,9 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BorderVisibility));
             }
         }
+        /// <summary>
+        /// IsBorderShadow bool value property
+        /// </summary>
         public bool IsBorderShadow
         {
             get => m_isBorderShadow;
@@ -111,6 +140,9 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(CheckColorVisibility));
             }
         }
+        /// <summary>
+        /// IsBackgroundCheckered bool value property
+        /// </summary>
         public bool IsBackgroundCheckered
         {
             get => m_isBackgroundCheckered;
@@ -120,6 +152,10 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(IsBackgroundCheckered));
             }
         }
+
+        /// <summary>
+        /// Property holding color of drawing area border.
+        /// </summary>
         public SolidColorBrush BorderColor
         {
             get => m_borderColor;
@@ -129,6 +165,10 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BorderColor));
             }
         }
+
+        /// <summary>
+        /// Property holding color of whole document background.
+        /// </summary>
         public SolidColorBrush BackgroundColor
         {
             get => m_backgroundColor;
@@ -138,6 +178,10 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(BackgroundColor));
             }
         }
+
+        /// <summary>
+        /// Property holding color of checkered background.
+        /// </summary>
         public SolidColorBrush CheckColor
         {
             get => m_checkColor;
@@ -147,11 +191,27 @@ namespace VectorMaker.Utility
                 OnPropertyChanged(nameof(CheckColor));
             }
         }
+
+        /// <summary>
+        /// Property holding <see cref="Visibility"/> of drawing area border.
+        /// </summary>
         public Visibility BorderVisibility => IsBorderVisible ? Visibility.Visible : Visibility.Hidden;
+
+        /// <summary>
+        /// Property holding <see cref="Visibility"/> of checkered background.
+        /// </summary>
         public Visibility CheckColorVisibility => IsBackgroundCheckered ? Visibility.Visible : Visibility.Hidden;
+
+        /// <summary>
+        /// Property holding <see cref="Visibility"/> of drawing area border shadow.
+        /// </summary>
         public Visibility BorderShadowVisibility => IsBorderShadow ? Visibility.Visible : Visibility.Hidden;
         #endregion
         private static Configuration m_instance;
+
+        /// <summary>
+        /// Implements singleton property.
+        /// </summary>
         public static Configuration Instance
         {
             get
@@ -161,6 +221,9 @@ namespace VectorMaker.Utility
                 return m_instance;
             }
         }
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         private Configuration()
         {
             Trace.WriteLine(m_configFilePath);
@@ -168,6 +231,10 @@ namespace VectorMaker.Utility
         }
 
         #region Methods
+
+        /// <summary>
+        /// Method that saves config file
+        /// </summary>
         public void SaveToFile()
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -179,6 +246,10 @@ namespace VectorMaker.Utility
                 writer.Write(value);
             }
         }
+
+        /// <summary>
+        /// Method that loads config file if it exists
+        /// </summary>
         public void LoadConfigIfExists()
         {
             if (!File.Exists(m_configFilePath))
@@ -197,6 +268,10 @@ namespace VectorMaker.Utility
                 JsonConvert.PopulateObject(fileContents, this);
             }
         }
+
+        /// <summary>
+        /// Method that reset config to it's default state
+        /// </summary>
         public void ResetToDefault()
         {
             Author = "";
@@ -212,11 +287,20 @@ namespace VectorMaker.Utility
             BackgroundColor = new SolidColorBrush(ColorDef.FromRgb(48, 48, 51));
             CheckColor = new SolidColorBrush(ColorDef.FromRgb(30, 30, 33));
         }
+
+        /// <summary>
+        /// Method that gets metadata from config file<br/>
+        /// <returns>Returns: metadata as string in XML format </returns>
+        /// </summary>
         public string GetMetadataFromConfig()
         {
             m_metadata.Date.Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             return m_metadata.MetaData.ToString();
         }
+
+        /// <summary>
+        /// Method that creates config file
+        /// </summary>
         private void CreateFile()
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);

@@ -1,5 +1,9 @@
 ﻿namespace VectorMaker
 {
+    /// <summary>
+    /// This class defines channel in the color model. 
+    /// Currently not used in app build.
+    /// </summary>
     public class ColorPropertyPair
     {
         private int m_maximum;

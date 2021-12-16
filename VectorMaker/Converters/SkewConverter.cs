@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace VectorMaker.Converters
 {
+    /// <summary>
+    /// This class defines multi value converter from objects array to Touple &lt;double,double &gt;
+    /// </summary>
     public class SkewConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
