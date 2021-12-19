@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.App.html",
-          "hash": "tPK4CL17e2xR2KIK4+KAaTkulCWfCwoVQCX5vRBIfec="
+          "hash": "wN/S/s7kI7iUxhts2dXN0Qgsj9RusOFp8Ns2WUm0f+w="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Color.html",
-          "hash": "mR9yXfPnn7IjKf6aVc15ONGU21KsRcA3/300kDbWMWE="
+          "hash": "ljQqK8To/RmUl6L82fqEgp3KKOGnN/aHaPVTHZyXfdE="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ColorPropertyPair.html",
-          "hash": "LVFMwYCQwQIn3SixO7TIIpNX76rBMdmXRkSXlO+ejJ8="
+          "hash": "GHang/Nezx5kTXFZ4TJDjvRYncCCcacThLjrVDh4Egs="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ColorsReference.html",
-          "hash": "lKWkscM8kIMu4CszQKfQvvOK9QW7ll+guLW6wcUNs0s="
+          "hash": "L0AdEGEUYtIelUNM82f1chKmi1wsFiVxxDxDaYftxKo="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.BrushEditor.html",
-          "hash": "tmoS0blVVewbpv59wAmfhKW7IWpgXdnuQgX+OlRGti0="
+          "hash": "v3hVW1PTg02+pERq4ipUj1PizHUac/eXJ68RqizIKyU="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ButtonWithIcon.html",
-          "hash": "fhVVfR9OJq5LCrxtc+3g++DyV6h5bh5DhJ9dZVdYeyA="
+          "hash": "nwaj92xATUWipnvZy8JnTUfS/37X8u1qUSL5dKoTiDo="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,19 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ColorsPicker.html",
-          "hash": "kMXoz5pVB9jtUAlYfLbnqkH+bq2DZieIMEv9QutMyQ8="
+          "hash": "yEIXqKeHklKY0GJLSujk6zcyIfCy8T8MCyNZQs1cSRM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/VectorMaker.ControlsResources.DialogBoxWithText.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/VectorMaker.ControlsResources.DialogBoxWithText.html",
+          "hash": "8Jhf6UfnfAGJ+NDIJQxkggNsrMw7aYsGkebf5JISreY="
         }
       },
       "is_incremental": false,
@@ -93,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.GradientColorPicker.html",
-          "hash": "1a5jHpqz1+U/B0rIj0RHC1tc9T4NE13gLT62XLJQ720="
+          "hash": "YmM+qkv8DBnxjwwnnWnlyEmU/+yOOAdj00kCwgd9y5c="
         }
       },
       "is_incremental": false,
@@ -105,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ModifiableSlider.html",
-          "hash": "UdTZ7uyQN6ASF91kn00B6Di1acqo3ho+0b73/KH5Rec="
+          "hash": "/npD6xJ1irjdpzXeUFIcAQ1m2CAeLz+htFIw2hKjGxY="
         }
       },
       "is_incremental": false,
@@ -117,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.MultiThumbSlider.html",
-          "hash": "mc6Beo9EWUhCJcmjfcgGeByHV4VebH4ypAVULod/FTA="
+          "hash": "/U6JVjn5tUEOPTLrLZrcPWwzBfidPk5CKOx3k8DSO2c="
         }
       },
       "is_incremental": false,
@@ -129,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ThumbEventArgs.html",
-          "hash": "BkrjK4nze6gZrLTsDTsmc/XkyWHoJNn4a/iqPmro4TU="
+          "hash": "KKo6YSdE/dUADCTrVCe7GI33vVu9lpTsjdvqB/05pxQ="
         }
       },
       "is_incremental": false,
@@ -141,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ThumbTypes.html",
-          "hash": "aen53YEvSFuObaibHtqpvZZNCt+oIgSVltxuCnDJx28="
+          "hash": "irBD44+kVq7p5I2qGrpX2I4o2oAyribQBz+RNMAmLbk="
         }
       },
       "is_incremental": false,
@@ -153,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.ToggleButtonWithIcon.html",
-          "hash": "Es4FnB8CveJkJkqeGWit2mDQuJPWPFO1fLG1RS6AxVM="
+          "hash": "IFPYt0AvxwAfmozNXJ9m4TkLGv6bxyHDBo3qfLyYSiI="
         }
       },
       "is_incremental": false,
@@ -165,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ControlsResources.html",
-          "hash": "DZHiV3qekKwRvHQxajXA18CWe30TL+qvuNDxnMBVqOc="
+          "hash": "uHpZTQEL5/hAXG/fGUjsIujocytkd6hvyuJ3CqyF+LE="
         }
       },
       "is_incremental": false,
@@ -177,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.BoolToCollapsedVisConverter.html",
-          "hash": "xeiUDWTtqx1GznZO/WxeVi3SzFbJWZHCeqYsscRbJ9Q="
+          "hash": "UFb8gT6wGfudNJwHSO3rpTYv7Qp4XsGD3YNMGFgDWfI="
         }
       },
       "is_incremental": false,
@@ -189,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.DockingDocumentConverter.html",
-          "hash": "mjK0BxxuVE9brTLtp7+zlfi4Z4py4A4q+qIczCGAQPw="
+          "hash": "Zpa2dkd7/US/qBdcfqDE90P+3mwLrJpJxpRbuFQqaNc="
         }
       },
       "is_incremental": false,
@@ -201,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.RotationConverter.html",
-          "hash": "Hl5gYr+E88Wm/yzi0iAUhMn80KmdqZk86tWBa+4T1UA="
+          "hash": "+tnL+P6fgaDWD4KyG/dfpREQmWZfUoKZnyR6V67WIxg="
         }
       },
       "is_incremental": false,
@@ -213,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.ScaleConverter.html",
-          "hash": "12xEUbY3zMPC/8KNQsapRAmxjnGKCniwtvY3ZKHJC+Q="
+          "hash": "hT5tAVhE4+CpNNKmHn4AywTrhZRAZU0CNjAFbIVMTUc="
         }
       },
       "is_incremental": false,
@@ -225,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.SkewConverter.html",
-          "hash": "dEAbhyb4TyqkFW0t3w7Qw/ZRflVXvuo10+pkVakG5dY="
+          "hash": "r321FFZqu13wcmALIMMwoXOQkrv9XBLI+vdik9ZY0Jo="
         }
       },
       "is_incremental": false,
@@ -237,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.TranslationConverter.html",
-          "hash": "4KvaUFAlwwQ0XeNMUo26rWIlUV9yaJP2Wx1Zh0aH54E="
+          "hash": "Br40S/2/Lh/UOpsp/falNVMkdHvxKQUmVp7+k+CEyu8="
         }
       },
       "is_incremental": false,
@@ -249,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Converters.html",
-          "hash": "mLWEljEGuVc9h6SOcrrym6vA1Lqk8h8Y4GII3f912+4="
+          "hash": "FwTRAfxlWuZBNDrClmOUfmp5OPt2zfVfnuhnmbjGxlE="
         }
       },
       "is_incremental": false,
@@ -261,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.Drawable.html",
-          "hash": "HCKx7JXVqZbxzClVkr9t03xsStGUCwVIK+tbSAZt93Q="
+          "hash": "wJLYFxis2pPOUYgEBbgKsUjAlJcuzpFcKufKnVnSEBA="
         }
       },
       "is_incremental": false,
@@ -273,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawableEllipse.html",
-          "hash": "QnPkCrbUbB1WWkscKbbNC4023cieiWLxXF+tOiIu3TY="
+          "hash": "Li1ZxBIJhUG5rj4duWDbtiDgqBfTKM+CubNnZobDazw="
         }
       },
       "is_incremental": false,
@@ -285,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawableLine.html",
-          "hash": "e2ArV+UH0sMRjlIdgz+cT0Id0vZ/qoTP3sWefH/Im68="
+          "hash": "UigqCT6IRz2EP+3NNirhS9/8+ZAbDGwY4jfmSpVA1NI="
         }
       },
       "is_incremental": false,
@@ -297,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawablePolygon.html",
-          "hash": "6ZfldfKIRg3hrPIOq97Spfn4Hsa4D8A2SXAIrHz28Dg="
+          "hash": "EKtoPY9fZvKqrjKqrKn+a2QdguBijA9+OqwFp1HVJ4M="
         }
       },
       "is_incremental": false,
@@ -309,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawablePolyline.html",
-          "hash": "FqWQk8OVgm1wF1z/owahhqPk2yvolwTdLR8miuonuYY="
+          "hash": "aKXavMRRvBqLm5I76H5evjEq2MhF31cD4dnvzL9XehQ="
         }
       },
       "is_incremental": false,
@@ -321,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawableRectangle.html",
-          "hash": "n/rz3ANKWuK5a0DKp+BhJsFexQfrrAh9/XKwZPiywEE="
+          "hash": "fPB4kOnm40KcFX/th60btsIy7B1bQwg+pbadSRZAiFs="
         }
       },
       "is_incremental": false,
@@ -333,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.DrawableTypes.html",
-          "hash": "e2Ge3JLV5flMxPMdZGjXY5Q/dla3kyGlqI5stiWayak="
+          "hash": "eEPiF7V0BXxM+eU+RMIg6o9b67fBj3v793ZxmzAwNvU="
         }
       },
       "is_incremental": false,
@@ -345,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.PathSettings.html",
-          "hash": "nvxUbo6jrRdZScDo4E2FOoCI9kPcmYTMAG+MWy43Q2U="
+          "hash": "hF8ScJX59+WVSo7BRIWtXA9s8JeXs4hkb+GKe8Qqy+s="
         }
       },
       "is_incremental": false,
@@ -357,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.PathTypes.html",
-          "hash": "Xqo2LMOPcmwLs5hWQLZ4GbFKWKUYXxFwAkn/QY8XZiE="
+          "hash": "tR1fMVwcB/ZL4hXm2Y/eZ4RMsxRxuPvPTFs2f90wnMY="
         }
       },
       "is_incremental": false,
@@ -369,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Drawables.html",
-          "hash": "z2MQuZkjjwVWPM7GRCgExGVNeOEVQTTdGBfMvgBxvKA="
+          "hash": "X+5bUvZSL28Prl/hXVUS3RcdR7BLuoHY++3IBk0wMK0="
         }
       },
       "is_incremental": false,
@@ -381,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.HSLColorDefinition.html",
-          "hash": "hxw3+AiRWV42BbCj5i+tlsZUBO8e0m6Aiv/Hd+tcQqQ="
+          "hash": "M3l/36lnZOQGp43XrXJyDjR/f687IBIQEGddv6rzVZg="
         }
       },
       "is_incremental": false,
@@ -393,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.RGBColorDefinition.html",
-          "hash": "xFJrvPlp+3Q8wHRWuHG41DuWvAthmgt1snjB/9RIrDA="
+          "hash": "HCwQzUhSyaFarGKCnUKK7LPZpZ7DulyiLID9dFgDi2c="
         }
       },
       "is_incremental": false,
@@ -405,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneStyleSelector.html",
-          "hash": "BQmK6mmP2lH3j7F2QRzH9oRFWe1AKqVwWUX/B6IMs2M="
+          "hash": "DkJHWHA76+/mSMctA+esBcx0qVebUBW/YZFUWclIxjs="
         }
       },
       "is_incremental": false,
@@ -417,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.TemplateSelectors.LayoutPaneTemplateSelector.html",
-          "hash": "94ticSc8+k6O2gUVpNk7L9TJ1TqC6Pc9VTtCoDYtaX8="
+          "hash": "/MhckKTwx7CLKO94sX6WaKcBpqyY8LA26f3uOL385TU="
         }
       },
       "is_incremental": false,
@@ -429,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.TemplateSelectors.html",
-          "hash": "rs7Hmcchqm8kYOvE0BDxxdIbYklJHwztet5lwGsejaE="
+          "hash": "rzk+GQeJ07s4pQWChQFOpz3oqp+G0jy7ndgVKXo0cdw="
         }
       },
       "is_incremental": false,
@@ -441,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.EnumStringValueAttribute.html",
-          "hash": "BWa5YtVsWfkxVeZrgMdhQHorAVftoLc30aTJJp9dgsE="
+          "hash": "/1fzgSfYdCEMmTUpeuo5M/FhcCFkV8PRReIZZK2MEQQ="
         }
       },
       "is_incremental": false,
@@ -453,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.Extensions.html",
-          "hash": "CU++u1Ri9wzoI14aaQ5FBQlgg1jBdVWdy11jRL1Hdto="
+          "hash": "hoEubqdYwNvY6LYXDAxQwaalFJ2iVbS/lV9ZHv51w40="
         }
       },
       "is_incremental": false,
@@ -465,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.GradientSliderAdorner.html",
-          "hash": "5RzQksOLQ4e8Y6imAm8PlCoUY77FaU++U+nFkuldQ1Q="
+          "hash": "a5knz8C05d+71d+cATtVk4rKLvPYpg1ZHrsGLnWVCAQ="
         }
       },
       "is_incremental": false,
@@ -477,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.NotifyPropertyChangedBase.html",
-          "hash": "qivYtnb+XrjLDcREyDPjY/6kL43eBC/2UehgYPNrySQ="
+          "hash": "H+fkwRhtdjCp9Kbb5QHTrMHVH3L7skIzblS3SWbEciI="
         }
       },
       "is_incremental": false,
@@ -489,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.ResizingAdorner.html",
-          "hash": "OXaCSOO0ZvTwUgtjBu0FC0CAUxNlXSgZy5N8R6xCyHc="
+          "hash": "9VLXvCTU6FJr5Awx1H+0bJ8rVZcUWoKyME3R1hkR6o0="
         }
       },
       "is_incremental": false,
@@ -501,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.ThumbSliderAdorner.html",
-          "hash": "hLwU9dZsgpjEwu2me7sRySc1prCD4xo93lbr1aHYwG0="
+          "hash": "Q7I6bcwMLd97WRNNFYtOLS2+AnY1sJPfT4wNof2OBvw="
         }
       },
       "is_incremental": false,
@@ -513,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.ToggleButtonForMenu.html",
-          "hash": "Ti9YgrKRahzYmrXh/5+g2BU7ZltcUIZRDdrtsnqdYkQ="
+          "hash": "ini+RkPoDyzr1dbQ5r7162ozr0BzJHx9XbDUxOQShw8="
         }
       },
       "is_incremental": false,
@@ -525,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.ViewportController.html",
-          "hash": "3Vtw++jpUTldT7jHSlB6cXUFO1ZNRfPn5Yr9sfcUc4Q="
+          "hash": "wIkTQRWWdf+jc2lDN7rdkJINr1wKSzlcwmGp2VciP2w="
         }
       },
       "is_incremental": false,
@@ -537,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Utility.html",
-          "hash": "T63l9MxsU1iAnM74exhFJ5xDtSL7E52eajTPvj7hbmQ="
+          "hash": "iSehw/WfIGfbciXe3+a0LO149XsQA2qRW1a+zzc5/Xg="
         }
       },
       "is_incremental": false,
@@ -549,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ViewModel.FileType.html",
-          "hash": "U46OjvtcqT0NHFpEDmSl9Y9yCZI3FaZrOIf2RBMrrjg="
+          "hash": "TV+m1lr2y/EF/vzAeUm6zIX4Btt36KvquCp5hL4TzVc="
         }
       },
       "is_incremental": false,
@@ -561,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.ViewModel.html",
-          "hash": "5wbPONul9gFu1pPIU/7BrrxWFpNuoHY/einpIE7ZQT0="
+          "hash": "mXWXy3SLfUTtIYIWXfoPBJ4mYymORgscuuviZTXMrvU="
         }
       },
       "is_incremental": false,
@@ -573,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.AppSettingsView.html",
-          "hash": "404wofFmcWTJP+m0nJqfoF/B87jSlbdEGR616YWqOEI="
+          "hash": "/+6LcMCZe92li+pWLgGqad/TOG/J3RVty8ctj3Nwg1A="
         }
       },
       "is_incremental": false,
@@ -585,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.ColorPickerView.html",
-          "hash": "4lckO+e/28kM7HTZozZEK3brOpdH9xozaFjvXI3EWp8="
+          "hash": "2yGa0nFSHilgf7Mi7inlpHSvp/4SVukTyx1HSmumHyo="
         }
       },
       "is_incremental": false,
@@ -597,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.CreateDocumentView.html",
-          "hash": "YMn93KUlBJI7ZNscJSpLQHvuiwy9QrLUBnLi5HWXQ+o="
+          "hash": "ZGOHHC4CAVFtC5nwvWK4pdMSbEz2eurMDc+9qyBiLSo="
         }
       },
       "is_incremental": false,
@@ -609,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.DrawingCanvasView.html",
-          "hash": "roPSEgNhDyk3/be+BisegMs3ncr9Y9kkywQAgs5v0yA="
+          "hash": "QUy9zX200LaXe6ETLDdH8pPzcYy8+zMnX0Dv3tZkWy0="
         }
       },
       "is_incremental": false,
@@ -621,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.DrawingLayersToolView.html",
-          "hash": "Zob7Lh52dh9gnYw4NUQIUluVLppoEBjzOO+qGEbFwNk="
+          "hash": "0cTMsonacSo6t9WJDHLrDn82eZUYMzdKRT3EMovba40="
         }
       },
       "is_incremental": false,
@@ -633,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.FileSettingPopup.html",
-          "hash": "8NCD7/QetKkpZhAXskSBBc/0kN8qCZP1aMJlAJuVXWs="
+          "hash": "P30iPQaNnDD5Ag5Ly3HOqlFc336tjODC75MO6oUvHpA="
         }
       },
       "is_incremental": false,
@@ -645,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.LayerItemView.html",
-          "hash": "B1VwIcrezP0A0K3v6FL4LoM8XoKSe9ry3vQRmPSqma0="
+          "hash": "Rd5PfqA9cboYSgkX+BQ3WpzZ6/YBnikbgLDg4Jy8jsc="
         }
       },
       "is_incremental": false,
@@ -657,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.MainWindowView.html",
-          "hash": "iG0X5tKvK6fNrZVJT8TqdmVcTP8y3PKY0yVBb1YoFuw="
+          "hash": "IRRISX4DN7sDhPSB03PMa7nCd97HmymZzKgF/c2q+iw="
         }
       },
       "is_incremental": false,
@@ -669,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.MetaFileSettingsView.html",
-          "hash": "JThKbSuv2UI+9f7FbFhgmgfxheDmH+JY8JMljORvWag="
+          "hash": "VrYPl3ysO0Xb7a395ZAUkoGejhq41li/tdRWxyUdtZI="
         }
       },
       "is_incremental": false,
@@ -681,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.ObjectAlignmentView.html",
-          "hash": "quGXWR9uEfh2rHmOau+sdPGib+pQE1ZcnXSb1/xB1Qw="
+          "hash": "VC7+Wi7d1Dwer+YciTqQ2MMJ7yjskkIq3cXL7XIhNEc="
         }
       },
       "is_incremental": false,
@@ -693,7 +705,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.ObjectPropertiesView.html",
-          "hash": "rCuu1bTQkNbHRB6yESThcQQr6bHYlqaYN5Jd26tEWg8="
+          "hash": "CQxz7NOxJPsTDHhaO8/Q0OngYmZ3nK+T4DutWHk9l9E="
         }
       },
       "is_incremental": false,
@@ -705,7 +717,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.ObjectTransformsView.html",
-          "hash": "fs4LUlutuHLIsDFgKJcGH6dAqnqWkpYOQHNxcno2HLM="
+          "hash": "hUZUvmrs2Jbb/PCATSWqC0RBBRYEEWX7itgLWRI5nbI="
         }
       },
       "is_incremental": false,
@@ -717,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.ShapePopup.html",
-          "hash": "yNnGxjLgHIjOFiDlt//T4qWDmFV7pPnkn0Z20cVuJbk="
+          "hash": "kD0OzPPhy2xAxoI2ck9wqQxoI4M71jSArLAyVMFY+hk="
         }
       },
       "is_incremental": false,
@@ -729,7 +741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.Views.html",
-          "hash": "1Sva9apGhPiROUfppgv0ME1sUGCTXw8gqlS3fvZqNaA="
+          "hash": "3YzG7jZ0lvQwpIn78sDIX6BtZVJPmYpXb5jLwiz8PVc="
         }
       },
       "is_incremental": false,
@@ -741,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/VectorMaker.html",
-          "hash": "lUJmPy9C+Kcm67Wl6Rj+LKl9Fmt+d9j4+r3B4wlTOFA="
+          "hash": "35zcghCDTq6Mckz4d5skrVmCsif6C01xHmp0tXxufCc="
         }
       },
       "is_incremental": false,
@@ -753,7 +765,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "ptd4/ohFRuHcA/6+hWnzoB6ZBDHq5rzPx0C7Bmfh8NQ="
+          "hash": "QjluGHx2OaIZXhOKnUiqgVS/rstmmYmwcSBdDIYEzYU="
         }
       },
       "is_incremental": false,
@@ -787,23 +799,25 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ForceRebuild"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
-          "skipped_file_count": 3
+          "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 62,
-          "skipped_file_count": 62
+          "total_file_count": 63,
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,
@@ -816,8 +830,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: it's disabled.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

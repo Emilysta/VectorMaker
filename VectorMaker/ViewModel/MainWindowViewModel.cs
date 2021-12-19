@@ -37,6 +37,7 @@ namespace VectorMaker.ViewModel
         public ICommand StrokeBrushPickCommand { get; set; }
 
         public ICommand TestObjectsCountCommand { get; set; }
+        public ICommand TestObjectsGroupingCommand { get; set; }
         #endregion
 
         #region Fields
@@ -333,6 +334,7 @@ namespace VectorMaker.ViewModel
             FillBrushPickCommand = new CommandBase((obj) => FillBrushColorPick());
             StrokeBrushPickCommand = new CommandBase((obj) => StrokeBrushColorPick());
             TestObjectsCountCommand = new CommandBase((_) => TestCountOfObjects());
+            TestObjectsGroupingCommand = new CommandBase((_) => TestGroupingOfObjects());
         }
 
         private void FillBrushColorPick()
@@ -353,12 +355,12 @@ namespace VectorMaker.ViewModel
         }
         private void GroupObjects()
         {
-            (m_activeDocument as DrawingCanvasViewModel).GroupObjects();
+            (m_activeDocument as DrawingCanvasViewModel).GroupObjects(out double measure);
         }
 
         private void UngroupObjects()
         {
-            (m_activeDocument as DrawingCanvasViewModel).UngroupObjects();
+            (m_activeDocument as DrawingCanvasViewModel).UngroupObjects(out double measure);
         }
         private void FlipVerticalObjects()
         {
@@ -426,6 +428,11 @@ namespace VectorMaker.ViewModel
         private void TestCountOfObjects()
         {
             (m_activeDocument as DrawingCanvasViewModel).TestCountOfObjects();
+        }
+
+        private void TestGroupingOfObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).TestGroupingOfObjects();
         }
         #endregion
     }

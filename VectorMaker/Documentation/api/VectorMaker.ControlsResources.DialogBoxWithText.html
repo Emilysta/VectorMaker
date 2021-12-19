@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ThumbSliderAdorner
+    <title>Class DialogBoxWithText
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ThumbSliderAdorner
+    <meta name="title" content="Class DialogBoxWithText
    ">
     <meta name="generator" content="docfx 2.58.9.0">
     
@@ -119,8 +119,8 @@
                           <li class="">
                             <a href="VectorMaker.ControlsResources.ColorsPicker.html" title="ColorsPicker" class="">ColorsPicker</a>
                           </li>
-                          <li class="">
-                            <a href="VectorMaker.ControlsResources.DialogBoxWithText.html" title="DialogBoxWithText" class="">DialogBoxWithText</a>
+                          <li class="active">
+                            <a href="VectorMaker.ControlsResources.DialogBoxWithText.html" title="DialogBoxWithText" class="active">DialogBoxWithText</a>
                           </li>
                           <li class="">
                             <a href="VectorMaker.ControlsResources.GradientColorPicker.html" title="GradientColorPicker" class="">GradientColorPicker</a>
@@ -230,8 +230,8 @@
                           <li class="">
                             <a href="VectorMaker.Utility.ResizingAdorner.html" title="ResizingAdorner" class="">ResizingAdorner</a>
                           </li>
-                          <li class="active">
-                            <a href="VectorMaker.Utility.ThumbSliderAdorner.html" title="ThumbSliderAdorner" class="active">ThumbSliderAdorner</a>
+                          <li class="">
+                            <a href="VectorMaker.Utility.ThumbSliderAdorner.html" title="ThumbSliderAdorner" class="">ThumbSliderAdorner</a>
                           </li>
                           <li class="">
                             <a href="VectorMaker.Utility.ToggleButtonForMenu.html" title="ToggleButtonForMenu" class="">ToggleButtonForMenu</a>
@@ -301,12 +301,12 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="VectorMaker.Utility.ThumbSliderAdorner">
+            <article class="content wrap" id="_content" data-uid="VectorMaker.ControlsResources.DialogBoxWithText">
   
   
-  <h1 id="VectorMaker_Utility_ThumbSliderAdorner" data-uid="VectorMaker.Utility.ThumbSliderAdorner" class="text-break">Class ThumbSliderAdorner
+  <h1 id="VectorMaker_ControlsResources_DialogBoxWithText" data-uid="VectorMaker.ControlsResources.DialogBoxWithText" class="text-break">Class DialogBoxWithText
   </h1>
-  <div class="markdown level0 summary"><p>This class defines adorner for <a class="xref" href="VectorMaker.ControlsResources.MultiThumbSlider.html">MultiThumbSlider</a>.</p>
+  <div class="markdown level0 summary"><p>Interaction logic for DialogBoxWithText.xaml</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -317,9 +317,10 @@
     <div class="level3"><span class="xref">System.Windows.Media.Visual</span></div>
     <div class="level4"><span class="xref">System.Windows.UIElement</span></div>
     <div class="level5"><span class="xref">System.Windows.FrameworkElement</span></div>
-    <div class="level6"><span class="xref">System.Windows.Documents.Adorner</span></div>
-    <div class="level7"><span class="xref">ThumbSliderAdorner</span></div>
-      <div class="level8"><a class="xref" href="VectorMaker.Utility.GradientSliderAdorner.html">GradientSliderAdorner</a></div>
+    <div class="level6"><span class="xref">System.Windows.Controls.Control</span></div>
+    <div class="level7"><span class="xref">System.Windows.Controls.ContentControl</span></div>
+    <div class="level8"><span class="xref">System.Windows.Window</span></div>
+    <div class="level9"><span class="xref">DialogBoxWithText</span></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
@@ -328,23 +329,379 @@
     <div><span class="xref">System.Windows.IFrameworkInputElement</span></div>
     <div><span class="xref">System.Windows.IInputElement</span></div>
     <div><span class="xref">System.Windows.Markup.IQueryAmbient</span></div>
+    <div><span class="xref">System.Windows.Markup.IAddChild</span></div>
+    <div><span class="xref">System.Windows.Markup.IComponentConnector</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <span class="xref">System.Windows.Documents.Adorner.GetDesiredTransform(System.Windows.Media.GeneralTransform)</span>
+      <span class="xref">System.Windows.Window.AllowsTransparencyProperty</span>
     </div>
     <div>
-      <span class="xref">System.Windows.Documents.Adorner.GetLayoutClip(System.Windows.Size)</span>
+      <span class="xref">System.Windows.Window.DpiChangedEvent</span>
     </div>
     <div>
-      <span class="xref">System.Windows.Documents.Adorner.MeasureOverride(System.Windows.Size)</span>
+      <span class="xref">System.Windows.Window.IconProperty</span>
     </div>
     <div>
-      <span class="xref">System.Windows.Documents.Adorner.AdornedElement</span>
+      <span class="xref">System.Windows.Window.IsActiveProperty</span>
     </div>
     <div>
-      <span class="xref">System.Windows.Documents.Adorner.IsClipEnabled</span>
+      <span class="xref">System.Windows.Window.LeftProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ResizeModeProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ShowActivatedProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ShowInTaskbarProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.SizeToContentProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.TaskbarItemInfoProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.TitleProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.TopmostProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.TopProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.WindowStateProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.WindowStyleProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Activate()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ArrangeOverride(System.Windows.Size)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Close()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.DragMove()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.GetWindow(System.Windows.DependencyObject)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Hide()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.MeasureOverride(System.Windows.Size)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnActivated(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnClosed(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnClosing(System.ComponentModel.CancelEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnContentChanged(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnContentRendered(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnCreateAutomationPeer()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnDeactivated(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnDpiChanged(System.Windows.DpiScale, System.Windows.DpiScale)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnLocationChanged(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnManipulationBoundaryFeedback(System.Windows.Input.ManipulationBoundaryFeedbackEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnSourceInitialized(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnStateChanged(System.EventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnVisualChildrenChanged(System.Windows.DependencyObject, System.Windows.DependencyObject)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OnVisualParentChanged(System.Windows.DependencyObject)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Show()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ShowDialog()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.AllowsTransparency</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.DialogResult</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Icon</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.IsActive</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Left</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.LogicalChildren</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.OwnedWindows</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Owner</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ResizeMode</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.RestoreBounds</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ShowActivated</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ShowInTaskbar</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.SizeToContent</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.TaskbarItemInfo</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Title</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Top</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Topmost</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.WindowStartupLocation</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.WindowState</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.WindowStyle</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Activated</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Closed</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Closing</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.ContentRendered</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.Deactivated</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.DpiChanged</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.LocationChanged</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.SourceInitialized</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Window.StateChanged</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentStringFormatProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentTemplateProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentTemplateSelectorProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.HasContentProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.AddChild(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.AddText(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.OnContentStringFormatChanged(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.OnContentTemplateChanged(System.Windows.DataTemplate, System.Windows.DataTemplate)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.OnContentTemplateSelectorChanged(System.Windows.Controls.DataTemplateSelector, System.Windows.Controls.DataTemplateSelector)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.System.Windows.Markup.IAddChild.AddChild(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.System.Windows.Markup.IAddChild.AddText(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.Content</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentStringFormat</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentTemplate</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.ContentTemplateSelector</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.ContentControl.HasContent</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.BackgroundProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.BorderBrushProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.BorderThicknessProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontFamilyProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontSizeProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontStretchProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontStyleProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontWeightProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.ForegroundProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.HorizontalContentAlignmentProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.IsTabStopProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.MouseDoubleClickEvent</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.PaddingProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.PreviewMouseDoubleClickEvent</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.TabIndexProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.TemplateProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.VerticalContentAlignmentProperty</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.OnPreviewMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.OnTemplateChanged(System.Windows.Controls.ControlTemplate, System.Windows.Controls.ControlTemplate)</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.Background</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.BorderBrush</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.BorderThickness</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontFamily</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontSize</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontStretch</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontStyle</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.FontWeight</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.Foreground</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.HandlesScrolling</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.HorizontalContentAlignment</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.IsTabStop</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.Padding</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.TabIndex</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.Template</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.VerticalContentAlignment</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.MouseDoubleClick</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.Controls.Control.PreviewMouseDoubleClick</span>
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.ActualHeightProperty</span>
@@ -497,10 +854,16 @@
       <span class="xref">System.Windows.FrameworkElement.GetFlowDirection(System.Windows.DependencyObject)</span>
     </div>
     <div>
+      <span class="xref">System.Windows.FrameworkElement.GetLayoutClip(System.Windows.Size)</span>
+    </div>
+    <div>
       <span class="xref">System.Windows.FrameworkElement.GetTemplateChild(System.String)</span>
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.GetUIParentCore()</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.FrameworkElement.GetVisualChild(System.Int32)</span>
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.MeasureCore(System.Windows.Size)</span>
@@ -537,9 +900,6 @@
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.OnToolTipOpening(System.Windows.Controls.ToolTipEventArgs)</span>
-    </div>
-    <div>
-      <span class="xref">System.Windows.FrameworkElement.OnVisualParentChanged(System.Windows.DependencyObject)</span>
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.ParentLayoutInvalidated(System.Windows.UIElement)</span>
@@ -632,9 +992,6 @@
       <span class="xref">System.Windows.FrameworkElement.LayoutTransform</span>
     </div>
     <div>
-      <span class="xref">System.Windows.FrameworkElement.LogicalChildren</span>
-    </div>
-    <div>
       <span class="xref">System.Windows.FrameworkElement.Margin</span>
     </div>
     <div>
@@ -681,6 +1038,9 @@
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.VerticalAlignment</span>
+    </div>
+    <div>
+      <span class="xref">System.Windows.FrameworkElement.VisualChildrenCount</span>
     </div>
     <div>
       <span class="xref">System.Windows.FrameworkElement.Width</span>
@@ -1139,9 +1499,6 @@
       <span class="xref">System.Windows.UIElement.OnChildDesiredSizeChanged(System.Windows.UIElement)</span>
     </div>
     <div>
-      <span class="xref">System.Windows.UIElement.OnCreateAutomationPeer()</span>
-    </div>
-    <div>
       <span class="xref">System.Windows.UIElement.OnDragEnter(System.Windows.DragEventArgs)</span>
     </div>
     <div>
@@ -1212,9 +1569,6 @@
     </div>
     <div>
       <span class="xref">System.Windows.UIElement.OnLostTouchCapture(System.Windows.Input.TouchEventArgs)</span>
-    </div>
-    <div>
-      <span class="xref">System.Windows.UIElement.OnManipulationBoundaryFeedback(System.Windows.Input.ManipulationBoundaryFeedbackEventArgs)</span>
     </div>
     <div>
       <span class="xref">System.Windows.UIElement.OnManipulationCompleted(System.Windows.Input.ManipulationCompletedEventArgs)</span>
@@ -1889,12 +2243,6 @@
       <span class="xref">System.Windows.Media.Visual.IsDescendantOf(System.Windows.DependencyObject)</span>
     </div>
     <div>
-      <span class="xref">System.Windows.Media.Visual.OnDpiChanged(System.Windows.DpiScale, System.Windows.DpiScale)</span>
-    </div>
-    <div>
-      <span class="xref">System.Windows.Media.Visual.OnVisualChildrenChanged(System.Windows.DependencyObject, System.Windows.DependencyObject)</span>
-    </div>
-    <div>
       <span class="xref">System.Windows.Media.Visual.PointFromScreen(System.Windows.Point)</span>
     </div>
     <div>
@@ -2029,32 +2377,29 @@
     <div>
       <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
     </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="VectorMaker.Utility.html">VectorMaker.Utility</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="VectorMaker.ControlsResources.html">VectorMaker.ControlsResources</a></h6>
   <h6><strong>Assembly</strong>: VectorMaker.dll</h6>
-  <h5 id="VectorMaker_Utility_ThumbSliderAdorner_syntax">Syntax</h5>
+  <h5 id="VectorMaker_ControlsResources_DialogBoxWithText_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ThumbSliderAdorner : Adorner, IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient</code></pre>
+    <pre><code class="lang-csharp hljs">public class DialogBoxWithText : Window, IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient, IAddChild, IComponentConnector</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner__ctor_System_Windows_UIElement_System_Double_System_Action_VectorMaker_Utility_ThumbSliderAdorner__.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.%23ctor(System.Windows.UIElement%2CSystem.Double%2CSystem.Action%7BVectorMaker.Utility.ThumbSliderAdorner%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_ControlsResources_DialogBoxWithText__ctor_System_String_.md&amp;value=---%0Auid%3A%20VectorMaker.ControlsResources.DialogBoxWithText.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L26">View Source</a>
+    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/ControlsResources/DialogBoxWithText.xaml.cs/#L9">View Source</a>
   </span>
-  <a id="VectorMaker_Utility_ThumbSliderAdorner__ctor_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.#ctor*"></a>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner__ctor_System_Windows_UIElement_System_Double_System_Action_VectorMaker_Utility_ThumbSliderAdorner__" data-uid="VectorMaker.Utility.ThumbSliderAdorner.#ctor(System.Windows.UIElement,System.Double,System.Action{VectorMaker.Utility.ThumbSliderAdorner})">ThumbSliderAdorner(UIElement, Double, Action&lt;ThumbSliderAdorner&gt;)</h4>
+  <a id="VectorMaker_ControlsResources_DialogBoxWithText__ctor_" data-uid="VectorMaker.ControlsResources.DialogBoxWithText.#ctor*"></a>
+  <h4 id="VectorMaker_ControlsResources_DialogBoxWithText__ctor_System_String_" data-uid="VectorMaker.ControlsResources.DialogBoxWithText.#ctor(System.String)">DialogBoxWithText(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ThumbSliderAdorner(UIElement adornedElement, double offset, Action&lt;ThumbSliderAdorner&gt; action)</code></pre>
+    <pre><code class="lang-csharp hljs">public DialogBoxWithText(string text)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2067,217 +2412,30 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Windows.UIElement</span></td>
-        <td><span class="parametername">adornedElement</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">offset</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="VectorMaker.Utility.ThumbSliderAdorner.html">ThumbSliderAdorner</a>&gt;</td>
-        <td><span class="parametername">action</span></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="properties">Properties
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner_Offset.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.Offset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L24">View Source</a>
-  </span>
-  <a id="VectorMaker_Utility_ThumbSliderAdorner_Offset_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.Offset*"></a>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner_Offset" data-uid="VectorMaker.Utility.ThumbSliderAdorner.Offset">Offset</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double Offset { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner_VisualChildrenCount.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.VisualChildrenCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L71">View Source</a>
-  </span>
-  <a id="VectorMaker_Utility_ThumbSliderAdorner_VisualChildrenCount_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.VisualChildrenCount*"></a>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner_VisualChildrenCount" data-uid="VectorMaker.Utility.ThumbSliderAdorner.VisualChildrenCount">VisualChildrenCount</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override int VisualChildrenCount { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Windows.FrameworkElement.VisualChildrenCount</span></div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner_ArrangeOverride_System_Windows_Size_.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.ArrangeOverride(System.Windows.Size)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_ControlsResources_DialogBoxWithText_InitializeComponent.md&amp;value=---%0Auid%3A%20VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L35">View Source</a>
+    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/obj/Release/net5.0-windows/ControlsResources/DialogBoxWithText.g.cs/#L70">View Source</a>
   </span>
-  <a id="VectorMaker_Utility_ThumbSliderAdorner_ArrangeOverride_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.ArrangeOverride*"></a>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner_ArrangeOverride_System_Windows_Size_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.ArrangeOverride(System.Windows.Size)">ArrangeOverride(Size)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="VectorMaker_ControlsResources_DialogBoxWithText_InitializeComponent_" data-uid="VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent*"></a>
+  <h4 id="VectorMaker_ControlsResources_DialogBoxWithText_InitializeComponent" data-uid="VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent">InitializeComponent()</h4>
+  <div class="markdown level1 summary"><p>InitializeComponent</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override Size ArrangeOverride(Size finalSize)</code></pre>
+    <pre><code class="lang-csharp hljs">public void InitializeComponent()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Windows.Size</span></td>
-        <td><span class="parametername">finalSize</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Windows.Size</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Windows.FrameworkElement.ArrangeOverride(System.Windows.Size)</span></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner_GetVisualChild_System_Int32_.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.GetVisualChild(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L66">View Source</a>
-  </span>
-  <a id="VectorMaker_Utility_ThumbSliderAdorner_GetVisualChild_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.GetVisualChild*"></a>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner_GetVisualChild_System_Int32_" data-uid="VectorMaker.Utility.ThumbSliderAdorner.GetVisualChild(System.Int32)">GetVisualChild(Int32)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override Visual GetVisualChild(int index)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">index</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Windows.Media.Visual</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Windows.FrameworkElement.GetVisualChild(System.Int32)</span></div>
-  <h3 id="events">Events
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner_OnValueChanged.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner.OnValueChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L15">View Source</a>
-  </span>
-  <h4 id="VectorMaker_Utility_ThumbSliderAdorner_OnValueChanged" data-uid="VectorMaker.Utility.ThumbSliderAdorner.OnValueChanged">OnValueChanged</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public event Action&lt;double&gt; OnValueChanged</code></pre>
-  </div>
-  <h5 class="eventType">Event Type</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Double</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">System.Windows.Media.Animation.IAnimatable</span>
@@ -2294,6 +2452,12 @@
   <div>
       <span class="xref">System.Windows.Markup.IQueryAmbient</span>
   </div>
+  <div>
+      <span class="xref">System.Windows.Markup.IAddChild</span>
+  </div>
+  <div>
+      <span class="xref">System.Windows.Markup.IComponentConnector</span>
+  </div>
 </article>
           </div>
           
@@ -2302,10 +2466,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_Utility_ThumbSliderAdorner.md&amp;value=---%0Auid%3A%20VectorMaker.Utility.ThumbSliderAdorner%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Emilysta/VectorMaker/new/master/apiSpec/new?filename=VectorMaker_ControlsResources_DialogBoxWithText.md&amp;value=---%0Auid%3A%20VectorMaker.ControlsResources.DialogBoxWithText%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/Utility/ThumbSliderAdorner.cs/#L13" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Emilysta/VectorMaker/blob/master/VectorMaker/obj/Release/net5.0-windows/ControlsResources/DialogBoxWithText.g.cs/#L47" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

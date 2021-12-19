@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Threading;
+using VectorMaker.ControlsResources;
 
 namespace VectorMaker.ViewModel
 {
@@ -154,8 +155,8 @@ namespace VectorMaker.ViewModel
             PreviewKeyDownCommand = new CommandBase((obj) => KeyDownHandler(obj as KeyEventArgs));
             PreviewKeyUpCommand = new CommandBase((obj) => KeyUpHandler(obj as KeyEventArgs));
             DropCommand = new CommandBase((obj) => FileDropHandler(obj as DragEventArgs));
-            GroupCommand = new CommandBase((_) => GroupObjects());
-            UngroupCommand = new CommandBase((_) => UngroupObjects());
+            GroupCommand = new CommandBase((_) => GroupObjects(out double measure));
+            UngroupCommand = new CommandBase((_) => UngroupObjects(out double measure));
             FlipHorizontalCommand = new CommandBase((_) => Flip());
             FlipVerticalCommand = new CommandBase((_) => Flip(true));
             RotateClockwiseCommand = new CommandBase((_) => Rotate());
@@ -218,11 +219,11 @@ namespace VectorMaker.ViewModel
                 CreateEditingAdorner(path);
             }
         }
-        public void GroupObjects()
+        public void GroupObjects(out double measureValue)
         {
             if (SelectedObjects.Count > 1)
             {
-                Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
+                //Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
                 Stopwatch stopWatch = new Stopwatch();
                 stopWatch.Start();
                 Canvas canvas = new Canvas();
@@ -259,18 +260,20 @@ namespace VectorMaker.ViewModel
                 canvas.Background = Brushes.Transparent;
                 CreateEditingAdorner(canvas);
                 stopWatch.Stop();
-                Trace.WriteLine($"grouping Time: {stopWatch.Elapsed.TotalMilliseconds}");
+                //Trace.WriteLine($"grouping Time: {stopWatch.Elapsed.TotalMilliseconds}");
+                measureValue = stopWatch.Elapsed.TotalMilliseconds;
             }
             else
             {
+                measureValue = 0;
                 MessageBox.Show("not enough objects selected");
             }
         }
-        public void UngroupObjects()
+        public void UngroupObjects(out double measureValue)
         {
             if (SelectedObjects.Count == 1 && SelectedObjects[0].AdornedElement is Canvas)
             {
-                Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
+                //Trace.WriteLine($"Count Selected Objects: {SelectedObjects.Count}, starting opertaion");
                 Stopwatch stopWatch = new Stopwatch();
                 stopWatch.Start();
                 Canvas group = SelectedObjects[0].AdornedElement as Canvas;
@@ -286,10 +289,12 @@ namespace VectorMaker.ViewModel
                 }
                 SelectedLayer.Layer.Children.Remove(group);
                 stopWatch.Stop();
-                Trace.WriteLine($"ungrouping time: {stopWatch.ElapsedMilliseconds}");
+                //Trace.WriteLine($"ungrouping time: {stopWatch.ElapsedMilliseconds}");
+                measureValue = stopWatch.Elapsed.TotalMilliseconds;
             }
             else
             {
+                measureValue = 0;
                 MessageBox.Show("too many object ora Selected Object is not a group");
             }
         }
@@ -556,7 +561,7 @@ namespace VectorMaker.ViewModel
             //            break;
             //        }
             //}
-            Trace.WriteLine("Not implemented");
+            //Trace.WriteLine("Not implemented");
         }
         private void FileDropHandler(DragEventArgs e)
         {
@@ -621,7 +626,7 @@ namespace VectorMaker.ViewModel
                             {
                                 TestCount = i;
                                 SelectedLayer.Layer.InvalidateVisual();
-                                Trace.WriteLine($"CountOfObjects: {i}");
+                                //Trace.WriteLine($"CountOfObjects: {i}");
                             });
                             Thread.Sleep(100);
                         }
@@ -633,8 +638,8 @@ namespace VectorMaker.ViewModel
                     {
                         SelectedLayer.Layer.Children.Clear();
                         TestCount = i;
-                        Trace.WriteLine($"CountOfObjects: {i}");
-                        Trace.WriteLine(e.Message);
+                        //Trace.WriteLine($"CountOfObjects: {i}");
+                        //Trace.WriteLine(e.Message);
                     });
                 }
             });
@@ -643,36 +648,51 @@ namespace VectorMaker.ViewModel
 
         public void TestGroupingOfObjects()
         {
-            long[] testarray = new long[] { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
-            try
+            
+            long[] testarray = new long[] { 10, 50, 100, 500, 1000, 5000, 10000, 50000};
+            Task.Run(() =>
             {
-                for (int i = 0; i < testarray.Length; i++)
+                try
                 {
-                    TestCount = testarray[i];
-                    for (int j = 0; j < testarray[i]; j++)
+                    for (int i = 0; i < testarray.Length; i++)
                     {
-                        Rectangle rect = new Rectangle();
-                        rect.Width = 50;
-                        rect.Height = 50;
-                        rect.Fill = Brushes.White;
-                        rect.StrokeThickness = 2;
-                        rect.Stroke = Brushes.Black;
-                        Canvas.SetLeft(rect, i + 10);
-                        SelectedLayer.Layer.Children.Add(rect);
-                        CreateEditingAdorner(rect);
+                        
+                        for (int j = 0; j < testarray[i]; j++)
+                        {
+                            SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                            {
+                                Rectangle rect = new Rectangle();
+                                rect.Width = 50;
+                                rect.Height = 50;
+                                rect.Fill = Brushes.White;
+                                rect.StrokeThickness = 2;
+                                rect.Stroke = Brushes.Black;
+                                Canvas.SetLeft(rect, i + 10);
+                                SelectedLayer.Layer.Children.Add(rect);
+                                CreateEditingAdorner(rect);
+                            });
+                        }
+                        double measureGroup = 0;
+                        double measureUngroup = 0;
+                        SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                        {
+                            GroupObjects(out measureGroup);
+                            UngroupObjects(out measureUngroup);
+                            DeleteSelectedObjects();
+                            DialogBoxWithText textBox = new DialogBoxWithText($"Time of grouping: {measureGroup}, time for ungrouping: {measureUngroup}, count of elements: {testarray[i]}");
+                        });
+                        Thread.Sleep(50);
                     }
-                    GroupObjects();
-                    Thread.Sleep(1000);
-                    UngroupObjects();
-                    DeleteSelectedObjects();
-                    Thread.Sleep(500);
                 }
-            }
-            catch (Exception e)
-            {
-                SelectedLayer.Layer.Children.Clear();
-                Trace.WriteLine(e.Message);
-            }
+                catch (Exception e)
+                {
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                        //Trace.WriteLine(e.Message);
+                    });
+                }
+            });
         }
         #endregion
     }

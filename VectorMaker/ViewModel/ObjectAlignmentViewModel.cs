@@ -226,12 +226,12 @@ namespace VectorMaker.ViewModel
 
         private void DistributeHorizontal()
         {
-            Trace.WriteLine("NotImplemented - distruibte Horizontal");
+            //Trace.WriteLine("NotImplemented - distruibte Horizontal");
         }
 
         private void DistributeVertical()
         {
-            Trace.WriteLine("NotImplemented - distruibte Vertical");
+            //Trace.WriteLine("NotImplemented - distruibte Vertical");
         }
 
         private void AlignRelativeToPage()

@@ -226,7 +226,7 @@ namespace VectorMaker.Utility
         /// </summary>
         private Configuration()
         {
-            Trace.WriteLine(m_configFilePath);
+            //Trace.WriteLine(m_configFilePath);
             LoadConfigIfExists();
         }
 
@@ -238,8 +238,8 @@ namespace VectorMaker.Utility
         public void SaveToFile()
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);
-            Trace.WriteLine(value); //toDo comment out
-            Trace.WriteLine(m_configFilePath);
+            //.WriteLine(value); //toDo comment out
+            //Trace.WriteLine(m_configFilePath);
             FileStream fileStream = new FileStream(m_configFilePath, FileMode.Truncate, FileAccess.ReadWrite, FileShare.ReadWrite);
             using (StreamWriter writer = new StreamWriter(fileStream))
             {
@@ -304,7 +304,7 @@ namespace VectorMaker.Utility
         private void CreateFile()
         {
             string value = JsonConvert.SerializeObject(this, Formatting.Indented);
-            Trace.WriteLine(value); //toDo comment out
+            //Trace.WriteLine(value); //toDo comment out
             Directory.CreateDirectory(Environment.SpecialFolder.LocalApplicationData.ToString());
             FileStream fileStream = new FileStream(m_configFilePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite);
             using (StreamWriter writer = new StreamWriter(fileStream))

@@ -772,6 +772,38 @@ references:
   isSpec: "True"
   fullName: VectorMaker.ControlsResources.ColorsPicker.SColorText
   nameWithType: ColorsPicker.SColorText
+- uid: VectorMaker.ControlsResources.DialogBoxWithText
+  name: DialogBoxWithText
+  href: api/VectorMaker.ControlsResources.DialogBoxWithText.html
+  commentId: T:VectorMaker.ControlsResources.DialogBoxWithText
+  fullName: VectorMaker.ControlsResources.DialogBoxWithText
+  nameWithType: DialogBoxWithText
+- uid: VectorMaker.ControlsResources.DialogBoxWithText.#ctor(System.String)
+  name: DialogBoxWithText(String)
+  href: api/VectorMaker.ControlsResources.DialogBoxWithText.html#VectorMaker_ControlsResources_DialogBoxWithText__ctor_System_String_
+  commentId: M:VectorMaker.ControlsResources.DialogBoxWithText.#ctor(System.String)
+  fullName: VectorMaker.ControlsResources.DialogBoxWithText.DialogBoxWithText(System.String)
+  nameWithType: DialogBoxWithText.DialogBoxWithText(String)
+- uid: VectorMaker.ControlsResources.DialogBoxWithText.#ctor*
+  name: DialogBoxWithText
+  href: api/VectorMaker.ControlsResources.DialogBoxWithText.html#VectorMaker_ControlsResources_DialogBoxWithText__ctor_
+  commentId: Overload:VectorMaker.ControlsResources.DialogBoxWithText.#ctor
+  isSpec: "True"
+  fullName: VectorMaker.ControlsResources.DialogBoxWithText.DialogBoxWithText
+  nameWithType: DialogBoxWithText.DialogBoxWithText
+- uid: VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent
+  name: InitializeComponent()
+  href: api/VectorMaker.ControlsResources.DialogBoxWithText.html#VectorMaker_ControlsResources_DialogBoxWithText_InitializeComponent
+  commentId: M:VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent
+  fullName: VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent()
+  nameWithType: DialogBoxWithText.InitializeComponent()
+- uid: VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent*
+  name: InitializeComponent
+  href: api/VectorMaker.ControlsResources.DialogBoxWithText.html#VectorMaker_ControlsResources_DialogBoxWithText_InitializeComponent_
+  commentId: Overload:VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent
+  isSpec: "True"
+  fullName: VectorMaker.ControlsResources.DialogBoxWithText.InitializeComponent
+  nameWithType: DialogBoxWithText.InitializeComponent
 - uid: VectorMaker.ControlsResources.GradientColorPicker
   name: GradientColorPicker
   href: api/VectorMaker.ControlsResources.GradientColorPicker.html
