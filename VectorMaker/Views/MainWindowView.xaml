@@ -164,6 +164,8 @@
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
                     <controls:ButtonWithIcon Width="25" Height="25" VerticalAlignment="Bottom" IconKind="CardChecklist" Command="{Binding TestObjectsCountCommand}"/>
                     <controls:ButtonWithIcon Width="25" Height="25" VerticalAlignment="Bottom" IconKind="Alarm" Command="{Binding TestObjectsGroupingCommand}"/>
+                    <controls:ButtonWithIcon Width="25" Height="25" VerticalAlignment="Bottom" IconKind="AlarmFill" Command="{Binding TestTransformsGroupCommand}"/>
+                    <controls:ButtonWithIcon Width="25" Height="25" VerticalAlignment="Bottom" IconKind="Download" Command="{Binding TestSavingObjectsCommand}"/>
                 </StackPanel>
             </Grid>
 

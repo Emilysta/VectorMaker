@@ -11,8 +11,6 @@ using MahApps.Metro.IconPacks;
 using System.Windows.Media;
 using VectorMaker.Models;
 using System.Windows;
-using System.Linq;
-using System.Windows.Shapes;
 using System.Collections.Specialized;
 
 namespace VectorMaker.ViewModel
@@ -38,6 +36,8 @@ namespace VectorMaker.ViewModel
 
         public ICommand TestObjectsCountCommand { get; set; }
         public ICommand TestObjectsGroupingCommand { get; set; }
+        public ICommand TestTransformsGroupCommand { get; set; }
+        public ICommand TestSavingObjectsCommand { get; set; }
         #endregion
 
         #region Fields
@@ -335,6 +335,8 @@ namespace VectorMaker.ViewModel
             StrokeBrushPickCommand = new CommandBase((obj) => StrokeBrushColorPick());
             TestObjectsCountCommand = new CommandBase((_) => TestCountOfObjects());
             TestObjectsGroupingCommand = new CommandBase((_) => TestGroupingOfObjects());
+            TestTransformsGroupCommand = new CommandBase((_) => TestTransformsOfGroup());
+            TestSavingObjectsCommand = new CommandBase((_) => TestSavingObjects());
         }
 
         private void FillBrushColorPick()
@@ -433,6 +435,16 @@ namespace VectorMaker.ViewModel
         private void TestGroupingOfObjects()
         {
             (m_activeDocument as DrawingCanvasViewModel).TestGroupingOfObjects();
+        }
+
+        private void TestTransformsOfGroup()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).TestTransformsOfGroup();
+        }
+
+        private void TestSavingObjects()
+        {
+            (m_activeDocument as DrawingCanvasViewModel).TestSavingObjects();
         }
         #endregion
     }

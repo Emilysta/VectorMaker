@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VectorMaker.ControlsResources"
-        mc:Ignorable="d"    x:Name="DialogBox" d:Width="200" d:Height="100"
-        Title="DialogBoxWithText" Height="100" Width="200">
+        mc:Ignorable="d"    x:Name="DialogBox" d:Width="400" d:Height="150"
+        Title="DialogBoxWithText" Height="150" Width="400">
     <Grid>
         <TextBlock Text="0" x:Name="TextBlockObject" Foreground="{StaticResource LightText}"/>
     </Grid>

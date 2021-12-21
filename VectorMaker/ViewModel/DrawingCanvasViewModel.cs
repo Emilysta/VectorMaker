@@ -648,15 +648,15 @@ namespace VectorMaker.ViewModel
 
         public void TestGroupingOfObjects()
         {
-            
-            long[] testarray = new long[] { 10, 50, 100, 500, 1000, 5000, 10000, 50000};
+
+            long[] testarray = new long[] { 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
             Task.Run(() =>
             {
                 try
                 {
                     for (int i = 0; i < testarray.Length; i++)
                     {
-                        
+
                         for (int j = 0; j < testarray[i]; j++)
                         {
                             SelectedLayer.Layer.Dispatcher.Invoke(() =>
@@ -683,6 +683,176 @@ namespace VectorMaker.ViewModel
                         });
                         Thread.Sleep(50);
                     }
+                }
+                catch (Exception e)
+                {
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                        //Trace.WriteLine(e.Message);
+                    });
+                }
+            });
+        }
+
+        public void TestTransformsOfGroup()
+        {
+
+            long[] testarray = new long[] { 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
+            Task.Run(() =>
+            {
+                try
+                {
+                    for (int i = 0; i < testarray.Length; i++)
+                    {
+
+                        for (int j = 0; j < testarray[i]; j++)
+                        {
+                            SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                            {
+                                Rectangle rect = new Rectangle();
+                                rect.Width = 50;
+                                rect.Height = 50;
+                                rect.Fill = Brushes.White;
+                                rect.StrokeThickness = 2;
+                                rect.Stroke = Brushes.Black;
+                                Canvas.SetLeft(rect, i + 10);
+                                SelectedLayer.Layer.Children.Add(rect);
+                                CreateEditingAdorner(rect);
+                            });
+                        }
+                        SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                        {
+                            GroupObjects(out double measureGroup);
+                            UIElement element = SelectedObjects[0].AdornedElement;
+                            Stopwatch stopwatchRotate = Stopwatch.StartNew();
+                            Transform transform = element.RenderTransform;
+                            Matrix matrix = transform.Value;
+                            matrix.RotateAtPrepend(45, element.RenderSize.Width / 2, element.RenderSize.Height / 2);
+                            element.RenderTransform = new MatrixTransform(matrix);
+                            stopwatchRotate.Stop();
+                            MainCanvas.InvalidateVisual();
+
+                            Stopwatch stopwatchTranslate = Stopwatch.StartNew();
+                            transform = element.RenderTransform;
+                            matrix = transform.Value;
+                            matrix.TranslatePrepend(100, 100);
+                            element.RenderTransform = new MatrixTransform(matrix);
+                            stopwatchTranslate.Stop();
+                            MainCanvas.InvalidateVisual();
+
+                            Stopwatch stopwatchScale = Stopwatch.StartNew();
+                            transform = element.RenderTransform;
+                            matrix = transform.Value;
+                            matrix.ScaleAtPrepend(2, 2, 0, 0);
+                            element.RenderTransform = new MatrixTransform(matrix);
+                            stopwatchScale.Stop();
+                            MainCanvas.InvalidateVisual();
+
+                            Stopwatch stopwatchSkew = Stopwatch.StartNew();
+                            transform = element.RenderTransform;
+                            matrix = transform.Value;
+                            matrix.SkewPrepend(10, 0);
+                            element.RenderTransform = new MatrixTransform(matrix);
+                            stopwatchSkew.Stop();
+                            MainCanvas.InvalidateVisual();
+
+                            DialogBoxWithText textBox = new DialogBoxWithText($"Rotate 45, (0.5,0.5): {stopwatchRotate.Elapsed.TotalMilliseconds}," +
+                                $"\nTransale 100,100: {stopwatchTranslate.Elapsed.TotalMilliseconds}," +
+                                $"\nScale(2,2): {stopwatchScale.Elapsed.TotalMilliseconds}," +
+                                $"\nSkew(10,0): {stopwatchSkew.Elapsed.TotalMilliseconds}," +
+                                $"\nElements in group: {testarray[i]}");
+                        });
+                        Thread.Sleep(1000);
+                        SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                        {
+                            DeleteSelectedObjects();
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                        //Trace.WriteLine(e.Message);
+                    });
+                }
+            });
+        }
+
+        public void TestShiftingOfElement()
+        {
+            Style style = (Style)Application.Current.Resources["RectRespawn"];
+            Task.Run(() =>
+            {
+                try
+                {
+                    for (int i = 0; i < 50; i++)
+                    {
+
+                        for (int j = 0; j < 50; j++)
+                        {
+                            SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                            {
+                                Rectangle rect = new Rectangle();
+                                rect.Style = style;
+                                Canvas.SetLeft(rect, 5 * i);
+                                Canvas.SetTop(rect, 5 * j);
+                                SelectedLayer.Layer.Children.Add(rect);
+                                CreateEditingAdorner(rect);
+                            });
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                        //Trace.WriteLine(e.Message);
+                    });
+                }
+            });
+        }
+
+        public void TestSavingObjects()
+        {
+            long[] testarray = new long[] { 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
+            Task.Run(() =>
+            {
+                try
+                {
+                    for (int i = 0; i < testarray.Length; i++)
+                    {
+                        SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                        {
+                            int j = 0;
+                            while (SelectedLayer.Layer.Children.Count<testarray[i])
+                            {
+
+                                Rectangle rect = new Rectangle();
+                                rect.Width = 50;
+                                rect.Height = 50;
+                                rect.Fill = Brushes.White;
+                                rect.StrokeThickness = 2;
+                                rect.Stroke = Brushes.Black;
+                                Canvas.SetLeft(rect, i + 50 + j);
+                                SelectedLayer.Layer.Children.Add(rect);
+                                j += 10;
+                            }
+                            Stopwatch sw = Stopwatch.StartNew();
+                            SaveAsFileName($"test{testarray[i]}.xaml");
+                            sw.Stop();
+                            DialogBoxWithText textBox = new DialogBoxWithText($"Time of saving: {sw.Elapsed.TotalMilliseconds} ,count of elements: {testarray[i]}");
+                        });
+                        Thread.Sleep(100);
+                    }
+                    SelectedLayer.Layer.Dispatcher.Invoke(() =>
+                    {
+                        SelectedLayer.Layer.Children.Clear();
+                    });
+                    
                 }
                 catch (Exception e)
                 {

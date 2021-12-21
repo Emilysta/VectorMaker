@@ -21,6 +21,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using VectorMaker.Models;
+using System.Diagnostics;
 
 namespace VectorMaker.ViewModel
 {
@@ -105,6 +106,12 @@ namespace VectorMaker.ViewModel
         #endregion
 
         #region Methods
+        protected void SaveAsFileName(string fileName)
+        {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\"+fileName;
+            Trace.WriteLine($"{filePath}");
+            IsSaved = SaveStreamToXAML(filePath);
+        }
         protected override bool SaveFile()
         {
             if (!IsSaved)
